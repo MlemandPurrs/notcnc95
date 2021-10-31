@@ -1,0 +1,249 @@
+E2:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 175
+	Tooltip:
+		Name: Grenadier
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: proc, ~techlevel.low
+		Queue: Infantry.GDI
+		Description: Fast infantry armed with grenades.\nGrenades will bounce incase of missing.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+	Mobile:
+		Speed: 71
+	Health:
+		HP: 5000
+	Armor:
+		Type: Flak
+	Passenger:
+		CustomPipType: pip-green
+	AutoTarget:
+		ScanRadius: 4
+	Armament:
+		Weapon: Grenade
+		LocalOffset: 0,0,427
+		FireDelay: 15
+	TakeCover:
+		ProneOffset: 300,0,-227
+	WithInfantryBody:
+		DefaultAttackSequence: throw
+	Explodes:
+		Weapon: GrenadierExplode
+		EmptyWeapon: GrenadierExplode
+		Chance: 50
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 43
+		Type: InfantryRefund
+	Targetable:
+		TargetTypes: Ground, Infantry, Grenadier
+
+MEDI:
+	Inherits: ^Soldier
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Infantry.GDI
+		Description: Heals nearby infantry.\nSelf-heals slowly out of combat.\n  Unarmed
+	Tooltip:
+		Name: Medic
+	Valued:
+		Cost: 350
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 6000
+	Armor:
+		Type: Kevlar
+	Mobile:
+		Speed: 49
+	RevealsShroud:
+		Range: 3c0
+	Armament:
+		Weapon: Heal
+		Cursor: heal
+		OutsideRangeCursor: heal
+		TargetRelationships: Ally
+		ForceTargetRelationships: None
+	WithInfantryBody:
+		IdleSequences: idle
+		StandSequences: stand
+		DefaultAttackSequence: heal
+	Voiced:
+		VoiceSet: MedicVoice
+	AutoTarget:
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Infantry
+	Passenger:
+		CustomPipType: pip-blue
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 87
+		Type: InfantryRefund
+	ChangesHealth@SelfHealing:
+		Step: 200
+		Delay: 7
+		StartIfBelow: 101
+		DamageCooldown: 150
+
+SNIP:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	-MustBeDestroyed:
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Sniper
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: eye, ~techlevel.high
+		Queue: Infantry.GDI
+		Description: Marksman infantry with an Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+	Health:
+		HP: 5000
+	Armor:
+		Type: Kevlar
+	Mobile:
+		Speed: 42
+	Passenger:
+		CustomPipType: pip-red
+	RevealsShroud:
+		Range: 6c0
+	AutoTarget:
+		InitialStance: Defend
+		InitialStanceAI: ReturnFire
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Infantry
+	Armament@PRIMARY:
+		Weapon: Sniper
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Armaments: primary
+		Ammo: 5
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 125
+		Count: 5
+		RequiresCondition: !ammo
+	WithDecoration@ammoreplenish:
+		RequiresSelection: false
+		Image: pips
+		Sequence: tag-reload-small
+		Position: Top
+		Margin: 0, 4
+		RequiresCondition: !ammo
+	AttackFrontal:
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+	ProducibleWithLevel:
+		Prerequisites: infantry.upgraded
+	RenderSprites:
+		Image: snip
+	RenderRangeCircle:
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 225
+		Type: InfantryRefund
+	Cloak:
+		InitialDelay: 120
+		CloakDelay: 120
+		UncloakOn: Attack, Unload, Demolish, Move
+		IsPlayerPalette: false
+		PauseOnCondition: cloak-force-disabled
+		RequiresCondition: !harambe
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	GrantConditionOnMovement:
+		Condition: harambe
+		ValidMovementTypes: None
+
+RMBO:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Commando
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 8
+		BuildLimit: 1
+		Prerequisites: tech, ~techlevel.high
+		Queue: Infantry.GDI
+		Description: Elite infantry unit, with Machinegun.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Mountaineering\nCan climb Cliffs and traverse Rocky terrain as if was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+	Mobile:
+		Speed: 71
+		Voice: Move
+		Locomotor: foot-climber
+	Guard:
+		Voice: Move
+	Health:
+		HP: 15000
+	Armor:
+		Type: Kevlar
+	Passenger:
+		CustomPipType: pip-red
+		Voice: Move
+	RevealsShroud:
+		Range: 6c0
+	AutoTarget:
+		ScanRadius: 8
+	Demolition:
+		DetonationDelay: 45
+		Voice: Demolish
+	Armament:
+		Weapon: HighV
+	AttackFrontal:
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
+	ExternalCondition@PRODUCED:
+		Condition: produced
+	VoiceAnnouncement:
+		RequiresCondition: produced
+		Voice: Build
+	AnnounceOnKill:
+	Voiced:
+		VoiceSet: CommandoVoice
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 375
+		Type: InfantryRefund
+		Voice: Move
+	GrantConditionOnTerrain@Rock:
+		TerrainTypes: Rock
+		Condition: iscrawling
+	TakeCover:
+		RequiresCondition: !iscrawling
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+		IdleSequences: idle1,idle2
+		StandSequences: stand
+		RequiresCondition: !iscrawling
+	WithInfantryBody@CRAWL:
+		RequiresCondition: iscrawling
+		MoveSequence: prone-run
+		DefaultAttackSequence: prone-shoot
+		IdleSequences: prone-stand
+		StandSequences: prone-stand
+	SpeedMultiplier@CRAWL:
+		Modifier: 50
+		RequiresCondition: iscrawling
+	RenderSprites:
+		Image: rmb2
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally, Enemy, Neutral

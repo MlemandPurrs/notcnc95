@@ -1,0 +1,868 @@
+C17:
+	Inherits: ^Plane
+	Inherits@TRANSPORT: ^Transport
+	Interactable:
+	Tooltip:
+		Name: Supply Aircraft
+	Valued:
+		Cost: 2000
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 20
+		Speed: 236
+		LandingSounds: vc130diva.aud, vc130divb.aud
+		Repulsable: False
+		MaximumPitch: 36
+	HiddenUnderFog:
+		AlwaysVisibleRelationships: None
+		Type: CenterPosition
+	Cargo:
+		MaxWeight: 10
+	DamageMultiplier@INVULNERABLE:
+		Modifier: 0
+	GrantConditionOnPrerequisite@GLOBALC17STEALTH:
+		Condition: global-C17-stealth
+		Prerequisites: global-C17-stealth
+	Cloak:
+		InitialDelay: 0
+		CloakDelay: 0
+		CloakTypes: C17
+		RequiresCondition: global-C17-stealth
+	Contrail@1:
+		Offset: -261,-650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -85,-384,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@3:
+		Offset: -85,384,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@4:
+		Offset: -261,650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	-MapEditorData:
+	GrantConditionOnPrerequisite@C17Speed:
+		Condition: c17speed-upgraded
+		Prerequisites: c17speed.upgrade
+	SpeedMultiplier@C17Speed:
+		Modifier: 200
+		RequiresCondition: c17speed-upgraded
+
+A10:
+	Inherits: ^Plane
+	-ActorLostNotification:
+	Interactable:
+	HitShape:
+	Health:
+		HP: 22500
+	Armor:
+		Type: Heavy
+	Tooltip:
+		Name: A10 Bomber
+	Valued:
+		Cost: 2000
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+		Repulsable: False
+		AirborneCondition: airborne
+	AttackBomber:
+		Armaments: gun, bombs
+	Armament@GUNS:
+		Name: gun
+		Weapon: Vulcan
+		LocalOffset: 1024,0,-85
+	WithMuzzleOverlay:
+	Armament@BOMBS:
+		Name: bombs
+		Weapon: Napalm
+		LocalOffset: 0,-256,-43, 0,256,-43
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	SpawnActorOnDeath:
+		Actor: A10.Husk
+	RevealsShroud@AirRadar:
+		ValidRelationships: Enemy
+		Range: 3c512
+		Type: CenterPosition
+		RevealGeneratedShroud: false
+		RequiresCondition: in-airwarning-radius
+	AnnounceOnSeen@AirRadar:
+		PingRadar: true
+		Notification: EnemyPlanesApproaching
+	ExternalCondition@AirRadar:
+		Condition: in-airwarning-radius
+	-MapEditorData:
+
+A10.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: A-10
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: a10
+
+UAV:
+	Inherits: ^Plane
+	-ActorLostNotification:
+	HitShape:
+	Tooltip:
+		Name: Recon Drone
+	Health:
+		HP: 22500
+	Armor:
+		Type: Heavy
+	Aircraft:
+		CruiseAltitude: 2560
+		TurnSpeed: 7
+		Speed: 149
+		Repulsable: False
+		MaximumPitch: 56
+		AirborneCondition: airborne
+	AttackBomber:
+	SelectionDecorations:
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+	DetectCloaked:
+		CloakTypes: Cloak
+	RevealsShroud:
+		Range: 15c768
+		Type: CenterPosition
+	RejectsOrders:
+	Interactable:
+	GivesExperience:
+		Experience: 1000
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	Contrail@1:
+		Offset: -465,683,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -465,-683,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	SpawnActorOnDeath:
+		Actor: UAV.Husk
+
+UAV.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Recon Drone
+	Aircraft:
+		TurnSpeed: 7
+		Speed: 149
+	Contrail@1:
+		Offset: -465,683,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -465,-683,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: uav
+
+TRAN:
+	Inherits: ^Helicopter
+	Inherits@TRANSPORT: ^Transport
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@EMP: ^AcceptsEMPCrate	
+	Valued:
+		Cost: 750
+	Tooltip:
+		Name: Chinook
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 13
+		Prerequisites: hpad, ~techlevel.medium
+		Queue: Vehicle.GDI, Vehicle.Nod
+		Description: Fast Infantry Transport Helicopter.\n  Unarmed
+	Aircraft:
+		TurnSpeed: 20
+		Speed: 150
+		AltitudeVelocity: 0c100
+		PauseOnCondition: emp-crate-collected
+	Health:
+		HP: 9000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	WithIdleOverlay@ROTOR1AIR:
+		Offset: 597,0,85
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR1GROUND:
+		Offset: 597,0,85
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	WithIdleOverlay@ROTOR2AIR:
+		Offset: -597,0,171
+		Sequence: rotor2
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR2GROUND:
+		Offset: -597,0,171
+		Sequence: slow-rotor2
+		RequiresCondition: !airborne
+	Cargo:
+		Types: Infantry
+		MaxWeight: 10
+		AfterUnloadDelay: 40
+		LoadedCondition: loaded
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	SpawnActorOnDeath:
+		Actor: TRAN.Husk
+	Selectable:
+		DecorationBounds: 41,41
+
+TRAN.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Chinook
+	Aircraft:
+		TurnSpeed: 20
+		Speed: 140
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	WithIdleOverlay@ROTOR1:
+		Offset: 597,0,85
+		Sequence: rotor
+	WithIdleOverlay@ROTOR2:
+		Offset: -597,0,171
+		Sequence: rotor2
+	RenderSprites:
+		Image: tran
+
+ORCA:
+	Inherits: ^Helicopter
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Orca
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 14
+		Prerequisites: hpad, hq, ~techlevel.medium
+		Queue: Vehicle.GDI
+		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
+	Aircraft:
+		TurnSpeed: 28
+		Speed: 186
+		TakeoffSounds: orcaup1.aud
+		LandingSounds: orcadwn1.aud
+		PauseOnCondition: emp-crate-collected
+	Health:
+		HP: 9000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Weapon: OrcaAGMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@SECONDARY:
+		Weapon: OrcaAAMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@TERTIARY:
+		Name: tertiary
+		Weapon: MachineGunH
+		MuzzleSequence: muzzle
+		LocalOffset: 427,0,-213
+		PauseOnCondition: !ammo
+	WithMuzzleOverlay:
+	AutoTarget:
+		ScanRadius: 5
+	AttackAircraft:
+		Armaments: primary, secondary, tertiary
+		FacingTolerance: 80
+		OpportunityFire: false
+		PersistentTargeting: false
+		AttackType: Hover
+	AmmoPool:
+		Armaments: primary, secondary
+		Ammo: 6
+		ReloadDelay: 100
+		ReloadCount: 2
+		AmmoCondition: ammo
+	SpawnActorOnDeath:
+		Actor: ORCA.Husk
+	WithMoveAnimation:
+		MoveSequence: move
+	Rearmable:
+		RearmActors: hpad
+	Selectable:
+		DecorationBounds: 30,24
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+
+ORCA.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Orca
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 186
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: orca
+
+ORCA.Free:
+	Inherits: ORCA
+	Buildable:
+		Prerequisites: ~disabled
+		Queue: HelicopterDummy
+	RenderSprites:
+		Image: ORCA
+
+HELI:
+	Inherits: ^Helicopter
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Apache
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 14
+		Prerequisites: hpad, hq, ~techlevel.medium
+		Queue: Vehicle.Nod
+		Description: Helicopter Gunship with Chainguns.\nCan be upgraded to become better against Tanks.\n  Strong vs Infantry, Light Vehicles, Aircraft\n  Weak vs Tanks, Anti-Air
+	Aircraft:
+		TurnSpeed: 28
+		Speed: 180
+	Health:
+		HP: 12500
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Name: primary
+		Weapon: HeliAGGun
+		LocalOffset: 128,-213,-85, 128,213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammogun || emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: HeliAAGun
+		LocalOffset: 128,-213,-85, 128,213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammogun || emp-crate-collected
+	Armament@TERTIARY:
+		Name: tertiary
+		Weapon: HellfireAG
+		LocalOffset: 0,213,-85, 0,-213,-85
+		PauseOnCondition: !ammorock || emp-crate-collected
+		RequiresCondition: hellfire-upgraded
+	Armament@QUARTENARY:
+		Name: quartenary
+		Weapon: HellfireAA
+		LocalOffset: 0,-213,-85, 0,213,-85
+		PauseOnCondition: !ammorock || emp-crate-collected
+		RequiresCondition: hellfire-upgraded
+	AmmoPool@1:
+		Name: ammorock
+		Armaments: tertiary, quartenary
+		Ammo: 8
+		ReloadDelay: 60
+		AmmoCondition: ammorock
+	AmmoPool@2:
+		Name: ammogun
+		Armaments: primary, secondary
+		Ammo: 12
+		ReloadDelay: 40
+		AmmoCondition: ammogun
+	WithAmmoPipsDecoration@1:
+		Position: BottomLeft
+		Margin: 4, 6
+		PipCount: 4
+		FullSequence: pip-red
+		RequiresSelection: true
+		AmmoPools: ammorock
+		RequiresCondition: hellfire-upgraded
+	WithAmmoPipsDecoration@2:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		FullSequence: pip-yellow
+		RequiresSelection: true
+		AmmoPools: ammogun
+	AutoTarget:
+		ScanRadius: 4
+	AttackAircraft:
+		Armaments: primary, secondary, tertiary, quartenary
+		FacingTolerance: 80
+		OpportunityFire: false
+		PersistentTargeting: false
+		AttackType: Hover
+	WithIdleOverlay@ROTORAIR:
+		Offset: 0,0,85
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTORGROUND:
+		Offset: 0,0,85
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	WithMuzzleOverlay:
+	SpawnActorOnDeath:
+		Actor: HELI.Husk
+	Rearmable:
+		RearmActors: hpad
+		AmmoPools: ammorock, ammogun
+	Selectable:
+		DecorationBounds: 30,24
+	GrantConditionOnPrerequisite@hellfirepods:
+		Condition: hellfire-upgraded
+		Prerequisites: hellfire.upgrade
+
+HELI.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Apache
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 186
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	WithIdleOverlay:
+		Offset: 0,0,85
+		Sequence: rotor
+	RenderSprites:
+		Image: heli
+
+MH60:
+	Inherits: ^Helicopter
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+	Buildable:
+		BuildPaletteOrder: 15
+		Prerequisites: hpad, tech, ~techlevel.high
+		Queue: Vehicle.GDI
+		Description: Slow moving Helicopter gunship\narmed with dual chainguns.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Light armor\n  Weak vs Tanks, Aircraft
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Black Hawk
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	SelectionDecorations:
+	Selectable:
+		DecorationBounds: 38,32
+	Health:
+		HP: 12500
+	Armor:
+		Type: Medium
+	AppearsOnRadar:
+		ValidRelationships: Ally
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 7c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+		Type: GroundPosition
+	Aircraft:
+		TurnSpeed: 14
+		Speed: 112
+		PauseOnCondition: emp-crate-collected
+	AttackAircraft:
+		Armaments: primary, secondary, tertiary, quartenary
+		FacingTolerance: 20
+		PersistentTargeting: false
+		AttackType: Hover
+	Armament@PRIMARY:
+		Name: primary
+		Weapon: ChainGun
+		LocalOffset: 85,-213,-85, 85,213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: ChainGun
+		LocalOffset: 85,213,-85, 85,-213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || emp-crate-collected
+	Armament@TERTIARY:
+		Name: tertiary
+		Weapon: ChainGun.AA
+		LocalOffset: 85,-213,-85, 85,213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || emp-crate-collected
+	Armament@QUARTENARY:
+		Name: quartenary
+		Weapon: ChainGun.AA
+		LocalOffset: 85,213,-85, 85,-213,-85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Armaments: primary, secondary, tertiary, quartenary
+		Ammo: 24
+		ReloadDelay: 15
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		RequiresSelection: true
+	Rearmable:
+		RearmActors: hpad
+	WithMuzzleOverlay:
+	WithIdleOverlay@ROTORAIR:
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTORGROUND:
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+	SpawnActorOnDeath:
+		Actor: MH60.Husk
+		RequiresCondition: airborne
+	ProximityExternalCondition@barracksheal:
+		Condition: barracks
+		ValidRelationships: Ally
+		Range: 1c826
+		RequiresCondition: !airborne && mh60medic-upgraded && !emp-crate-collected
+	WithRangeCircle:
+		Range: 1c826
+		RequiresCondition: !airborne && mh60medic-upgraded && !emp-crate-collected
+	GrantConditionOnPrerequisite@mh60medic:
+		Condition: mh60medic-upgraded
+		Prerequisites: mh60medic.upgrade
+
+MH60.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Black Hawk
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 112
+	WithIdleOverlay:
+		Sequence: rotor
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		MinDamage: Undamaged
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: MH60
+
+RH66:
+	Inherits: ^Helicopter
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Buildable:
+		BuildPaletteOrder: 15
+		Prerequisites: hpad, tmpl, ~techlevel.high
+		Queue: Vehicle.Nod
+		Description: Attack helicopter that can be upgraded\nto gain Stealth capability.\nDoesnt appear on enemy Radar.\nCannot attack Air units.\n  Strong vs Buildings, clustered Infantry.\n  Weak vs Anti-Air, Detection
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Comanche
+	AppearsOnRadar:
+		ValidRelationships: Ally
+	Health:
+		HP: 18000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+		Type: GroundPosition
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Weapon: M16
+		LocalOffset: 427,0,-213
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: rah66AG
+		LocalOffset: 0,-213,-85, 0,213,-85
+		PauseOnCondition: !ammo || emp-crate-collected
+	AttackAircraft:
+		FacingTolerance: 20
+		PersistentTargeting: false
+		AttackType: Hover
+		OpportunityFire: false
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
+	Voiced:
+		VoiceSet: SakuraVoice	
+	ExternalCondition@PRODUCED:
+		Condition: produced
+	VoiceAnnouncement:
+		RequiresCondition: produced
+		Voice: Build
+		ValidRelationships: Ally
+	Aircraft:
+		AltitudeVelocity: 0c100
+		TurnSpeed: 16
+		Speed: 150
+		Voice: Move
+		PauseOnCondition: emp-crate-collected
+	Guard:
+		Voice: Move
+	DeathSounds@SAKURA:
+		Voice: Die
+	Cloak:
+		InitialDelay: 150
+		CloakDelay: 150
+		UncloakSound: appear1.aud
+		IsPlayerPalette: false
+		UncloakOn: Attack, Dock, Damage, Heal
+		PauseOnCondition: ( cloak-force-disabled && !airborne ) || emp-crate-collected
+		RequiresCondition: rh66stealth-upgraded
+	AutoTarget:
+		InitialStance: ReturnFire
+		InitialStanceAI: AttackAnything
+	WithIdleOverlay@ROTORAIR:
+		Offset: 10,0,80
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTORGROUND:
+		Offset: 10,0,80
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	AmmoPool:
+		Armaments: secondary
+		Ammo: 8
+		ReloadDelay: 50
+		ReloadCount: 2
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 4
+	WithMuzzleOverlay:
+	SelectionDecorations:
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+	Selectable:
+		DecorationBounds: 36,28
+	SpawnActorOnDeath:
+		Actor: RH66.Husk
+		RequiresCondition: airborne
+	Rearmable:
+		RearmActors: hpad
+	GrantConditionOnPrerequisite@rh66stealth:
+		Condition: rh66stealth-upgraded
+		Prerequisites: rh66stealth.upgrade
+
+RH66.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Comanche
+	Aircraft:
+		TurnSpeed: 4
+		Speed: 186
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		MinDamage: Undamaged
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: rh66
+
+OCAR:
+	Inherits: ^Helicopter
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	RenderSprites:
+		Image: orcaca
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Orca Carryall
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 18
+		Prerequisites: ~disabled
+		Queue: Vehicle.GDI
+		Description: Fast VTOL Vehicle Transporter.\n  Unarmed\n  Special Ability: Auto Pilot
+	Aircraft:
+		CruiseAltitude: 2048
+		AltitudeVelocity: 0c100
+		IdealSeparation: 0c768
+		TurnSpeed: 20
+		Speed: 236
+		TakeoffSounds: dropup1.aud
+		LandingSounds: dropdwn1.aud
+		Repulsable: True
+		IdleTurnSpeed: 4
+		Voice: Move
+	Carryall:
+		BeforeLoadDelay: 10
+		BeforeUnloadDelay: 15
+		LocalOffset: 0, 0, -128
+		Voice: Action
+		AllowDropOff: True
+		CarryCondition: carrying
+	SpeedMultiplier@carrying:
+		Modifier: 80
+		RequiresCondition: carrying
+	Health:
+		HP: 30000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	SpawnActorOnDeath:
+		Actor: OCAR.Husk
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		Interval: 2
+	Selectable:
+		DecorationBounds: 44,48,0,0
+	Voiced:
+		VoiceSet: MechanicVoice
+	WithMoveAnimation:
+		MoveSequence: move
+	Contrail@1:
+		Offset: 30,-600,-20
+		TrailLength: 15
+		UsePlayerColor: false
+		Color: FFFFFF80
+	Contrail@2:
+		Offset: -885,-184,0
+		TrailLength: 16
+		UsePlayerColor: false
+		ZOffset: -512
+		Color: cc550080
+	Contrail@3:
+		Offset: -885,184,0
+		TrailLength: 16
+		UsePlayerColor: false
+		ZOffset: -512
+		Color: cc550080
+	Contrail@4:
+		Offset: 30,600,-20
+		TrailLength: 15
+		UsePlayerColor: false
+		Color: FFFFFF80
+
+OCAR.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Orca Carryall
+	Aircraft:
+		TurnSpeed: 4
+		Speed: 46
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		MinDamage: Undamaged
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: orcaca
+		PlayerPalette: overlayplayer
+
+OCAR.Reinforce:
+	Inherits: OCAR
+	-Buildable:
+	Carryall:
+		DropRange: 30c0
+	Aircraft:
+		IdleBehavior: LeaveMap
+		Repulsable: False
+	-Selectable:
+	-Voiced:
+	RejectsOrders:
+	Interactable:
+
+OCAR.Pod:
+	Inherits: OCAR.Reinforce
+	RenderSprites:
+		Image: orcacapod
+	Aircraft:
+	WithMoveAnimation:
+		MoveSequence: move
+	Cargo:
+		MaxWeight: 10

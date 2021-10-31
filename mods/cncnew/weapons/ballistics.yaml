@@ -1,0 +1,143 @@
+^BallisticWeapon:
+	ReloadDelay: 40
+	Range: 4c768
+	Report: tnkfire6.aud
+	Projectile: Bullet
+		Image: 120MM
+		Speed: 682
+		Shadow: true
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 4000
+		Versus:
+			None: 25
+			Kevlar: 25
+			Flak: 15
+			Wood: 100
+			Concrete: 50
+			Light: 100
+			Medium: 100
+			Heavy: 100
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
+	Warhead@3Eff: CreateEffect
+		Explosions: small_frag
+		ImpactSounds: xplos.aud
+		ImpactActors: false
+		InvalidTargets: Water
+	Warhead@4Eff: CreateEffect
+		Explosions: sml_splash
+		ImpactSounds: ssplash3.aud
+		ValidTargets: Water
+
+70mm:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 30
+	Report: tnkfire3.aud
+	Projectile: Bullet
+		Speed: 853
+	Warhead@1Dam: SpreadDamage
+		Damage: 2500
+		Versus:
+			Wood: 90
+			Medium: 80
+			Heavy: 70
+
+100mmDual:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 70
+	Burst: 2
+	BurstDelays: 10
+	Range: 5c768
+	Report: tnkfire3.aud
+
+120mm:
+	Inherits: ^BallisticWeapon
+	Report: tnkfire4.aud
+	Warhead@4EffWater: CreateEffect
+		ImpactSounds: ssplash2.aud
+
+120mmDual:
+	Inherits: ^BallisticWeapon
+	Range: 5c768
+	Burst: 2
+	BurstDelays: 8
+
+TurretGun:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 20
+	Range: 6c768
+	Projectile: Bullet
+		Speed: 853
+	Warhead@1Dam: SpreadDamage
+		Versus:
+			None: 20
+			Kevlar: 20
+			Flak: 10
+			Wood: 25
+	Warhead@4EffWater: CreateEffect
+		ImpactSounds: ssplash2.aud
+
+ArtilleryShell:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 65
+	Range: 11c0
+	MinRange: 3c0
+	Report: tnkfire2.aud
+	TargetActorCenter: true
+	Projectile: Bullet
+		Speed: 204
+		Blockable: false
+		LaunchAngle: 56
+		Inaccuracy: 1c256
+		ContrailLength: 30
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 10000
+		Versus:
+			None: 150
+			Kevlar: 150
+			Flak: 140
+			Wood: 120
+			Light: 112
+			Medium: 94
+			Heavy: 75
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: poof
+		ImpactSounds: xplosml2.aud
+	Warhead@4Eff: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash1.aud
+
+Grenade:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 50
+	Range: 4c0
+	Report: toss1.aud
+	Projectile: Bullet
+		Speed: 140
+		Blockable: false
+		LaunchAngle: 62
+		Inaccuracy: 813
+		Image: BOMB
+		BounceCount: 1
+		BounceRangeModifier: 50
+		ValidBounceBlockerRelationships: Ally, Neutral, Enemy
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 5000
+		Versus:
+			None: 100
+			Kevlar: 100
+			Flak: 90
+			Wood: 50
+			Concrete: 100
+			Light: 80
+			Medium: 68
+			Heavy: 34
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: small_poof

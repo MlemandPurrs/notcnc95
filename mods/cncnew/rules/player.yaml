@@ -1,0 +1,141 @@
+^BasePlayer:
+	AlwaysVisible:
+	Shroud:
+
+EditorPlayer:
+	Inherits: ^BasePlayer
+
+Player:
+	Inherits: ^BasePlayer
+	PlaceBuilding:
+		NewOptionsNotification: NewOptions
+		CannotPlaceNotification: BuildingCannotPlaceAudio
+	TechTree:
+	SupportPowerManager:
+	ScriptTriggers:
+	MissionObjectives:
+		WinNotification: Win
+		LoseNotification: Lose
+		LeaveNotification: Leave
+	ConquestVictoryConditions:
+	PowerManager:
+		AdviceInterval: 750
+		SpeechNotification: LowPower
+	AllyRepair:
+	PlayerResources:
+		CashTickUpNotification: CashTickUp
+		CashTickDownNotification: CashTickDown
+		SelectableCash: 2500, 5000, 7500, 10000, 15000, 20000
+		DefaultCash: 10000
+	DeveloperMode:
+		CheckboxDisplayOrder: 9
+	BaseAttackNotifier:
+	Shroud:
+		FogCheckboxDisplayOrder: 3
+	LobbyPrerequisiteCheckbox@GLOBALFACTUNDEPLOY:
+		ID: factundeploy
+		Label: Redeployable MCVs
+		Description: Allow undeploying Construction Yard
+		Enabled: True
+		DisplayOrder: 7
+		Prerequisites: global-factundeploy
+	LobbyPrerequisiteCheckbox@GLOBALC17STEALTH:
+		ID: C17-Stealth
+		Label: Stealth Deliveries
+		Description: Nod's delivery plane is cloaked
+		Enabled: False
+		DisplayOrder: 16
+		Prerequisites: global-C17-stealth
+	PlayerStatistics:
+	FrozenActorLayer:
+	PlaceBeacon:
+	ProvidesTechPrerequisite@low:
+		Name: Low
+		Prerequisites: techlevel.low
+		Id: low
+	ProvidesTechPrerequisite@medium:
+		Name: Medium
+		Prerequisites: techlevel.low, techlevel.medium
+		Id: medium
+	ProvidesTechPrerequisite@nosuper:
+		Name: High (No Super)
+		Prerequisites: techlevel.low, techlevel.medium, techlevel.high
+		Id: nopowers
+	ProvidesTechPrerequisite@all:
+		Name: High (with Super)
+		Prerequisites: techlevel.low, techlevel.medium, techlevel.high, techlevel.unrestricted
+		Id: unrestricted
+	GrantConditionOnPrerequisiteManager:
+	ResourceStorageWarning:
+	PlayerExperience:
+	GameSaveViewportManager:
+	PlayerRadarTerrain:
+	ProvidesRadar@GLOBALRADAR:
+		RequiresCondition: minimap.always.on && !isbeingjammed
+	GrantConditionOnPrerequisite@GLOBALRADAR:
+		Condition: minimap.always.on
+		Prerequisites: global-minimap
+	ProvidesRadar@LOCALRADAR:
+		RequiresCondition: !minimap.always.on && minimap.with.radar && !isbeingjammed
+	GrantConditionOnPrerequisite@LOCALRADAR:
+		Condition: minimap.with.radar
+		Prerequisites: activedome
+	GrantConditionOnPrerequisite@GLOBALJAM:
+		Condition: isbeingjammed
+		Prerequisites: isbeingjammed
+	LobbyPrerequisiteCheckbox@GLOBALMULTIENGINEER:
+		ID: multiengineer
+		Label: Multi Engineer
+		Description: Multiple Engineers are required to capture a building
+		Enabled: True
+		DisplayOrder: 8
+		Prerequisites: global-multiengineer
+	LobbyPrerequisiteCheckbox@FREEAIRCRAFT:
+		ID: freeaircraft
+		Label: Free Aircraft
+		Description: Helipads come with free Helicopter, price increased to 1500
+		Enabled: False
+		DisplayOrder: 14
+		Prerequisites: global-freeaircraft
+	LobbyPrerequisiteCheckbox@FREERADAR:
+		ID: freeradar
+		Label: Minimap Always On
+		Description: Minimap available independent of Radar structure, can still get jammed through the Radar structure
+		Enabled: False
+		DisplayOrder: 6
+		Prerequisites: global-minimap
+	LobbyPrerequisiteCheckbox@AIBOOSTER:
+		ID: aibooster
+		Label: AI Booster
+		Description: AI gets 20% price discount and +10% build speed
+		Enabled: False
+		DisplayOrder: 17
+		Prerequisites: aiboosteron
+	LobbyPrerequisiteCheckbox@BASEAUTOREPAIRS:
+		ID: autorepair
+		Label: Conyard Repairs
+		Description: Construction Yard slowly repairs structures within build radius free of charge
+		Enabled: False
+		DisplayOrder: 8
+		Prerequisites: global-autorepair
+	LobbyPrerequisiteCheckbox@GLOBALBOUNTY:
+		ID: bounty
+		Label: Kill Bounties
+		Description: Players receive cash bonuses when killing enemy units
+		Enabled: False
+		DisplayOrder: 21
+		Prerequisites: global-bounty
+	LobbyPrerequisiteCheckbox@BOINK:
+		ID: boinksound
+		Label: Boink !
+		Description: All Vehicles emit Renegade's "boink" sound on die
+		Enabled: False
+		DisplayOrder: 99
+		Prerequisites: global-boink
+	LobbyPrerequisiteCheckbox@PACIFYTIBERIUM:
+		ID: notiberiumdamage
+		Label: No Tiberium Damage
+		Description: Renders Tiberium harmless to cross for all Infantry
+		Enabled: False
+		DisplayOrder: 98
+		Prerequisites: global-givehazmat

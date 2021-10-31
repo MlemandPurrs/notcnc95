@@ -1,0 +1,340 @@
+^FlameWeapon:
+	ValidTargets: Ground, Water, Trees
+	ReloadDelay: 55
+	Range: 3c0
+	InvalidTargets: Wall, Flamer
+	Report: flamer2.aud
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 4000
+		ValidTargets: Ground, Water, Trees
+		InvalidTargets: Wall, Flamer
+		Versus:
+			None: 110
+			Kevlar: 110
+			Flak: 100
+			Wood: 100
+			Concrete: 25
+			Light: 100
+			Medium: 50
+			Heavy: 25
+		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall
+	Warhead@Flames: FireCluster
+		Weapon: BurnFx
+		RandomClusterCount: 3
+		Dimensions: 3,3
+		Footprint: xxx xxx xxx
+
+Flamethrower:
+	Inherits: ^FlameWeapon
+	Range: 2c256
+	-Warhead@Flames:
+	Warhead@Flames: FireCluster
+		Weapon: BurnFx
+		RandomClusterCount: 1
+		Dimensions: 1,1
+		Footprint: x
+
+BigFlamer:
+	Inherits: ^FlameWeapon
+	ReloadDelay: 65
+	Range: 1c768
+	Projectile: Bullet
+		Speed: 341
+	Burst: 2
+	BurstDelays: 10
+	Warhead@1Dam: SpreadDamage
+		Spread: 400
+		Damage: 10000
+		Versus:
+			None: 80
+			Kevlar: 80
+			Flak: 70
+			Wood: 75
+			Light: 75
+			Medium: 45
+			Heavy: 20
+
+Chemspray:
+	Inherits: ^FlameWeapon
+	ReloadDelay: 65
+	Range: 2c256
+	InvalidTargets: Chem
+	Warhead@1Dam: SpreadDamage
+		Damage: 8000
+		InvalidTargets: Chem
+		Versus:
+			None: 70
+			Kevlar: 70
+			Flak: 70
+			Wood: 35
+			Light: 75
+			Medium: 75
+			Heavy: 75
+		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
+	-Warhead@Flames:
+	Warhead@Chem: GrantExternalCondition
+		Range: 0c768
+		Duration: 125
+		Condition: hitbychem
+		ValidTargets: Infantry
+		InvalidTargets: Chem, HasPoison, PoisonImmune
+
+BigChemspray:
+	Inherits: Chemspray
+	Range: 1c768
+	ReloadDelay: 75
+	Burst: 2
+	BurstDelays: 25
+	Warhead@1Dam: SpreadDamage
+		#	Spawns Visceroids so
+		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
+		Damage: 20000
+	#	^ no Infantry will survive that damage
+	-Warhead@Chem:
+
+Napalm:
+	Inherits: ^FlameWeapon
+	ReloadDelay: 4
+	Range: 2c0
+	Burst: 2
+	BurstDelays: 2
+	-Projectile:
+	Projectile: GravityBomb
+		Image: BOMBLET
+		Shadow: true
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 3000
+		Falloff: 1000, 368, 135, 50, 18, 7, 0
+		Versus:
+			Wood: 35
+			Concrete: 70
+			Medium: 90
+			Heavy: 80
+	Warhead@3Eff: CreateEffect
+		Explosions: med_napalm
+
+Laser:
+	ReloadDelay: 40
+	Range: 7c512
+	Report: obelray1.aud
+	Projectile: LaserZap
+		Width: 85
+		HitAnim: laserfire
+		ZOffset: 2047
+	Warhead@1Dam: SpreadDamage
+		Spread: 42
+		Damage: 36000
+		Versus:
+			Wood: 50
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
+
+LaserTank:
+	Inherits: Laser
+	ReloadDelay: 101
+	Projectile: LaserZap
+
+LaserTankFiringFX:
+	ReloadDelay: 101
+	Range: 7c512
+	Projectile: InstantHit
+	Warhead@1Dam: SpreadDamage
+		Damage: 0
+
+LaserTankFiringFXSound:
+	ReloadDelay: 101
+	Range: 7c512
+	StartBurstReport: obelpowr.aud
+	Report: obelpowr.aud
+	BurstDelays: 40
+	Burst: 2
+	Projectile: InstantHit
+	Warhead@1Dam: SpreadDamage
+		Damage: 0
+
+^DinoWeapon:
+	ReloadDelay: 30
+	Range: 1c0
+	Report: dinoatk1.aud
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 213
+		Damage: 18000
+		Versus:
+			None: 90
+			Kevlar: 90
+			Flak: 90
+			Wood: 10
+			Light: 30
+			Medium: 20
+			Heavy: 10
+		DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
+
+Tail:
+	Inherits: ^DinoWeapon
+
+Horn:
+	Inherits: ^DinoWeapon
+	ReloadDelay: 20
+	Warhead@1Dam: SpreadDamage
+		Damage: 12000
+
+Teeth:
+	Inherits: ^DinoWeapon
+
+Claw:
+	Inherits: ^DinoWeapon
+	ReloadDelay: 10
+	Warhead@1Dam: SpreadDamage
+		Damage: 6000
+
+Demolish:
+	Warhead@1Dam: SpreadDamage
+		DamageTypes: DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: building
+		ImpactSounds: xplobig6.aud
+		ImpactActors: false
+	Warhead@Flames: FireCluster
+		Weapon: BurnFx
+		RandomClusterCount: 5
+		Dimensions: 3,3
+		Footprint: xxx xxx xxx
+
+KamikazeTargeting:
+	ReloadDelay: 1
+	ValidTargets: Vehicle, Infantry, Wall, Structure, Creep
+	Range: 1c768
+	TargetActorCenter: true
+	Projectile: InstantHit
+	Warhead@1Dam: TargetDamage
+		Damage: 0
+		ValidTargets: Vehicle, Infantry, Wall, Structure, Creep
+
+Heal:
+	ReloadDelay: 70
+	Range: 2c0
+	Report: heal2.aud
+	ValidTargets: Heal
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 213
+		Damage: -5000
+		ValidRelationships: Ally
+		ValidTargets: Heal
+		DebugOverlayColor: 00FF00
+
+Repair:
+	Inherits: Heal
+	Report: fixit1.aud
+	ValidTargets: Repair
+	Warhead@1Dam: SpreadDamage
+		Damage: -2500
+		DamageTypes: Repair
+		ValidTargets: Repair
+
+LockOnLaser:
+	ReloadDelay: 1
+	Range: 4c768
+	MinRange: 0c512
+	ValidTargets: Vehicle
+	TargetActorCenter: true
+	Projectile: LaserZap
+		Width: 45
+		Duration: 8
+		SecondaryBeamWidth: 65
+		SecondaryBeamColor: FF000030
+		ZOffset: 4096
+	Warhead@1Dam: TargetDamage
+		ValidTargets: Vehicle
+	Warhead@2Con: GrantExternalCondition
+		ValidTargets: Vehicle
+		Range: 0c32
+		Duration: 8
+		Condition: laser-designated
+
+BurnFX:
+	ValidTargets: Ground, Trees
+	InvalidTargets: Helicopter, Airplane, Water
+	ReloadDelay: 20
+	Range: 0c128
+	Projectile: Bullet
+		Speed: 85
+		Blockable: false
+	Warhead@3Eff: CreateEffect
+		Image: fire
+		Inaccuracy: 171
+		Explosions: 1, 2, 3, 4
+
+MicrowaveZap:
+	ValidTargets: Ground, Water
+	InvalidTargets: Helicopter, Airplane
+	TargetActorCenter: true
+	ReloadDelay: 210
+	Range: 7c0
+	Report: corefir1.aud
+	Projectile: Railgun
+		Duration: 5
+		Blockable: true
+		DamageActorsInLine: false
+		BeamColor: FFFFFFFF
+		BeamWidth: 0c0
+		HelixThickness: 0c32
+		HelixRadius: 0c16
+		HelixAngleDeltaPerTick: 64
+		QuantizationCount: 64
+		HitAnim: sparks_overlay
+		ZOffset: 2046
+	Warhead@1Dam: SpreadDamage
+		InvalidTargets: Helicopter, Airplane
+		Spread: 512
+		Damage: 17500
+		DamageTypes: Prone50Percent, TriggerProne, FireDeath
+		Versus:
+			None: 20
+			Kevlar: 20
+			Flak: 20
+			Wood: 10
+			Concrete: 40
+			Light: 100
+			Medium: 80
+			Heavy: 60
+	Warhead@changeowner: ChangeOwnerToNeutral
+		ValidTargets: DriverKill
+		InvalidTargets: Infantry, Ship, Structure, Wall, Husk, Helicopter, Airplane, DriverKillImmune
+		ValidRelationships: Ally, Enemy, Neutral
+		Range: 0c511
+	Warhead@emp: GrantExternalCondition
+		Range: 0c511
+		Duration: 200
+		Condition: mwavdisable
+		ValidTargets: Defense
+
+MicrowaveZapSound:
+	Inherits: MicrowaveZap
+	Report: coreup1.aud
+	Projectile: InstantHit
+	-Warhead@changeowner:
+	-Warhead@emp:
+	Warhead@1Dam: SpreadDamage
+		Damage: 1
+		Versus:
+			None: 0
+			Kevlar: 0
+			Flak: 0
+			Wood: 0
+			Concrete: 0
+			Light: 0
+			Medium: 0
+			Heavy: 0

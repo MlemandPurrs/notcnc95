@@ -1,0 +1,421 @@
+CRATE.plain:
+	Inherits: ^Crate
+	ScriptTriggers:
+
+CRATE:
+	Inherits: ^Crate
+	Crate:
+		Lifetime: 240
+	GiveCashCrateAction:
+		Amount: 1000
+		Sequence: dollar
+		SelectionShares: 20
+		UseCashTick: true
+	RevealMapCrateAction:
+		SelectionShares: 1
+		Sequence: reveal-map
+	ExplodeCrateAction@fire:
+		Weapon: Napalm.Crate
+		SelectionShares: 5
+	GiveMcvCrateAction:
+		SelectionShares: 0
+		NoBaseSelectionShares: 50
+		Units: mcv
+	ExplodeCrateAction@nuke:
+		Weapon: Atomic
+		SelectionShares: 1
+	LevelUpCrateAction@Superlvl:
+		Levels: 4
+		SelectionShares: 12
+	HideMapCrateAction:
+		SelectionShares: 5
+		Sequence: hide-map
+	RevealMapCrateAction:
+		SelectionShares: 1
+		Sequence: reveal-map
+	HealActorsCrateAction:
+		Sound: heal2.aud
+		SelectionShares: 2
+		Sequence: heal
+	GrantExternalConditionCrateAction@firepower:
+		SelectionShares: 5
+		Sequence: firepowerup
+		Sound: firepowerup.aud
+		Condition: firepower-crate-collected
+	GrantExternalConditionCrateAction@armorup:
+		SelectionShares: 5
+		Sequence: armorup
+		Sound: armorup.aud
+		Condition: armor-crate-collected
+	GrantExternalConditionCrateAction@speedup:
+		SelectionShares: 5
+		Sequence: speedup
+		Sound: speedup.aud
+		Condition: speed-crate-collected
+	GrantExternalConditionCrateAction@cloak:
+		SelectionShares: 5
+		Sequence: cloak
+		Condition: cloak-crate-collected
+	GrantExternalConditionCrateAction@invuln:
+		SelectionShares: 5
+		Sequence: invuln
+		Sound: ironcur9.aud
+		Condition: invulnerability-crate-collected
+		Duration: 400
+	GrantExternalConditionCrateAction@emp:
+		SelectionShares: 5
+		Sequence: emp
+		Sound: shktrop1.aud
+		Condition: emp-crate-collected
+		Duration: 300
+	GrantExternalConditionCrateAction@instadeath:
+		SelectionShares: 1
+		Sequence: redskull
+		Sound: madexplo.aud
+		Condition: death-crate-collected
+	GiveUnitCrateAction@harv:
+		SelectionShares: 3
+		Units: harv
+		ValidFactions: gdi, nod
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@hmmv:
+		SelectionShares: 6
+		Units: jeep
+		ValidFactions: gdi
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@apc:
+		SelectionShares: 6
+		Units: apc
+		ValidFactions: gdi
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@mtnk:
+		SelectionShares: 4
+		Units: mtnk
+		ValidFactions: gdi
+		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@mlrs:
+		SelectionShares: 5
+		Units: mlrs
+		ValidFactions: gdi
+		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@bggy:
+		SelectionShares: 6
+		Units: bggy
+		ValidFactions: nod
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@ltnk:
+		SelectionShares: 6
+		Units: ltnk
+		ValidFactions: nod
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@ftnk:
+		SelectionShares: 4
+		Units: ftnk
+		ValidFactions: nod
+		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@arty:
+		SelectionShares: 5
+		Units: arty
+		ValidFactions: nod
+		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@horde:
+		SelectionShares: 3
+		Units: tecn,tecn,tecn,tecn,tecn,tecn,tecn,tecn
+	GiveUnitCrateAction@creep:
+		Units: vice
+		Owner: Creeps
+		SelectionShares: 10
+	#	GiveUnitCrateAction does not accept Sequence:
+	#	there is a Mine sequence for this cannot assign
+	GiveUnitCrateAction@minefield:
+		SelectionShares: 3
+		Units: minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon
+		Owner: Creeps
+	SupportPowerCrateAction@nuke:
+		Proxy: crate.nuke
+		SelectionShares: 1
+		TimeDelay: 7500
+		Sequence: nuke
+	#	i had managed to do get this working once
+	#	just where was it and how i did...
+	#	SupportPowerCrateAction@ion:
+	#	Proxy: crate.ion
+	#	SelectionShares: 1
+	#	TimeDelay: 7500
+	#	Sequence: gridmap
+	SupportPowerCrateAction@airstrike:
+		Proxy: crate.airstrike
+		SelectionShares: 1
+		TimeDelay: 7500
+		Sequence: airstrike
+
+MONEYCRATE:
+	Inherits: ^Crate
+	Tooltip:
+		Name: Money Crate
+	GiveCashCrateAction:
+		Amount: 1000
+		Sequence: dollar
+		SelectionShares: 1
+		UseCashTick: true
+	RenderSprites:
+		Image: wcrate
+
+MONEYCRATE.DROP:
+	Inherits: MONEYCRATE
+	-GiveCashCrateAction:
+	RenderSprites:
+		Image: wcrate
+	CashTrickler:
+		Interval: 50
+		Amount: 1000
+	KillsSelf:
+		Delay: 50
+		RemoveInstead: true
+
+WCRATE:
+	Inherits: ^Crate
+	Tooltip:
+		Name: Wooden Crate
+
+SCRATE:
+	Inherits: ^Crate
+	Tooltip:
+		Name: Steel Crate
+
+mpspawn:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: (multiplayer player starting point)
+	AlwaysVisible:
+	Immobile:
+		OccupiesSpace: false
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+	BodyOrientation:
+		QuantizedFacings: 1
+	MapEditorData:
+		Categories: System
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+
+waypoint:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: (waypoint for scripted behavior)
+	AlwaysVisible:
+	Immobile:
+		OccupiesSpace: false
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+	BodyOrientation:
+		QuantizedFacings: 1
+	MapEditorData:
+		Categories: System
+
+fact.colorpicker:
+	Inherits: FACT
+	-Buildable:
+	-MapEditorData:
+	RenderSprites:
+		Image: fact
+		Palette: colorpicker
+
+CAMERA:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: (reveals area to owner)
+	AlwaysVisible:
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
+	BodyOrientation:
+		QuantizedFacings: 1
+	Immobile:
+		OccupiesSpace: false
+	RevealsShroud:
+		Range: 9c256
+		Type: CenterPosition
+	MapEditorData:
+		Categories: System
+
+CAMERA.small:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: (reveals small area to owner)
+	AlwaysVisible:
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
+	BodyOrientation:
+		QuantizedFacings: 1
+	Immobile:
+		OccupiesSpace: false
+	Health:
+		HP: 100000
+	HitShape:
+	RevealsShroud:
+		Range: 6c256
+		Type: CenterPosition
+	MapEditorData:
+		Categories: System
+
+CAMERA.scan:
+	Inherits: CAMERA
+	RevealsShroud:
+		Range: 7c536
+	DetectCloaked:
+		Range: 7c536
+
+CAMERA.minimum:
+	Inherits: CAMERA
+	RevealsShroud:
+		Range: 3c256
+
+FLARE:
+	Immobile:
+		OccupiesSpace: false
+	RevealsShroud:
+		Range: 3c0
+		Type: CenterPosition
+	RenderSprites:
+		Image: smokland
+		Palette: terrain
+	WithSpriteBody:
+		StartSequence: open
+	HiddenUnderFog:
+		Type: CenterPosition
+	Tooltip:
+		Name: Flare
+		ShowOwnerRow: false
+	BodyOrientation:
+		QuantizedFacings: 1
+	MapEditorData:
+		Categories: System
+	Interactable:
+
+MINV:
+	Inherits: ^Mine
+	RenderSprites:
+		Image: minv
+	Explodes:
+		Weapon: ATMine
+
+MINV.Summon:
+	Inherits@1: ^ExistsInWorld
+	Inherits@3: ^SpriteActor
+	Huntable:
+	OwnerLostAction:
+		Action: Kill
+	Mobile:
+		PauseOnCondition: !parachute
+		Locomotor: immobile
+		Speed: 0
+		TurnSpeed: 0
+	Health:
+		HP: 1
+	HiddenUnderFog:
+	Tooltip:
+		GenericName: You shouldnt be seeing this...
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	Parachutable:
+		FallRate: 999
+		KilledOnImpassableTerrain: true
+		ParachutingCondition: parachute
+	WithFacingSpriteBody:
+	WithParachute:
+		ShadowImage: dummy
+		ShadowSequence: idle
+		Image: dummy
+		Sequence: idle
+		OpeningSequence: idle
+		Offset: 0,0,0
+		RequiresCondition: parachute
+	HitShape:
+	Interactable:
+		Bounds: 1,1
+		DecorationBounds: 1,1	
+	SelectionDecorations:
+	RejectsOrders:
+	SpawnActorOnDeath:
+		Actor: minv
+		RequiresCondition: !parachute
+	KillsSelf:
+		RequiresCondition: !parachute
+	RenderSprites:
+		Image: dummy
+
+crate.nuke:
+	AlwaysVisible:
+	NukePower@NukeMissileOneShot:
+		OrderName: CrateNuke
+		Cursor: nuke
+		Icon: abomb
+		ChargeInterval: 0
+		Description: Nuclear Strike (Single Use)
+		LongDesc: Launch a tactical nuclear warhead.\nApplies heavy damage over a large area.
+		EndChargeSpeechNotification: NuclearWeaponAvailable
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		LaunchSpeechNotification: NuclearWeaponLaunched
+		IncomingSpeechNotification: NuclearWarheadApproaching
+		SkipAscent: True
+		MissileWeapon: atomic
+		MissileDelay: 11
+		SpawnOffset: 1c0,427,0
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+		DisplayBeacon: True
+		DisplayRadarPing: True
+		BeaconPoster: atomic
+		CameraRange: 10c0
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		SupportPowerPaletteOrder: 1
+		OneShot: true
+
+#	Crashes pointing to Line 88 in IonCannonPower.cs
+#	crate.ion:
+#	AlwaysVisible:
+#	IonCannonPower@IonCannonOneShot:	
+#	OrderName: IonCannonOneShot
+#	Icon: ioncannon
+#	ChargeInterval: 0
+#	Description: Ion Cannon
+#	LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+#	OnFireSound: ion1.aud
+#	Cursor: ioncannon
+#	SelectTargetSpeechNotification: SelectTarget 
+#	DisplayRadarPing: True
+#	SupportPowerPaletteOrder: 1
+#	DisplayTimerRelationships: Ally, Neutral, Enemy
+#	Effect: ionsfx
+#	EffectSequence: idle
+#	EffectPalette: effect
+#	Weapon: IonCannon
+#	CameraActor: camera.small
+
+crate.airstrike:
+	AlwaysVisible:
+	AirstrikePower@AirstrikeOneShot:
+		OrderName: CrateAirstrike
+		Icon: airstrike
+		SquadSize: 3
+		QuantizedFacings: 8
+		Description: Air Strike (Single Use)
+		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: a10
+		DisplayBeacon: True
+		BeaconPoster: airstrike
+		DisplayRadarPing: True
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airstrike
+		SupportPowerPaletteOrder: 2
+		ChargeInterval: 0
+		OneShot: true

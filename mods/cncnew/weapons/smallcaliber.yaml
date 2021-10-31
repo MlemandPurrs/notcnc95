@@ -1,0 +1,283 @@
+Sniper:
+	Report: ramgun2.aud
+	ValidTargets: Ground, Infantry
+	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Creep
+	ReloadDelay: 40
+	Range: 8c0
+	Projectile: Bullet
+		Speed: 5c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 42
+		Damage: 10000
+		ValidTargets: Infantry
+		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		ImpactActors: false
+		ValidTargets: Ground, Water, Helicopter
+
+^HeavyMG:
+	ReloadDelay: 25
+	Range: 6c0
+	Report: gun8.aud
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 683
+		Damage: 3000
+		Versus:
+			None: 100
+			Kevlar: 90
+			Flak: 110
+			Wood: 50
+			Concrete: 25
+			Light: 70
+			Medium: 50
+			Heavy: 30
+		DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piffs
+		ImpactActors: false
+		ValidTargets: Ground, Water, Helicopter
+
+HighV:
+	Inherits: ^HeavyMG
+
+Vulcan:
+	Inherits: ^HeavyMG
+	Range: 8c0
+	Burst: 9
+	BurstDelays: 2
+	FirstBurstTargetOffset: -2984,0,0
+	FollowingBurstTargetOffset: 746,0,0
+	ReloadDelay: 125
+	Report: gun5.aud
+	Warhead@1Dam: SpreadDamage
+		Spread: 426
+		Damage: 10000
+		Versus:
+			None: 90
+			Kevlar: 80
+			Flak: 100
+			Wood: 15
+			Light: 35
+			Medium: 35
+			Heavy: 35
+
+HeliAGGun:
+	Inherits: ^HeavyMG
+	ReloadDelay: 20
+	Burst: 2
+	BurstDelays: 0
+	Range: 4c0
+	MinRange: 0c768
+	Report: gun5.aud
+	Projectile: Bullet
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 2000
+		Versus:
+			Wood: 75
+			Light: 75
+			Medium: 50
+			Heavy: 25
+		DamageTypes: Prone80Percent, TriggerProne, RippedApartDeath
+
+HeliAAGun:
+	Inherits: HeliAGGun
+	ValidTargets: Helicopter
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter
+		Versus:
+			Light: 50
+			Medium: 50
+
+^LightMG:
+	Inherits: ^HeavyMG
+	ReloadDelay: 20
+	Range: 4c0
+	InvalidTargets: Wall
+	Report: mgun2.aud
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 1000
+		InvalidTargets: Wall
+		Versus:
+			None: 150
+			Kevlar: 140
+			Flak: 160
+			Wood: 30
+			Concrete: 30
+			Light: 40
+			Medium: 20
+			Heavy: 10
+		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		Inaccuracy: 171
+
+Pistol:
+	Inherits: ^LightMG
+	ReloadDelay: 7
+	Range: 3c0
+	Report: gun18.aud
+	Warhead@1Dam: SpreadDamage
+		Damage: 100
+		Versus:
+			None: 100
+			Kevlar: 90
+			Flak: 110
+	Warhead@2Eff: CreateEffect
+		Inaccuracy: 128
+
+M16:
+	Inherits: ^LightMG
+	Warhead@2Eff2: CreateEffect
+		Delay: 2
+		Explosions: piff
+		Inaccuracy: 171
+	Warhead@2Eff3: CreateEffect
+		Delay: 4
+		Explosions: piff
+		Inaccuracy: 171
+
+MachineGun:
+	Inherits: ^LightMG
+	Burst: 5
+	Report: mgun11.aud
+	Warhead@1Dam: SpreadDamage
+		Versus:
+			Wood: 10
+			Light: 70
+
+	Warhead@2Eff: CreateEffect
+		Inaccuracy: 213
+
+MachineGunH:
+	Inherits: MachineGun
+	Range: 4c768
+	Warhead@1Dam: SpreadDamage
+		Versus:
+			Light: 80
+			Medium: 30
+			Heavy: 20
+
+APCGun:
+	ReloadDelay: 9
+	Range: 5c0
+	Report: gun20.aud
+	Burst: 2
+	Projectile: Bullet
+		Speed: 900
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 1000
+		Versus:
+			None: 30
+			Kevlar: 30
+			Flak: 20
+			Wood: 25
+			Concrete: 25
+			Light: 75
+			Heavy: 25
+		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: small_frag
+		ValidTargets: Ground, Water, Helicopter
+		ImpactActors: false
+
+APCGun.AA:
+	Inherits: APCGun
+	Range: 7c0
+	ValidTargets: Helicopter
+	Projectile: Bullet
+		Speed: 2c0
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter
+		Versus:
+			Light: 125
+			Medium: 125
+	Warhead@2Eff: CreateEffect
+		Explosions: small_poof
+
+ChainGun:
+	Inherits: ^HeavyMG
+	ReloadDelay: 12
+	Range: 5c0
+	MinRange: 0c768
+	Projectile: InstantHit
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		Versus:
+			None: 150
+
+ChainGun.AA:
+	Inherits: ChainGun
+	Range: 5c0
+	ValidTargets: Helicopter
+	MinRange: 1c256
+	Projectile: InstantHit
+		Blockable: false
+		Inaccuracy: 0c768
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter
+		Damage: 1200
+	Warhead@2Eff: CreateEffect
+		ValidTargets: Helicopter
+		ImpactActors: false
+
+Gatt.0:
+	ReloadDelay: 20
+	Range: 8c0
+	Report: gun5.aud
+	ValidTargets: Helicopter, Airplane
+	Projectile: Bullet
+		Speed: 3c340
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		Spread: 213
+		Damage: 1000
+		ValidTargets: Helicopter, Airplane
+		Versus:
+			Light: 15
+			Medium: 30
+			Heavy: 45
+		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: small_building
+		ValidTargets: Helicopter, Airplane
+
+Gatt.1:
+	Inherits: Gatt.0
+	ReloadDelay: 5
+	Report: gun5.aud, gun8.aud, gun5.aud
+	Warhead@1Dam: SpreadDamage
+		Damage: 2000
+		Versus:
+			Light: 15
+			Medium: 30
+			Heavy: 45
+
+Gatt.2:
+	Inherits: Gatt.1
+	Report: gun8.aud, gun5.aud
+	ReloadDelay: 5
+	Warhead@1Dam: SpreadDamage
+		Damage: 2200
+		Versus:
+			Light: 15
+			Medium: 30
+			Heavy: 45
+
+Gatt.3:
+	Inherits: Gatt.2
+	Report: gun5.aud, gun8.aud
+	ReloadDelay: 5
+	Warhead@1Dam: SpreadDamage
+		Damage: 2400
+		Versus:
+			Light: 15
+			Medium: 30
+			Heavy: 45

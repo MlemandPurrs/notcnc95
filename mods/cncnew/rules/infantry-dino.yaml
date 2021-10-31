@@ -1,0 +1,43 @@
+STEG:
+	Inherits: ^DINO
+	Tooltip:
+		Name: Stegosaurus
+	Armament:
+		Weapon: tail
+	WithDeathAnimation:
+		DeathSequencePalette: terrain
+		DeathPaletteIsPlayerPalette: false
+	Buildable:
+		Description: A large, heavily built, herbivorous quadruped
+
+TREX:
+	Inherits: ^DINO
+	Tooltip:
+		Name: Tyrannosaurus rex
+	Armament:
+		Weapon: teeth
+	Selectable:
+		Bounds: 48,36,2,1
+		DecorationBounds: 52,38
+	Buildable:
+		Description: Bipedal carnivore with a massive skull
+
+TRIC:
+	Inherits: ^DINO
+	Tooltip:
+		Name: Triceratops
+	Armament:
+		Weapon: horn
+	Buildable:
+		Description: Quadruped with large bony frill and three horns
+	Selectable:
+		DecorationBounds: 34,24,0,2
+
+RAPT:
+	Inherits: ^DINO
+	Tooltip:
+		Name: Velociraptor
+	Armament:
+		Weapon: claw
+	Buildable:
+		Description: Bipedal with enlarged sickle-shaped claw on each hindfoot

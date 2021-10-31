@@ -1,0 +1,104 @@
+Player:
+	-ConquestVictoryConditions:
+
+World:
+	-CrateSpawner:
+	-SpawnMPUnits:
+	-MPStartLocations:
+	MusicPlaylist:
+		BackgroundMusic: airstrik
+		AllowMuteBackgroundMusic: true
+		DisableWorldSounds: true
+	ResourceType@green-tib:
+		ValuePerUnit: 0
+	LuaScript:
+		Scripts: td-shellmap.lua
+
+^Palettes:
+	-PlayerColorPalette:
+	-PaletteFromPlayerPaletteWithAlpha@placebuilding:
+	IndexedPlayerPalette@buildings:
+		BasePalette: terrain
+		BaseName: player-buildings
+		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
+		PlayerIndex:
+			GDI: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
+			Nod: 127, 126, 125, 124, 122, 46, 120, 47, 125, 124, 123, 122, 42, 121, 120, 120
+			Neutral: 192, 164, 132, 155, 133, 197, 112, 12, 163, 132, 155, 133, 134, 197, 154, 198
+	IndexedPlayerPalette@units:
+		BasePalette: terrain
+		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
+		PlayerIndex:
+			GDI: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
+			Nod: 161, 200, 201, 202, 204, 205, 206, 12, 201, 202, 203, 204, 205, 115, 198, 114
+			Neutral: 192, 164, 132, 155, 133, 197, 112, 12, 163, 132, 155, 133, 134, 197, 154, 198
+	PaletteFromPlayerPaletteWithAlpha@Placebuilding:
+		BaseName: placebuilding
+		Alpha: 0.65
+		BasePalette: player
+
+^ExistsInWorld:
+	GivesExperience:
+		ActorExperienceModifier: 0
+	DamageMultiplier@UNKILLABLE:
+		RequiresCondition: unkillable
+		Modifier: 0
+	ExternalCondition@UNKILLABLE:
+		Condition: unkillable
+
+HARV:
+	RenderSprites:
+		PlayerPalette: player-buildings
+
+^Building:
+	RenderSprites:
+		PlayerPalette: player-buildings
+
+^TechBuilding:
+	RenderSprites:
+		PlayerPalette: player-buildings
+
+^Infantry:
+	RenderSprites:
+		PlayerPalette: player
+
+^Bridge:
+	DamageMultiplier:
+		Modifier: 0
+
+^Wall:
+	DamageMultiplier:
+		Modifier: 0
+
+V19:
+	CashTrickler:
+		ShowTicks: false
+
+APC:
+	Cargo:
+		InitialUnits: e1, e1, e2, e3, e3
+
+^CivInfantry:
+	-ActorLostNotification:
+
+SAM:
+	-Cloak:
+	-GrantConditionOnDamageState@UNCLOAK:
+	-GrantConditionOnAttack@UNCLOAK:
+
+RMBO:
+	-WithDecoration@COMMANDOSKULL:
+
+RMB2:
+	-Cloak:
+	-GrantConditionOnDamageState@UNCLOAK:
+	-WithDecoration@COMMANDOSKULL:
+	-WithDecoration@COMMANDOSKULLII:
+
+PYLE:
+	-FreeActor@1:
+	-FreeActor@2:
+
+HAND:
+	FreeActor@1:
+	FreeActor@2:

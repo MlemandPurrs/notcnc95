@@ -1,0 +1,685 @@
+GTWR:
+	Inherits: ^Defense
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	Selectable:
+		Bounds: 24,24
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Guard Tower
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: barracks, ~techlevel.low
+		Queue: Defence.GDI, Defence.Nod
+		Description: Basic Anti-Infantry base defense.\n  Strong vs Infantry\n  Weak vs Tanks
+	Building:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 7c0
+	WithBuildingBib:
+		HasMinibib: true
+	Armament:
+		Weapon: HighV
+		LocalOffset: 256,0,256
+		MuzzleSequence: muzzle
+		PauseOnCondition: mwavdisable
+	AttackTurreted:
+		PauseOnCondition: build-incomplete || mwavdisable
+	BodyOrientation:
+		QuantizedFacings: 8
+	DetectCloaked:
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
+	WithMuzzleOverlay:
+	Turreted:
+		TurnSpeed: 512
+	Power:
+		Amount: -10
+		RequiresCondition: !build-incomplete && mwavdisable
+	SpawnActorOnDeath:
+		Actor: gtwr.husk
+		OwnerType: InternalName
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+GTWR.Husk:
+	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 24,24
+	Tooltip:
+		Name: Guard Tower (Destroyed)
+	RenderSprites:
+		Image: gtwr.husk
+
+GUN:
+	Inherits: ^Defense
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	-WithDeathAnimation:
+	-BodyOrientation:
+	Selectable:
+		Bounds: 24,24
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Gun Turret
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: vehicleproduction, ~techlevel.low
+		Queue: Defence.GDI, Defence.Nod
+		Description: Basic Anti-Tank base defense.\n  Strong vs Tanks\n  Weak vs Infantry
+	Building:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 6c0
+	WithBuildingBib:
+		HasMinibib: true
+	Turreted:
+		TurnSpeed: 48
+		InitialFacing: 192
+		RealignDelay: -1
+		RequiresCondition: !build-incomplete
+	WithSpriteTurret:
+		RequiresCondition: !build-incomplete
+		Recoils: false
+	WithTurretAttackAnimation:
+		Sequence: recoil
+	Armament:
+		Weapon: TurretGun
+		LocalOffset: 512,0,112
+		MuzzleSequence: muzzle
+		PauseOnCondition: mwavdisable
+	AttackTurreted:
+		PauseOnCondition: build-incomplete || mwavdisable
+	WithMuzzleOverlay:
+	DetectCloaked:
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
+	Power:
+		Amount: -20
+		RequiresCondition: !build-incomplete && !mwavdisable
+	ClassicFacingBodyOrientation:
+	SpawnActorOnDeath:
+		Actor: gun.husk
+		OwnerType: InternalName
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+GUN.Husk:
+	Inherits: ^DefenseHusk
+	Turreted:
+		TurnSpeed: 12
+		InitialFacing: 56
+	-WithSpriteBody:
+	WithEmbeddedTurretSpriteBody:
+	Tooltip:
+		Name: Gun Turret (Destroyed)
+
+ATWR:
+	Inherits: ^Defense
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@AUTOTARGET: ^AutoTargetAll
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Advanced Guard Tower
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: tech, ~techlevel.high
+		Queue: Defence.GDI
+		Description: All-purpose defensive structure.\n  Strong vs Aircraft, Infantry\n  Weak vs Tanks
+	Selectable:
+		Bounds: 24,24
+		DecorationBounds: 22,48,0,-12
+	Health:
+		HP: 55000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8c0
+	-RenderRangeCircle:
+	WithRangeCircle:
+		Range: 7c0
+		Color: FFFF0080
+	WithBuildingBib:
+		HasMinibib: true
+	Turreted:
+		TurnSpeed: 512
+		Offset: 128,128,384
+	Armament@PRIMARY:
+		Weapon: TowerMissile
+		LocalOffset: 256,128,0, 256,-128,0
+		LocalYaw: -100,100
+		PauseOnCondition: build-incomplete || lowpower || mwavdisable
+	Armament@SECONDARY:
+		Weapon: TowerAAMissile
+		LocalOffset: 256,128,0, 256,-128,0
+		LocalYaw: -100,100
+		PauseOnCondition: build-incomplete || lowpower || mwavdisable
+	AttackTurreted:
+		PauseOnCondition: build-incomplete || lowpower || mwavdisable
+	BodyOrientation:
+		QuantizedFacings: 8
+	DetectCloaked:
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && mwavdisable
+	Power:
+		Amount: -50
+		RequiresCondition: !build-incomplete && !mwavdisable
+	SpawnActorOnDeath:
+		Actor: atwr.husk
+		OwnerType: InternalName
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+ATWR.Husk:
+	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 24,24
+	Tooltip:
+		Name: Advanced Guard Tower (Destroyed)
+	RenderSprites:
+		Image: atwr.husk
+
+OBLI:
+	Inherits: ^Defense
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	-SpawnActorsOnSell:
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Obelisk of Light
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: tmpl, ~techlevel.high
+		Queue: Defence.Nod
+		Description: Advanced base defense.\nRequires power to operate.\n  Strong vs all Ground units\n  Cannot target Aircraft
+	Selectable:
+		Bounds: 24,24
+		DecorationBounds: 22,44,0,-10
+	Health:
+		HP: 75000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8c0
+	WithBuildingBib:
+		HasMinibib: true
+	WithChargeOverlay:
+		Sequence: active
+	Armament:
+		Weapon: Laser
+		LocalOffset: 0,-85,1280
+	AttackCharges:
+		PauseOnCondition: build-incomplete || lowpower || mwavdisable
+		ChargeLevel: 50
+		ChargingCondition: charging
+	AmbientSound:
+		RequiresCondition: charging
+		SoundFiles: obelpowr.aud
+		Interval: 30, 40
+	DetectCloaked:
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	Power:
+		Amount: -80
+		RequiresCondition: !build-incomplete && !mwavdisable
+	SpawnActorOnDeath:
+		Actor: obli.husk
+		OwnerType: InternalName
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+OBLI.Husk:
+	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 24,24
+	Tooltip:
+		Name: Obelisk (Destroyed)
+	RenderSprites:
+		Image: obli.husk
+
+CRAM:
+	Inherits: ^Defense
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	-BodyOrientation:
+	-RenderDetectionCircle:
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Defence.GDI
+		Description: Anti-Aircraft base defense.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Anti Air Gun
+	Selectable:
+		Bounds: 24,24
+		DecorationBounds: 24,32,0,-4
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 7c0
+	WithBuildingBib:
+		HasMinibib: true
+	Turreted:
+		TurnSpeed: 60
+		InitialFacing: 832
+		RealignDelay: -1
+		RequiresCondition: !build-incomplete
+	WithSpriteTurret:
+		RequiresCondition: !build-incomplete
+		Recoils: false
+	#	i dont like this one, its just
+	#	doesnt keep it simple stupid
+	#	maybe can be reworked using
+	#	ReloadDelayMultiplier:
+	Armament@GAT0:
+		Name: primary
+		Weapon: Gatt.0
+		LocalOffset: 520,0,450
+		MuzzleSequence: muzzle
+		RequiresCondition: gattling == 0
+		PauseOnCondition: !ammo || mwavdisable
+	Armament@GAT1:
+		Name: speedup1
+		Weapon: Gatt.1
+		LocalOffset: 520,0,450
+		MuzzleSequence: muzzle
+		RequiresCondition: gattling == 1
+		PauseOnCondition: !ammo || mwavdisable
+	Armament@GAT2:
+		Name: speedup2
+		Weapon: Gatt.2
+		LocalOffset: 520,0,450
+		MuzzleSequence: muzzle
+		RequiresCondition: gattling == 2
+		PauseOnCondition: !ammo || mwavdisable
+	Armament@GAT3:
+		Name: speedup3
+		Weapon: Gatt.3
+		LocalOffset: 520,0,450
+		MuzzleSequence: muzzle
+		RequiresCondition: gattling == 3
+		PauseOnCondition: !ammo || mwavdisable
+	GrantConditionOnAttack:
+		Condition: gattling
+		RequiredShotsPerInstance: 1,7,14
+		MaximumInstances: 3
+		RevokeDelay: 45
+		RevokeOnNewTarget: False
+		RevokeAll: True
+	AttackTurreted:
+		Armaments: primary, speedup1, speedup2, speedup3
+		RequiresCondition: !build-incomplete
+		PauseOnCondition: lowpower || mwavdisable
+	AmmoPool@Default:
+		Name: primary
+		Armaments: primary, speedup1, speedup2, speedup3
+		Ammo: 24
+		AmmoCondition: ammo
+		ReloadDelay: 6
+	WithAmmoPipsDecoration@Normal:
+		AmmoPools: primary
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		RequiresSelection: true
+	ReloadAmmoPool:
+		Delay: 42
+		Count: 24
+		RequiresCondition: !ammo && !mwavdisable
+	WithDecoration@ammoreplenish:
+		RequiresSelection: false
+		Image: pips
+		Sequence: tag-reload-small
+		Position: Top
+		Margin: 0, -6
+		RequiresCondition: !ammo
+	WithMuzzleOverlay:
+	RenderRangeCircle:
+		RangeCircleType: aa
+	Power:
+		Amount: -40
+		RequiresCondition: !build-incomplete && !mwavdisable
+	ClassicFacingBodyOrientation:
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+CRAM.Husk:
+	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 24,24
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	Tooltip:
+		Name: Anti Air Gun (Destroyed)
+
+SAM:
+	Inherits: ^Defense
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@shape: ^2x1Shape
+	-WithSpriteBody:
+	-RenderDetectionCircle:
+	-BodyOrientation:
+	-ActorPreviewPlaceBuildingPreview:
+	Selectable:
+		Bounds: 48,24
+	HitShape:
+		Type: Rectangle
+			TopLeft: -768,-512
+			BottomRight: 768,512
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: SAM Site
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Defence.Nod
+		Description: Cloaked Anti-Aircraft base defense.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 40
+		InitialFacing: 0
+		RealignDelay: -1
+	WithEmbeddedTurretSpriteBody:
+		QuantizedFacings: 32
+	Armament:
+		Weapon: Dragon
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || mwavdisable
+	AmmoPool:
+		Armaments: primary
+		Ammo: 6
+		AmmoCondition: ammo
+		ReloadDelay: 15
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		RequiresSelection: true
+	ReloadAmmoPool:
+		Delay: 60
+		Count: 6
+		RequiresCondition: !ammo
+	WithDecoration@ammoreplenish:
+		RequiresSelection: false
+		Image: pips
+		Sequence: tag-reload-small
+		Position: Top
+		Margin: 0, -6
+		RequiresCondition: !ammo
+		Offsets: 
+			!ammo: 0, -11
+	AttackPopupTurreted:
+		PauseOnCondition: lowpower && !build-incomplete && mwavdisable
+	WithMuzzleOverlay:
+	RenderRangeCircle:
+		RangeCircleType: aa
+	Power:
+		Amount: -20
+		RequiresCondition: !build-incomplete && !mwavdisable
+	ClassicFacingBodyOrientation:
+	SequencePlaceBuildingPreview:
+		Sequence: place
+		SequencePalette: placebuilding
+	Cloak:
+		InitialDelay: 125
+		CloakDelay: 75
+		IsPlayerPalette: false
+		PauseOnCondition: cloak-force-disabled || build-incomplete || is-shooting || mwavdisable
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	GrantConditionOnAttack@UNCLOAK:
+		Condition: is-shooting
+		ArmamentNames: primary
+		RevokeDelay: 75
+	SpawnActorOnDeath:
+		Actor: sam.husk
+		OwnerType: InternalName
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+SAM.Husk:
+	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 24,24
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	Tooltip:
+		Name: SAM Site (Destroyed)
+
+SBAG:
+	Inherits: ^Wall
+	Valued:
+		Cost: 50
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Sandbag Barrier
+	Buildable:
+		BuildPaletteOrder: 1
+		Prerequisites: fact, ~techlevel.low
+		Queue: Defence.GDI, Defence.Nod
+		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.
+	Armor:
+		Type: Light
+	LineBuild:
+		NodeTypes: sandbag
+	LineBuildNode:
+		Types: sandbag
+	WithWallSpriteBody:
+		Type: sandbag
+
+CYCL:
+	Inherits: ^Wall
+	Valued:
+		Cost: 100
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Chain Link Barrier
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: proc, ~techlevel.medium
+		Queue: Defence.GDI, Defence.Nod
+		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.\nCan be built further than other Walls.
+	Armor:
+		Type: Light
+	LineBuild:
+		NodeTypes: chain
+		Range: 12
+	LineBuildNode:
+		Types: chain
+	WithWallSpriteBody:
+		Type: chain
+
+BRIK:
+	Inherits: ^Wall
+	Valued:
+		Cost: 150
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Concrete Barrier
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: hq, ~techlevel.high
+		Queue: Defence.GDI, Defence.Nod
+		Description: Stops Infantry and Vehicles.\nCan be crushed by some Tanks.\nBlocks most projectiles.
+	Health:
+		HP: 25000
+	Armor:
+		Type: Concrete
+	BlocksProjectiles:
+	Crushable:
+		CrushClasses: heavywall
+		-CrushSound:
+	LineBuild:
+		NodeTypes: concrete
+	LineBuildNode:
+		Types: concrete
+	WithWallSpriteBody:
+		Type: concrete
+	SoundOnDamageTransition:
+		DamagedSounds: crmble2.aud
+		DestroyedSounds: kaboom30.aud
+
+HGATE:
+	Inherits: ^Gate
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -1536, -512
+			BottomRight: 1536, 512
+	Building:
+		Footprint: xxx
+		Dimensions: 3,1
+	Buildable:
+		BuildPaletteOrder: 7
+		Prerequisites: hq, ~techlevel.high
+		Queue: Defence.GDI, Defence.Nod
+		Description: Places an horizontal gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
+	Valued:
+		Cost: 250
+	Demolishable:
+		Condition: being-demolished
+	Sellable:
+		RequiresCondition: !being-demolished
+	CustomSellValue:
+		Value: 50
+	WithGateSpriteBody:
+		WallConnections: -1,0, 3,0
+	LineBuildNode:
+		Connections: -1,0, 1,0
+	Tooltip:
+		Name: Gate - (horizontal)
+	RevealsShroud:
+		Range: 1c0
+	RenderSprites:
+		Image: hgate
+		FactionImages:
+			gdi: hgate-gdi
+			nod: hgate-nod
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+VGATE:
+	Inherits: ^Gate
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -512, -1536
+			BottomRight: 512, 1536
+	Building:
+		Footprint: x x x
+		Dimensions: 1,3
+	Buildable:
+		BuildPaletteOrder: 8
+		Prerequisites: hq, ~techlevel.high
+		Queue: Defence.GDI, Defence.Nod
+		Description: Places an vertical gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
+	Valued:
+		Cost: 250
+	Demolishable:
+		Condition: being-demolished
+	Sellable:
+		RequiresCondition: !being-demolished
+	CustomSellValue:
+		Value: 50
+	WithGateSpriteBody:
+		WallConnections: 0,-1, 0,3
+	LineBuildNode:
+		Connections: 0,-1, 0,1
+	Tooltip:
+		Name: Gate I (vertical)
+	RevealsShroud:
+		Range: 1c0
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical

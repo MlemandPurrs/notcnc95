@@ -1,0 +1,149 @@
+V19:
+	Inherits: ^TechBuilding
+	Selectable:
+		Bounds: 24,24
+	CashTrickler:
+		Amount: 10
+		RequiresCondition: enabled
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	Health:
+		HP: 80000
+	Tooltip:
+		Name: Oil Derrick
+	TooltipDescription@ally:
+		Description: Provides additional funds.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to receive additional funds.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: V19.Husk
+	UpdatesDerrickCount:
+	GrantConditionOnCombatantOwner:
+		Condition: enabled
+	RenderSprites:
+		Palette: player
+
+V19.Husk:
+	Inherits: ^CivBuildingHusk
+	-RenderSprites:
+	Interactable:
+		Bounds: 24,24
+	WithSpriteBody:
+	WithIdleOverlay:
+		StartSequence: fire-start
+		Sequence: fire-loop
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	Tooltip:
+		Name: Oil Derrick (Destroyed)
+	RenderSprites:
+
+HOSP:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 250000
+	Tooltip:
+		Name: Hospital
+	TooltipDescription@ally:
+		Description: Provides Infantry with self-healing.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to enable self-healing for Infantry.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: HOSP.Husk
+	WithBuildingBib:
+		HasMinibib: true
+	ProvidesPrerequisite@buildingname:
+
+HOSP.Husk:
+	Inherits: ^CivBuildingHusk
+	-RenderSprites:
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Hospital (Destroyed)
+	WithBuildingBib:
+		HasMinibib: true
+	RenderSprites:
+
+BIO:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 250000
+	Tooltip:
+		Name: Biochemical Lab
+	#	Chem Warriors less ridicilous than Visceroids.
+	TooltipDescription@ally:
+		Description: Provides infantry with Tiberium immunity. Enables Chemical Troopers.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to enable Tiberium immunity for infantry. Enables Chemical Troopers.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: BIO.Husk
+	ProvidesPrerequisite@buildingname:
+	ProvidesPrerequisite@chemwarrior:
+		Prerequisite: anybio
+	RenderSprites:
+		Image: nodbio
+
+BIO.Husk:
+	Inherits: ^CivBuildingHusk
+	-RenderSprites:
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Biochemical Lab (Destroyed)
+	RenderSprites:
+		Image: nodbio.husk
+
+#	Miss not for Missing
+#	but for 'Mission objective'
+#	after all this thing got used
+#	interchangeably as an
+#	Prison or Tech Center, or WE.
+MISS:
+	Inherits: ^CivBuilding
+	Inherits@shape: ^3x2Shape
+	Selectable:
+		Bounds: 72,48
+	Building:
+		Footprint: xxx xxx
+		Dimensions: 3,2
+	Tooltip:
+		Name: Objective Building
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 1000
+		Prerequisites: ~disabled
+	Valued:
+		Cost: 2000
+	WithBuildingBib:
+		HasMinibib: true
+	WithMakeAnimation:
+	ProvidesPrerequisite@buildingname:
+	RenderSprites:
+		Palette: player

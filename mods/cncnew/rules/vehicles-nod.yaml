@@ -1,0 +1,784 @@
+BGGY:
+	Inherits: ^Vehicle
+	Inherits@@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Nod Buggy
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: afld, ~techlevel.low
+		Queue: Vehicle.Nod
+		Description: Fast scout and anti-infantry vehicle.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry\n  Weak vs Tanks
+	Mobile:
+		TurnSpeed: 40
+		Speed: 170
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 12000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 40
+		Offset: -43,0,128
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 171,0,43
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	SpawnActorOnDeath:
+		Actor: BGGY.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-green
+	AppearsOnRadar:
+		ValidRelationships: Ally
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade
+
+BIKE:
+	Inherits: ^Vehicle
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Recon Bike
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 7
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Vehicle.Nod
+		Description: Fast scout vehicle, armed with\nrocket pods.\nCan detect Stealth units.\nCan attack Aircraft.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+	Mobile:
+		TurnSpeed: 40
+		Speed: 184
+		Locomotor: wheeled
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 11000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Armament:
+		Weapon: BikeRockets
+		LocalOffset: -128, -170, 170, -128, 170, 170
+		LocalYaw: 100, -100
+		PauseOnCondition: emp-crate-collected
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	SpawnActorOnDeath:
+		Actor: BIKE.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-yellow
+	DetectCloaked:
+		Range: 3c768
+		RequiresCondition: !emp-crate-collected
+	RenderDetectionCircle:
+
+NAPC:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
+	Inherits@TRANSPORT: ^Transport
+	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
+	Inherits@Cloak: ^AcceptsCloakCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: hand, ~techlevel.low
+		Queue: Vehicle.Nod
+		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Unarmed
+	Valued:
+		Cost: 500
+	Health:
+		HP: 20000
+	Mobile:
+		Locomotor: heavywheeled
+		Speed: 156
+		PauseOnCondition: notmobile || emp-crate-collected || boarding
+	Armor:
+		Type: Light
+	Tooltip:
+		Name: Nod APC
+		RequiresCondition: !napcarmed-upgraded && !napcmedic-upgraded
+	Tooltip@armed:
+		Name: Armed Nod APC
+		RequiresCondition: napcarmed-upgraded
+	Tooltip@medic:
+		Name: Medic Nod APC
+		RequiresCondition: napcmedic-upgraded
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadedCondition: loaded
+		LoadingCondition: notmobile
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Passenger:
+		CustomPipType: pip-green
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 250,0,100
+		MuzzleSequence: muzzle
+		RequiresCondition: napcarmed-upgraded
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		RequiresCondition: napcarmed-upgraded
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 24
+		Offset: 176,0,16
+		RequiresCondition: napcarmed-upgraded
+	WithSpriteTurret:
+		RequiresCondition: napcarmed-upgraded
+	WithMuzzleOverlay:
+	ProximityExternalCondition@barracksheal:
+		Condition: barracks
+		ValidRelationships: Ally
+		Range: 1c826
+		RequiresCondition: napcmedic-upgraded && !emp-crate-collected
+	WithRangeCircle:
+		Range: 1c826
+		RequiresCondition: napcmedic-upgraded
+	WithIdleOverlay@MEDIC:
+		Sequence: medic
+		Offset: 0,0,70
+		RequiresCondition: napcmedic-upgraded
+	GrantConditionOnPrerequisite@napcarmed:
+		Condition: napcarmed-upgraded
+		Prerequisites: napcarmed.upgrade
+	GrantConditionOnPrerequisite@napcmedic:
+		Condition: napcmedic-upgraded
+		Prerequisites: napcmedic.upgrade
+	SpawnActorOnDeath:
+		Actor: NAPC.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+
+LTNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Light Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: proc, ~techlevel.low
+		Queue: Vehicle.Nod
+		Description: Fast, light tank.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+	Mobile:
+		TurnSpeed: 28
+		Speed: 110
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 34000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 28
+	Armament:
+		Weapon: 70mm
+		Recoil: 85
+		RecoilRecovery: 17
+		LocalOffset: 720,0,90
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: TankRockets
+		LocalOffset: 100,-90,90
+		LocalYaw: 100, 100
+		Recoil: 0
+		RequiresCondition: towmissile-upgraded
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		AmmoPool: ammo
+		Delay: 300
+		Count: 1
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+		RequiresCondition: towmissile-upgraded
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret@1:
+		Sequence: turret
+		RequiresCondition: !towmissile-upgraded
+	WithSpriteTurret@2:
+		Sequence: turret-upg
+		RequiresCondition: towmissile-upgraded
+	SpawnActorOnDeath:
+		Actor: LTNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-yellow
+	GrantConditionOnPrerequisite@ltnkrockets:
+		Condition: towmissile-upgraded
+		Prerequisites: towmissile.upgrade
+
+FTNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Flame Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: fix, ~techlevel.medium
+		Queue: Vehicle.Nod
+		Description: Heavily armored flame-throwing vehicle.\n  Strong vs Infantry, Buildings and Vehicles\n  Weak vs Tanks
+	Mobile:
+		TurnSpeed: 28
+		Speed: 99
+		PauseOnCondition: dont-move || emp-crate-collected || boarding
+	Health:
+		HP: 27000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: BigFlamer
+		LocalOffset: 512,128,42, 512,-128,42
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	Explodes:
+		Weapon: FlametankExplode
+		EmptyWeapon: FlametankExplode
+	SpawnActorOnDeath:
+		Actor: FTNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-yellow
+	GrantConditionOnAttack:
+		Condition: dont-move
+		RevokeDelay: 16
+		RevokeOnNewTarget: False
+		RevokeAll: True
+
+ARTY:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Artillery
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Vehicle.Nod
+		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 7500
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 5c0
+	Armament:
+		Weapon: ArtilleryShell
+		LocalOffset: 624,0,208
+		MuzzleSequence: muzzle
+	AttackFrontal:
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	AutoTarget:
+		InitialStanceAI: Defend
+	SpawnActorOnDeath:
+		Actor: ARTY.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Explodes:
+		Weapon: ArtilleryShell
+		EmptyWeapon: UnitExplode
+		LoadedChance: 75
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+#	this breaks the conundrum where siege units are
+#	balanced around being AttackFrontal, in Renegade
+#	MLRS too had became turreted Attack so it was no
+#	issue there, here it gives a huge advantage to Nod
+HOWI:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Howitzer
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 6
+		#	hence disabled
+		Prerequisites: ~disabled
+		Queue: Vehicle.Nod
+		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 7500
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 5c0
+	Armament:
+		Weapon: ArtilleryShell
+		LocalOffset: 624,0,208
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 10
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	AutoTarget:
+		InitialStanceAI: Defend
+	SpawnActorOnDeath:
+		Actor: HOWI.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Explodes:
+		Weapon: ArtilleryShell
+		EmptyWeapon: UnitExplode
+		LoadedChance: 75
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+MLRS:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: SSM Launcher
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: nodbio, ~techlevel.high
+		Queue: Vehicle.Nod
+		Description: Surface to Surface Missile launcher.\nCannot attack Air units.\n  Strong vs Buildings\n  Weak vs Aircraft
+	Mobile:
+		Speed: 99
+		TurnSpeed: 28
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 18000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 32
+		Offset: -128,0,128
+		RealignDelay: 0
+	Armament:
+		Weapon: HonestJohn
+		LocalOffset: 0,-171,0, 0,171,0
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Ammo: 2
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 2
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: primary
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+		RequiresCondition: ammo > 1
+	WithSpriteTurret@OneMissile:
+		RequiresCondition: ammo == 1
+		Sequence: turret1
+	WithSpriteTurret@NoMissiles:
+		RequiresCondition: !ammo
+		Sequence: turret0
+	AutoTarget:
+		InitialStanceAI: Defend
+	RenderRangeCircle:
+	SpawnActorOnDeath:
+		Actor: MLRS.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ReloadAmmoPoolCA:
+		Delay: 300
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	ReloadAmmoDelayMultiplier:
+		Modifier: 60
+		RequiresCondition: ssmreload-upgraded
+	GrantConditionOnPrerequisite@ssmreload:
+		Condition: ssmreload-upgraded
+		Prerequisites: ssmreload.upgrade
+	Passenger:
+		CustomPipType: pip-red
+
+STNK:
+	Inherits: ^Vehicle
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@UpgradeCrates: ^AcceptsUpgradeCrates
+	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	-MustBeDestroyed:
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Stealth Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 8
+		Prerequisites: tmpl, ~techlevel.high
+		Queue: Vehicle.Nod
+		Description: Long-range missile tank that can cloak.\nCan attack Aircraft.\nHas weak armor. Can be spotted by infantry and defense structures.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry.
+	Mobile:
+		Locomotor: heavywheeled
+		TurnSpeed: 40
+		Speed: 142
+		PauseOnCondition: emp-crate-collected || boarding
+	Targetable:
+		TargetTypes: Ground, Vehicle, StealthTank
+	Health:
+		HP: 15000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 7c0
+	Cloak:
+		InitialDelay: 90
+		CloakDelay: 90
+		CloakSound: trans1.aud
+		UncloakSound: trans1.aud
+		UncloakOn: Attack, Unload, Dock, Damage, Heal
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected || oncarryall
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	Armament@PRIMARY:
+		Weapon: 227mm.stnk
+		LocalOffset: 213,43,128, 213,-43,128
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Weapon: 227mm.stnkAA
+		LocalOffset: 213,43,128, 213,-43,128
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 28
+	AttackTurreted:		
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: ReturnFire
+	Explodes:
+		Weapon: UnitExplodeStealthTank
+		EmptyWeapon: UnitExplodeStealthTank
+	SpawnActorOnDeath:
+		Actor: STNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-red
+
+T55H:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Scorpion Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~t55h.unlock, ~techlevel.high
+		Queue: Vehicle.Nod
+		Description: Experimental Nod Tank.\nScorpion Tail shoots Laser.\n  Maximum 1 can be built.\n  Strong vs Vehicles, Buildings\n  Weak vs Aircraft, Infantry
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || pauseforlaser
+	Health:
+		HP: 63000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 16
+	GrantCondition@pauseforlaser:
+		Condition: pauseforlaser
+		RequiresCondition: ammoready && pointinglazer
+	Armament@Primary:
+		Name: primary
+		Weapon: 100mmDual
+		LocalOffset: 821,85,171, 821,-85,171
+		Recoil: 85
+		RecoilRecovery: 42
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected || ammoready
+		#	pausing on Laser firing to account for the below
+		#	issue somehwat as otherwise Laser can end up
+		#	going across the screen if both actors move away
+	Armament@Secondary:
+		Name: secondary
+		Weapon: LaserTank
+		#	Ignores max range because LaserZap projectile 
+		#	doesnt have a RangeLimit field at all
+		FireDelay: 100
+		LocalOffset: -326,0,560
+		MuzzlePalette: player
+		PauseOnCondition: emp-crate-collected || !ammoready
+	Armament@Tertiary:
+		Name: tertiary
+		Weapon: LaserTankFiringFX
+		LocalOffset: -326,0,560
+		FireDelay: 20
+		MuzzleSequence: laser-muzzle
+		MuzzlePalette: player
+		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
+	Armament@Quartenary:
+		Name: quartenary
+		Weapon: LaserTankFiringFXSound
+		LocalOffset: -326,0,560
+		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
+	GrantConditionWhileAiming:
+		Condition: pointinglazer
+	AttackTurreted:
+		Armaments: primary, secondary, tertiary, quartenary
+		PauseOnCondition: emp-crate-collected
+	AmmoPool:
+		Name: lasercharge
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammoready
+	ReloadAmmoPoolCA:
+		AmmoPool: lasercharge
+		Delay: 400
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-red
+		RequiresSelection: true
+		AmmoPools: lasercharge
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Passenger:
+		CustomPipType: pip-red
+	Explodes:
+		Weapon: UnitExplodeMech
+		EmptyWeapon: UnitExplodeMech
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected
+	Passenger:
+		CustomPipType: pip-red
+
+WTNK:
+	Inherits: ^Tank
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~wtnk.unlock, ~techlevel.high
+		Queue: Vehicle.Nod
+		Description: Prototype MGT-1A microwave gun tank.\n  Kills Vehicle crews allowing take-over by Mechanic.\n  Temporarily disables Defenses on hit.\n  Strong vs Infantry, Defenses\n  Weak vs Aircraft, Light Vehicles
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Microwave Tank
+	Health:
+		HP: 20000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 80
+		PauseOnCondition: emp-crate-collected
+	Passenger:
+		CustomPipType: pip-red
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 16
+		Offset: 0,0,0
+	Armament@PRIMARY:
+		Weapon: MicrowaveZap
+		FireDelay: 7
+		LocalOffset: 500,0,140
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	Armament@PRIMARYSOUND:
+		Weapon: MicrowaveZapSound
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		TargetFrozenActors: True
+		OpportunityFire: False
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Selectable:
+		DecorationBounds: 28,28
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+NODCTNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Chemical Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~nodctnk.unlock, ~techlevel.high
+		Queue: Vehicle.Nod
+		#	todo: make this not suck.
+		Description: Heavily armored chemicals-spraying vehicle.\nCan crush Concrete Walls.\n  Strong vs Infantry, Buildings\n  Weak vs Aircraft
+	Mobile:
+		Locomotor: heavytracked
+		TurnSpeed: 12
+		Speed: 71
+		PauseOnCondition: dont-move || emp-crate-collected
+	Health:
+		HP: 54000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: BigChemspray
+		LocalOffset: 768,128,42, 768,-128,42
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	Explodes:
+		Weapon: ChemtankExplode
+		EmptyWeapon: ChemtankExplode
+	Passenger:
+		CustomPipType: pip-red
+	GrantConditionOnAttack:
+		Condition: dont-move
+		RevokeDelay: 16
+		RevokeOnNewTarget: False
+		RevokeAll: True
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected

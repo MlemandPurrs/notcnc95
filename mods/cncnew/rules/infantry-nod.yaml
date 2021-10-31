@@ -1,0 +1,264 @@
+TERR:
+	Inherits: ^Soldier
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	-TakeCover:
+	-ActorLostNotification:
+	Voiced:
+		VoiceSet: FanaticVoice
+	Tooltip:
+		Name: Fanatic
+	Valued:
+		Cost: 225
+	Health:
+		HP: 6000
+	Armor:
+		Type: Flak
+	Mobile:
+		Speed: 71
+		Voice: Move
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: proc, ~techlevel.low
+		Queue: Infantry.Nod
+		Description: Suicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
+	Armament:
+		Weapon: KamikazeTargeting
+	AttackLeap:
+		Speed: 142
+		Voice: Attack
+		PauseOnCondition: attacking 		
+	Explodes:
+		Weapon: FanaticExplode
+		EmptyWeapon: FanaticExplode
+		DamageSource: Killer
+		Chance: 100
+	WithInfantryBody:
+		IdleSequences: stand
+		MoveSequence: walk
+		StandSequences: stand
+		DefaultAttackSequence: shoot
+		RequiresCondition: !run
+	WithInfantryBody@RUN:
+		MoveSequence: run
+		RequiresCondition: run
+	RenderSprites:
+		Image: terr
+	GrantConditionWhileAiming:
+		Condition: run
+	SpeedMultiplier:
+		Modifier: 125
+		RequiresCondition: run
+	GrantConditionOnAttack:
+		Condition: triggered
+	GrantConditionOnDeploy:
+		DeployedCondition: triggered
+		Voice: Action
+	KillsSelf:
+		RequiresCondition: triggered
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 68
+		Type: InfantryRefund
+	Passenger:
+		Voice: Action
+		CustomPipType: pip-green
+	AttackMove:
+		Voice: Action
+	Targetable:
+		TargetTypes: Ground, Infantry, Fanatic
+
+E4:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 400
+	Tooltip:
+		Name: Flamethrower
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Infantry.Nod
+		Description: Anti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
+	Mobile:
+		Speed: 56
+		PauseOnCondition: dont-move
+	Health:
+		HP: 9000
+	Armor:
+		Type: Flak
+	Passenger:
+		CustomPipType: pip-yellow
+	AutoTarget:
+		ScanRadius: 4
+	Armament:
+		Weapon: Flamethrower
+		LocalOffset: 341,0,256
+		FireDelay: 3
+		MuzzleSequence: muzzle
+	TakeCover:
+		ProneOffset: 190,0,-198
+	WithMuzzleOverlay:
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 100
+		Type: InfantryRefund
+	Targetable:
+		TargetTypes: Ground, Infantry, Flamer
+	GrantConditionOnAttack:
+		Condition: dont-move
+		RevokeDelay: 16
+		RevokeOnNewTarget: False
+		RevokeAll: True
+
+RMB2:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Nod Commando
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 8
+		BuildLimit: 1
+		Prerequisites: tmpl, ~techlevel.high
+		Queue: Infantry.Nod
+		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Stealth Device\nRemains Invisible outside of Combat.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+	Mobile:
+		Speed: 71
+		Voice: Move
+	Guard:
+		Voice: Move
+	Health:
+		HP: 15000
+	Armor:
+		Type: Kevlar
+	Passenger:
+		CustomPipType: pip-red
+		Voice: Move
+	RevealsShroud:
+		Range: 6c0
+	AutoTarget:
+		ScanRadius: 8
+	Demolition:
+		DetonationDelay: 45
+		Voice: Demolish
+	Armament:
+		Weapon: Sniper
+	AttackFrontal:
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+		IdleSequences: idle1,idle2,idle3
+	ExternalCondition@PRODUCED:
+		Condition: produced
+	VoiceAnnouncement:
+		RequiresCondition: produced
+		Voice: Build
+	AnnounceOnKill:
+	Voiced:
+		VoiceSet: CommandoVoice
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 375
+		Type: InfantryRefund
+		Voice: Move
+	Cloak:
+		InitialDelay: 90
+		CloakDelay: 90
+		CloakedCondition: hidethatskull
+		CloakSound: trans1.aud
+		UncloakSound: trans1.aud
+		UncloakOn: Attack, Unload, Demolish, Dock, Damage, Heal
+		PauseOnCondition: cloak-force-disabled
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	RenderSprites:
+		Image: rmbo
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally, Enemy, Neutral
+		RequiresCondition: !hidethatskull
+	WithDecoration@COMMANDOSKULLII:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: hidethatskull
+
+VICE:
+	Inherits@1: ^ExistsInWorld
+	Inherits@2: ^SpriteActor
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@selection: ^SelectableCombatUnit
+	Inherits@handicaps: ^PlayerHandicaps
+	Inherits@BOINK: ^BoinkSound
+	Huntable:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+	Mobile:
+		Voice: Move
+		Speed: 71
+		Locomotor: critter
+	Selectable:
+		Bounds: 24,24
+	Targetable:
+		TargetTypes: Ground, Creep
+	AutoTarget:
+		ScanRadius: 5
+	AttackMove:
+		Voice: Attack
+	HiddenUnderFog:
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Visceroid
+	Armament:
+		Weapon: Chemspray
+		LocalOffset: 384,0,0
+		MuzzleSequence: muzzle
+	AttackFrontal:
+		Voice: Attack
+	BodyOrientation:
+		QuantizedFacings: 8
+	WithSpriteBody:
+	WithMuzzleOverlay:
+	Guard:
+		Voice: Move
+	Guardable:
+	DamagedByTerrain:
+		Damage: -100
+		DamageInterval: 4
+		DamageTypes: TiberiumDeath
+		Terrain: Tiberium, BlueTiberium
+	Voiced:
+		VoiceSet: DinoVoice
+	HitShape:
+		Type: Circle
+			Radius: 427
+	MapEditorData:
+		Categories: Critter
+	WithDeathAnimation:
+		UseDeathTypeSuffix: false
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	AttackWander:
+	EdibleByLeap:

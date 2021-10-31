@@ -1,0 +1,259 @@
+E1:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+    Valued:
+		Cost: 100
+	Tooltip:
+		Name: Rifleman
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 1
+		Prerequisites: barracks, ~techlevel.low
+		Queue: Infantry.GDI, Infantry.Nod
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+	Mobile:
+		Speed: 56
+	Health:
+		HP: 5000
+	Armor:
+		Type: Kevlar
+	Passenger:
+		CustomPipType: pip-green
+	AutoTarget:
+		ScanRadius: 4
+	Armament:
+		Weapon: M16
+	WithInfantryBody:
+		IdleSequences: idle1,idle2,idle3,idle4
+		DefaultAttackSequence: shoot
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 25
+		Type: InfantryRefund
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade
+
+E3:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Rocket Soldier
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: vehicleproduction, ~techlevel.low
+		Queue: Infantry.GDI, Infantry.Nod
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+	Mobile:
+		Speed: 42
+	Health:
+		HP: 4500
+	Armor:
+		Type: Flak
+	Passenger:
+		CustomPipType: pip-green
+	AutoTarget:
+		ScanRadius: 6
+	Armament:
+		Weapon: Rockets
+		LocalOffset: 256,43,341
+		FireDelay: 5
+	TakeCover:
+		ProneOffset: 180,0,-200
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 75
+		Type: InfantryRefund
+
+#	Nod will be missing their Chems ;_;
+E5:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	-DamagedByTerrain@TIBERIUM:
+	-GrantConditionOnTerrain@HAZMAT:
+	-GrantConditionOnPrerequisite@HAZMAT:
+	-GrantConditionOnPrerequisite@HAZMAT2:
+	-GrantCondition@HAZMAT:
+	-WithDecoration@HAZMAT:
+	-Targetable@IMMUNETOPOISON:
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Chemical Trooper
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 7
+		#	this way Nod will able to get them, too
+		Prerequisites: ~anybio, ~techlevel.high
+		Queue: Infantry.Nod, Infantry.GDI
+		Description: Advanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
+	Mobile:
+		Speed: 56
+		Locomotor: chem
+		PauseOnCondition: dont-move
+		Voice: Move
+	Health:
+		HP: 9000
+	Passenger:
+		CustomPipType: pip-red
+		Voice: Move
+	Guard:
+		Voice: Move
+	AutoTarget:
+		ScanRadius: 4
+	Armament:
+		Weapon: Chemspray
+		LocalOffset: 341,0,256
+		FireDelay: 3
+		MuzzleSequence: muzzle
+	TakeCover:
+		ProneOffset: 190,0,-190
+	WithMuzzleOverlay:
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 200
+		Type: InfantryRefund
+	Targetable:
+		TargetTypes: Ground, Infantry, Chem
+	AttackFrontal:
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
+	GrantConditionOnAttack:
+		Condition: dont-move
+		RevokeDelay: 16
+		RevokeOnNewTarget: False
+		RevokeAll: True
+	Voiced:
+		VoiceSet: ChemVoice
+	VoiceAnnouncement:
+		RequiresCondition: produced
+		Voice: Build
+		ValidRelationships: Ally 
+	AnnounceOnKill:
+	ExternalCondition@PRODUCED:
+		Condition: produced
+
+E6:
+	Inherits: ^Soldier
+	Inherits@selection: ^SelectableSupportUnit
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Engineer
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: proc, ~techlevel.low
+		Queue: Infantry.GDI, Infantry.Nod
+		Description: Captures Enemy and Neutral structures\nCan repair destroyed Bridges.\n  Unarmed
+	Mobile:
+		Speed: 48
+	Health:
+		HP: 3000
+	Passenger:
+		CustomPipType: pip-yellow
+	EngineerRepair:
+	RepairsBridges:
+	CaptureManager:
+	Captures@CAPTURESPLAYERMULTI:
+		CaptureTypes: building-sabotage, building-tech
+		SabotageThreshold: 20
+		SabotageHPRemoval: 20
+		PlayerExperience: 0
+		RequiresCondition: multiengineer
+	Captures@CAPTURESPLAYERSINGLE:
+		CaptureTypes: building-sabotage, building-tech
+		PlayerExperience: 0
+		RequiresCondition: !multiengineer
+	GrantConditionOnPrerequisite@MULTIENGINEER:
+		Condition: multiengineer
+		Prerequisites: global-multiengineer
+	Voiced:
+		VoiceSet: EngineerVoice
+	-AttackFrontal:
+
+MECH:
+	Inherits: ^Soldier
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: fix, ~techlevel.medium
+		Queue: Infantry.GDI, Infantry.Nod
+		Description: Repairs nearby Vehicles and restores\nhusks to working condition by capturing them.\nCan capture driverless Vehicles.\n  Unarmed
+	Valued:
+		Cost: 475
+	Tooltip:
+		Name: Mechanic
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 6000
+	Mobile:
+		Speed: 49
+		Voice: Move
+	RevealsShroud:
+		Range: 3c0
+	Passenger:
+		CustomPipType: pip-blue
+		Voice: Move
+	Armament:
+		Weapon: Repair
+		Cursor: repair
+		OutsideRangeCursor: repair
+		TargetRelationships: Ally
+		ForceTargetRelationships: None
+	AttackFrontal:
+		Voice: Action
+	CaptureManager:
+	Captures@VehicleHusk:
+		CaptureTypes: husk
+		PlayerExperience: 0
+	Captures@VehicleNoCrew:
+		CaptureTypes: NoCrew
+		PlayerExperience: 0
+	WithInfantryBody:
+		IdleSequences: idle
+		DefaultAttackSequence: repair
+		StandSequences: stand
+	Voiced:
+		VoiceSet: MechanicVoice
+	AutoTarget:
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Vehicle
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 118
+		Type: InfantryRefund
+
+TECN:
+	Inherits@1: ^CivInfantry
+	Inherits@2: ^ArmedCivilian
+	Tooltip:
+		Name: Technician
+	Passenger:
+		Weight: 1
+		CustomPipType: pip-blue
+	RenderSprites:
+		Image: TECN
+	DeliversCash:
+		Payload: 25
+		Type: InfantryRefund
+	Voiced:
+		VoiceSet: CivilianMaleVoice

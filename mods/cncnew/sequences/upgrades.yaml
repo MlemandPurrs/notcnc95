@@ -1,0 +1,71 @@
+airstrike.unlock:
+	icon: airstrike1icon
+
+airstrike.upgrade:
+	icon: airstrike2icon
+
+towmissile.upgrade:
+	icon: mpodicon
+
+airradar.upgrade:
+	icon: airradaricon
+
+hellfire.upgrade:
+	icon: hellfireicon
+	
+apbullets.upgrade:
+	icon: apbulletsicon
+
+comparmor.upgrade:
+	icon: comparmoricon
+
+c17speed.upgrade:
+	icon: c17icon
+
+mobilesam.upgrade:
+	icon: msamicon
+
+targetlaser.upgrade:
+	icon: targetlasericon
+
+artydualshot.upgrade:
+	icon: artyicon
+
+napcmedic.upgrade:
+	icon: napcmediicon
+
+napcarmed.upgrade:
+	icon: napcalticon
+
+#	mh60cargo.upgrade:
+#	icon: mh60icon
+
+mh60medic.upgrade:
+	icon: mh60mediicon
+
+machineguns.upgrade:
+	icon: mgupgradeicon
+
+bombard.strat:
+	icon: strat-bombicon
+
+seek.strat:
+	icon: strat-seekicon
+
+hold.strat:
+	icon: strat-holdicon
+
+wtnk.unlock:
+	icon: wtnkunlockicon
+
+t55h.unlock:
+	icon: t55hunlockicon
+	
+nodctnk.unlock:
+	icon: nodctnkunlockicon
+
+rh66stealth.upgrade:
+	icon: rh66stealthicon
+
+ssmreload.upgrade:
+	icon: ssmreloadicon

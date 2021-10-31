@@ -1,0 +1,167 @@
+MCV:
+	Inherits: ^Vehicle
+	Inherits@selection: ^SelectableSupportUnit
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	TransferTimedExternalConditionOnTransform:
+		Condition: invulnerability
+	Valued:
+		Cost: 3000
+	Tooltip:
+		Name: MCV
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: hq, fix, ~techlevel.medium
+		Queue: Vehicle.GDI, Vehicle.Nod
+		Description: Deploys into another Construction Yard.\n  Unarmed
+	Selectable:
+		DecorationBounds: 36,36
+	Mobile:
+		Speed: 71
+		Locomotor: heavywheeled
+		-PauseOnCondition:
+	Health:
+		HP: 210000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8c0
+	Transforms:
+		IntoActor: fact
+		Offset: -1,-1
+		Facing: 432
+		TransformSounds: constru2.aud, hvydoor1.aud
+		NoTransformNotification: BuildingCannotPlaceAudio
+	MustBeDestroyed:
+		RequiredForShortGame: true
+	BaseBuilding:
+	SpawnActorOnDeath:
+		Actor: MCV.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-blue
+	RenderSprites:
+		Image: mcv
+		FactionImages:
+			nod: nodmcv
+	Targetable@DRIVERKILL:
+		TargetTypes: DriverKillImmune
+		RequiresCondition: !driver-dead
+
+HARV:
+	Inherits: ^Tank
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@selection: ^SelectableEconomicUnit
+	Inherits@HARVBALANCE: ^HarvesterBalancer
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Harvester
+		GenericName: Harvester
+	Buildable:
+		BuildPaletteOrder: 1
+		Prerequisites: proc, ~techlevel.low
+		Queue: Vehicle.GDI, Vehicle.Nod
+		Description: Collects Tiberium for processing.\n  Unarmed
+	Selectable:
+		DecorationBounds: 36,36
+	Harvester:
+		Resources: Tiberium, BlueTiberium
+		Capacity: 20
+		BaleLoadDelay: 12
+		BaleUnloadDelay: 6
+		SearchFromProcRadius: 15
+		SearchFromHarvesterRadius: 8
+		HarvestFacings: 8
+		EmptyCondition: no-tiberium
+	Mobile:
+		Speed: 85
+		PauseOnCondition: emp-crate-collected
+	Health:
+		HP: 62500
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 4c0
+	ActorLostNotification:
+		Notification: HarvesterLost
+	SpawnActorOnDeath:
+		Actor: HARV.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	WithHarvestAnimation:
+	WithDockingAnimation:
+	Explodes@EMPTY:
+		Weapon: UnitExplodeHarvEmpty
+		EmptyWeapon: UnitExplodeHarvEmpty
+	Explodes:
+		RequiresCondition: !no-tiberium
+		Weapon: TiberiumExplosion
+	WithHarvesterPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 7
+		ResourceSequences:
+			Tiberium: pip-green
+			BlueTiberium: pip-blue
+	Passenger:
+		CustomPipType: pip-blue
+	RenderSprites:
+		Image: harv
+		FactionImages:
+			nod: nodharv
+	ProximityExternalCondition@DOCKED:
+		Condition: dockinprocess
+		Range: 1c0
+		ValidRelationships: Ally
+	ExternalCondition@DOCKED:
+		Condition: docked
+	RejectsOrders:
+		RequiresCondition: docked
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected
+	Targetable@DRIVERKILL:
+		TargetTypes: DriverKillImmune
+		RequiresCondition: !driver-dead
+
+TRUK:
+	Inherits: ^Vehicle
+	Inherits@selection: ^SelectableSupportUnit
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	Buildable:
+		Queue: Vehicle.GDI, Vehicle.Nod
+		BuildPaletteOrder: 11
+		Prerequisites: proc, ~techlevel.low
+		Description: Transports cash to other players.\nDrops a Money crate on death.\n  Unarmed
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Supply Truck
+	Health:
+		HP: 11000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 128
+		PauseOnCondition: emp-crate-collected
+	RevealsShroud:
+		Range: 4c0
+	DeliversCash:
+		Payload: 1000
+		Type: MoneyTransfer
+		PlayerExperience: 0
+	SpawnActorOnDeath:
+		Actor: moneycrate
+	Passenger:
+		CustomPipType: pip-blue
