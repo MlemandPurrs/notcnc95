@@ -18,7 +18,11 @@ C17:
 		AlwaysVisibleRelationships: None
 		Type: CenterPosition
 	Cargo:
+		Types: Infantry, Vehicle, Crate
 		MaxWeight: 10
+	ParaDrop:
+		DropRange: 3c0
+		ChuteSound: chute1.aud
 	DamageMultiplier@INVULNERABLE:
 		Modifier: 0
 	GrantConditionOnPrerequisite@GLOBALC17STEALTH:
@@ -162,8 +166,30 @@ UAV:
 	SmokeTrailWhenDamaged:
 		Offset: -1c43,0,0
 		Interval: 2
-	DetectCloaked:
+	DetectCloaked@DetectionI:
+		Range: 7c536
 		CloakTypes: Cloak
+		RequiresCondition: !uavrange-upgraded
+	DetectCloaked@DetectionII:
+		Range: 11c304
+		CloakTypes: Cloak
+		RequiresCondition: uavrange-upgraded
+	#	this doesnt appear, boo...
+	#	RenderDetectionCircle:
+	#	appears more opaque than DetectionCircle
+	#	idk how to fix that
+	WithRangeCircle@DetectionImitationI:
+		Range: 7c536
+		Color: 32cd32
+		BorderColor: 000000
+		Visible: Always
+		RequiresCondition: !uavrange-upgraded
+	WithRangeCircle@DetectionImitationII:
+		Range: 11c304
+		Color: 32cd32
+		BorderColor: 000000
+		Visible: Always
+		RequiresCondition: uavrange-upgraded	
 	RevealsShroud:
 		Range: 15c768
 		Type: CenterPosition
@@ -186,6 +212,28 @@ UAV:
 		UsePlayerColor: false
 	SpawnActorOnDeath:
 		Actor: UAV.Husk
+	GrantConditionOnPrerequisite@UAVSpeed:
+		Condition: uavspeed-upgraded
+		Prerequisites: bombard.strat
+	SpeedMultiplier@UAVSpeed:
+		Modifier: 130
+		RequiresCondition: uavspeed-upgraded
+	DamageMultiplier@UAVArmor:
+		RequiresCondition: uavspeed-upgraded
+		Modifier: 85
+	GrantConditionOnPrerequisite@UAVBooster:
+		Condition: uavrange-upgraded
+		Prerequisites: seek.strat
+	ProximityExternalCondition@UAVBooster:
+		Range: 15c0
+		ValidRelationships: Ally
+		Condition: uavboosted
+		RequiresCondition: uavrange-upgraded
+	WithRangeCircle@UAVBooster:
+		Range: 15c0
+		Color: ff8c00
+		RequiresCondition: uavrange-upgraded
+		Visible: always
 
 UAV.Husk:
 	Inherits: ^PlaneHusk
@@ -216,7 +264,8 @@ TRAN:
 	Inherits@TRANSPORT: ^Transport
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
-	Inherits@EMP: ^AcceptsEMPCrate	
+	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
 	Valued:
 		Cost: 750
 	Tooltip:
@@ -292,6 +341,8 @@ ORCA:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 1200
 	Tooltip:
@@ -300,7 +351,7 @@ ORCA:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 14
-		Prerequisites: hpad, hq, ~techlevel.medium
+		Prerequisites: hpad, hq, ~!orcaammo.upgrade, ~techlevel.medium
 		Queue: Vehicle.GDI
 		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
 	Aircraft:
@@ -357,6 +408,18 @@ ORCA:
 		Position: BottomLeft
 		Margin: 4, 3
 		RequiresSelection: true
+	#	!airborne is there for because
+	#	Aircraft freezes if Transformed mid-flight
+	TransformOnCondition@OrcaAmmoUpgrade:
+		IntoActor: ORCA.Upgraded.NoAmmo
+		RequiresCondition: orcaammo-upgraded && !airborne && onhelipad
+	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
+		Condition: orcaammo-upgraded
+		Prerequisites: orcaammo.upgrade
+	ExternalCondition@OnHelipad:
+		Condition: onhelipad
+	#	this whole jazz can be avoided simply by 
+	#	making AmmoPool into a conditional trait
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -371,13 +434,32 @@ ORCA.Husk:
 	RenderSprites:
 		Image: orca
 
-ORCA.Free:
+ORCA.Upgraded:
 	Inherits: ORCA
 	Buildable:
-		Prerequisites: ~disabled
-		Queue: HelicopterDummy
+		Prerequisites: hpad, hq, ~orcaammo.upgrade, ~techlevel.medium
+	AmmoPool:
+		Ammo: 10
 	RenderSprites:
-		Image: ORCA
+		Image: orca
+	-TransformOnCondition@OrcaAmmoUpgrade:
+	-GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
+	-ExternalCondition@OnHelipad:
+	-MapEditorData:
+
+#	to prevent instant full ammo on transform
+ORCA.Upgraded.NoAmmo:
+	Inherits: ORCA.Upgraded
+	-Buildable:
+	#	and affected by the ceases 
+	#	rearming on transform bug
+	#	for aircraft, na großartig
+	Aircraft:
+		TakeOffOnCreation: false
+	AmmoPool:
+		InitialAmmo: 0
+	RenderSprites:
+		Image: orca
 
 HELI:
 	Inherits: ^Helicopter
@@ -504,6 +586,8 @@ MH60:
 	Inherits: ^Helicopter
 	Inherits@AUTOTARGET: ^AutoTargetGround
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
@@ -752,6 +836,7 @@ RH66.Husk:
 OCAR:
 	Inherits: ^Helicopter
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
 	RenderSprites:
 		Image: orcaca
 	Valued:
@@ -762,9 +847,9 @@ OCAR:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 18
-		Prerequisites: ~disabled
+		Prerequisites: ~hpad, ~fix, ~carryall.unlock, ~techlevel.high
 		Queue: Vehicle.GDI
-		Description: Fast VTOL Vehicle Transporter.\n  Unarmed\n  Special Ability: Auto Pilot
+		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
 	Aircraft:
 		CruiseAltitude: 2048
 		AltitudeVelocity: 0c100
@@ -786,6 +871,12 @@ OCAR:
 	SpeedMultiplier@carrying:
 		Modifier: 80
 		RequiresCondition: carrying
+	#	Carryall trait cant give itself
+	#	condition per Passenger unlike 
+	#	Transport trait can it seems.
+	#	SpeedMultiplier@carryingheavy:
+	#	Modifier: 60
+	#	RequiresCondition: carrying && heavy
 	Health:
 		HP: 30000
 	Armor:
@@ -814,18 +905,24 @@ OCAR:
 		TrailLength: 16
 		UsePlayerColor: false
 		ZOffset: -512
-		Color: cc550080
+		Color: FFFFFF80
 	Contrail@3:
 		Offset: -885,184,0
 		TrailLength: 16
 		UsePlayerColor: false
 		ZOffset: -512
-		Color: cc550080
+		Color: FFFFFF80
 	Contrail@4:
 		Offset: 30,600,-20
 		TrailLength: 15
 		UsePlayerColor: false
 		Color: FFFFFF80
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
 
 OCAR.Husk:
 	Inherits: ^PlaneHusk

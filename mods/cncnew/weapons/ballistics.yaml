@@ -128,16 +128,16 @@ Grenade:
 		ValidBounceBlockerRelationships: Ally, Neutral, Enemy
 	Warhead@1Dam: SpreadDamage
 		Spread: 341
-		Damage: 5000
+		Damage: 4000
 		Versus:
-			None: 100
-			Kevlar: 100
-			Flak: 90
+			None: 60
+			Kevlar: 60
+			Flak: 50
 			Wood: 50
 			Concrete: 100
 			Light: 80
 			Medium: 68
-			Heavy: 34
+			Heavy: 46
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@3Eff: CreateEffect
 		Explosions: small_poof

@@ -36,7 +36,7 @@
 		TerrainSpeeds:
 			Clear: 90
 			Rough: 80
-			Rock: 60
+			Cliff: 60
 			Road: 100
 			Bridge: 100
 			Tiberium: 70
@@ -134,6 +134,20 @@
 			Clear: 1
 			Road: 1
 			Beach: 1
+	Locomotor@exosuit:
+		Name: exosuit
+		Crushes: crate, mine
+		SharesCell: true
+		TerrainSpeeds:
+			Clear: 100
+			Rough: 80
+			Cliff: 90
+			#	Water: 90
+			Road: 100
+			Bridge: 100
+			Tiberium: 80
+			BlueTiberium: 80
+			Beach: 90
 	Faction@Random:
 		Name: Any
 		InternalName: Random
@@ -295,6 +309,7 @@ World:
 	CrateSpawner:
 		Minimum: 1
 		Maximum: 6
+		DeliveryAircraft: c17
 		SpawnInterval: 3000
 		WaterChance: 0
 		InitialSpawnDelay: 1500

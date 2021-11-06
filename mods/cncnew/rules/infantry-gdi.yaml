@@ -2,6 +2,8 @@ E2:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 175
 	Tooltip:
@@ -44,6 +46,8 @@ E2:
 
 MEDI:
 	Inherits: ^Soldier
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
 		BuildPaletteOrder: 6
 		Prerequisites: hq, ~techlevel.medium
@@ -89,11 +93,14 @@ MEDI:
 		Delay: 7
 		StartIfBelow: 101
 		DamageCooldown: 150
+		RequiresCondition: damaged
 
 SNIP:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	-MustBeDestroyed:
 	Valued:
 		Cost: 900
@@ -169,6 +176,8 @@ RMBO:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -220,8 +229,8 @@ RMBO:
 		Payload: 375
 		Type: InfantryRefund
 		Voice: Move
-	GrantConditionOnTerrain@Rock:
-		TerrainTypes: Rock
+	GrantConditionOnTerrain@Cliffs:
+		TerrainTypes: Cliff
 		Condition: iscrawling
 	TakeCover:
 		RequiresCondition: !iscrawling
@@ -247,3 +256,93 @@ RMBO:
 		Palette: effect
 		Position: TopLeft
 		ValidRelationships: Ally, Enemy, Neutral
+
+XO:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	-Carryable:
+	-WithDecoration@CARRYALL:
+	-WithFacingSpriteBody:
+	QuantizeFacingsFromSequence:
+		Sequence: stand
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Exosuit Trooper
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 22000
+	Armor:
+		Type: Light
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: tech, ~exosuit.unlock, ~techlevel.high
+		Queue: Infantry.GDI
+		Description: Power armored Infantry unit.\n  Cannot be crushed.\n  Immune to Tiberium.\n  Special ability: Jet Packs\nCan scale Cliffs as it was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles, Aircraft
+	Mobile:
+		Locomotor: exosuit
+		TurnSpeed: 40
+		Speed: 49
+		Voice: Move
+		PauseOnCondition: emp-crate-collected
+	Guard:
+		Voice: Move
+	Passenger:
+		CustomPipType: pip-red
+		Weight: 2
+		Voice: Move
+	RevealsShroud:
+		Range: 4c0
+	Voiced:
+		VoiceSet: MoebiusVoice
+	WithInfantryBody:
+		RequiresCondition: !isjetpacking
+		StandSequences: stand
+		DefaultAttackSequence: shoot
+		MoveSequence: move
+	WithInfantryBody@flying:
+		RequiresCondition: isjetpacking
+		StandSequences: hover
+		DefaultAttackSequence: shoot
+		MoveSequence: hover
+	Armament:
+		Weapon: APCGun
+		LocalOffset: 400,-220,180, 400,220,180
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected || isjetpacking
+	AttackFrontal:
+		Voice: Action
+		PauseOnCondition: emp-crate-collected || isjetpacking
+	AttackMove:
+		Voice: Action
+	WithMuzzleOverlay:
+	Parachutable:
+		FallRate: 130
+		KilledOnImpassableTerrain: true
+		GroundImpactSound: squish2.aud
+		WaterImpactSound: splash9.aud
+		WaterCorpseSequence: sml_splash
+		ParachutingCondition: parachute
+	#	WithIdleAnimation@DESCENDING:
+	#	RequiresCondition: parachute
+	#	Interval: 3
+	#	Sequences: descend
+	GrantConditionOnTerrain@Cliffs:
+		TerrainTypes: Cliff
+		Condition: isjetpacking
+	WithShadow:
+		RequiresCondition: isjetpacking
+	Targetable:
+		TargetTypes: Ground, Infantry, Chem
+	Cloak:
+		PauseOnCondition: cloak-force-disabled || emp-crate-collected
+	Targetable@REPAIR:
+		RequiresCondition: damaged && !isjetpacking && !parachute
+		TargetTypes: Repair
+	DetectCloaked:
+		Range: 1c0

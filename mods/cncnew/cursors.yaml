@@ -265,3 +265,11 @@ Cursors:
 			Start: 0
 			Length: 8
 			Tick: 90
+	cursorparadrop.shp: cursor
+		airdrop:
+			Start: 0
+			Length: 8
+			Tick: 120
+		airdrop-minimap:
+			Start: 8
+			Length: 2

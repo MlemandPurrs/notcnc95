@@ -354,6 +354,10 @@ PROC:
 		ValidRelationships: Ally
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-captured && !being-demolished && !dockinprocess
+	# workaround for Drag Harvester Teleport issue
+	ProximityExternalCondition@OnRefineryBib:
+		Condition: onrefinerybib
+		Range: 2c0
 
 PROC.Husk:
 	Inherits: ^BuildingHusk
@@ -753,7 +757,7 @@ AFLD:
 		BuildPaletteOrder: 5
 		Prerequisites: anypower, ~techlevel.low
 		Queue: Building.Nod
-		Description: Provides a dropzone for\nVehicle and Helicopter reinforcements
+		Description: Provides a dropzone for\nVehicle and Helicopter reinforcements.\n  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n  (requires Communications Center)
 	Building:
 		Footprint: XXX+ xxx+ ====
 		Dimensions: 4,3
@@ -795,6 +799,33 @@ AFLD:
 	SpawnActorOnDeath:
 		Actor: afld.husk
 		OwnerType: InternalName
+	ParatroopersPower@NodParatroopers:
+		OrderName: NodParatroopers
+		Prerequisites: ~hq, ~techlevel.unrestricted
+		Icon: pinficon
+		ChargeInterval: 7500
+		Description: Paratroopers
+		UnitType: c17
+		LongDesc: A C-17 drops a squad of veteran Infantry\nanywhere on the map.
+		DropItems: E1R1,E1R1,E1R1,E3R1,E3R1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		SupportPowerPaletteOrder: 4
+		PauseOnCondition: lowpower
+		Cursor: airdrop
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
 
 AFLD.Husk:
 	Inherits: ^BuildingHusk
@@ -945,6 +976,9 @@ HPAD:
 	ProductionCostMultiplier@FREEAIRCRAFT:
 		Multiplier: 500
 		Prerequisites: global-freeaircraft
+	ProximityExternalCondition@OnHelipad:
+		Condition: onhelipad
+		Range: 1c0
 
 HPAD.Husk:
 	Inherits: ^BuildingHusk
@@ -1101,9 +1135,29 @@ HQ.GDI:
 	AirstrikePower@ReconDrone:
 		PauseOnCondition: lowpower
 		OrderName: ReconDrone
-		Prerequisites: ~techlevel.unrestricted
+		Prerequisites: ~!hold.strat, ~techlevel.unrestricted
 		Icon: uav
 		ChargeInterval: 7500
+		Description: Recon Drone
+		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: uav
+		QuantizedFacings: 32
+		DisplayBeacon: true
+		BeaconPoster: uav
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: sonar-target
+		SupportPowerPaletteOrder: 3
+	AirstrikePower@ReconDroneUpgraded:
+		PauseOnCondition: lowpower
+		OrderName: ReconDroneUpgraded
+		Prerequisites: ~hold.strat, ~techlevel.unrestricted
+		Icon: uav
+		ChargeInterval: 5250
 		Description: Recon Drone
 		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
 		SelectTargetSpeechNotification: SelectTarget
@@ -1180,7 +1234,7 @@ EYE.Plug:
 		Prerequisites: tech, !eye.plug, ~!aitoodumb, ~techlevel.high
 		Queue: Building.GDI
 		BuildLimit: 1
-		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and ICBM Launcher.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
+		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and Sniper.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
 	Plug:
 		Type: eyeupgrade
 	#	this is to show will use extra -40 power when applied on the tooltip
@@ -1205,7 +1259,7 @@ EYE:
 		BuildPaletteOrder: 12
 		Prerequisites: tech, ~aitoodumb, ~techlevel.high
 		Queue: Building.GDI
-		Description: Provides radar and Orbital Ion Cannon support power.\nUnlocks Mobile HQ and ICBM Launcher.\nRequires power to operate.
+		Description: Provides radar and Orbital Ion Cannon support power.\nUnlocks Mobile HQ and Sniper.\nRequires power to operate.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1283,7 +1337,7 @@ TECH:
 		BuildLimit: 1
 		Prerequisites: hq, ~techlevel.high
 		Queue: Building.GDI
-		Description: Unlocks production of Mammoth Tank, Commando\nand enables Advanced Uplink.\nResearches GDI advanced Technologies.\nMaximum one can be built.
+		Description: Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and enables Advanced Uplink.\nResearches GDI advanced Technologies.\nMaximum one can be built.
 	Valued:
 		Cost: 2000
 	Tooltip:
@@ -1398,6 +1452,9 @@ TMPL:
 	Inherits: ^BaseBuilding
 	Inherits@IDISABLE: ^DisabledOverlay
 	Inherits@shape: ^3x2Shape
+	-Capturable:
+	-CaptureNotification:
+	-CaptureManager:
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 0,-896,0, 0,896,0, 840,0,0, -706,0,0, -706,-768,0, -706,640,0
@@ -1410,7 +1467,7 @@ TMPL:
 		BuildLimit: 1
 		Prerequisites: hq, ~techlevel.high
 		Queue: Building.Nod
-		Description: Unlocks production of Stealth Tank and Nod Commando.\nResearches Nod advanced Technologies.\n  Maximum one can be built.\n  Special Ability: Atom Bomb\nLaunches a devastating atomic bomb at target location.\n  (requires Nod Lab)
+		Description: Unlocks production of Stealth Tank and Nod Commando.\nResearches Nod advanced Technologies.\n  Maximum one can be built.\n  Cannot be captured.\n  Special Ability: Atom Bomb\nLaunches a devastating atomic bomb at target location.\n  (requires Nod Lab)
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -1481,6 +1538,8 @@ TMPL:
 	ProductionBar@Nod:
 		ProductionType: Aircraft.Nod
 	Exit:
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished
 
 TMPL.Husk:
 	Inherits: ^BuildingHusk
@@ -1627,14 +1686,14 @@ NODBIO.Husk:
 		Image: bio.husk
 
 #	this is Tib Sun era, definitely
+#	actually, nvm scratch that
+#	think i can make it work
 UPGC:
 	Inherits: ^BaseBuilding
 	Inherits@SHAPE: ^3x2Shape
 	-Capturable:
 	-CaptureNotification:
 	-CaptureManager:
-	HitShape:
-		TargetableOffsets: -355,0,0
 	Selectable:
 		Bounds: 72,48
 	Building:
@@ -1653,10 +1712,10 @@ UPGC:
 	Buildable:
 		BuildPaletteOrder: 10
 		BuildLimit: 1
-		#	Prerequisites: tech, ~techlevel.high
-		Prerequisites: ~disabled
+		Prerequisites: tech, ~techlevel.high
+		#	Prerequisites: ~disabled
 		Queue: Building.GDI
-		Description: Enables production of ICBM Launcher.\nAllows to select one of three Strategies.\n  Maximum 1 can be built.\n  Cannot be captured.
+		Description: Allows to select one of three Strategies.\nEnables production of ICBM Launcher.\n  Special ability: Supply Dropzone\nPeriodically gain 1k money aid.\n Maximum 1 can be built.\n  Cannot be captured.
 	Valued:
 		Cost: 2500
 	Tooltip:
@@ -1665,7 +1724,7 @@ UPGC:
 		Amount: -150
 	ProvidesPrerequisite@buildingname:
 	ProductionAirdropCA:
-		Produces: Money
+		Produces: Dropzone
 		PauseOnCondition: lowpower
 		ActorType: ocar.pod
 		IncomingAudio: Reinforce
@@ -1675,12 +1734,29 @@ UPGC:
 		Palette: effect
 		IsPlayerPalette: false
 		Offset: -1024,768,0
-	PeriodicProducerCA@DROP:
-		Type: Money
-		ChargeDuration: 1500
-		Actors: truk
-		ShowSelectionBar: true
-		RequiresCondition: !lowpower
+	#	switched to this for convenient visualisation
+	ProduceActorPowerCA@SupplyDrop:
+		OrderName: SupplyDropAutoProduction
+		PauseOnCondition: lowpower
+		Prerequisites: ~techlevel.unrestricted
+		Description: Supply Drop
+		LongDesc: Periodically obtain 1000$ resources.\n (2000$ with Upgrade researched)\nActivated automatically when ready.\nRequires Power to function.
+		Icon: zoneicon
+		Actors: moneycrate.drop
+		Type: Dropzone
+		ChargeInterval: 6000
+		AutoFire: True
+		DisplayTimerRelationships: None
+		SupportPowerPaletteOrder: 4
+	#	unfortunately will work for ICBM, too
+	SupportPowerChargeBar@SupplyDrop:
+		Color: FFFF9E			
+	#	PeriodicProducerCA@DROP:
+	#	Type: Dropzone
+	#	ChargeDuration: 4500
+	#	Actors: moneycrate.drop
+	#	ShowSelectionBar: true
+	#	RequiresCondition: !lowpower
 	WithIdleOverlay@DZONE:
 		RequiresCondition: !build-incomplete
 		Sequence: turret-drop
@@ -1693,6 +1769,18 @@ UPGC:
 	Exit:
 		SpawnOffset: 511,511,0
 		ExitCell: 1,1
+	ProduceActorPower@ICBM:
+		Type: Dropzone
+		Actors: icbm
+		Icon: icbm
+		Description: Authorize: ICBM Launcher
+		LongDesc: Delivers a nuclear rocket launcher\nheavy Artillery vehicle via Airlift\nto Strategy Center's Dropzone.\n  Can be used only once per game.
+		Prerequisites: ~techlevel.unrestricted
+		SupportPowerPaletteOrder: 5
+		OrderName: DeliverICBMLauncher
+		OneShot: true
+		ChargeInterval: 12000
+		PauseOnCondition: lowpower
 
 UPGC.Husk:
 	Inherits: ^BuildingHusk

@@ -283,7 +283,7 @@ FTNK:
 	Mobile:
 		TurnSpeed: 28
 		Speed: 99
-		PauseOnCondition: dont-move || emp-crate-collected || boarding
+		PauseOnCondition: dont-move || boarding || emp-crate-collected
 	Health:
 		HP: 27000
 	Armor:
@@ -578,8 +578,6 @@ T55H:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	-Carryable:
-	-WithDecoration@CARRYALL:
 	Valued:
 		Cost: 2000
 	Tooltip:
@@ -595,7 +593,7 @@ T55H:
 	Mobile:
 		TurnSpeed: 16
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || pauseforlaser
+		PauseOnCondition: boarding || emp-crate-collected || pauseforlaser
 	Health:
 		HP: 63000
 	Armor:
@@ -670,8 +668,6 @@ T55H:
 	Explodes:
 		Weapon: UnitExplodeMech
 		EmptyWeapon: UnitExplodeMech
-	Cloak:
-		PauseOnCondition: cloak-force-disabled || emp-crate-collected
 	Passenger:
 		CustomPipType: pip-red
 
@@ -680,8 +676,6 @@ WTNK:
 	Inherits@GAINSEXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	-Carryable:
-	-WithDecoration@CARRYALL:
 	Buildable:
 		BuildPaletteOrder: 12
 		BuildLimit: 1
@@ -698,7 +692,7 @@ WTNK:
 		Type: Heavy
 	Mobile:
 		Speed: 80
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: emp-crate-collected || boarding
 	Passenger:
 		CustomPipType: pip-red
 	RevealsShroud:
@@ -725,8 +719,6 @@ WTNK:
 		DecorationBounds: 28,28
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
-	Cloak:
-		PauseOnCondition: cloak-force-disabled || emp-crate-collected
 	ReloadArmamentsBar:
 		Armaments: primary
 		Color: FFFF00
@@ -736,8 +728,6 @@ NODCTNK:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	-Carryable:
-	-WithDecoration@CARRYALL:
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -755,7 +745,7 @@ NODCTNK:
 		Locomotor: heavytracked
 		TurnSpeed: 12
 		Speed: 71
-		PauseOnCondition: dont-move || emp-crate-collected
+		PauseOnCondition: dont-move || boarding || emp-crate-collected
 	Health:
 		HP: 54000
 	Armor:
@@ -780,5 +770,3 @@ NODCTNK:
 		RevokeDelay: 16
 		RevokeOnNewTarget: False
 		RevokeAll: True
-	Cloak:
-		PauseOnCondition: cloak-force-disabled || emp-crate-collected

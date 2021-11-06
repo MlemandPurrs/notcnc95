@@ -141,9 +141,9 @@ comparmor.upgrade:
 		Queue: Aircraft.GDI
 		Prerequisites: ~fix, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Equips GDI Tanks with advanced armor plating.\n\n  Upgrades: Main Battle Tank, Mammoth Tank\n  + Reduces the damage dealt to Tanks by 20%
+		Description: Equips GDI Tanks with advanced armor plating.\n\n  Upgrades: Main Battle Tank, Mammoth Tank\n  + Increases Hitpoints of those Tanks by 20%
 	Valued:
-		Cost: 2000
+		Cost: 2200
 	RenderSprites:
 		Image: comparmor.upgrade
 
@@ -237,7 +237,7 @@ machineguns.upgrade:
 		Queue: Aircraft.GDI
 		Prerequisites: ~weap, ~fix, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Mammoth Tanks are equipped with Machineguns to aid against Infantry.\n\n  Upgrades: Mammoth Tank\n  + Gains extra Machinegun weaponry
+		Description: Mammoth Tanks are equipped with Machineguns\nto aid against Infantry.\n\n  Upgrades: Mammoth Tank\n  + Gains extra Machinegun weaponry
 	#	Description: Tanks are equipped with Machineguns to aid against Infantry.\n\n  Upgrades: Main Battle Tank, Mammoth Tank\n  + Gains extra Machinegun weaponry
 	Valued:
 		Cost: 1000
@@ -259,6 +259,9 @@ mh60medic.upgrade:
 	RenderSprites:
 		Image: mh60medic.upgrade
 
+#	drone better armored and faster
+#	discarded: giving it a rocket to fire
+#	because RECON drone not Combat
 bombard.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -268,12 +271,13 @@ bombard.strat:
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!seek.strat, ~!hold.strat, ~techlevel.high
 		BuildDuration: 2250
-		Description: Increases unit firepower by 10%.\n\n  Only one Strategy may be chosen.
+		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains +15% Armor and +30% Speed.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
 		Image: bombard.strat
 
+#	drone boosts units
 seek.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -282,12 +286,13 @@ seek.strat:
 		BuildPaletteOrder: 17
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!hold.strat, ~techlevel.high
-		Description: Increases unit rate of fire by 10%.\n\n  Only one Strategy may be chosen.
+		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
 		Image: seek.strat
 
+#	drone rapid refueling
 hold.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -297,7 +302,7 @@ hold.strat:
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!seek.strat, ~techlevel.high
 		BuildDuration: 2250
-		Description: Increases unit armor by 10%.\n\n  Only one Strategy may be chosen.
+		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -377,3 +382,63 @@ ssmreload.upgrade:
 		Cost: 1200
 	RenderSprites:
 		Image: ssmreload.upgrade
+
+orcaammo.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Orca Ammo
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Aircraft.GDI
+		Prerequisites: ~hpad, ~eye, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Add two more rocket salvo to Orca.\n\n  Upgrades: Orca\n  + Orca gains +4 Ammo\n  - Rearming to full takes longer\n  Existing Orcas can be upgraded by landing on Helipad
+	Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: orcaammo.upgrade
+
+carryall.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Orca Carryall
+	Buildable:
+		BuildPaletteOrder: 19
+		Queue: Aircraft.GDI
+		Prerequisites: ~hpad, ~fix, ~upgc, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build the Orca Carryall unit.\n\n  Unlocks: Orca Carryall\n\n  + VTOL Transport capable of carrying all Vehicles
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: carryall.unlock
+
+supplylines.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Supply Drop
+	Buildable:
+		BuildPaletteOrder: 20
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~eye, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Adds 1000$ resources to Supply Drop at Strategy Center.\n\n  Upgrades: Supply Drop\n  + Supply Drop delivers 1000$ more
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: supplylines.upgrade
+
+exosuit.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Exosuit Trooper
+	Buildable:
+		BuildPaletteOrder: 21
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~eye, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to built Exosuit Trooper units.\n\n  Unlocks: Exosuit Trooper\n\n  + Equipped with Jetpacks can traverse over cliffs.\n  + Immune to Tiberium.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: exosuit.unlock

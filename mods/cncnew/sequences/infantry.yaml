@@ -1229,3 +1229,32 @@ snip:
 		ZOffset: -511
 	icon: snipicon
 		UseTilesetExtension: false
+
+xo:
+    Inherits: emp-overlay
+	Defaults:
+		Offset: 0, 0
+	stand: xo
+		Facings: 8
+	move: xo
+		Start: 8
+		Length: 4
+		Facings: 8
+		Tick: 200
+	shoot: xo
+		Start: 40
+		Length: 2
+		Facings: 8
+		Tick: 40
+	hover: xo
+		Start: 56
+		Facings: 8
+		Length: 3
+	parachute: xo
+		Start: 56
+		Facings: 8
+		Length: 3
+	muzzle: minigun
+		Length: 6
+		Facings: 16
+	icon: xoicon

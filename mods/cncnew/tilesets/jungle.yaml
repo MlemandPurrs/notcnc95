@@ -64,6 +64,10 @@ Terrain:
 		TargetTypes: Water
 		Color: 5C74A4
 		RestrictPlayerColor: true
+	TerrainType@Cliff:
+		Type: Cliff
+		TargetTypes: Cliff
+		Color: 745A3F
 
 Templates:
 	Template@255:
@@ -291,52 +295,52 @@ Templates:
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 			2: Clear
-			3: Rock
+			3: Cliff
 	Template@14:
 		Id: 14
 		Images: s02.jun
 		Size: 2,3
 		Categories: Cliffs
 		Tiles:
-			0: Rock
+			0: Cliff
 			1: Clear
-			2: Rock
-			3: Rock
-			4: Rock
-			5: Rock
+			2: Cliff
+			3: Cliff
+			4: Cliff
+			5: Cliff
 	Template@15:
 		Id: 15
 		Images: s03.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@16:
 		Id: 16
 		Images: s04.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@17:
 		Id: 17
 		Images: s05.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@18:
 		Id: 18
 		Images: s06.jun
@@ -344,72 +348,72 @@ Templates:
 		Categories: Cliffs
 		Tiles:
 			0: Clear
-			1: Rock
-			2: Rock
-			3: Rock
-			4: Rock
+			1: Cliff
+			2: Cliff
+			3: Cliff
+			4: Cliff
 	Template@19:
 		Id: 19
 		Images: s07.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@20:
 		Id: 20
 		Images: s08.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
+			0: Cliff
 			1: Clear
-			2: Rock
-			3: Rock
+			2: Cliff
+			3: Cliff
 	Template@21:
 		Id: 21
 		Images: s09.jun
 		Size: 3,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
 			3: Clear
-			4: Rock
-			5: Rock
+			4: Cliff
+			5: Cliff
 	Template@22:
 		Id: 22
 		Images: s10.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@23:
 		Id: 23
 		Images: s11.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@24:
 		Id: 24
 		Images: s12.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@25:
 		Id: 25
 		Images: s13.jun
@@ -417,10 +421,10 @@ Templates:
 		Categories: Cliffs
 		Tiles:
 			0: Clear
-			1: Rock
+			1: Cliff
 			2: Clear
-			3: Rock
-			4: Rock
+			3: Cliff
+			4: Cliff
 			5: Clear
 	Template@26:
 		Id: 26
@@ -428,7 +432,7 @@ Templates:
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
+			0: Cliff
 			1: Clear
 			2: Clear
 	Template@27:
@@ -437,10 +441,10 @@ Templates:
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
+			0: Cliff
 			1: Clear
-			2: Rock
-			3: Rock
+			2: Cliff
+			3: Cliff
 	Template@28:
 		Id: 28
 		Images: s16.jun
@@ -448,39 +452,39 @@ Templates:
 		Categories: Cliffs
 		Tiles:
 			0: Clear
-			2: Rock
-			3: Rock
-			5: Rock
+			2: Cliff
+			3: Cliff
+			5: Cliff
 	Template@29:
 		Id: 29
 		Images: s17.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@30:
 		Id: 30
 		Images: s18.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@31:
 		Id: 31
 		Images: s19.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@32:
 		Id: 32
 		Images: s20.jun
@@ -488,9 +492,9 @@ Templates:
 		Categories: Cliffs
 		Tiles:
 			1: Clear
-			2: Rock
-			3: Rock
-			4: Rock
+			2: Cliff
+			3: Cliff
+			4: Cliff
 			5: Clear
 	Template@33:
 		Id: 33
@@ -498,16 +502,16 @@ Templates:
 		Size: 1,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 	Template@34:
 		Id: 34
 		Images: s22.jun
 		Size: 2,1
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 	Template@35:
 		Id: 35
 		Images: s23.jun
@@ -515,10 +519,10 @@ Templates:
 		Categories: Cliffs
 		Tiles:
 			0: Clear
-			1: Rock
-			2: Rock
-			3: Rock
-			4: Rock
+			1: Cliff
+			2: Cliff
+			3: Cliff
+			4: Cliff
 			5: Clear
 	Template@36:
 		Id: 36
@@ -526,71 +530,71 @@ Templates:
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@37:
 		Id: 37
 		Images: s25.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@38:
 		Id: 38
 		Images: s26.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@39:
 		Id: 39
 		Images: s27.jun
 		Size: 3,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 			2: Clear
 			3: Clear
-			4: Rock
-			5: Rock
+			4: Cliff
+			5: Cliff
 	Template@40:
 		Id: 40
 		Images: s28.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			3: Cliff
 	Template@41:
 		Id: 41
 		Images: s29.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@42:
 		Id: 42
 		Images: s30.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
+			0: Cliff
 			1: Clear
-			2: Rock
-			3: Rock
+			2: Cliff
+			3: Cliff
 	Template@43:
 		Id: 43
 		Images: s31.jun
@@ -599,77 +603,77 @@ Templates:
 		Tiles:
 			0: Clear
 			1: Clear
-			2: Rock
-			3: Rock
+			2: Cliff
+			3: Cliff
 	Template@44:
 		Id: 44
 		Images: s32.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
 	Template@45:
 		Id: 45
 		Images: s33.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@46:
 		Id: 46
 		Images: s34.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@47:
 		Id: 47
 		Images: s35.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@48:
 		Id: 48
 		Images: s36.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@49:
 		Id: 49
 		Images: s37.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@50:
 		Id: 50
 		Images: s38.jun
 		Size: 2,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
-			2: Rock
-			3: Rock
+			0: Cliff
+			1: Cliff
+			2: Cliff
+			3: Cliff
 	Template@51:
 		Id: 51
 		Images: sh32.jun
@@ -1761,29 +1765,29 @@ Templates:
 		Size: 1,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 	Template@190:
 		Id: 190
 		Images: cliffsl2.jun
 		Size: 1,2
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 	Template@191:
 		Id: 191
 		Images: cliffsl3.jun
 		Size: 2,1
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff
 	Template@192:
 		Id: 192
 		Images: cliffsl4.jun
 		Size: 2,1
 		Categories: Cliffs
 		Tiles:
-			0: Rock
-			1: Rock
+			0: Cliff
+			1: Cliff

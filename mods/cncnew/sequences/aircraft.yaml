@@ -100,6 +100,7 @@ rh66:
 	icon: rh66icon
 
 orcaca:
+    Inherits: emp-overlay
 	idle: orcaca
 		Facings: 32
 		UseClassicFacings: True
@@ -109,6 +110,7 @@ orcaca:
 	icon: orcacaicon
 
 orcacapod:
+    Inherits: emp-overlay
 	idle: orcacapod
 		Facings: 32
 		UseClassicFacings: True

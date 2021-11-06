@@ -2,6 +2,8 @@ E1:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
     Valued:
 		Cost: 100
 	Tooltip:
@@ -39,10 +41,23 @@ E1:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
 
+E1R1:
+	Inherits: E1
+	RenderSprites:
+		Image: E1
+	ProducibleWithLevel:
+		InitialLevels: 1
+	UpdatesPlayerStatistics:
+		OverrideActor: e1
+	-Buildable:
+	-MapEditorData:
+
 E3:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -77,11 +92,24 @@ E3:
 		Payload: 75
 		Type: InfantryRefund
 
+E3R1:
+	Inherits: E3
+	RenderSprites:
+		Image: E3
+	ProducibleWithLevel:
+		InitialLevels: 1
+	UpdatesPlayerStatistics:
+		OverrideActor: e3
+	-Buildable:
+	-MapEditorData:
+
 #	Nod will be missing their Chems ;_;
 E5:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	-DamagedByTerrain@TIBERIUM:
 	-GrantConditionOnTerrain@HAZMAT:
 	-GrantConditionOnPrerequisite@HAZMAT:
@@ -153,6 +181,8 @@ E5:
 E6:
 	Inherits: ^Soldier
 	Inherits@selection: ^SelectableSupportUnit
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -192,6 +222,8 @@ E6:
 
 MECH:
 	Inherits: ^Soldier
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: fix, ~techlevel.medium
@@ -253,6 +285,7 @@ TECN:
 	RenderSprites:
 		Image: TECN
 	DeliversCash:
+		Cursor: enter-reverse-yellow
 		Payload: 25
 		Type: InfantryRefund
 	Voiced:

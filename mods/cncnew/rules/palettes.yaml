@@ -172,3 +172,9 @@
 		G: 0
 		B: 0
 		A: 128
+	PaletteFromRGBA@laserpainter:
+		Name: laserpaint
+		R: 245
+		G: 51
+		B: 51
+		A: 128

@@ -1134,6 +1134,7 @@ cram.husk:
 	idle: crammake
 		Start: 5
 		Length: 1
+		Offset: 0,-13
 
 sam:
 	closed-idle:

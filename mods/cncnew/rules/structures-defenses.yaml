@@ -555,6 +555,8 @@ SBAG:
 	WithWallSpriteBody:
 		Type: sandbag
 
+#	this is supposed to stop bullet based weaponry
+#	idk when pchote finally gets around to doing it
 CYCL:
 	Inherits: ^Wall
 	Valued:

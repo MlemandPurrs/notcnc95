@@ -44,6 +44,15 @@ Player:
 					Attractiveness: 1
 					TargetMetric: None
 					CheckRadius: 5c0
+			UseReconDroneUpgraded:
+				OrderName: ReconDroneUpgraded
+				MinimumAttractiveness: 1
+				Consideration@1:
+					Against: Enemy
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 5c0
 			UseRadarScan:
 				OrderName: RadarScan
 				MinimumAttractiveness: 1
@@ -147,6 +156,21 @@ Player:
 					Attractiveness: 1
 					TargetMetric: Value
 					CheckRadius: 2c0
+			UseParatroopers:
+				OrderName: NodParatroopers
+				MinimumAttractiveness: 5
+				Consideration@1:
+					Against: Enemy
+					Types: Structure
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 8c0
+				Consideration@2:
+					Against: Enemy
+					Types: Water
+					Attractiveness: -5
+					TargetMetric: None
+					CheckRadius: 8c0
 	BaseBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		BuildingQueues: Building.Nod, Building.GDI

@@ -2,8 +2,7 @@ MCV:
 	Inherits: ^Vehicle
 	Inherits@selection: ^SelectableSupportUnit
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
-	-Carryable:
-	-WithDecoration@CARRYALL:
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	TransferTimedExternalConditionOnTransform:
 		Condition: invulnerability
 	Valued:
@@ -20,7 +19,7 @@ MCV:
 	Mobile:
 		Speed: 71
 		Locomotor: heavywheeled
-		-PauseOnCondition:
+		PauseOnCondition: boarding
 	Health:
 		HP: 210000
 	Armor:
@@ -50,14 +49,21 @@ MCV:
 	Targetable@DRIVERKILL:
 		TargetTypes: DriverKillImmune
 		RequiresCondition: !driver-dead
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
+	Carryable:
+		-CarriedCondition:
 
 HARV:
 	Inherits: ^Tank
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@selection: ^SelectableEconomicUnit
 	Inherits@HARVBALANCE: ^HarvesterBalancer
-	-Carryable:
-	-WithDecoration@CARRYALL:
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -81,7 +87,6 @@ HARV:
 		EmptyCondition: no-tiberium
 	Mobile:
 		Speed: 85
-		PauseOnCondition: emp-crate-collected
 	Health:
 		HP: 62500
 	Armor:
@@ -125,11 +130,29 @@ HARV:
 		Condition: docked
 	RejectsOrders:
 		RequiresCondition: docked
-	Cloak:
-		PauseOnCondition: cloak-force-disabled || emp-crate-collected
 	Targetable@DRIVERKILL:
 		TargetTypes: DriverKillImmune
 		RequiresCondition: !driver-dead
+	Carryable:
+		RequiresCondition: !docked && !onrefinerybib
+	#	this is to prevent a epic bug where
+	#	Harvester will teleport to Refinery if
+	#	Refinery has IsDragRequiredYes: enabled
+	#	and Carryall picks up Harvester while
+	#	this Drag is in effect but right a moment 
+	#	before the Dock commences.
+	ExternalCondition@OnRefineryBib:
+		Condition: onrefinerybib
+	#	Addendum:	also that Refinery will never able
+	#	to accept any Harvester ever again after this
+	#	occured once to it, probably remains locked at
+	#	Dragging in 'stance'
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
 
 TRUK:
 	Inherits: ^Vehicle
@@ -137,8 +160,6 @@ TRUK:
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
 	Inherits@EMP: ^AcceptsEMPCrate
-	-Carryable:
-	-WithDecoration@CARRYALL:
 	Buildable:
 		Queue: Vehicle.GDI, Vehicle.Nod
 		BuildPaletteOrder: 11
@@ -154,7 +175,7 @@ TRUK:
 		Type: Light
 	Mobile:
 		Speed: 128
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: boarding || emp-crate-collected
 	RevealsShroud:
 		Range: 4c0
 	DeliversCash:
@@ -165,3 +186,11 @@ TRUK:
 		Actor: moneycrate
 	Passenger:
 		CustomPipType: pip-blue
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
+	Carryable:
+		-CarriedCondition:

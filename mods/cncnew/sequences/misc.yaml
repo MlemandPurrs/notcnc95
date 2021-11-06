@@ -136,6 +136,9 @@ explosion:
 		Offset: 0, -2
 	big_splash: h2o_exp1
 		Offset: 0, -3
+	corpse: squish
+		ZOffset: -512
+		Tick: 1600
 
 rank:
 	Defaults:
@@ -175,6 +178,8 @@ beacon:
 		Offset: 0,-42
 	clock: beaconclock
 		Length: *
+		Offset: 0,-42
+	pinfbcon: pinfbcon
 		Offset: 0,-42
 
 select:
@@ -320,14 +325,6 @@ pips:
 	pip-carryall: pip-carryall
 		Offset: 0, -6
 
-pip-ammo-red:
-	oneshot:
-		Start: 0
-		Length: 1
-	threeshot:
-		Start: 1
-		Length: 1
-
 overlay:
 	Defaults: trans.icn
 		AddExtension: False
@@ -360,6 +357,9 @@ icon:
 	abombfake: atomfakeicon
 	radarscan: scanicon
 	uav: uavicon
+	icbm: icbmicon
+	pinficon: pinficon
+	zoneicon: dropzoneicon
 
 moveflsh:
 	idle:
@@ -564,3 +564,14 @@ sparks_overlay:
 		BlendMode: Additive
 		Offset: 0, 0
 		ZOffset: 512
+
+parach:
+	open:
+		Length: 5
+	idle:
+		Start: 5
+		Length: 11
+
+parach-shadow:
+	idle:
+		Length: *

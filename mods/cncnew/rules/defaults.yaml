@@ -92,7 +92,7 @@
 		Image: rank
 		Sequence: rank-veteran-1
 		Palette: effect
-		Position: TopRight
+		Position: TopLeft
 		Margin: 5, 6
 		ValidRelationships: Ally, Enemy, Neutral
 		RequiresCondition: rank-veteran == 1
@@ -100,7 +100,7 @@
 		Image: rank
 		Sequence: rank-veteran-2
 		Palette: effect
-		Position: TopRight
+		Position: TopLeft
 		Margin: 5, 6
 		ValidRelationships: Ally, Enemy, Neutral
 		RequiresCondition: rank-veteran == 2
@@ -108,7 +108,7 @@
 		Image: rank
 		Sequence: rank-elite
 		Palette: effect
-		Position: TopRight
+		Position: TopLeft
 		Margin: 5, 6
 		ValidRelationships: Ally, Enemy, Neutral
 		RequiresCondition: rank-elite
@@ -233,9 +233,6 @@
 	WithColoredOverlay@repairflash:
 		RequiresCondition: repairflash
 		Palette: highlight
-	WithColoredOverlay@repairflash:
-		RequiresCondition: repairflash
-		Palette: highlight
 	GrantConditionOnDamageState@DAMAGED:
 		Condition: damaged
 		ValidDamageStates: Light, Medium, Heavy, Critical
@@ -268,6 +265,9 @@
 	ExternalCondition@LaserDesignator:
 		Condition: laser-designated
 		TotalCap: 1
+	WithColoredOverlay@LaserDesignator:
+		RequiresCondition: laser-designated
+		Palette: laserpaint
 	Carryable:
 		ReservedCondition: awaiting
 		CarriedCondition: oncarryall
@@ -441,11 +441,13 @@
 		Action: Kill
 		DeathTypes: DefaultDeath
 	Health:
+		HP: 2500
 	Armor:
 		Type: None
 	RevealsShroud:
 		Range: 5c0
 	Mobile:
+		Speed: 56
 		AlwaysTurnInPlace: true
 		Locomotor: foot
 	Selectable:
@@ -453,8 +455,9 @@
 		DecorationBounds: 12,17,0,-6
 	Targetable:
 		TargetTypes: Ground, Infantry
+		RequiresCondition: !parachute
 	Targetable@HEAL:
-		RequiresCondition: damaged
+		RequiresCondition: !parachute && damaged
 		TargetTypes: Heal
 	GrantConditionOnDamageState@DAMAGED:
 		Condition: damaged
@@ -496,7 +499,7 @@
 	WithDecoration@REDCROSS:
 		Image: pips
 		Sequence: pip-heal
-		Position: BottomRight
+		Position: TopRight
 		Margin: 5, 6
 		RequiresCondition: ( barracksheal || hospitalheal )
 		BlinkInterval: 32
@@ -530,6 +533,22 @@
 	GrantExternalConditionToCrusher@CRUSHSLOW:
 		OnCrushCondition: crush-slow
 		OnCrushDuration: 50
+	Parachutable:
+		FallRate: 26
+		KilledOnImpassableTerrain: true
+		GroundCorpseSequence: corpse
+		GroundImpactSound: squish2.aud
+		WaterImpactSound: splash9.aud
+		WaterCorpseSequence: sml_splash
+		ParachutingCondition: parachute
+	WithParachute:
+		ShadowImage: parach-shadow
+		ShadowSequence: idle
+		Image: parach
+		Sequence: idle
+		OpeningSequence: open
+		Offset: 0,0,427
+		RequiresCondition: parachute
 
 ^Soldier:
 	Inherits: ^Infantry
@@ -1291,6 +1310,7 @@
 ^Crate:
 	Inherits@1: ^SpriteActor
 	Interactable:
+		Bounds: 24,24
 	HiddenUnderFog:
 	Tooltip:
 		Name: Crate
@@ -1305,6 +1325,19 @@
 		XmasImages: xcratea, xcrateb, xcratec, xcrated
 	MapEditorData:
 		Categories: System
+	Passenger:
+		CargoType: Crate
+		Weight: 1
+	Parachutable:
+		FallRate: 26
+		ParachutingCondition: parachute
+	WithParachute:
+		Image: parach
+		Sequence: idle
+		OpeningSequence: open
+		ShadowImage: parach-shadow
+		ShadowSequence: idle
+		RequiresCondition: parachute
 
 ^Defense:
 	Inherits: ^BaseBuilding
@@ -1503,13 +1536,13 @@
 		Sequence: pip-armor
 		Palette: effect
 		Position: BottomRight
-		Margin: 1, 1
+		Margin: 4, -2
 		ValidRelationships: Ally
 		RequiresCondition: hold
 		RequiresSelection: True
 		BlinkInterval: 64
 		BlinkPatterns:
-			bombard : Off, On
+			hold : Off, On, On
 	GrantConditionOnPrerequisite@BOMBARD:
 		Condition: bombard
 		Prerequisites: bombard.strat
@@ -1521,31 +1554,72 @@
 		Sequence: pip-bombard
 		Palette: effect
 		Position: BottomRight
-		Margin: 1, 1
+		Margin: 4, -3
 		ValidRelationships: Ally
 		RequiresCondition: bombard
 		RequiresSelection: True
 		BlinkInterval: 64
 		BlinkPatterns:
-			bombard : Off, On
+			bombard : Off, On, On
 	GrantConditionOnPrerequisite@SEEK:
 		Condition: seek
 		Prerequisites: seek.strat
-	ReloadDelayMultiplier@SEEK:
+	RangeMultiplier@SEEK
+		Modifier: 110
 		RequiresCondition: seek
-		Modifier: 90
 	WithDecoration@SEEK:
 		Image: pips
 		Sequence: pip-seek
 		Palette: effect
 		Position: BottomRight
-		Margin: 1, 1
+		Margin: 4, -4
 		ValidRelationships: Ally
 		RequiresCondition: seek
 		RequiresSelection: True
 		BlinkInterval: 64
 		BlinkPatterns:
-			seek : Off, On
+			seek : Off, On, On
+
+^GDICostMultiplierVehicle:
+	ProductionCostMultiplier@BOMBARD:
+		Multiplier: 110
+		Prerequisites: bombard.strat
+	ProductionCostMultiplier@SEEK:
+		Multiplier: 110
+		Prerequisites: seek.strat
+	ProductionCostMultiplier@HOLD:
+		Multiplier: 90
+		Prerequisites: hold.strat
+	
+^GDICostMultiplierInfantry:
+	ProductionCostMultiplier@BOMBARD:
+		Multiplier: 110
+		Prerequisites: bombard.strat
+	ProductionCostMultiplier@SEEK:
+		Multiplier: 90
+		Prerequisites: seek.strat
+	ProductionCostMultiplier@HOLD:
+		Multiplier: 110
+		Prerequisites: hold.strat
+
+^GDICostMultiplierAircraft:
+	ProductionCostMultiplier@BOMBARD:
+		Multiplier: 90
+		Prerequisites: bombard.strat
+	ProductionCostMultiplier@SEEK:
+		Multiplier: 110
+		Prerequisites: seek.strat
+	ProductionCostMultiplier@HOLD:
+		Multiplier: 110
+		Prerequisites: hold.strat
+
+^GDIAffectedByDrone:
+	ExternalCondition@UAVBOOSTED:
+		Condition: uavboosted
+		TotalCap: 1
+	ReloadDelayMultiplier@UAVBOOSTED:
+		RequiresCondition: uavboosted
+		Modifier: 90
 
 ^GlobalBounty:
 	GrantConditionOnPrerequisite@GLOBALBOUNTY:

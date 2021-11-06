@@ -172,20 +172,20 @@ APCGun:
 		Speed: 900
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
-		Damage: 1000
+		Damage: 2000
 		Versus:
 			None: 30
 			Kevlar: 30
 			Flak: 20
-			Wood: 25
-			Concrete: 25
+			Wood: 60
+			Concrete: 30
 			Light: 75
+			Medium: 50
 			Heavy: 25
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag
 		ValidTargets: Ground, Water, Helicopter
-		ImpactActors: false
 
 APCGun.AA:
 	Inherits: APCGun

@@ -93,9 +93,14 @@ CRATE:
 		Units: mtnk
 		ValidFactions: gdi
 		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@htnk:
+		SelectionShares: 3
+		Units: htnk
+		ValidFactions: gdi
+		Prerequisites: techlevel.high
 	GiveUnitCrateAction@mlrs:
 		SelectionShares: 5
-		Units: mlrs
+		Units: msam
 		ValidFactions: gdi
 		Prerequisites: techlevel.medium
 	GiveUnitCrateAction@bggy:
@@ -118,6 +123,11 @@ CRATE:
 		Units: arty
 		ValidFactions: nod
 		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@ssm:
+		SelectionShares: 3
+		Units: mlrs
+		ValidFactions: nod
+		Prerequisites: techlevel.high
 	GiveUnitCrateAction@horde:
 		SelectionShares: 3
 		Units: tecn,tecn,tecn,tecn,tecn,tecn,tecn,tecn
@@ -166,12 +176,21 @@ MONEYCRATE.DROP:
 	-GiveCashCrateAction:
 	RenderSprites:
 		Image: wcrate
-	CashTrickler:
-		Interval: 50
+	CashTrickler@Normal:
+		Interval: 13
 		Amount: 1000
+		RequiresCondition: !parachute && !supplylines-upgraded
+	CashTrickler@Upgraded:
+		Interval: 13
+		Amount: 2000
+		RequiresCondition: !parachute && supplylines-upgraded
 	KillsSelf:
-		Delay: 50
+		Delay: 13
 		RemoveInstead: true
+		RequiresCondition: !parachute
+	GrantConditionOnPrerequisite@supplylines:
+		Condition: supplylines-upgraded
+		Prerequisites: supplylines.upgrade
 
 WCRATE:
 	Inherits: ^Crate

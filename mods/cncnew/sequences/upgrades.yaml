@@ -69,3 +69,15 @@ rh66stealth.upgrade:
 
 ssmreload.upgrade:
 	icon: ssmreloadicon
+
+orcaammo.upgrade:
+	icon: orcaicon
+  
+carryall.unlock:
+	icon: orcacaicon
+
+supplylines.upgrade:
+	icon: dropzoneupicon
+
+exosuit.unlock:
+	icon: xoicon
