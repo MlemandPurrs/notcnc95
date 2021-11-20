@@ -59,16 +59,16 @@ APC:
 	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
-		Cost: 650
+		Cost: 500
 	Tooltip:
-		Name: APC
+		Name: Armored Personnel Carrier
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: pyle, ~techlevel.low
 		Queue: Vehicle.GDI
-		Description: Armored personnel carrier.\nCan attack Aircraft.\n  Strong vs Vehicles\n  Weak vs Infantry
+		Description: Armored infantry transport.\nCan attack Aircraft.\n  Strong vs Vehicles\n  Weak vs Infantry
 	Mobile:
 		TurnSpeed: 20
 		Speed: 132
@@ -80,7 +80,7 @@ APC:
 	RevealsShroud:
 		Range: 7c0
 	Turreted:
-		TurnSpeed: 40
+		TurnSpeed: 48
 	AutoTargetPriority@Air:
 		ValidTargets: Air
 		Priority: 2
@@ -90,7 +90,7 @@ APC:
 		RecoilRecovery: 18
 		LocalOffset: 255,100,189, 255,-100,189
 		MuzzleSequence: muzzle
-		PauseOnCondition: reload-air
+		PauseOnCondition: reload-air || emp-crate-collected
 		ReloadingCondition: reload-ground
 	Armament@SECONDARY:
 		Name: secondary
@@ -99,7 +99,7 @@ APC:
 		RecoilRecovery: 18
 		LocalOffset: 175,100,299, 175,-100,299
 		MuzzleSequence: muzzle-air
-		PauseOnCondition: reload-ground
+		PauseOnCondition: reload-ground || emp-crate-collected
 		ReloadingCondition: reload-air
 	GrantConditionOnAttack:
 		Condition: attack-air
@@ -108,6 +108,7 @@ APC:
 		RevokeOnNewTarget: False
 		RevokeAll: True
 	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
 	WithMuzzleOverlay:
 	WithSpriteTurret:
 		RequiresCondition: !attack-air
@@ -140,7 +141,7 @@ MTNK:
 	Valued:
 		Cost: 800
 	Tooltip:
-		Name: MBT
+		Name: Main Battle Tank
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -158,7 +159,6 @@ MTNK:
 	RevealsShroud:
 		Range: 6c0
 	Turreted:
-		Turret: primary
 		TurnSpeed: 20
 	Armament:
 		Name: primary
@@ -218,6 +218,9 @@ MTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: tank.veterancy
 
 MTNK.Upgraded:
 	Inherits: MTNK
@@ -340,7 +343,7 @@ MSAM:
 	Valued:
 		Cost: 900
 	Tooltip:
-		Name: MLRS
+		Name: Multiple Launch Rocket System
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -428,7 +431,6 @@ MSAM:
 		DeployedCondition: deployed
 		SkipMakeAnimation: true
 		RequiresCondition: !notwhilereload
-
 	WithSpriteTurret:
 	Explodes:
 		Weapon: UnitExplodeMech
@@ -440,8 +442,12 @@ MSAM:
 		Probability: 33
 	WithTurretAimAnimation:
 		Sequence: aim
-	RenderRangeCircle:
-		FallbackRange: 11c0
+	#	disappears whenever reloading
+	#	RenderRangeCircle:
+	#	FallbackRange: 11c0
+	WithRangeCircle:
+		Range: 11c0
+		Color: FFFF0080
 	GrantConditionOnPrerequisite@MobileSAM:
 		Condition: mobilesam-upgraded
 		Prerequisites: mobilesam.upgrade
@@ -453,7 +459,7 @@ MHQ:
 	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
-		Cost: 1000
+		Cost: 600
 	Tooltip:
 		Name: Mobile HQ
 	Health:
@@ -469,6 +475,7 @@ MHQ:
 		Sequence: spinner
 		Offset: -256,0,256
 	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		Range: 3c768
 		RequiresCondition: !emp-crate-collected
 	RenderDetectionCircle:
@@ -490,6 +497,8 @@ MHQ:
 	WithSpriteTurret:
 	WithMuzzleOverlay:
 
+#	todo: boost reload rate by
+#	parking on service depot
 ICBM:
 	Inherits: ^Vehicle
 	Inherits@AUTOTARGET: ^AutoTargetGround
@@ -570,3 +579,231 @@ ICBM:
 		CustomPipType: pip-red
 	Carryable:
 		-CarriedCondition: oncarryall
+
+#	todo: reimplement vision boost
+MSAR:
+	Inherits: ^Vehicle
+	Inherits@crates1: ^AcceptsSpeedCrate
+	Inherits@crates2: ^AcceptsCloakCrate
+	Inherits@crates3: ^AcceptsInvulnerabilityCrate
+	Inherits@crates4: ^AcceptsEMPCrate
+	Inherits@crates5: ^AcceptsDeathCrate
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Mobile Sensor Array
+		RequiresCondition: !deployed
+	Tooltip@DEPLOYED:
+		Name: Mobile Sensor Array (deployed)
+		RequiresCondition: deployed
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Queue: Dropzone
+		Description: When deployed, provides Vision and Detects Stealth units.\n  Unarmed
+	Health:
+		HP: 22000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 68
+		RequireForceMoveCondition: !undeployed
+	RevealsShroud@Normal:
+		Range: 6c0
+		RequiresCondition: !deployed
+	RevealsShroud@Deployed:
+		Range: 12c0
+		RequiresCondition: deployed	
+	RenderSprites:
+		Image: msar
+	Repairable:
+		RequireForceMoveCondition: !undeployed
+	Passenger:
+		RequireForceMoveCondition: !undeployed
+	Carryable:
+		LocalOffset: 0,0,150
+	GrantCondition@PREVIEWWORKAROUND:
+		Condition: real-actor
+	WithMakeAnimation:
+		BodyNames: deployedbody
+	WithSpriteBody@deployed:
+		Sequence: idle-static
+		RequiresCondition: !undeployed && real-actor
+		Name: deployedbody
+	WithFacingSpriteBody:
+		RequiresCondition: !deployed
+	GrantConditionOnDeploy:
+		PauseOnCondition: emp-crate-collected
+		DeployedCondition: deployed
+		UndeployedCondition: undeployed
+		Facing: 660
+		AllowedTerrainTypes: Clear, Road, Rough
+		DeploySounds: placbldg.aud
+		UndeploySounds: clicky1.aud
+		UndeployOnMove: true
+		UndeployOnPickup: true
+	DetectCloaked@Deployed:
+		Range: 12c0
+		CloakTypes: GroundStealth, Stealth, AirStealth
+		RequiresCondition: deployed && !emp-crate-collected && !lowpower
+	RenderDetectionCircle:
+	#	WithDetectionCircle:
+	#	Range: 12c0
+	#	RequiresCondition: deployed && !emp-crate-collected
+	#	TrailCount: 3
+	Selectable:
+		DecorationBounds: 30,30
+	Power:
+		Amount: -10
+
+#	placeholder graphics
+#	will be strengthened
+#	todo: get ze graphics
+PBAT:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Mobile S.A.M.
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Queue: Dropzone
+		Description: Powerful anti-air unit.\nCannot attack Ground units.
+		Icon: nodmsamicon
+	Mobile:
+		Speed: 99
+		TurnSpeed: 28
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 18000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 32
+		Offset: -128,0,128
+		RealignDelay: 0
+	Armament:
+		Weapon: Patriot
+		LocalOffset: 0,-171,0, 0,171,0
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Ammo: 2
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 2
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: primary
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+		RequiresCondition: ammo > 1
+	WithSpriteTurret@OneMissile:
+		RequiresCondition: ammo == 1
+		Sequence: turret1
+	WithSpriteTurret@NoMissiles:
+		RequiresCondition: !ammo
+		Sequence: turret0
+	AutoTarget:
+		InitialStanceAI: Defend
+	WithRangeCircle:
+		Range: 11c0
+		Color: FFFF0080
+	SpawnActorOnDeath:
+		Actor: PBAT.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ReloadAmmoPoolCA:
+		Delay: 150
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	Passenger:
+		CustomPipType: pip-red
+	RenderSprites:
+		Image: mlrs
+
+AAV:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@TRANSPORT: ^Transport
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Amphibious Assault Vehicle
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 99
+		Prerequisites: ~disabled
+		Queue: Vehicle.GDI
+		Description: Amphibious infantry transport.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Defenses
+	Mobile:
+		TurnSpeed: 20
+		Speed: 132
+		Locomotor: amphibious
+		PauseOnCondition: notmobile || emp-crate-collected || boarding
+	Health:
+		HP: 19000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 7c0
+	Turreted:
+		TurnSpeed: 20
+		Offset: 90,90,90
+	Armament:
+		Weapon: AAVGun
+		Recoil: 48
+		RecoilRecovery: 18
+		LocalOffset: 220,-80,100
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadingCondition: notmobile
+		LoadedCondition: loaded
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Explodes:
+		Weapon: UnitExplodeBig
+		EmptyWeapon: UnitExplodeBig
+	SpawnActorOnDeath:
+		Actor: AAV.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+		RequiresCondition: !floating
+	GrantConditionOnTerrain@SEA:
+		TerrainTypes: Water, River
+		Condition: floating
+	WithFacingSpriteBody:
+		RequiresCondition: !floating
+	WithFacingSpriteBody@SEA:
+		Name: floating
+		Sequence: idle-float
+		RequiresCondition: floating
+	Carryable:
+		RequiresCondition: !floating

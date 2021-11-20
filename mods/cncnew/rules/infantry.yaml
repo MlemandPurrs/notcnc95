@@ -40,6 +40,9 @@ E1:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: e1.veterancy
 
 E1R1:
 	Inherits: E1
@@ -47,6 +50,7 @@ E1R1:
 		Image: E1
 	ProducibleWithLevel:
 		InitialLevels: 1
+		Prerequisites: ~techlevel.low
 	UpdatesPlayerStatistics:
 		OverrideActor: e1
 	-Buildable:
@@ -98,6 +102,7 @@ E3R1:
 		Image: E3
 	ProducibleWithLevel:
 		InitialLevels: 1
+		Prerequisites: ~techlevel.low
 	UpdatesPlayerStatistics:
 		OverrideActor: e3
 	-Buildable:

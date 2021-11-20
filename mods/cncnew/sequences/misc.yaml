@@ -358,6 +358,8 @@ icon:
 	radarscan: scanicon
 	uav: uavicon
 	icbm: icbmicon
+	msar: msaricon
+	pbat: nodmsamicon
 	pinficon: pinficon
 	zoneicon: dropzoneicon
 
@@ -575,3 +577,17 @@ parach:
 parach-shadow:
 	idle:
 		Length: *
+
+veteranoverlay:
+	veteran:
+		Start: 0
+		Length: 1
+		Offset: 0, 0
+	elite:
+		Start: 1
+		Length: 1
+		Offset: 0, 0
+	heroic:
+		Start: 2
+		Length: 1
+		Offset: 0, 0

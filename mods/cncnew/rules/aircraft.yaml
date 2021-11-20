@@ -29,9 +29,9 @@ C17:
 		Condition: global-C17-stealth
 		Prerequisites: global-C17-stealth
 	Cloak:
+		CloakTypes: AirStealth
 		InitialDelay: 0
 		CloakDelay: 0
-		CloakTypes: C17
 		RequiresCondition: global-C17-stealth
 	Contrail@1:
 		Offset: -261,-650,0
@@ -73,7 +73,7 @@ A10:
 	Tooltip:
 		Name: A10 Bomber
 	Valued:
-		Cost: 2000
+		Cost: 1600
 	UpdatesPlayerStatistics:
 		AddToAssetsValue: false
 	Aircraft:
@@ -168,11 +168,11 @@ UAV:
 		Interval: 2
 	DetectCloaked@DetectionI:
 		Range: 7c536
-		CloakTypes: Cloak
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		RequiresCondition: !uavrange-upgraded
 	DetectCloaked@DetectionII:
 		Range: 11c304
-		CloakTypes: Cloak
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		RequiresCondition: uavrange-upgraded
 	#	this doesnt appear, boo...
 	#	RenderDetectionCircle:
@@ -420,6 +420,9 @@ ORCA:
 		Condition: onhelipad
 	#	this whole jazz can be avoided simply by 
 	#	making AmmoPool into a conditional trait
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: orca.veterancy
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -770,9 +773,12 @@ RH66:
 	DeathSounds@SAKURA:
 		Voice: Die
 	Cloak:
+		CloakTypes: AirStealth
 		InitialDelay: 150
 		CloakDelay: 150
-		UncloakSound: appear1.aud
+		CloakSound: trans1.aud
+		UncloakSound: trans1.aud
+		Palette: cloak
 		IsPlayerPalette: false
 		UncloakOn: Attack, Dock, Damage, Heal
 		PauseOnCondition: ( cloak-force-disabled && !airborne ) || emp-crate-collected

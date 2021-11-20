@@ -149,8 +149,6 @@ SNIP:
 	AttackFrontal:
 	WithInfantryBody:
 		DefaultAttackSequence: shoot
-	ProducibleWithLevel:
-		Prerequisites: infantry.upgraded
 	RenderSprites:
 		Image: snip
 	RenderRangeCircle:
@@ -159,9 +157,11 @@ SNIP:
 		Payload: 225
 		Type: InfantryRefund
 	Cloak:
+		CloakTypes: Stealth
 		InitialDelay: 120
 		CloakDelay: 120
 		UncloakOn: Attack, Unload, Demolish, Move
+		Palette: cloakgreen
 		IsPlayerPalette: false
 		PauseOnCondition: cloak-force-disabled
 		RequiresCondition: !harambe
@@ -270,7 +270,7 @@ XO:
 	QuantizeFacingsFromSequence:
 		Sequence: stand
 	Valued:
-		Cost: 650
+		Cost: 500
 	Tooltip:
 		Name: Exosuit Trooper
 	UpdatesPlayerStatistics:
@@ -280,12 +280,12 @@ XO:
 	Armor:
 		Type: Light
 	Buildable:
-		BuildPaletteOrder: 9
+		BuildPaletteOrder: 10
 		Prerequisites: tech, ~exosuit.unlock, ~techlevel.high
 		Queue: Infantry.GDI
 		Description: Power armored Infantry unit.\n  Cannot be crushed.\n  Immune to Tiberium.\n  Special ability: Jet Packs\nCan scale Cliffs as it was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles, Aircraft
 	Mobile:
-		Locomotor: exosuit
+		Locomotor: powerfoot
 		TurnSpeed: 40
 		Speed: 49
 		Voice: Move
@@ -346,3 +346,45 @@ XO:
 		TargetTypes: Repair
 	DetectCloaked:
 		Range: 1c0
+
+#	'Advanced' Grenadier
+#	hence E22
+E22:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Buildable:
+		BuildPaletteOrder: 11
+		Prerequisites: ~disabled
+		Queue: Infantry.GDI
+		Description: Infantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+	Valued:
+		Cost: 600
+	Mobile:
+		Speed: 42
+	Tooltip:
+		Name: Mortar Soldier
+	Health:
+		HP: 5500
+	Armor:
+		Type: Flak
+	Armament:
+		Weapon: MortarShell
+		LocalOffset: 200,0,10
+		FireDelay: 15
+	AttackFrontal:
+	RenderRangeCircle:
+	WithInfantryBody:
+		DefaultAttackSequence: throw
+	Explodes:
+		Weapon: GrenadierExplode
+		EmptyWeapon: GrenadierExplode
+		Chance: 50
+	Passenger:
+		CustomPipType: pip-red
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 150
+		Type: InfantryRefund
+	RevealsShroud:
+		Range: 5c0

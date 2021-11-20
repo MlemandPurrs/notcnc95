@@ -34,7 +34,7 @@ airstrike.upgrade:
 	Buildable:
 		BuildPaletteOrder: 1
 		Queue: Aircraft.GDI
-		Prerequisites: ~airstrike.unlock, ~eye, ~techlevel.unrestricted
+		Prerequisites: ~airstrike.unlock, ~eye, ~bombard.strat, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
 	Valued:
@@ -271,7 +271,7 @@ bombard.strat:
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!seek.strat, ~!hold.strat, ~techlevel.high
 		BuildDuration: 2250
-		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains +15% Armor and +30% Speed.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Only one Strategy may be chosen.
+		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains +15% Armor and +30% Speed.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Enables:\n  + Airstrike upgrade\n  + Tank Veterancy upgrade\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -286,7 +286,7 @@ seek.strat:
 		BuildPaletteOrder: 17
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!hold.strat, ~techlevel.high
-		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Only one Strategy may be chosen.
+		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Enables:\n  + Orca Veterancy upgrade\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -302,7 +302,7 @@ hold.strat:
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!seek.strat, ~techlevel.high
 		BuildDuration: 2250
-		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Only one Strategy may be chosen.
+		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Enables:\n  + Infantry Veterancy upgrade\n\n  Only one Strategy may be chosen.	
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -383,6 +383,9 @@ ssmreload.upgrade:
 	RenderSprites:
 		Image: ssmreload.upgrade
 
+#	im not satisfied with the workarounds
+#	and the side-effects they are causing
+#	so this will have to wait...
 orcaammo.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -390,7 +393,8 @@ orcaammo.upgrade:
 	Buildable:
 		BuildPaletteOrder: 13
 		Queue: Aircraft.GDI
-		Prerequisites: ~hpad, ~eye, ~techlevel.unrestricted
+		#	Prerequisites: ~hpad, ~eye, ~techlevel.unrestricted
+		Prerequisites: ~disabled
 		BuildDuration: 1500
 		Description: Add two more rocket salvo to Orca.\n\n  Upgrades: Orca\n  + Orca gains +4 Ammo\n  - Rearming to full takes longer\n  Existing Orcas can be upgraded by landing on Helipad
 	Valued:
@@ -407,7 +411,7 @@ carryall.unlock:
 		Queue: Aircraft.GDI
 		Prerequisites: ~hpad, ~fix, ~upgc, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows to build the Orca Carryall unit.\n\n  Unlocks: Orca Carryall\n\n  + VTOL Transport capable of carrying all Vehicles
+		Description: Allows to build the Orca Carryall unit.\n\n  Unlocks: Orca Carryall\n  + VTOL Transport capable of carrying all Vehicles
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -437,8 +441,116 @@ exosuit.unlock:
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~eye, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows to built Exosuit Trooper units.\n\n  Unlocks: Exosuit Trooper\n\n  + Equipped with Jetpacks can traverse over cliffs.\n  + Immune to Tiberium.
+		Description: Allows to build Exosuit Trooper units.\n\n  Unlocks: Exosuit Trooper\n\n  + Equipped with Jetpacks can traverse over cliffs.\n  + Immune to Tiberium.
 	Valued:
 		Cost: 1000
 	RenderSprites:
 		Image: exosuit.unlock
+
+#	sort of incentive compensation for 
+#	keep training the now expensive stuff
+tank.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Tank Crews
+	Buildable:
+		BuildPaletteOrder: 22
+		Queue: Aircraft.GDI
+		Prerequisites: ~weap, ~fix, ~upgc, ~bombard.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Main Battle Tanks.\n\n  Enables: Initial veterancy rank-up for MBT
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: tank.veterancy
+
+e1.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Infantry
+	Buildable:
+		BuildPaletteOrder: 22
+		Queue: Aircraft.GDI
+		Prerequisites: ~pyle, ~upgc, ~hold.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Riflemen.\n\n  Enables: Initial veterancy rank-up for Rifleman
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: e1.veterancy
+
+orca.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Orca Pilots
+	Buildable:
+		BuildPaletteOrder: 22
+		Queue: Aircraft.GDI
+		Prerequisites: ~hpad, ~hq, ~upgc, ~seek.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Orcas.\n\n  Enables: Initial veterancy rank-up for Orca
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: orca.veterancy
+
+#	unsure if this is needed
+powerplants.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Power Plants
+	Buildable:
+		BuildPaletteOrder: 23
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Develop more refined designs that generate more Power.\n\n  Upgrades: Power Plants\n  + Standard plant Generates 50 more Power\n  + Advanced plant Generates 100 more Power\n  Existing Powerplants will not be affected!
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: powerplants.upgrade
+
+icbm.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Authorize: ICBM Launcher
+	Buildable:
+		BuildPaletteOrder: 24
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~!msar.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+		BuildDuration: 0
+		Description: ICBM Launcher will be prepared for delivered as super-unit.\n\n  Unlocks: ICBM Launcher\n\n  + Devastating against everything across the range\n  - Very loooong reloading time\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2500
+	RenderSprites:
+		Image: icbm.unlock
+
+msar.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Authorize: Mobile Sensor Array
+	Buildable:
+		BuildPaletteOrder: 25
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~!icbm.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+		BuildDuration: 0
+		Description: Mobile Sensor Array will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile Sensor Array\n\n  + Provides Vision in a large area when deployed\n  + Detects Stealth units in a large area when deployed\n  -  Drains power when deployed\n  -  Stealth detection pauses on lowpower\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 1800
+	RenderSprites:
+		Image: msar.unlock
+
+pbat.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Authorize: Mobile S.A.M.
+	Buildable:
+		BuildPaletteOrder: 26
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~!msar.unlock, ~!icbm.unlock, ~techlevel.unrestricted
+		BuildDuration: 0
+		Description: Mobile S.A.M. will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile S.A.M.\n\n  + Powerful anti-air Defense\n  - Light armored for its size\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: pbat.unlock

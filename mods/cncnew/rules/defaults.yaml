@@ -106,7 +106,7 @@
 		RequiresCondition: rank-veteran == 2
 	WithDecoration@RANK-ELITE:
 		Image: rank
-		Sequence: rank-elite
+		Sequence: rank-veteran-3
 		Palette: effect
 		Position: TopLeft
 		Margin: 5, 6
@@ -505,6 +505,7 @@
 		BlinkInterval: 32
 		BlinkPattern: On, Off
 	DetectCloaked:
+		CloakTypes: Stealth, GroundStealth, AirStealth
 		Range: 1c0
 	DeathSounds@NORMAL:
 		DeathTypes: DefaultDeath, BulletDeath, SmallExplosionDeath, ExplosionDeath, RippedApartDeath
@@ -698,7 +699,7 @@
 	OwnerLostAction:
 		Action: Kill
 	Targetable:
-		TargetTypes: Ground, Water
+		TargetTypes: Ground, Water, Ship
 	HiddenUnderFog:
 	ActorLostNotification:
 	AttackMove:
@@ -1433,7 +1434,7 @@
 		Condition: stopatmedium
 		ValidDamageStates: Heavy
 	ChangesHealth@LOWPOWERDMG:
-		Step: -125
+		Step: -138
 		Delay: 56
 		StartIfBelow: 101
 		DamageCooldown: 0
@@ -1493,9 +1494,11 @@
 	Armor:
 		Type: Light
 	Cloak:
+		CloakTypes: GroundStealth
 		CloakSound:
 		UncloakSound:
-		Palette:
+		Palette: cloakgreen
+		IsPlayerPalette: false
 		InitialDelay: 0
 	Tooltip:
 		Name: Mine
@@ -1662,8 +1665,11 @@
 	Cloak:
 		InitialDelay: 15
 		CloakDelay: 90
+		CloakTypes: Stealth
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
+		Palette: cloak
+		IsPlayerPalette: false
 		PauseOnCondition: cloak-force-disabled || emp-crate-collected || oncarryall
 		RequiresCondition: cloak-crate-collected
 	ExternalCondition@CLOAK:
@@ -1752,3 +1758,10 @@
 		RequiresCondition: driver-dead
 		ValidRelationships: Neutral
 		CancelActivity: true
+		
+^AffectedBySensor:
+	ExternalCondition@SightBoost:
+		Condition: sightboosted
+	RevealsShroudMultiplier@SightBoost:
+		Modifier: 150
+		RequiresCondition: sightboosted

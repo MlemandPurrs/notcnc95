@@ -31,6 +31,7 @@ GTWR:
 	BodyOrientation:
 		QuantizedFacings: 8
 	DetectCloaked:
+		CloakTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
 	RenderDetectionCircle:
@@ -98,7 +99,7 @@ GUN:
 	WithBuildingBib:
 		HasMinibib: true
 	Turreted:
-		TurnSpeed: 48
+		TurnSpeed: 24
 		InitialFacing: 192
 		RealignDelay: -1
 		RequiresCondition: !build-incomplete
@@ -116,6 +117,7 @@ GUN:
 		PauseOnCondition: build-incomplete || mwavdisable
 	WithMuzzleOverlay:
 	DetectCloaked:
+		CloakTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
 	RenderDetectionCircle:
@@ -196,8 +198,10 @@ ATWR:
 	BodyOrientation:
 		QuantizedFacings: 8
 	DetectCloaked:
+		CloakTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete && mwavdisable
+	RenderDetectionCircle:
 	Power:
 		Amount: -50
 		RequiresCondition: !build-incomplete && !mwavdisable
@@ -251,6 +255,10 @@ OBLI:
 		HasMinibib: true
 	WithChargeOverlay:
 		Sequence: active
+		PauseOnCondition: !hasbeenbuilt || lowpower || mwavdisable
+	GrantCondition:
+		Condition: hasbeenbuilt
+		RequiresCondition: !build-incomplete
 	Armament:
 		Weapon: Laser
 		LocalOffset: 0,-85,1280
@@ -263,8 +271,10 @@ OBLI:
 		SoundFiles: obelpowr.aud
 		Interval: 30, 40
 	DetectCloaked:
+		CloakTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
 	Power:
 		Amount: -80
 		RequiresCondition: !build-incomplete && !mwavdisable
@@ -301,7 +311,7 @@ CRAM:
 		BuildPaletteOrder: 9
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Defence.GDI
-		Description: Anti-Aircraft base defense.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+		Description: Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
 	Valued:
 		Cost: 800
 	Tooltip:
@@ -408,6 +418,12 @@ CRAM:
 	TimedConditionBar@MWAVDISABLE:
 		Condition: mwavdisable
 		Color: FFFFFF
+	DetectCloaked:
+		CloakTypes: AirStealth
+		Range: 7c512
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
+		Color: 00ffff
 
 CRAM.Husk:
 	Inherits: ^DefenseHusk
@@ -442,7 +458,7 @@ SAM:
 		BuildPaletteOrder: 9
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Defence.Nod
-		Description: Cloaked Anti-Aircraft base defense.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+		Description: Cloaked Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
 	Building:
 		Footprint: xx
 		Dimensions: 2,1
@@ -451,7 +467,7 @@ SAM:
 	Armor:
 		Type: Heavy
 	RevealsShroud:
-		Range: 8c0
+		Range: 6c0
 	Turreted:
 		TurnSpeed: 40
 		InitialFacing: 0
@@ -498,9 +514,12 @@ SAM:
 		Sequence: place
 		SequencePalette: placebuilding
 	Cloak:
+		CloakTypes: GroundStealth
 		InitialDelay: 125
 		CloakDelay: 75
+		Palette: cloakgreen
 		IsPlayerPalette: false
+		UncloakSound: appear1.aud
 		PauseOnCondition: cloak-force-disabled || build-incomplete || is-shooting || mwavdisable
 	GrantConditionOnDamageState@UNCLOAK:
 		Condition: cloak-force-disabled
@@ -522,6 +541,12 @@ SAM:
 	TimedConditionBar@MWAVDISABLE:
 		Condition: mwavdisable
 		Color: FFFFFF
+	DetectCloaked:
+		CloakTypes: AirStealth
+		Range: 7c512
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
+		Color: 00ffff
 
 SAM.Husk:
 	Inherits: ^DefenseHusk
@@ -685,3 +710,176 @@ VGATE:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
+
+CSTL:
+	Inherits: ^Defense
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	-WithDeathAnimation:
+	-BodyOrientation:
+	Selectable:
+		Bounds: 28,28
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Coastal Gun
+	Buildable:
+		BuildPaletteOrder: 99
+		Prerequisites: ~disabled
+		Queue: Defence.Nod
+		Description: Anti-Naval turret.\n  Strong vs Ships\n  Weak vs everything Else
+	Building:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 6c0
+	WithBuildingBib:
+		HasMinibib: true
+	Turreted:
+		TurnSpeed: 16
+		InitialFacing: 192
+		RealignDelay: -1
+		RequiresCondition: !build-incomplete
+	WithSpriteTurret:
+		RequiresCondition: !build-incomplete
+	Armament:
+		Weapon: CoastalGun
+		LocalOffset: 864,-200,112, 864,0,112, 864,200,112
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || mwavdisable
+	AttackTurreted:
+		PauseOnCondition: build-incomplete || mwavdisable
+	WithMuzzleOverlay:
+	DetectCloaked:
+		CloakTypes: Stealth
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	WithRangeCircle:
+		Range: 11c0
+		Color: FFFF0080
+	RenderDetectionCircle:
+	Power:
+		Amount: -40
+		RequiresCondition: !build-incomplete && !mwavdisable
+	ClassicFacingBodyOrientation:
+	SpawnActorOnDeath:
+		Actor: cstl.husk
+		OwnerType: InternalName
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+	AmmoPool:
+		Name: primary
+		Armaments: primary
+		Ammo: 3
+		AmmoCondition: ammo
+	ReloadAmmoPoolCA@AmmoPool:
+		AmmoPool: primary
+		Delay: 120
+		Count: 3
+		SelectionBarColor: FFFF00
+		PauseOnCondition: mwavdisable
+	WithAmmoPipsDecoration@AmmoPool:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 3
+		FullSequence: pip-yellow
+		RequiresSelection: true
+		AmmoPools: primary
+
+CSTL.Husk:
+	Inherits: ^DefenseHusk
+	Turreted:
+		TurnSpeed: 12
+		InitialFacing: 56
+	-WithSpriteBody:
+	WithEmbeddedTurretSpriteBody:
+	Tooltip:
+		Name: Coastal Battery (Destroyed)
+
+LTUR:
+	Inherits: ^Defense
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	-WithDeathAnimation:
+	-BodyOrientation:
+	Selectable:
+		Bounds: 24,24
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Laser Turret
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: ~disabled
+		Queue: Defence.Nod
+		Description: Anti-Infantry base defense.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Aircraft
+	Building:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 6c0
+	WithBuildingBib:
+		HasMinibib: true
+	Turreted:
+		TurnSpeed: 24
+		InitialFacing: 128
+		RealignDelay: -1
+		RequiresCondition: !build-incomplete
+	WithSpriteTurret:
+		RequiresCondition: !build-incomplete
+		Recoils: false
+	Armament:
+		Weapon: LaserTur
+		LocalOffset: 512,0,172
+		PauseOnCondition: mwavdisable
+	AttackTurreted:
+		PauseOnCondition: build-incomplete || mwavdisable
+	WithMuzzleOverlay:
+	DetectCloaked:
+		CloakTypes: Stealth
+		Range: 3c768
+		RequiresCondition: !lowpower && !build-incomplete && !mwavdisable
+	RenderDetectionCircle:
+	Power:
+		Amount: -20
+		RequiresCondition: !build-incomplete && !mwavdisable
+	ClassicFacingBodyOrientation:
+	SpawnActorOnDeath:
+		Actor: ltur.husk
+		OwnerType: InternalName
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	WithColoredOverlay@IDISABLE:
+		RequiresCondition: mwavdisable
+		Palette: disabled
+	Sellable:
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !mwavdisable
+	ExternalCondition@MWAVDISABLE:
+		Condition: mwavdisable
+	TimedConditionBar@MWAVDISABLE:
+		Condition: mwavdisable
+		Color: FFFFFF
+
+LTUR.Husk:
+	Inherits: ^DefenseHusk
+	Turreted:
+		TurnSpeed: 12
+		InitialFacing: 56
+	-WithSpriteBody:
+	WithEmbeddedTurretSpriteBody:
+	Tooltip:
+		Name: Laser Turret (Destroyed)

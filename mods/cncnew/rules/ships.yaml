@@ -23,6 +23,7 @@ BOAT:
 	Armament:
 		Weapon: BoatMissile
 		LocalOffset: 85,-85,0, 85,85,0
+		LocalYaw: 64, -64
 	AttackTDGunboatTurreted:
 	-QuantizeFacingsFromSequence:
 	BodyOrientation:
@@ -52,7 +53,7 @@ LST:
 	Inherits: ^Ship
 	Inherits@TRANSPORT: ^Transport
 	Valued:
-		Cost: 300
+		Cost: 500
 	Tooltip:
 		Name: Landing Craft
 	Buildable:
@@ -60,7 +61,7 @@ LST:
 		BuildPaletteOrder: 1000
 		Prerequisites: ~disabled
 	Mobile:
-		Locomotor: lcraft
+		Locomotor: hovercraft
 		InitialFacing: 0
 		TurnSpeed: 16
 		Speed: 142
@@ -85,3 +86,46 @@ LST:
 		MaxWeight: 5
 		PassengerFacing: 0
 		LoadingCondition: notmobile
+
+GB:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Gunboat
+	Health:
+		HP: 70000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Locomotor: naval
+		TurnSpeed: 8
+		Speed: 56
+	RevealsShroud:
+		Range: 7c0
+	Turreted:
+		TurnSpeed: 20
+		Offset: 586,0,80
+	Armament@PRIMARY:
+		Weapon: BoatMissile
+		LocalOffset: 85,-85,0, 85,85,0
+		LocalYaw: 64, -64
+	AttackTurreted:
+	WithSpriteTurret:
+	RenderRangeCircle:
+	Selectable:
+		DecorationBounds: 65,55
+	WithFacingSpriteBody:
+	GrantConditionOnDamageState@HEAVY:
+		Condition: heavy-damage
+		ValidDamageStates: Heavy
+	GrantConditionOnDamageState@CRITICAL:
+		Condition: critical-damage
+		ValidDamageStates: Critical
+	SpeedMultiplier@HEAVYDAMAGE:
+		RequiresCondition: heavy-damage
+		Modifier: 75
+	SpeedMultiplier@CRITICALDAMAGE:
+		RequiresCondition: critical-damage
+		Modifier: 50

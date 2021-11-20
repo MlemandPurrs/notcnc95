@@ -117,9 +117,17 @@ ltnk:
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
+	turret-aa: aa-tur
+		Facings: 32
+		UseClassicFacings: True	
 	muzzle: gunfire2
 		Length: *
+	muzzle-air: apcmuz
+		Length: 3
+		Stride: 6
+		Facings: 8
 	icon: ltnkicon
+	atnkicon: atnkicon
 
 ltnk.destroyed:
 	idle: ltnk
@@ -346,6 +354,7 @@ mlrs:
 		Facings: 32
 		UseClassicFacings: True
 	icon: mlrsicon
+	nodmsamicon: nodmsamicon
 
 mlrs.destroyed:
 	idle: mlrs
@@ -451,10 +460,10 @@ napc:
     Inherits: emp-overlay
 	idle: 
 		Facings: 32
-		UseClassicFacingFudge: True
+		UseClassicFacings: True
 	turret: napc-tur
 		Facings: 32
-		UseClassicFacingFudge: True		
+		UseClassicFacings: True		
 	muzzle: minigun
 		Length: 6
 		Facings: 16
@@ -631,3 +640,93 @@ nodctnk.destroyed:
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512
+
+nodmtnk:
+    Inherits: emp-overlay
+	idle: mtnk
+		Facings: 32
+		UseClassicFacings: True
+	turret: nodmtnktur
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: cannmuzz
+		Length: 2
+		Facings: 16
+	icon: nodmtnkicon
+
+nodmtnk.destroyed:
+	idle: mtnk
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: nodmtnktur
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+aav:
+	Inherits: emp-overlay
+	idle: aav
+		Facings: 32
+		UseClassicFacings: True
+	idle-float: aav-float
+		Facings: 32
+		UseClassicFacings: True
+	turret: aav-tur
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: gunfire2
+		Length: *
+	icon: aavicon
+
+aav.destroyed:
+	idle: aav
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: aav-tur
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+atnk.destroyed:
+	idle: ltnk
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: aa-tur
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+btr:
+    Inherits: emp-overlay
+	idle: 
+		Facings: 32
+		UseClassicFacings: True
+	turret: napc-tur
+		Facings: 32
+		UseClassicFacings: True		
+	muzzle: minigun
+		Length: 6
+		Facings: 16
+	icon: btricon
+
+btr.destroyed:
+	idle: btr
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+msar:
+    Inherits: emp-overlay
+	idle: msar
+		Facings: 32
+		UseClassicFacings: True
+	make: msarmake
+		Length: *
+		Tick: 50
+	idle-static: msardeployed
+		Length: 14
+		Tick: 80
+	icon: msaricon

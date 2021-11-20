@@ -338,3 +338,21 @@ MicrowaveZapSound:
 			Light: 0
 			Medium: 0
 			Heavy: 0
+
+LaserTur:
+	Inherits: Laser
+	ReloadDelay: 30
+	Range: 6c0
+	Report: lastur1.aud
+	Projectile: LaserZap
+		Width: 45
+		Duration: 5
+		SecondaryBeamWidth: 65
+		SecondaryBeamColor: FF000030
+		Blockable: true
+	Warhead@1Dam: SpreadDamage
+		Damage: 5500
+		Versus:
+			Wood: 75
+			Concrete: 50
+			Heavy: 30

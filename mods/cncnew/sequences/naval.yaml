@@ -35,3 +35,12 @@ boat:
 		Offset: -1,2
 		Tick: 120
 	icon: boaticon
+
+gb:
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret: gb-tur
+		Facings: 32
+		UseClassicFacings: True
+	icon: boaticon

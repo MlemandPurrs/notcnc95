@@ -320,3 +320,7 @@ ModContent:
 		cncnew|installer/gdi95.yaml
 		cncnew|installer/nod95.yaml
 		cncnew|installer/origin.yaml
+
+ModCredits:
+	ModCreditsFile: cncnew|credits.txt
+	ModTabTitle: Not CnC 95 Mod

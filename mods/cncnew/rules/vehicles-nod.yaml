@@ -94,6 +94,7 @@ BIKE:
 	Passenger:
 		CustomPipType: pip-yellow
 	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		Range: 3c768
 		RequiresCondition: !emp-crate-collected
 	RenderDetectionCircle:
@@ -399,7 +400,7 @@ HOWI:
 	RevealsShroud:
 		Range: 5c0
 	Armament:
-		Weapon: ArtilleryShell
+		Weapon: HowitzerShell
 		LocalOffset: 624,0,208
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
@@ -485,7 +486,10 @@ MLRS:
 		Sequence: turret0
 	AutoTarget:
 		InitialStanceAI: Defend
-	RenderRangeCircle:
+	#	RenderRangeCircle:
+	WithRangeCircle:
+		Range: 11c0
+		Color: FFFF0080
 	SpawnActorOnDeath:
 		Actor: MLRS.Husk
 		OwnerType: InternalName
@@ -522,7 +526,7 @@ STNK:
 		BuildPaletteOrder: 8
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Vehicle.Nod
-		Description: Long-range missile tank that can cloak.\nCan attack Aircraft.\nHas weak armor. Can be spotted by infantry and defense structures.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry.
+		Description: Long-range missile tank that can cloak.\nCan attack Aircraft.\n  Special ability: Cloaking Mantle\nRemains Stealthed outside of combat. Can be spotted by Infantry\nand detected by Defense structures.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
 	Mobile:
 		Locomotor: heavywheeled
 		TurnSpeed: 40
@@ -541,6 +545,8 @@ STNK:
 		CloakDelay: 90
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
+		Palette: cloak
+		IsPlayerPalette: false
 		UncloakOn: Attack, Unload, Dock, Damage, Heal
 		PauseOnCondition: cloak-force-disabled || emp-crate-collected || oncarryall
 	GrantConditionOnDamageState@UNCLOAK:
@@ -770,3 +776,175 @@ NODCTNK:
 		RevokeDelay: 16
 		RevokeOnNewTarget: False
 		RevokeAll: True
+
+NODMTNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Medium Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: ~disabled
+		Queue: Vehicle.Nod
+		Description: General-Purpose Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
+	Mobile:
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 45000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 20
+	Armament:
+		Weapon: 120mm
+		Recoil: 128
+		RecoilRecovery: 26
+		LocalOffset: 768,0,90
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Explodes:
+		Weapon: UnitExplodeBig
+		EmptyWeapon: UnitExplodeBig
+	SpawnActorOnDeath:
+		Actor: NODMTNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Selectable:
+		DecorationBounds: 28,28
+
+ATNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Anti-Air Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 97
+		Prerequisites: ~disabled
+		Queue: Vehicle.Nod
+		Description: Mobile Anti-Air unit.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+		Icon: atnkicon		
+	Mobile:
+		TurnSpeed: 28
+		Speed: 110
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 34000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 46
+	Armament:
+		Weapon: AAVulcan
+		LocalOffset: 85,85,299, 85,-85,299
+		MuzzleSequence: muzzle-air
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: primary
+		Ammo: 12
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		AmmoPool: ammo
+		Delay: 75
+		Count: 12
+		PauseOnCondition: ammo || emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+		Sequence: turret-aa
+	SpawnActorOnDeath:
+		Actor: ATNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderSprites:
+		Image: ltnk
+
+#	maybe should simplify Nod APC like this
+BTR:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
+	Inherits@TRANSPORT: ^Transport
+	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
+	Inherits@Cloak: ^AcceptsCloakCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: ~disabled
+		Queue: Vehicle.Nod
+		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, 
+	Valued:
+		Cost: 500
+	Health:
+		HP: 20000
+	Mobile:
+		Locomotor: heavywheeled
+		Speed: 156
+		PauseOnCondition: notmobile || emp-crate-collected || boarding
+	Armor:
+		Type: Light
+	Tooltip:
+		Name: Nod APC
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadedCondition: loaded
+		LoadingCondition: notmobile
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Passenger:
+		CustomPipType: pip-green
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 250,0,100
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 24
+		Offset: 0,0,128
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	SpawnActorOnDeath:
+		Actor: BTR.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33

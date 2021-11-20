@@ -81,3 +81,24 @@ supplylines.upgrade:
 
 exosuit.unlock:
 	icon: xoicon
+
+powerplants.upgrade:
+	icon: nukeicon
+
+tank.veterancy:
+	icon: mtnkveticon
+
+e1.veterancy:
+	icon: e1veticon
+	
+orca.veterancy:
+	icon: orcaveticon
+
+icbm.unlock:
+	icon: icbmunlockicon
+
+msar.unlock:
+	icon: msarunlockicon
+
+pbat.unlock:
+	icon: pbatunlockicon

@@ -88,12 +88,6 @@
 		G: 0
 		B: 0
 		A: 140
-	PaletteFromRGBA@cloak:
-		Name: cloak
-		R: 0
-		G: 0
-		B: 0
-		A: 140
 	PaletteFromRGBA@highlight:
 		Name: highlight
 		R: 255
@@ -142,7 +136,6 @@
 	PlayerHighlightPalette:
 	MenuPaletteEffect:
 		MenuEffect: Desaturated
-	CloakPaletteEffect:
 	FlashPaletteEffect:
 	RotationPaletteEffect@water:
 		ExcludePalettes: effect, chrome
@@ -178,3 +171,24 @@
 		G: 51
 		B: 51
 		A: 128
+	PaletteFromPlayerPaletteWithAlpha@cloak:
+		BaseName: cloak
+		BasePalette: overlayplayer
+		Alpha: 0.55
+	PaletteFromRGBA@cloak:
+		Name: cloak
+		R: 0
+		G: 0
+		B: 0
+		A: 140
+	PaletteFromPlayerPaletteWithAlpha@cloakgreen:
+		BaseName: cloakgreen
+		BasePalette: overlayplayer
+		Alpha: 0.55
+	PaletteFromRGBA@cloakgreen:
+		Name: cloakgreen
+		R: 0
+		G: 90
+		B: 0
+		A: 140
+	CloakPaletteEffect:

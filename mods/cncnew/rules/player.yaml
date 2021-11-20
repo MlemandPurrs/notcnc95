@@ -139,3 +139,6 @@ Player:
 		Enabled: False
 		DisplayOrder: 98
 		Prerequisites: global-givehazmat
+	VeteranProductionIconOverlay:
+		Image: veteranoverlay
+		Sequence: veteran

@@ -182,7 +182,7 @@ NUKE:
 		Prerequisite: anypower
 	Buildable:
 		BuildPaletteOrder: 1
-		Prerequisites: fact, ~techlevel.low
+		Prerequisites: fact, ~!powerplants.upgrade, ~techlevel.low
 		Queue: Building.GDI, Building.Nod
 		Description: Generates a standard amount of power.
 	Building:
@@ -227,6 +227,31 @@ NUKE.Husk:
 		FactionImages:
 			nod: nodnuke.husk
 
+NUKE.Upgraded:
+	Inherits: NUKE
+	Buildable:
+		Prerequisites: fact, ~powerplants.upgrade, ~techlevel.low
+	Power:
+		Amount: 150
+	SpawnActorOnDeath:
+		Actor: nuke.upgraded.husk
+		OwnerType: InternalName		
+	RenderSprites:
+		Image: gdinuke
+
+NUKE.Upgraded.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Power Plant (Destroyed)
+	RenderSprites:
+		Image: gdinuke.husk
+
 NUK2:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
@@ -242,7 +267,7 @@ NUK2:
 		Prerequisite: anypower
 	Buildable:
 		BuildPaletteOrder: 4
-		Prerequisites: hq, ~techlevel.medium
+		Prerequisites: hq, ~!powerplants.upgrade, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
 		Description: Provides more power, cheaper than keep\nbuilding the standard Power Plant.
 	Building:
@@ -286,6 +311,31 @@ NUK2.Husk:
 		Image: nuk2.husk
 		FactionImages:
 			nod: nodnuk2.husk
+
+NUK2.Upgraded:
+	Inherits: NUK2
+	Buildable:
+		Prerequisites: hq, ~powerplants.upgrade, ~techlevel.medium
+	Power:
+		Amount: 300
+	SpawnActorOnDeath:
+		Actor: nuk2.upgraded.husk
+		OwnerType: InternalName	
+	RenderSprites:
+		Image: gdinuk2
+
+NUK2.Upgraded.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Advanced Power Plant (Destroyed)
+	RenderSprites:
+		Image: gdinuk2.husk
 
 PROC:
 	Inherits: ^BaseBuilding
@@ -872,7 +922,7 @@ FIX:
 	Reservable:
 	RepairsUnits:
 		HpPerStep: 1000
-		Interval: 15
+		Interval: 9
 		PlayerExperience: 0
 		StartRepairingNotification: Repairing		
 		RepairDamageTypes: Repair
@@ -1025,6 +1075,7 @@ HQ:
 		RequiresCondition: !lowpower
 	RenderDetectionCircle:
 	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		Range: 5c0
 		RequiresCondition: !lowpower
 	Power:
@@ -1059,7 +1110,9 @@ HQ:
 		EffectImage: sonarbox
 		EffectSequence: scanping
 		EffectPalette: effect
-		DeploySound: 
+		DeploySound: reveal1.aud
+		#	TargetCircleRange: 7c536
+		#	TargetCircleColor: 32cd32
 	SupportPowerChargeBar:
 	RenderSprites:
 		Image: hq
@@ -1231,7 +1284,7 @@ EYE.Plug:
 		Name: Sattelite Uplink
 	Buildable:
 		BuildPaletteOrder: 12
-		Prerequisites: tech, !eye.plug, ~!aitoodumb, ~techlevel.high
+		Prerequisites: hq, tech, !eye.plug, ~!aitoodumb, ~techlevel.high
 		Queue: Building.GDI
 		BuildLimit: 1
 		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and Sniper.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
@@ -1278,6 +1331,7 @@ EYE:
 		RequiresCondition: !lowpower
 	RenderDetectionCircle:
 	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
 		Range: 5c0
 		RequiresCondition: !lowpower
 	IonCannonPower@IonCannon:
@@ -1578,8 +1632,8 @@ TMPF:
 		Description: Appears like a Temple of Nod to your enemies.\n  Maximum one can be built.\n  Special ability: Fake Nuke\nThis missile looks like an Atom Bomb,\nuntil it detonates non-violently.
 		Icon: fake-icon
 	Building:
-		Footprint: xxx xxx
-		Dimensions: 3,2
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	RenderSprites:
 		Image: tmpl
@@ -1696,10 +1750,11 @@ UPGC:
 	-CaptureManager:
 	Selectable:
 		Bounds: 72,48
+		DecorationBounds: 72,48,0,12
 	Building:
-		Footprint: xxx xxx
-		Dimensions: 3,2
-		LocalCenterOffset: 0,-512,0
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-1024,0
 	Health:
 		HP: 80000
 	Armor:
@@ -1748,15 +1803,11 @@ UPGC:
 		AutoFire: True
 		DisplayTimerRelationships: None
 		SupportPowerPaletteOrder: 4
-	#	unfortunately will work for ICBM, too
+	#	seems this attaches itself to
+	#	first encountered when parsing
+	#	the file from top to bottom
 	SupportPowerChargeBar@SupplyDrop:
 		Color: FFFF9E			
-	#	PeriodicProducerCA@DROP:
-	#	Type: Dropzone
-	#	ChargeDuration: 4500
-	#	Actors: moneycrate.drop
-	#	ShowSelectionBar: true
-	#	RequiresCondition: !lowpower
 	WithIdleOverlay@DZONE:
 		RequiresCondition: !build-incomplete
 		Sequence: turret-drop
@@ -1769,26 +1820,53 @@ UPGC:
 	Exit:
 		SpawnOffset: 511,511,0
 		ExitCell: 1,1
-	ProduceActorPower@ICBM:
+	ProduceActorPowerCA@ICBM:
 		Type: Dropzone
 		Actors: icbm
 		Icon: icbm
-		Description: Authorize: ICBM Launcher
+		Description: Delivery: ICBM Launcher
 		LongDesc: Delivers a nuclear rocket launcher\nheavy Artillery vehicle via Airlift\nto Strategy Center's Dropzone.\n  Can be used only once per game.
-		Prerequisites: ~techlevel.unrestricted
+		Prerequisites: ~icbm.unlock, ~techlevel.unrestricted
 		SupportPowerPaletteOrder: 5
 		OrderName: DeliverICBMLauncher
 		OneShot: true
 		ChargeInterval: 12000
 		PauseOnCondition: lowpower
+		AutoFire: True
+	ProduceActorPowerCA@MSAR:
+		Type: Dropzone
+		Actors: msar
+		Icon: msar
+		Description: Delivery: Mobile Sensor Array
+		LongDesc: Delivers a mobile sensor array\nsupport vehicle via Airlift\nto Strategy Center's Dropzone.\n  Can be used only once per game.
+		Prerequisites: ~msar.unlock, ~techlevel.unrestricted
+		SupportPowerPaletteOrder: 5
+		OrderName: DeliverMobileSensor
+		OneShot: true
+		ChargeInterval: 9000
+		PauseOnCondition: lowpower
+		AutoFire: True
+	ProduceActorPowerCA@PBAT:
+		Type: Dropzone
+		Actors: pbat
+		Icon: pbat
+		Description: Delivery: Patriot Battery
+		LongDesc: Delivers a patriot battery\nheavy anti-air vehicle via Airlift\nto Strategy Center's Dropzone.\n  Can be used only once per game.
+		Prerequisites: ~pbat.unlock, ~techlevel.unrestricted
+		SupportPowerPaletteOrder: 5
+		OrderName: DeliverPatriotBattery
+		OneShot: true
+		ChargeInterval: 6000
+		PauseOnCondition: lowpower
+		AutoFire: True
 
 UPGC.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
 		Bounds: 48,48
 	Building:
-		Footprint: xxx xxx
-		Dimensions: 3,2
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
 		LocalCenterOffset: 0,-1024,0
 	Tooltip:
 		Name: Strategy Center (Destroyed)

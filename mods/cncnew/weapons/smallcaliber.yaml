@@ -231,6 +231,7 @@ ChainGun.AA:
 Gatt.0:
 	ReloadDelay: 20
 	Range: 8c0
+	MinRange: 1c0
 	Report: gun5.aud
 	ValidTargets: Helicopter, Airplane
 	Projectile: Bullet
@@ -281,3 +282,23 @@ Gatt.3:
 			Light: 15
 			Medium: 30
 			Heavy: 45
+
+AAVulcan:
+	Inherits: ^HeavyMG
+	Range: 8c0
+	MinRange: 1c0
+	ReloadDelay: 4
+	Report: gun5.aud
+	ValidTargets: Helicopter, Airplane
+	Burst: 2
+	Projectile: Bullet
+		Speed: 5c682
+		Inaccuracy: 1c0
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter, Airplane
+		Spread: 426
+		Damage: 800
+		Versus:
+			Light: 100
+			Medium: 65
+			Heavy: 35

@@ -174,6 +174,48 @@ nodnuke.husk:
 		UseTilesetExtension: true
 		Length: *
 
+gdinuke:
+	Defaults:
+		Offset: 0,-4
+	idle:
+		Length: 4
+		Tick: 1000
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 1000
+	dead:
+		Start: 8
+		Tick: 800
+	make: gdinukemake
+		Length: *
+		Tick: 80
+	idle-smoke: nukesmoke
+		Length: *
+		Tick: 160
+		Offset: -1,-23
+		BlendMode: DoubleMultiplicative
+	damaged-idle-smoke: nukesmoke-d
+		Length: *
+		Tick: 160
+		Offset: -1,-23
+		BlendMode: DoubleMultiplicative
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+	icon: nukeicon
+		Offset: 0,0
+
+gdinuke.husk:
+	idle: gdinuke
+		Offset: 0,-4
+		Start: 8
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+
 nuk2:
 	idle:
 		Length: 4
@@ -246,6 +288,48 @@ nodnuk2.husk:
 	bib: bib3
 		UseTilesetExtension: true
 		Length: *
+
+gdinuk2:
+	Defaults:
+		Offset: 0,-4
+	idle:
+		Length: 4
+		Tick: 1000
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 1000
+	dead:
+		Start: 8
+		Tick: 800
+	make: gdinuk2make
+		Length: *
+		Tick: 80
+	idle-smoke: nukesmoke
+		Length: *
+		Tick: 160
+		Offset: -1,-23
+		BlendMode: DoubleMultiplicative
+	damaged-idle-smoke: nukesmoke-d
+		Length: *
+		Tick: 160
+		Offset: -1,-23
+		BlendMode: DoubleMultiplicative
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+	icon: nuk2icon
+		Offset: 0,0
+	
+gdinuk2.husk:
+	idle: gdinuk2
+		Start: 8
+		Offset: 0,-4		
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
 
 proc:
 	idle:
@@ -396,6 +480,8 @@ nodsilo:
 			WINTER: TEMPERAT
 			JUNGLE: TEMPERAT
 			SNOW: TEMPERAT
+		Length: *
+		Offset: 0,1
 	icon: siloicon
 
 nodsilo.husk:
@@ -1368,3 +1454,95 @@ bio.husk:
 		UseTilesetExtension: true
 		Length: *
 		Offset: 0,0
+
+techsilo:
+	idle:
+		Length: 18
+		Tick: 80
+	damaged-idle:
+		Start: 18
+		Length: 19
+		Tick: 80
+	make: techsilomake
+		Length: *
+		Tick: 80
+	dead: techsilo
+		Start: 37
+		Tick: 800
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,-6
+
+cstl:
+	idle: blank1
+	turret:
+		Facings: 32
+		UseClassicFacings: True
+	damaged-turret:
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	make: cstlmake
+		Length: *
+		Tick: 80
+	muzzle: gunfire2
+		Length: *
+	bib: mbGUN
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: -1,-1
+	icon: cstlicon
+
+cstl.husk:
+	idle: cstl
+		Length: 1
+	bib: mbGUN
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: -1,-1
+
+ltur:
+	idle: blank1
+	make: lturmake
+		Length: *
+		Tick: 80
+	turret:
+		Facings: 32
+		UseClassicFacings: True
+	damaged-turret: ltur
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: gunfire2
+		Length: *
+	bib: mbGUN
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: -1,-1
+	icon: lturicon
+
+ltur.husk:
+	idle: lturmake
+		Start: 9
+		Length: 1
+	bib: mbGUN
+		Length: *
+		Offset: -1,-1
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT

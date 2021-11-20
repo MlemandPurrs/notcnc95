@@ -247,7 +247,7 @@ Player:
 			bggy: 5
 			bike: 20
 			apc: 10
-			napc: 5
+			#	napc: 5
 			mtnk: 20
 			ltnk: 30
 			htnk: 50
@@ -262,6 +262,8 @@ Player:
 			rmbo: 1
 			rmb2: 1
 		UnitLimits:
-			harv: 8
+			harv: 12
 			rmbo: 1
 			rmb2: 1
+			medi: 5
+			mech: 5

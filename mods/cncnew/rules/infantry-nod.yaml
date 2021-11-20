@@ -8,7 +8,7 @@ TERR:
 	Tooltip:
 		Name: Fanatic
 	Valued:
-		Cost: 225
+		Cost: 175
 	Health:
 		HP: 6000
 	Armor:
@@ -57,7 +57,7 @@ TERR:
 		RequiresCondition: triggered
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 68
+		Payload: 43
 		Type: InfantryRefund
 	Passenger:
 		Voice: Action
@@ -173,11 +173,14 @@ RMB2:
 		Type: InfantryRefund
 		Voice: Move
 	Cloak:
+		CloakTypes: Stealth
 		InitialDelay: 90
 		CloakDelay: 90
 		CloakedCondition: hidethatskull
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
+		Palette: cloak
+		IsPlayerPalette: false
 		UncloakOn: Attack, Unload, Demolish, Dock, Damage, Heal
 		PauseOnCondition: cloak-force-disabled
 	GrantConditionOnDamageState@UNCLOAK:

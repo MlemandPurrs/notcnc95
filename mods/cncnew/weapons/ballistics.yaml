@@ -141,3 +141,123 @@ Grenade:
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@3Eff: CreateEffect
 		Explosions: small_poof
+
+AAVGun:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 25
+	Report: grenlaun.aud
+	Burst: 3
+	BurstDelays: 7
+	Projectile: Bullet
+		Speed: 300
+		Image: Bomb
+		Blockable: false
+		LaunchAngle: 35
+		Inaccuracy: 0c512
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 2200
+		Versus:
+			None: 100
+			Kevlar: 100
+			Flak: 90
+			Wood: 75
+			Concrete: 75
+			Light: 100
+			Medium: 50
+			Heavy: 30
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+
+CoastalGun:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 60
+	Range: 11c0
+	MinRange: 1c512
+	Report: cstlgun.aud
+	Burst: 3
+	BurstDelays: 8
+	ValidTargets: Ground, Water
+	Projectile: Bullet
+		Image: 120MM
+		Speed: 416
+		Blockable: false
+		LaunchAngle: 35
+		ContrailLength: 8
+		Inaccuracy: 1c256
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 10500
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		ValidTargets: Water
+		Versus:
+			None: 20
+			Light: 100
+			Medium: 100
+			Heavy: 100
+	Warhead@OtherDam: SpreadDamage
+		Spread: 128
+		Damage: 3500
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		ValidTargets: Ground
+		Versus:
+			None: 20
+			Kevlar: 20
+			Flak: 20
+			Wood: 25
+			Concrete: 25
+			Light: 100
+			Medium: 100
+			Heavy: 100
+	Warhead@3Eff: CreateEffect
+		Explosions: small_building
+	Warhead@4Eff: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash1.aud		
+	Warhead@5EffWaterHit: CreateEffect
+		Explosions: small_building
+		ImpactSounds: xplos.aud
+		ValidTargets: Ship
+
+HowitzerShell:
+	Inherits: ArtilleryShell
+	ReloadDelay: 85
+	Range: 9c0
+	Warhead@1Dam: SpreadDamage
+		Damage: 8000
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall
+	Warhead@3Eff: CreateEffect
+		Explosions: small_napalm
+		ImpactSounds: xplosml2.aud
+	Warhead@Flames: FireCluster
+		Weapon: BurnFx
+		RandomClusterCount: 1
+		Dimensions: 1,1
+		Footprint: x
+
+MortarShell:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 70
+	Range: 8c512
+	MinRange: 2c0
+	Report: nade.aud
+	Projectile: Bullet
+		Speed: 190
+		Blockable: false
+		LaunchAngle: 146
+		Inaccuracy: 512
+		ContrailLength: 15
+		Image: BOMB
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 5000
+		Versus:
+			None: 150
+			Kevlar: 150
+			Flak: 140
+			Wood: 60
+			Light: 100
+			Medium: 65
+			Heavy: 35
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
