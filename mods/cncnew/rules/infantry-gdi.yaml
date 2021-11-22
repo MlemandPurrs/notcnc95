@@ -351,8 +351,10 @@ XO:
 #	hence E22
 E22:
 	Inherits: ^Soldier
-	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
 		BuildPaletteOrder: 11
 		Prerequisites: ~disabled
@@ -388,3 +390,47 @@ E22:
 		Type: InfantryRefund
 	RevealsShroud:
 		Range: 5c0
+
+#	'Advanced' Rifleman
+E12:
+	Inherits: ^Soldier
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 400
+	Tooltip:
+		Name: Machine Gunner
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 12
+		Prerequisites: ~disabled
+		Queue: Infantry.GDI
+		Description: Infantry equipped with Machine Gun.\n  Strong vs Infantry\n  Weak vs Vehicles, Defenses
+	Mobile:
+		Speed: 56
+	Health:
+		HP: 6000
+	Armor:
+		Type: Kevlar
+	AutoTarget:
+		ScanRadius: 4
+	Armament:
+		Weapon: MachineGun
+	AttackFrontal:
+	WithInfantryBody:
+		IdleSequences: idle1,idle2
+		DefaultAttackSequence: shoot
+	Passenger:
+		CustomPipType: pip-red
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 100
+		Type: InfantryRefund
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade

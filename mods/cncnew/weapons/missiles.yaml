@@ -46,6 +46,7 @@
 		Explosions: sml_splash
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
+		InvalidTargets: Ground
 
 Dragon:
 	Inherits: ^MissileWeapon
@@ -524,3 +525,9 @@ rah66AG:
 		ImpactSounds: xplos.aud
 		ValidTargets: Ground
 
+HindRockets:
+	Inherits: Rockets
+	ReloadDelay: 8
+	Report: rockbos3.aud
+	Burst: 2
+	BurstDelays: 7

@@ -1434,8 +1434,8 @@
 		Condition: stopatmedium
 		ValidDamageStates: Heavy
 	ChangesHealth@LOWPOWERDMG:
-		Step: -138
-		Delay: 56
+		Step: -140
+		Delay: 52
 		StartIfBelow: 101
 		DamageCooldown: 0
 		RequiresCondition: atlowpower && !stopatmedium
@@ -1765,3 +1765,11 @@
 	RevealsShroudMultiplier@SightBoost:
 		Modifier: 150
 		RequiresCondition: sightboosted
+
+^NodAffectedByTraining:
+	GainsExperienceMultiplier@NodExpBonus:
+		Modifier: 150
+		RequiresCondition: spectraining
+	GrantConditionOnPrerequisite@NodExpBonu:
+		Condition: spectraining
+		Prerequisites: training.upgrade

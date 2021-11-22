@@ -356,3 +356,40 @@ LaserTur:
 			Wood: 75
 			Concrete: 50
 			Heavy: 30
+
+ParaBomb:
+	ReloadDelay: 8
+	Range: 3c0
+	Report: chute1.aud
+	ValidTargets: Ground, Water
+	Projectile: GravityBomb
+		Image: PARABOMB
+		OpenSequence: open
+		Velocity: 0, 0, -40
+		Acceleration: 0, 0, 0
+		Shadow: False
+	Warhead@1Dam: SpreadDamage
+		Spread: 768
+		Damage: 30000
+		ValidTargets: Ground, Water
+		Versus:
+			None: 30
+			Kevlar: 30
+			Flak: 30
+			Wood: 30
+			Concrete: 30
+			Light: 75
+			Medium: 50
+			Heavy: 30
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		ValidTargets: Ground, Infantry
+	Warhead@3Eff: CreateEffect
+		Explosions: poof
+		ImpactSounds: xplosml2.aud
+		ValidTargets: Ground, Water, Trees
+	Warhead@4Eff: CreateEffect
+		Explosions: sml_splash
+		ImpactSounds: ssplash3.aud
+		ValidTargets: Water

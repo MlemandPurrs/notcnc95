@@ -3,7 +3,7 @@ BOAT:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAll
 	Valued:
-		Cost: 300
+		Cost: 600
 	Tooltip:
 		Name: Gunboat
 	UpdatesPlayerStatistics:
@@ -57,9 +57,10 @@ LST:
 	Tooltip:
 		Name: Landing Craft
 	Buildable:
-		Queue: Vehicle.GDI
-		BuildPaletteOrder: 1000
-		Prerequisites: ~disabled
+		Queue: Ships.GDI, Ships.Nod
+		Prerequisites: syrd, ~techlevel.low
+		BuildPaletteOrder: 1
+		Description: Transports ground units across most terrain.\n Slower on land.\n  Unarmed
 	Mobile:
 		Locomotor: hovercraft
 		InitialFacing: 0
@@ -86,12 +87,27 @@ LST:
 		MaxWeight: 5
 		PassengerFacing: 0
 		LoadingCondition: notmobile
+		LoadedCondition: loaded
+	RepairableNear:
+		RepairActors: syrd
+	Sellable:
+		SellSounds: cashturn.aud
+		Cursor: sell2
+		ShowTicks: false
+		RequiresCondition: ship.sellable && !loaded
+	ExternalCondition@Sellable:
+		Condition: ship.sellable
 
 GB:
 	Inherits: ^Ship
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Valued:
-		Cost: 600
+		Cost: 750
+	Buildable:
+		Queue: Ships.GDI, Ships.Nod
+		Prerequisites: syrd, proc, ~techlevel.low
+		BuildPaletteOrder: 2
+		Description: Multi-role fire-support ship.\n  Strong vs Defenses, Tanks\n  Weak vs Aircraft
 	Tooltip:
 		Name: Gunboat
 	Health:
@@ -129,3 +145,22 @@ GB:
 	SpeedMultiplier@CRITICALDAMAGE:
 		RequiresCondition: critical-damage
 		Modifier: 50
+	CaptureManager:
+	Captures:
+		CaptureTypes: naval
+		CaptureDelay: 375
+		ConsumedByCapture: False
+		PlayerExperience: 0
+	RenderSprites:
+		Image: gb
+		FactionImages:
+			nod: gbdark
+	RepairableNear:
+		RepairActors: syrd
+	Sellable:
+		SellSounds: cashturn.aud
+		Cursor: sell2
+		ShowTicks: false
+		RequiresCondition: ship.sellable
+	ExternalCondition@Sellable:
+		Condition: ship.sellable

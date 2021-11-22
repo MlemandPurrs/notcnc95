@@ -1,0 +1,64 @@
+map0.0:
+	idle: maptiles
+		Start: 0
+		ZOffset: -20000
+map1.0:
+	idle: maptiles
+		Start: 0 
+		ZOffset: -20000
+map2.0:
+	idle: maptiles
+		Start: 1
+		ZOffset: -20000
+map3.0:
+	idle: maptiles
+		Start: 2
+		ZOffset: -20000
+map0.1:
+	idle: maptiles
+		Start: 3 
+		ZOffset: -20000
+map1.1:
+	idle: maptiles
+		Start: 4 
+		ZOffset: -20000
+map2.1:
+	idle: maptiles
+		Start: 5
+		ZOffset: -20000
+map3.1:
+	idle: maptiles
+		Start: 6
+		ZOffset: -20000
+map0.2:
+	idle: maptiles
+		Start: 7
+		ZOffset: -20000
+map1.2:
+	idle: maptiles
+		Start: 8
+		ZOffset: -20000
+map2.2:
+	idle: maptiles
+		Start: 9
+		ZOffset: -20000
+map3.2:
+	idle: maptiles
+		Start: 10
+		ZOffset: -20000
+map0.3:
+	idle: maptiles
+		Start: 11
+		ZOffset: -20000
+map1.3:
+	idle: maptiles
+		Start: 12
+		ZOffset: -20000
+map2.3:
+	idle: maptiles
+		Start: 13
+		ZOffset: -20000
+map3.3:
+	idle: maptiles
+		Start: 14
+		ZOffset: -20000

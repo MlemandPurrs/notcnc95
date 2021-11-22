@@ -255,10 +255,9 @@ OBLI:
 		HasMinibib: true
 	WithChargeOverlay:
 		Sequence: active
-		PauseOnCondition: !hasbeenbuilt || lowpower || mwavdisable
-	GrantCondition:
-		Condition: hasbeenbuilt
+		PauseOnCondition: lowpower || mwavdisable
 		RequiresCondition: !build-incomplete
+		#	Palette: redlaser
 	Armament:
 		Weapon: Laser
 		LocalOffset: 0,-85,1280

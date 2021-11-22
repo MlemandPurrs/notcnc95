@@ -102,3 +102,15 @@ msar.unlock:
 
 pbat.unlock:
 	icon: pbatunlockicon
+
+interceptors.unlock:
+	icon: cepticon
+
+interceptors.upgrade:
+	icon: f22upgradeicon
+
+toxicshells.upgrade:
+	icon: toxicshellsicon
+
+training.upgrade:
+	icon: trainingicon

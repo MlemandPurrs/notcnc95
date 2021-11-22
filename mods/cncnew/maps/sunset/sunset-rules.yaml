@@ -1,0 +1,46 @@
+#	those muddy paths are not passable
+#	a component is missing, script maybe
+^MapTile:
+	Inherits@1: ^SpriteActor
+	RenderSprites:
+		Palette: staticterrain
+	WithSpriteBody:
+	Building:
+		Footprint: __ __
+		Dimensions: 2,2
+	AlwaysVisible:
+	ScriptTriggers:
+	MapEditorData:
+		Categories: Sunset Tiles, Unmodular Tiles
+map0.0:
+	Inherits: ^MapTile
+map1.0:
+	Inherits: ^MapTile
+map2.0:
+	Inherits: ^MapTile
+map3.0:
+	Inherits: ^MapTile
+map0.1:
+	Inherits: ^MapTile
+map1.1:
+	Inherits: ^MapTile
+map2.1:
+	Inherits: ^MapTile
+map3.1:
+	Inherits: ^MapTile
+map0.2:
+	Inherits: ^MapTile
+map1.2:
+	Inherits: ^MapTile
+map2.2:
+	Inherits: ^MapTile
+map3.2:
+	Inherits: ^MapTile
+map0.3:
+	Inherits: ^MapTile
+map1.3:
+	Inherits: ^MapTile
+map2.3:
+	Inherits: ^MapTile
+map3.3:
+	Inherits: ^MapTile

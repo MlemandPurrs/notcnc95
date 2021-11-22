@@ -4,6 +4,7 @@ E1:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Inherits@ExpBoost: ^NodAffectedByTraining
     Valued:
 		Cost: 100
 	Tooltip:
@@ -62,6 +63,7 @@ E3:
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 300
 	Tooltip:
@@ -115,6 +117,7 @@ E5:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	-DamagedByTerrain@TIBERIUM:
 	-GrantConditionOnTerrain@HAZMAT:
 	-GrantConditionOnPrerequisite@HAZMAT:
@@ -218,6 +221,10 @@ E6:
 		CaptureTypes: building-sabotage, building-tech
 		PlayerExperience: 0
 		RequiresCondition: !multiengineer
+	Captures@CAPTURESPLAYERSINGLE:
+		CaptureTypes: building-sabotage, building-tech
+		PlayerExperience: 0
+		RequiresCondition: !multiengineer	
 	GrantConditionOnPrerequisite@MULTIENGINEER:
 		Condition: multiengineer
 		Prerequisites: global-multiengineer

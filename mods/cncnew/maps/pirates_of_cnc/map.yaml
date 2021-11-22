@@ -332,3 +332,9 @@ Actors:
 	Actor102: t04
 		Owner: Neutral
 		Location: 28,18
+	Actor104: syrd
+		Owner: Neutral
+		Location: 30,64
+	Actor105: syrd
+		Owner: Neutral
+		Location: 62,63

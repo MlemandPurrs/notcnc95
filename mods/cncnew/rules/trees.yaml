@@ -60,6 +60,112 @@ SPLIT3:
 	ExternalCondition@Fast:
 		Condition: growthfast
 
+SPLIT4:
+	Inherits: ^TibTree
+	-WithMakeAnimation:
+	RenderSprites:
+		Image: split4
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	WithIdleAnimation@Slow:
+		Interval: 87
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	WithIdleAnimation@Normal:
+		Interval: 75
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	WithIdleAnimation@Fast:
+		Interval: 63
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast
+
+SPLIT8:
+	Inherits: ^TibTree
+	Tooltip:
+		Name: Large Blossom Tree
+	-WithMakeAnimation:
+	RenderSprites:
+		Image: split8
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	WithIdleAnimation@Slow:
+		Interval: 87
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	WithIdleAnimation@Normal:
+		Interval: 75
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	WithIdleAnimation@Fast:
+		Interval: 63
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast
+
+SPLIT9:
+	Inherits: ^TibTree
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	Tooltip:
+		Name: Large Blossom Tree
+	-WithMakeAnimation:
+	RenderSprites:
+		Image: split9
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	WithIdleAnimation@Slow:
+		Interval: 87
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	WithIdleAnimation@Normal:
+		Interval: 75
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	WithIdleAnimation@Fast:
+		Interval: 63
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast
+
 SPLITBLUE:
 	Inherits: ^TibTree
 	RenderSprites:
@@ -97,6 +203,89 @@ SPLITBLUE:
 		Terrain: BlueTiberium
 	AppearsOnMapPreview:
 		Terrain: BlueTiberium
+
+SPLIT0:
+	Inherits: ^TibTree
+	-WithMakeAnimation:
+	Tooltip:
+		Name: Small Blossom Tree
+	RenderSprites:
+		Image: split0
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	WithIdleAnimation@Slow:
+		Interval: 87
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	WithIdleAnimation@Normal:
+		Interval: 75
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	WithIdleAnimation@Fast:
+		Interval: 63
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast
+
+SPLIT01:
+	Inherits: SPLIT0
+	RenderSprites:
+		Image: split01
+
+SPLIT02:
+	Inherits: SPLIT0
+	RenderSprites:
+		Image: split02
+
+#	more like geyser
+#	or a fissure
+SPLIT5:
+	Inherits: ^TibTree
+	-WithMakeAnimation:
+	Tooltip:
+		Name: Small Blossom Tree
+	RenderSprites:
+		Image: split5
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast
+
+SPLIT51:
+	Inherits: SPLIT5
+	RenderSprites:
+		Image: split51
+
+SPLIT52:
+	Inherits: SPLIT5
+	RenderSprites:
+		Image: split52
 
 ROCK1:
 	Inherits: ^Rock

@@ -71,6 +71,7 @@ E4:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 400
 	Tooltip:
@@ -119,6 +120,7 @@ RMB2:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 1500
 	Tooltip:

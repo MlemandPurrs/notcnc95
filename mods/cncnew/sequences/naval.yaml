@@ -44,3 +44,12 @@ gb:
 		Facings: 32
 		UseClassicFacings: True
 	icon: boaticon
+
+gbdark:
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret: gb-tur
+		Facings: 32
+		UseClassicFacings: True
+	icon: boaticon

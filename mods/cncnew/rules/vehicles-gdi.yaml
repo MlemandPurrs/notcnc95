@@ -656,7 +656,11 @@ MSAR:
 	Selectable:
 		DecorationBounds: 30,30
 	Power:
-		Amount: -10
+		Amount: -25
+		RequiresCondition: deployed
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
 
 #	placeholder graphics
 #	will be strengthened

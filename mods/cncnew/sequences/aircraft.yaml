@@ -97,7 +97,7 @@ rh66:
 		Length: 8
 	muzzle: minigun
 		Length: 6
-		Facings: 8
+		Facings: 16
 	icon: rh66icon
 
 orcaca:
@@ -120,3 +120,24 @@ orcacapod:
 		Start: 32
 		Facings: 32
 	icon: orcacaicon
+
+f22:
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f22icon
+
+nodhind:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	rotor: lrotorlg
+		Length: 4
+	slow-rotor: lrotorlg
+		Start: 4
+		Length: 8
+	muzzle: minigun
+		Length: 6
+		Facings: 16
+	icon: nodhindicon

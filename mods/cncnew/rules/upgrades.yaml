@@ -554,3 +554,68 @@ pbat.unlock:
 		Cost: 1500
 	RenderSprites:
 		Image: pbat.unlock
+
+interceptors.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Interceptors
+	Buildable:
+		BuildPaletteOrder: 32
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~!interceptors.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Plane is vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: interceptors.unlock
+
+#	maybe this should be
+#	boosts arrival speed?
+interceptors.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Interceptors
+	Buildable:
+		BuildPaletteOrder: 32
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~interceptors.unlock, ~nodbio, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Improves Fuel pods of the Interceptors to extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: interceptors.upgrade
+
+toxicshells.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Toxic Shells
+	Buildable:
+		BuildPaletteOrder: 34
+		Queue: Aircraft.Nod
+		#	Prerequisites: ~afld, ~fix, ~nodbio, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: 120mm Cannon shells deal more damage.\n\n  Upgrades: Medium Tank\n  + Increases damage\n  + Better against Infantry
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: toxicshells.upgrade
+
+#	maybe: implement Infiltrator,
+#	tie tech like this to infiltration
+training.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Special Training
+	Buildable:
+		BuildPaletteOrder: 33
+		Queue: Aircraft.Nod
+		Prerequisites: ~afld, ~hand, ~hpad, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: All combat units earn experience 50% faster.\n\n  Upgrades: Entire arsenal\n  + Accelerates the rate with which XP gets earned
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: training.upgrade

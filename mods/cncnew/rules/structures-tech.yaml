@@ -186,3 +186,160 @@ TECHSILO:
 	WithDeathAnimation:
 		DeathSequence: dead
 		UseDeathTypeSuffix: false
+
+OILPLAT:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	CashTrickler:
+		Interval: 500
+		Amount: 100
+		RequiresCondition: enabled
+	CashTricklerBar:
+		Color: FFFF9E
+	GrantConditionOnCombatantOwner:
+		Condition: enabled
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Oil Platform
+	TooltipDescription@ally:
+		Description: Provides additional funds.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture with Boats to receive additional funds.
+		ValidRelationships: Neutral, Enemy
+	#	invincible and otherwise interactable
+	DamageMultiplier:
+		Modifier: 0
+	Targetable:
+		RequiresForceFire: true
+		TargetTypes: None
+	Capturable:
+		Types: naval
+	CapturableProgressBar:
+	CapturableProgressBlink:
+	-RepairableBuilding:
+	-WithBuildingRepairDecoration:
+	-EngineerRepairable:
+
+SYRD:
+	Inherits: ^BaseBuilding
+	-GivesBuildableArea:
+	-SpawnActorsOnSell:
+	-Sellable:
+	-EdibleByLeap:
+	OwnerLostAction:
+		Action: ChangeOwner
+	Capturable:
+		Types: building-tech
+	CaptureNotification:
+		Notification: BuildingCaptured
+	MapEditorData:
+		Categories: Tech building
+	AppearsOnMapPreview:
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	Selectable:
+		Bounds: 72,48
+	HitShape:
+		TargetableOffsets: 768,0,0, 768,-1024,0, 768,1024,0
+		Type: Rectangle
+			TopLeft: -1536, -1152
+			BottomRight: 1536, 598
+	HitShape@BOTTOM:
+		TargetableOffsets: -768,0,0
+		Type: Rectangle
+			TopLeft: -512, 598
+			BottomRight: 512, 1110
+	Building:
+		Footprint: XXX xxx XXX
+		Dimensions: 3,3
+		TerrainTypes: Water
+	Valued:
+		Cost: 750
+	Tooltip:
+		Name: Shipyard
+		GenericStancePrefix: false
+		ShowOwnerRow: True
+	TooltipDescription@ally:
+		Description: Boats can be produced here.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to produce Boats.
+		ValidRelationships: Neutral, Enemy
+	Health:
+		HP: 120000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		Range: 4c0
+	Production:
+		Produces: Ships.GDI, Ships.Nod
+		PauseOnCondition: build-incomplete || being-demolished
+	ProductionQueue@GDIShips:
+		Type: Ships.GDI
+		DisplayOrder: 3
+		Group: Vehicle
+		Factions: gdi
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionQueue@NodShips:
+		Type: Ships.Nod
+		DisplayOrder: 3
+		Group: Vehicle
+		Factions: nod
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@GDIShips:
+		ProductionType: Ships.GDI
+	ProductionBar@NodShips:
+		ProductionType: Ships.Nod
+	RepairsUnits:
+		HpPerStep: 1000
+		Interval: 14
+		StartRepairingNotification: Repairing
+		PlayerExperience: 0
+		RepairDamageTypes: Repair
+	RallyPoint:
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,1024,0
+		Facing: 160
+		ExitCell: 0,2
+		ProductionTypes: Ships.GDI, Ships.Nod
+	Exit@2:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,1024,0
+		Facing: 224
+		ExitCell: 2,2
+		ProductionTypes: Ships.GDI, Ships.Nod
+	Exit@3:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,-1024,0
+		Facing: 96
+		ExitCell: 0,0
+		ProductionTypes: Ships.GDI, Ships.Nod
+	Exit@4:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,-1024,0
+		Facing: 32
+		ExitCell: 2,0
+		ProductionTypes: Ships.GDI, Ships.Nod
+	Power:
+		Amount: -40
+		RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	ProximityExternalCondition@SELLSHIPS:
+		Condition: ship.sellable
+		Range: 5c0

@@ -439,3 +439,41 @@ crate.airstrike:
 		SupportPowerPaletteOrder: 2
 		ChargeInterval: 0
 		OneShot: true
+
+SILOTIB:
+	Inherits: ^TibTree
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	-WithMakeAnimation:
+	Tooltip:
+		Name: Infested Silo
+	RenderSprites:
+		Image: silo-infested
+	SeedsResource@Slow:
+		Interval: 87
+		ResourceType: Tiberium
+		RequiresCondition: growthslow
+	WithIdleAnimation@Slow:
+		Interval: 87
+		RequiresCondition: growthslow
+	ExternalCondition@Slow:
+		Condition: growthslow
+	SeedsResource@Normal:
+		Interval: 75
+		ResourceType: Tiberium
+		RequiresCondition: growthnormal
+	WithIdleAnimation@Normal:
+		Interval: 75
+		RequiresCondition: growthnormal
+	ExternalCondition@Normal:
+		Condition: growthnormal
+	SeedsResource@Fast:
+		Interval: 63
+		ResourceType: Tiberium
+		RequiresCondition: growthfast
+	WithIdleAnimation@Fast:
+		Interval: 63
+		RequiresCondition: growthfast
+	ExternalCondition@Fast:
+		Condition: growthfast

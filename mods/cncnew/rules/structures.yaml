@@ -230,6 +230,7 @@ NUKE.Husk:
 NUKE.Upgraded:
 	Inherits: NUKE
 	Buildable:
+		Queue: Building.GDI
 		Prerequisites: fact, ~powerplants.upgrade, ~techlevel.low
 	Power:
 		Amount: 150
@@ -315,6 +316,7 @@ NUK2.Husk:
 NUK2.Upgraded:
 	Inherits: NUK2
 	Buildable:
+		Queue: Building.GDI
 		Prerequisites: hq, ~powerplants.upgrade, ~techlevel.medium
 	Power:
 		Amount: 300
@@ -727,7 +729,7 @@ WEAP:
 		Bounds: 72,48
 		DecorationBounds: 72,64,0,-16
 	Health:
-		HP: 110000
+		HP: 120000
 	RevealsShroud:
 		Range: 4c0
 	WithBuildingBib:
@@ -1113,6 +1115,54 @@ HQ:
 		DeploySound: reveal1.aud
 		#	TargetCircleRange: 7c536
 		#	TargetCircleColor: 32cd32
+	InterceptorPower@NodInterceptors:
+		PauseOnCondition: lowpower
+		OrderName: NodInterceptors
+		Prerequisites: ~interceptors.unlock, ~!interceptors.upgrade
+		Icon: cepticon
+		ChargeInterval: 7500
+		Description: Interceptors
+		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.
+		SelectTargetSpeechNotification: SelectTarget
+		CameraActor: camera
+		CameraRemoveDelay: 450
+		UnitType: f22
+		QuantizedFacings: 8
+		DisplayBeacon: true
+		BeaconPoster: ceptbcon
+		SquadSize: 3
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		GuardDuration: 500
+		Cordon: 8c0
+		SupportPowerPaletteOrder: 7
+	InterceptorPower@NodInterceptorsUpgraded:
+		PauseOnCondition: lowpower
+		OrderName: NodInterceptorsUpgraded
+		Prerequisites: ~interceptors.upgrade
+		Icon: cepticon
+		ChargeInterval: 7500
+		Description: Interceptors
+		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.
+		SelectTargetSpeechNotification: SelectTarget
+		CameraActor: camera
+		CameraRemoveDelay: 450
+		UnitType: f22
+		QuantizedFacings: 8
+		DisplayBeacon: true
+		BeaconPoster: ceptbcon
+		SquadSize: 3
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		GuardDuration: 750
+		Cordon: 8c0
+		SupportPowerPaletteOrder: 7
 	SupportPowerChargeBar:
 	RenderSprites:
 		Image: hq
@@ -1154,6 +1204,8 @@ HQ.GDI:
 	-SpawnActorOnDeath:
 	-RenderSprites:
 	-SpawnActorPower@RadarScan:
+	-InterceptorPower@NodInterceptors:
+	-InterceptorPower@NodInterceptorsUpgraded:
 	ProvidesPrerequisite@copy:
 		Prerequisite: hq
 	Buildable:

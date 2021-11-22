@@ -1546,3 +1546,19 @@ ltur.husk:
 			WINTER: TEMPERAT
 			JUNGLE: TEMPERAT
 			SNOW: TEMPERAT
+
+syrd:
+	idle: syrd
+	damaged-idle: syrd
+		Start: 1
+	dead:
+		Start: 1
+		Tick: 800
+	make: syrdmake
+		Length: *
+		Tick: 80
+	icon: syrdicon
+
+oilplat:
+	idle: oilplat
+		Start: 0

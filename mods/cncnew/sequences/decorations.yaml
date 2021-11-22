@@ -29,6 +29,81 @@ split3:
 	idle:
 		Start: 54
 
+split4:
+	Defaults:
+		Offset: 7, -13
+	active:
+		Start: 0
+		Length: 21
+	idle:
+		Start: 21
+
+split8:
+	Defaults:
+		Offset: 0, -13
+	active:
+		Start: 0
+		Length: 29
+	idle:
+		Start: 29
+
+split9:
+	Defaults:
+		Offset: -3, -26
+	active:
+		Start: 0
+		Length: 23
+	idle:
+		Start: 23
+
+split0:
+	Defaults:
+		Offset: 7, -13
+	active:
+		Start: 0
+		Length: 13
+	idle:
+		Start: 13
+		Length: 1
+
+split01:
+	Defaults:
+		Offset: 7, -13
+	active:
+		Start: 0
+		Length: 13
+	idle:
+		Start: 13
+		Length: 1
+
+split02:
+	Defaults:
+		Offset: 7, -13
+	active:
+		Start: 0
+		Length: 13
+	idle:
+		Start: 13
+		Length: 1
+
+split5:
+	idle: split5
+		Start: 0
+		Length: 4
+		Tick: 120
+
+split51:
+	idle: split5
+		Start: 5
+		Length: 4
+		Tick: 120
+
+split52:
+	idle: split5
+		Start: 10
+		Length: 4
+		Tick: 120
+
 rock1:
 	Defaults:
 		UseTilesetExtension: true

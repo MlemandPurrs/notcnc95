@@ -18,6 +18,36 @@ if Map.LobbyOption("growthrate") == "sloweco" then
 	  if actor.Type == "splitblue" then
 		actor.GrantCondition("growthslow")
 	  end
+	  if actor.Type == "split4" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split8" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split9" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split0" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split01" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split02" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split5" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split51" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "split52" then
+		actor.GrantCondition("growthslow")
+	  end
+	  if actor.Type == "silotib" then
+		actor.GrantCondition("growthslow")
+	  end
 	end)
 elseif Map.LobbyOption("growthrate") == "normaleco" then
 	Utils.Do(Map.NamedActors, function(actor)
@@ -30,6 +60,36 @@ elseif Map.LobbyOption("growthrate") == "normaleco" then
 	  if actor.Type == "splitblue" then
 		actor.GrantCondition("growthnormal")
 	  end
+	  if actor.Type == "split4" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split8" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split9" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split0" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split01" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split02" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split5" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split51" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "split52" then
+		actor.GrantCondition("growthnormal")
+	  end
+	  if actor.Type == "silotib" then
+		actor.GrantCondition("growthnormal")
+	  end
 	end)
 elseif Map.LobbyOption("growthrate") == "fasteco" then
 	Utils.Do(Map.NamedActors, function(actor)
@@ -40,6 +100,36 @@ elseif Map.LobbyOption("growthrate") == "fasteco" then
 		actor.GrantCondition("growthfast")
 	  end
 	  if actor.Type == "splitblue" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split4" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split8" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split9" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split0" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split01" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split02" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split5" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split51" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "split52" then
+		actor.GrantCondition("growthfast")
+	  end
+	  if actor.Type == "silotib" then
 		actor.GrantCondition("growthfast")
 	  end
 	end)

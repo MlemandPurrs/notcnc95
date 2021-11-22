@@ -1971,7 +1971,7 @@ Templates:
 		Size: 4,3
 		Categories: Beach
 		Tiles:
-			0: River
+			0: Beach
 			1: Water
 			4: Clear
 			5: River
@@ -2003,12 +2003,12 @@ Templates:
 			0: Clear
 			1: Clear
 			2: Clear
-			3: River
+			3: Beach
 			4: Clear
 			5: River
 			6: Water
 			7: Water
-			8: River
+			8: Beach
 			9: Water
 			10: River
 			11: River

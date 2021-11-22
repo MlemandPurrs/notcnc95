@@ -68,6 +68,10 @@ Terrain:
 		Type: Cliff
 		TargetTypes: Ground
 		Color: 745A3F
+	TerrainType@Shallow:
+		Type: Shallow
+		TargetTypes: Water
+		Color: B09C78
 
 Templates:
 	Template@255:
@@ -1826,3 +1830,10 @@ Templates:
 		Tiles:
 			0: Cliff
 			1: Cliff
+	Template@599:
+		Id: 599
+		Images: w1.tem
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Beach

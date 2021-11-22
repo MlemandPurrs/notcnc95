@@ -31,6 +31,7 @@
 		Explosions: sml_splash
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
+		InvalidTargets: Ground
 
 70mm:
 	Inherits: ^BallisticWeapon
@@ -261,3 +262,14 @@ MortarShell:
 			Medium: 65
 			Heavy: 35
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+
+Toxic120mm:
+	Inherits: 120mm
+	Warhead@1Dam: SpreadDamage
+		Damage: 5000
+		Versus:
+			None: 50
+			Kevlar: 50
+			Flak: 40
+	Warhead@3Eff: CreateEffect
+		Explosions: small_chem		

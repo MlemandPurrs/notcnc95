@@ -29,6 +29,7 @@
 			BlueTiberium: 70
 				PathingCost: 300
 			Beach: 80
+			Shallow: 80
 	Locomotor@FOOT-CLIMBER:
 		Name: foot-climber
 		Crushes: crate, mine
@@ -44,6 +45,7 @@
 			BlueTiberium: 70
 				PathingCost: 300
 			Beach: 80
+			Shallow: 80
 	Locomotor@CHEM:
 		Name: chem
 		Crushes: crate, mine
@@ -56,6 +58,7 @@
 			Tiberium: 90
 			BlueTiberium: 90
 			Beach: 80
+			Shallow: 80
 	Locomotor@WHEELED:
 		Name: wheeled
 		Crushes: crate, mine
@@ -67,6 +70,7 @@
 			Tiberium: 50
 			BlueTiberium: 50
 			Beach: 50
+			Shallow: 50
 	Locomotor@HEAVYWHEELED:
 		Name: heavywheeled
 		Crushes: crate, infantry, mine
@@ -78,6 +82,7 @@
 			Tiberium: 50
 			BlueTiberium: 50
 			Beach: 50
+			Shallow: 50
 	Locomotor@TRACKED:
 		Name: tracked
 		Crushes: wall, crate, infantry, mine
@@ -89,6 +94,7 @@
 			Tiberium: 70
 			BlueTiberium: 70
 			Beach: 70
+			Shallow: 70
 	Locomotor@HEAVYTRACKED:
 		Name: heavytracked
 		Crushes: wall, heavywall, crate, infantry, mine
@@ -100,23 +106,30 @@
 			Tiberium: 70
 			BlueTiberium: 70
 			Beach: 70
+			Shallow: 70
 	Locomotor@NAVAL:
 		Name: naval
 		Crushes: crate
 		TerrainSpeeds:
 			Water: 100
+			Shallow: 80
 	Locomotor@HOVERCRAFT:
 		Name: hovercraft
 		Crushes: crate
 		TerrainSpeeds:
 			Clear: 60
+				PathingCost: 300
 			Rough: 60
+				PathingCost: 300
 			Road: 60
+				PathingCost: 300
 			Water: 100
 			Tiberium: 60
+				PathingCost: 300
 			BlueTiberium: 60
+				PathingCost: 300
 			Beach: 100
-			River: 100
+			Shallow: 80
 	Locomotor@CRITTER:
 		Name: critter
 		Crushes: crate, mine
@@ -128,12 +141,14 @@
 			Tiberium: 70
 			BlueTiberium: 70
 			Beach: 80
+			Shallow: 80
 	Locomotor@IMMOBILE:
 		Name: immobile
 		TerrainSpeeds:
 			Clear: 1
 			Road: 1
 			Beach: 1
+			Shallow: 1
 	Locomotor@POWERFOOT:
 		Name: powerfoot
 		Crushes: crate, mine
@@ -148,6 +163,7 @@
 			Tiberium: 80
 			BlueTiberium: 80
 			Beach: 90
+			Shallow: 80
 	Locomotor@AMPHIBIOUS:
 		Name: amphibious
 		Crushes: wall, crate, infantry, mine
@@ -160,10 +176,7 @@
 			BlueTiberium: 70
 			Beach: 70
 			Water: 80
-	Locomotor@NAVAL:
-		Name: naval
-		TerrainSpeeds:
-			Water: 100
+			Shallow: 80
 	Faction@Random:
 		Name: Any
 		InternalName: Random

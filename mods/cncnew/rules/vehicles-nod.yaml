@@ -3,6 +3,7 @@ BGGY:
 	Inherits@@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 350
 	Tooltip:
@@ -57,6 +58,7 @@ BIKE:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -189,6 +191,7 @@ LTNK:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -270,6 +273,7 @@ FTNK:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 800
 	Tooltip:
@@ -320,6 +324,7 @@ ARTY:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 900
 	Tooltip:
@@ -377,6 +382,7 @@ HOWI:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 900
 	Tooltip:
@@ -435,6 +441,7 @@ MLRS:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -515,6 +522,7 @@ STNK:
 	Inherits@UpgradeCrates: ^AcceptsUpgradeCrates
 	Inherits@EMP: ^AcceptsEMPCrate
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	-MustBeDestroyed:
 	Valued:
 		Cost: 900
@@ -584,6 +592,7 @@ T55H:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 2000
 	Tooltip:
@@ -682,6 +691,7 @@ WTNK:
 	Inherits@GAINSEXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
 		BuildPaletteOrder: 12
 		BuildLimit: 1
@@ -734,6 +744,7 @@ NODCTNK:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -782,6 +793,7 @@ NODMTNK:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 800
 	Tooltip:
@@ -811,7 +823,17 @@ NODMTNK:
 		LocalOffset: 768,0,90
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
+		RequiresCondition: !toxicshells-upgraded
+	Armament@Upgraded:
+		Weapon: Toxic120mm
+		Recoil: 128
+		RecoilRecovery: 26
+		LocalOffset: 768,0,90
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+		RequiresCondition: toxicshells-upgraded
 	AttackTurreted:
+		Armaments: primary, secondary
 		PauseOnCondition: emp-crate-collected
 	WithMuzzleOverlay:
 	WithSpriteTurret:
@@ -825,12 +847,16 @@ NODMTNK:
 		Probability: 33
 	Selectable:
 		DecorationBounds: 28,28
+	GrantConditionOnPrerequisite@LaserDesignator:
+		Condition: toxicshells-upgraded
+		Prerequisites: toxicshells.upgrade
 
 ATNK:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -901,6 +927,8 @@ BTR:
 	Inherits@Cloak: ^AcceptsCloakCrate
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: ~disabled

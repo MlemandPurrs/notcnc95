@@ -181,6 +181,8 @@ beacon:
 		Offset: 0,-42
 	pinfbcon: pinfbcon
 		Offset: 0,-42
+	ceptbcon: ceptbcon
+		Offset: 0,-42
 
 select:
 	repair:
@@ -362,6 +364,7 @@ icon:
 	pbat: nodmsamicon
 	pinficon: pinficon
 	zoneicon: dropzoneicon
+	cepticon: cepticon
 
 moveflsh:
 	idle:
@@ -591,3 +594,21 @@ veteranoverlay:
 		Start: 2
 		Length: 1
 		Offset: 0, 0
+
+silo-infested:
+	Defaults:
+		Offset: 0,-18
+	active:
+		Start: 0
+		Length: 24
+	idle:
+		Start: 24
+
+parabomb:
+	open: pbmb
+		Length: 8
+		ZOffset: 1023
+	idle: pbmb
+		Start: 8
+		Length: 5
+		ZOffset: 1023

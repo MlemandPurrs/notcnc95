@@ -291,6 +291,7 @@ AAVulcan:
 	Report: gun5.aud
 	ValidTargets: Helicopter, Airplane
 	Burst: 2
+	BurstDelays: 0
 	Projectile: Bullet
 		Speed: 5c682
 		Inaccuracy: 1c0
@@ -302,3 +303,8 @@ AAVulcan:
 			Light: 100
 			Medium: 65
 			Heavy: 35
+
+HindChainGun:
+	Inherits: ChainGun
+	Range: 6c0
+	Report: gun5.aud
