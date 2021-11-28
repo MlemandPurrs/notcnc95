@@ -259,7 +259,7 @@ OBLI:
 		RequiresCondition: !build-incomplete
 		#	Palette: redlaser
 	Armament:
-		Weapon: Laser
+		Weapon: ObeliskLaser
 		LocalOffset: 0,-85,1280
 	AttackCharges:
 		PauseOnCondition: build-incomplete || lowpower || mwavdisable
@@ -841,7 +841,7 @@ LTUR:
 		RequiresCondition: !build-incomplete
 		Recoils: false
 	Armament:
-		Weapon: LaserTur
+		Weapon: TurretLaser
 		LocalOffset: 512,0,172
 		PauseOnCondition: mwavdisable
 	AttackTurreted:

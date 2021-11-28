@@ -120,7 +120,7 @@ Napalm:
 	Warhead@3Eff: CreateEffect
 		Explosions: med_napalm
 
-Laser:
+^Laser:
 	ReloadDelay: 40
 	Range: 7c512
 	Report: obelray1.aud
@@ -138,8 +138,11 @@ Laser:
 		SmudgeType: Scorch
 		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
 
+ObeliskLaser:
+	Inherits: ^Laser
+
 LaserTank:
-	Inherits: Laser
+	Inherits: ^Laser
 	ReloadDelay: 101
 	Projectile: LaserZap
 
@@ -339,8 +342,8 @@ MicrowaveZapSound:
 			Medium: 0
 			Heavy: 0
 
-LaserTur:
-	Inherits: Laser
+TurretLaser:
+	Inherits: ^Laser
 	ReloadDelay: 30
 	Range: 6c0
 	Report: lastur1.aud
@@ -393,3 +396,110 @@ ParaBomb:
 		Explosions: sml_splash
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
+
+PortaLaser:
+	Inherits: ^Laser
+	ReloadDelay: 38
+	Range: 3c768
+	Burst: 3
+	BurstDelays: 4
+	-Report:
+	StartBurstReport: lasgun.aud
+	Projectile: LaserZap
+		Width: 30
+		Duration: 3
+		SecondaryBeamWidth: 50
+		SecondaryBeamColor: FF000030
+		Blockable: true
+		Inaccuracy: 0c256
+	Warhead@1Dam: SpreadDamage
+		Damage: 1500
+		Versus:
+			None: 150
+			Kevlar: 150
+			Flak: 150
+			Wood: 75
+			Concrete: 100
+			Light: 100
+			Medium: 90
+			Heavy: 90
+
+FireballLauncher:
+	Inherits: ^FlameWeapon
+	ReloadDelay: 65
+	Range: 5c0
+	MinRange: 1c513
+	Projectile: Bullet
+		Speed: 250
+		TrailImage: fb2
+		Image: FB1
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		InvalidTargets: Flamer
+		Damage: 15000
+		Versus:
+			None: 90
+			Kevlar: 90
+			Flak: 80
+			Light: 50
+			Medium: 25
+			Heavy: 25
+			Wood: 50
+			Concrete: 25
+	Warhead@3Eff: CreateEffect
+		Explosions: med_napalm
+		ImpactSounds: firebl3.aud
+		ImpactActors: false
+
+Hack:
+	Range: 12c0
+	ReloadDelay: 50
+	ValidTargets: Hackable
+	TargetActorCenter: true
+	Report: hacker-pulse.aud
+	Projectile: ArcLaserZap
+		Color: 1ce31270
+		Angle: 60
+		Width: 86
+		Duration: 20
+		HitAnim: empty
+	Warhead@1Dam: TargetDamage
+		ValidRelationships: Enemy, Neutral
+	Warhead@CAMERA: SpawnActor
+		Actors: camera.hacker
+		Range: 1
+		ValidRelationships: Neutral, Enemy
+
+PrepareHack:
+	Inherits: Hack
+	-Report:
+	-Projectile:
+	Projectile: InstantHit
+
+#	1. GrantConditionOnInfiltrate on Vehicle
+#	2. Hijacker Infiltrates Vehicle
+#	3. Hijacker explodes on Death applying ChangeOwner
+# 	4. Vehicle has EjectOnDeath using GCOI condition
+HijackerTargetingInfects:
+	ReloadDelay: 1
+	ValidTargets: Vehicle
+	Range: 1c768
+	TargetActorCenter: true
+	Projectile: InstantHit
+	Warhead@1Dam: TargetDamage
+		Damage: 0
+		ValidTargets: Vehicle
+	Warhead@ChangeOwner: ChangeOwner
+		Range: 0c998
+
+HijackerTargeting:
+	ReloadDelay: 1
+	ValidTargets: Vehicle
+	Range: 1c768
+	TargetActorCenter: true
+	Projectile: InstantHit
+	Warhead@1Dam: TargetDamage
+		Damage: 0
+		ValidTargets: Vehicle
+	Warhead@ChangeOwner: ChangeOwner
+		Range: 0c998

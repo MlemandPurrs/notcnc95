@@ -247,7 +247,7 @@ Player:
 			bggy: 5
 			bike: 20
 			apc: 10
-			#	napc: 5
+			btr: 5
 			mtnk: 20
 			ltnk: 30
 			htnk: 50

@@ -272,4 +272,29 @@ Toxic120mm:
 			Kevlar: 50
 			Flak: 40
 	Warhead@3Eff: CreateEffect
-		Explosions: small_chem		
+		Explosions: small_chem
+
+120mmAT:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 80
+	Range: 5c768
+	Report: tnkdfire.aud
+	Warhead@1Dam: SpreadDamage
+		Versus:
+			Light: 125
+			Medium: 150
+			Heavy: 150
+
+ToxicMortarShell:
+	Inherits: MortarShell
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall
+	Warhead@3Eff: CreateEffect
+		Explosions: small_chem
+	Warhead@Chem: GrantExternalCondition
+		Range: 0c768
+		Duration: 125
+		Condition: hitbychem
+		ValidTargets: Infantry
+		InvalidTargets: Chem, HasPoison, PoisonImmune

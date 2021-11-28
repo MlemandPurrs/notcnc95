@@ -114,3 +114,15 @@ toxicshells.upgrade:
 
 training.upgrade:
 	icon: trainingicon
+
+nodairstrike.unlock:
+	icon: sfigicon
+
+harvstealth.upgrade:
+	icon: nodharvstealthicon
+
+cyborg.upgrade:
+	icon: cyborgicon
+
+cyborgspeed.upgrade:
+	icon: cyborgspeedicon

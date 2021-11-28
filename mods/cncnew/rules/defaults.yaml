@@ -212,13 +212,15 @@
 	Inherits@bounty: ^GlobalBounty
 	Inherits@BOINK: ^BoinkSound
 	Inherits@MicroWave: ^AffectedByDriverKill
+	Inherits@Hijacker: ^VehicleHijackable
+	Inherits@FieldRepair: ^AffectedByFieldRepair
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
 	Mobile:
 		Locomotor: wheeled
 		TurnSpeed: 20
-		PauseOnCondition: boarding
+		PauseOnCondition: boarding || being-captured
 	Selectable:
 		Bounds: 24,24
 	Targetable:
@@ -300,6 +302,8 @@
 	Inherits@GDIUpgrades: ^GDIUnitUpgrades
 	Inherits@bounty: ^GlobalBounty
 	Inherits@BOINK: ^BoinkSound
+	Inherits@MicroWave: ^AffectedByDriverKillAir
+	Inherits@Hijacker: ^AirVehicleHijackable
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
@@ -803,6 +807,7 @@
 	Inherits@LowPowerDamage: ^DamagedOnLowPower
 	Inherits@StructureAutoRepairs: ^BuildingAutoRepair
 	Inherits@AI: ^ProductionAIBoost
+	Inherits@HACKABLE: ^Hackable
 	Building:
 		RequiresBaseProvider: true
 		BuildSounds: constru2.aud, hvydoor1.aud
@@ -834,7 +839,7 @@
 	Demolishable:
 		Condition: being-demolished
 	Sellable:
-		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !hacked
 		SellSounds: cashturn.aud
 	CaptureManager:
 		BeingCapturedCondition: being-captured
@@ -850,6 +855,8 @@
 		Palette: player
 		IsPlayerPalette: True
 	EdibleByLeap:
+	Targetable:
+		TargetTypes: Ground, C4, Structure
 
 ^FakeBuilding:
 	Inherits: ^BaseBuilding
@@ -1663,13 +1670,14 @@
 
 ^AcceptsCloakCrate:
 	Cloak:
-		InitialDelay: 15
+		InitialDelay: 90
 		CloakDelay: 90
 		CloakTypes: Stealth
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
 		Palette: cloak
 		IsPlayerPalette: false
+		UncloakOn: Attack, Unload, Dock, Damage, Heal
 		PauseOnCondition: cloak-force-disabled || emp-crate-collected || oncarryall
 		RequiresCondition: cloak-crate-collected
 	ExternalCondition@CLOAK:
@@ -1753,12 +1761,20 @@
 		DamageCooldown: 0
 		RequiresCondition: driver-dead
 	CaptureManager:
+		BeingCapturedCondition: being-captured
 	Capturable@DRIVER_DEAD:
 		Types: NoCrew
 		RequiresCondition: driver-dead
 		ValidRelationships: Neutral
 		CancelActivity: true
-		
+
+^AffectedByDriverKillAir:
+	Inherits: ^AffectedByDriverKill
+	Targetable@DRIVERKILL:
+		RequiresCondition: !driver-dead && !airborne
+	Capturable@DRIVER_DEAD:
+		RequiresCondition: driver-dead && !airborne
+
 ^AffectedBySensor:
 	ExternalCondition@SightBoost:
 		Condition: sightboosted
@@ -1773,3 +1789,142 @@
 	GrantConditionOnPrerequisite@NodExpBonu:
 		Condition: spectraining
 		Prerequisites: training.upgrade
+
+^AffectedByFieldRepair:
+	ChangesHealth@FieldRepair:
+		Step: 0
+		PercentageStep: 1
+		Delay: 6
+		StartIfBelow: 101
+		DamageCooldown: 0
+		RequiresCondition: fieldrepair
+	TimedConditionBar@FieldRepair:
+		Color: BFFF80
+		Condition: fieldrepair
+	WithDecoration@FieldRepair:
+		RequiresSelection: false
+		Image: allyrepair
+		Sequence: repair
+		Palette: player
+		IsPlayerPalette: true
+		Position: Center
+		Margin: 0,0
+		ValidRelationships: Ally, Neutral, Enemy
+		RequiresCondition: fieldrepair
+	ExternalCondition@FieldRepair:
+		Condition: fieldrepair
+
+^CyborgSoldier:
+	Inherits: ^Soldier
+	-Targetable@HEAL:
+	-GrantConditionOnDamageState@DAMAGED:
+	-DamagedByTerrain@TIBERIUM:
+	-GrantConditionOnPrerequisite@HAZMAT:
+	-GrantConditionOnPrerequisite@HAZMAT2:
+	-GrantCondition@HAZMAT:
+	-WithDecoration@HAZMAT:
+	-SpawnActorOnDeath@TIBERIUM:
+	-Targetable@IMMUNETOPOISON:
+	-ChangesHealth@HOSPITAL:
+	-GrantConditionOnPrerequisite@HOSPITAL:
+	-GrantConditionOnDamageState@HOSPITAL:
+	-GrantCondition@HOSPITAL:
+	-ExternalCondition@barracks:
+	-GrantCondition@BARRACKSHEALING:
+	-ChangesHealth@BARRACKSHEALING:
+	Targetable:
+		TargetTypes: Ground, Infantry, Cyborg
+		RequiresCondition: !parachute
+	ChangesHealth@TIBERIUMHEAL:
+		Step: 0
+		PercentageStep: 1
+		Delay: 15
+		StartIfBelow: 100
+		DamageCooldown: 150
+		RequiresCondition: ontiberium
+		DamageTypes: TiberiumDeath
+	WithDecoration@REDCROSS:
+		RequiresCondition: ontiberium
+	GrantConditionOnPrerequisite@CYBORGSPEED:
+		Condition: cyborgspeed-upgraded
+		Prerequisites: cyborgspeed.upgrade
+	SpeedMultiplier@CYBORGSPEED:
+		RequiresCondition: cyborgspeed-upgraded
+		Modifier: 120
+
+^Hackable:
+	MindControllable:
+		ControlledConditions:
+			hack: hacked
+		RevokingConditions:
+			hack: restoring
+	Targetable@HACKABLE:
+		TargetTypes: Hackable
+		RequiresCondition: !hacked
+	MindControllableProgressBar@HACKABLE:
+		Color: 1ce312
+		RequiresCondition: !hacked
+	WithDecoration@HACKED:
+		Image: hacked
+		Sequence: hacked
+		RequiresCondition: hacked && !restoring
+		Position: Center
+		Palette: effect
+		ValidRelationships: Ally, Neutral, Enemy
+	WithDecoration@RESTORING:
+		Image: hacked
+		Sequence: restoring
+		RequiresCondition: restoring
+		Position: Center
+		Palette: effect
+		ValidRelationships: Ally, Neutral, Enemy
+
+^HackableOverloadable:
+	Inherits: ^Hackable
+	WithDecoration@HACKED:
+		Sequence: overloading
+	ChangesHealth@HACKED:
+		Step: -2000
+		StartIfBelow: 101
+		Delay: 20
+		RequiresCondition: hacked && !restoring
+
+^VehicleHijackable:
+	Targetable@HIJACKED:
+		TargetTypes: GetVehicle
+	GrantConditionOnCapture@HIJACKED:
+		Condition: has-hijacker
+		CaptureTypes: GetVehicle
+	Capturable@HIJACKED:
+		Types: GetVehicle
+		CancelActivity: True
+		ValidRelationships: Enemy
+	WithDecoration@HIJACKED:
+		Image: pips
+		Margin: 0, 0
+		Sequence: pip-knife
+		Palette: effect
+		Position: Top
+		ValidRelationships: Ally, Enemy, Neutral
+		RequiresCondition: has-hijacker	
+	SpawnActorOnDeath@HIJACKED:
+		Actor: JACK
+		EffectiveOwnerFromOwner: true
+		RequiresCondition: has-hijacker
+	ProvidesPrerequisite@LIMITINGJACK:
+		Prerequisite: jack
+		RequiresCondition: has-hijacker
+
+^AirVehicleHijackable:
+	Inherits: ^VehicleHijackable
+	-SpawnActorOnDeath@HIJACKED:
+	Targetable@HIJACKED:
+		RequiresCondition: !airborne
+	Capturable@HIJACKED:
+		RequiresCondition: !airborne
+	EjectOnDeath@HIJACKED:
+		PilotActor: JACK
+		ChuteSound: chute1.aud
+		SuccessRate: 100
+		EjectInAir: true
+		EjectOnGround: true

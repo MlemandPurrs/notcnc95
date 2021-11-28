@@ -179,6 +179,7 @@ mobilesam.upgrade:
 #	RenderSprites:
 #	Image: artydualshot.upgrade
 
+#	trying 'normal' apc
 napcarmed.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -186,7 +187,8 @@ napcarmed.upgrade:
 	Buildable:
 		BuildPaletteOrder: 10
 		Queue: Aircraft.Nod
-		Prerequisites: ~hand, ~afld, ~!napcmedic.upgrade, ~techlevel.unrestricted
+		#	Prerequisites: ~hand, ~afld, ~!napcmedic.upgrade, ~techlevel.unrestricted
+		Prerequisites: ~disabled
 		BuildDuration: 1500
 		Description: Arms Nod APCs with a machinegun turret.\n\n  Upgrades: Nod APC\n  + Gains Machinegun weapon.\n\n  Only one Nod APC upgrade may be chosen.
 	Valued:
@@ -194,6 +196,7 @@ napcarmed.upgrade:
 	RenderSprites:
 		Image: napcarmed.upgrade
 
+#	trying 'normal' apc
 napcmedic.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -201,7 +204,8 @@ napcmedic.upgrade:
 	Buildable:
 		BuildPaletteOrder: 11
 		Queue: Aircraft.Nod
-		Prerequisites: ~hand, ~afld, ~!napcarmed.upgrade, ~techlevel.unrestricted
+		#	Prerequisites: ~hand, ~afld, ~!napcarmed.upgrade, ~techlevel.unrestricted
+		Prerequisites: ~disabled
 		BuildDuration: 1500
 		Description: Outfits Nod APCs with healing modules.\n\n  Upgrades: Nod APC\n  + Allows adjacent Infantry to self-heal\n\n  Only one Nod APC upgrade may be chosen.
 	Valued:
@@ -594,8 +598,7 @@ toxicshells.upgrade:
 	Buildable:
 		BuildPaletteOrder: 34
 		Queue: Aircraft.Nod
-		#	Prerequisites: ~afld, ~fix, ~nodbio, ~techlevel.unrestricted
-		Prerequisites: ~disabled
+		Prerequisites: ~afld, ~fix, ~nodbio, ~stolentech.weap
 		BuildDuration: 1500
 		Description: 120mm Cannon shells deal more damage.\n\n  Upgrades: Medium Tank\n  + Increases damage\n  + Better against Infantry
 	Valued:
@@ -612,10 +615,71 @@ training.upgrade:
 	Buildable:
 		BuildPaletteOrder: 33
 		Queue: Aircraft.Nod
-		Prerequisites: ~afld, ~hand, ~hpad, ~techlevel.unrestricted
+		Prerequisites: ~tmpl, ~stolentech.upgc
 		BuildDuration: 1500
 		Description: All combat units earn experience 50% faster.\n\n  Upgrades: Entire arsenal\n  + Accelerates the rate with which XP gets earned
 	Valued:
 		Cost: 1000
 	RenderSprites:
 		Image: training.upgrade
+
+nodairstrike.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Stealth Airstrike
+	Buildable:
+		BuildPaletteOrder: 35
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~stolentech.tech
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: nodairstrike.unlock
+
+#	disabling, Stealth Plug is
+#	more interesting way of
+#	doing invisibility
+#	harvstealth.upgrade:
+#	Inherits: ^Upgrade
+#	Tooltip:
+#	Name: Upgrade: Stealth Harvesters
+#	Buildable:
+#	BuildPaletteOrder: 36
+#	Queue: Aircraft.Nod
+#	Prerequisites: ~disabled
+#	BuildDuration: 1500
+#	Description: Harvesters are equipped with Stealth devices.\n\n  Upgrades: Harvester\n  + Remains cloaked outside of combat\n  - Cost of Harvester increases
+#	Valued:
+#	Cost: 1000
+#	RenderSprites:
+#	Image: harvstealth.upgrade
+
+cyborg.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Research: Cyborgs
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~hand, ~tmpl, ~nodbio, ~!cyborg.upgrade, ~stolentech.tmpl
+		BuildDuration: 1500
+		Description: Basic infantry can be converted into\npowerful cyborg equivalents at Temple of Nod.\n\n  Enables: Cyborg Soldier from Rifleman\n  Enables: Cyborg Rocket Soldier from Rocket Soldier\n  Enables: Cyborg Flamethrower from Flamethrower\n  Enables: Cyborg Commando from Nod Commando\n\n  + Cyborgs are twice as durable\n  + Cyborgs heal when on Tiberium\n  - Cyborgs cannot be healed otherwise\n  - Cyborgs cost twice as much
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: cyborg.upgrade
+
+cyborgspeed.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Improved Cyborg Speed
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: ~hand, ~tmpl, ~nodbio, ~cyborg.upgrade
+		BuildDuration: 1500
+		Description: Improves cyborg movement speed.\n\n  Upgrades: All Cyborgs\n  + 20% faster movement
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: cyborgspeed.upgrade

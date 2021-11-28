@@ -125,6 +125,20 @@ Player:
 		Enabled: False
 		DisplayOrder: 21
 		Prerequisites: global-bounty
+	LobbyPrerequisiteCheckbox@FIELDREPAIRS:
+		ID: fieldrepairs
+		Label: Field Repairs
+		Description: Repair Facility grants the 'Field Repairs' support power
+		Enabled: False
+		DisplayOrder: 95
+		Prerequisites: global-fieldrepairs
+	LobbyPrerequisiteCheckbox@ALTNODCOMMANDO:
+		ID: altnodcommando
+		Label: Alt. Nod Commando
+		Description: Enables Mendoza as Nod commando
+		Enabled: False
+		DisplayOrder: 96
+		Prerequisites: global-mendoza
 	LobbyPrerequisiteCheckbox@BOINK:
 		ID: boinksound
 		Label: Boink !

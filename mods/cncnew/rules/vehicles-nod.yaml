@@ -18,7 +18,7 @@ BGGY:
 	Mobile:
 		TurnSpeed: 40
 		Speed: 170
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 12000
 	Armor:
@@ -74,7 +74,7 @@ BIKE:
 		TurnSpeed: 40
 		Speed: 184
 		Locomotor: wheeled
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 11000
 	Armor:
@@ -111,7 +111,8 @@ NAPC:
 	Inherits@EMP: ^AcceptsEMPCrate
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: hand, ~techlevel.low
+		#	Prerequisites: hand, ~techlevel.low
+		Prerequisites: ~disabled
 		Queue: Vehicle.Nod
 		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Unarmed
 	Valued:
@@ -121,7 +122,7 @@ NAPC:
 	Mobile:
 		Locomotor: heavywheeled
 		Speed: 156
-		PauseOnCondition: notmobile || emp-crate-collected || boarding
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
 	Armor:
 		Type: Light
 	Tooltip:
@@ -185,6 +186,10 @@ NAPC:
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded
 
 LTNK:
 	Inherits: ^Tank
@@ -206,7 +211,7 @@ LTNK:
 	Mobile:
 		TurnSpeed: 28
 		Speed: 110
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 34000
 	Armor:
@@ -288,7 +293,7 @@ FTNK:
 	Mobile:
 		TurnSpeed: 28
 		Speed: 99
-		PauseOnCondition: dont-move || boarding || emp-crate-collected
+		PauseOnCondition: dont-move || boarding || emp-crate-collected || being-captured
 	Health:
 		HP: 27000
 	Armor:
@@ -339,7 +344,7 @@ ARTY:
 	Mobile:
 		TurnSpeed: 16
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 7500
 	Armor:
@@ -398,7 +403,7 @@ HOWI:
 	Mobile:
 		TurnSpeed: 16
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 7500
 	Armor:
@@ -456,7 +461,7 @@ MLRS:
 	Mobile:
 		Speed: 99
 		TurnSpeed: 28
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: aiming || emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 18000
 	Armor:
@@ -515,6 +520,10 @@ MLRS:
 		Prerequisites: ssmreload.upgrade
 	Passenger:
 		CustomPipType: pip-red
+	GrantConditionOnAttack:
+		Condition: aiming
+		RevokeDelay: 50
+		RevokeAll: false
 
 STNK:
 	Inherits: ^Vehicle
@@ -539,7 +548,7 @@ STNK:
 		Locomotor: heavywheeled
 		TurnSpeed: 40
 		Speed: 142
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Targetable:
 		TargetTypes: Ground, Vehicle, StealthTank
 	Health:
@@ -608,7 +617,7 @@ T55H:
 	Mobile:
 		TurnSpeed: 16
 		Speed: 85
-		PauseOnCondition: boarding || emp-crate-collected || pauseforlaser
+		PauseOnCondition: boarding || emp-crate-collected || pauseforlaser || being-captured
 	Health:
 		HP: 63000
 	Armor:
@@ -708,7 +717,7 @@ WTNK:
 		Type: Heavy
 	Mobile:
 		Speed: 80
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Passenger:
 		CustomPipType: pip-red
 	RevealsShroud:
@@ -762,7 +771,7 @@ NODCTNK:
 		Locomotor: heavytracked
 		TurnSpeed: 12
 		Speed: 71
-		PauseOnCondition: dont-move || boarding || emp-crate-collected
+		PauseOnCondition: dont-move || boarding || emp-crate-collected || being-captured
 	Health:
 		HP: 54000
 	Armor:
@@ -801,13 +810,13 @@ NODMTNK:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 5
-		Prerequisites: ~disabled
+		BuildPaletteOrder: 18
+		Prerequisites: fix, ~stolentech.weap
 		Queue: Vehicle.Nod
 		Description: General-Purpose Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
 	Mobile:
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 45000
 	Armor:
@@ -864,15 +873,15 @@ ATNK:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 97
-		Prerequisites: ~disabled
+		BuildPaletteOrder: 17
+		Prerequisites: hq, ~stolentech.hq
 		Queue: Vehicle.Nod
 		Description: Mobile Anti-Air unit.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
 		Icon: atnkicon		
 	Mobile:
 		TurnSpeed: 28
 		Speed: 110
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 34000
 	Armor:
@@ -923,17 +932,14 @@ BTR:
 	Inherits: ^Vehicle
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
 	Inherits@TRANSPORT: ^Transport
-	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
-	Inherits@Cloak: ^AcceptsCloakCrate
-	Inherits@Speed: ^AcceptsSpeedCrate
-	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: ~disabled
+		Prerequisites: hand, ~techlevel.low
 		Queue: Vehicle.Nod
-		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, 
+		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Defenses
 	Valued:
 		Cost: 500
 	Health:
@@ -941,7 +947,7 @@ BTR:
 	Mobile:
 		Locomotor: heavywheeled
 		Speed: 156
-		PauseOnCondition: notmobile || emp-crate-collected || boarding
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
 	Armor:
 		Type: Light
 	Tooltip:
@@ -959,6 +965,8 @@ BTR:
 		RequiresCondition: unit.sellable && !loaded
 	Passenger:
 		CustomPipType: pip-green
+	#	maybe a unique weapon then to
+	#	make it not overlap with BGGY
 	Armament:
 		Weapon: MachineGun
 		LocalOffset: 250,0,100
@@ -973,6 +981,55 @@ BTR:
 	WithMuzzleOverlay:
 	SpawnActorOnDeath:
 		Actor: BTR.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded
+
+TDN:
+	Inherits: ^Tank
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Buildable:
+		BuildPaletteOrder: 19
+		Prerequisites: tmpl, ~stolentech.afld
+		Queue: Vehicle.Nod
+		Description: Tank Destroyer.\n  Strong vs Tanks\n  Weak vs Infantry, Aircraft
+	Valued:
+		Cost: 950
+	Tooltip:
+		Name: Tank Destroyer
+	Health:
+		HP: 34000
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 85
+		Locomotor: wheeled
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	RevealsShroud:
+		Range: 4c0
+	Turreted:
+		TurnSpeed: 14
+		Offset: -80,0,-20
+	Armament:
+		Weapon: 120mmAT
+		Recoil: 85
+		RecoilRecovery: 25
+		LocalOffset: 868,0,250
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	SpawnActorOnDeath:
+		Actor: TDN.Husk
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33

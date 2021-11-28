@@ -27,7 +27,7 @@ FACT:
 		PauseOnCondition: build-incomplete
 	Transforms:
 		RequiresCondition: factundeploy && !build-incomplete
-		PauseOnCondition:  being-captured || being-demolished || build-incomplete
+		PauseOnCondition:  being-captured || being-demolished || build-incomplete || hacked
 		IntoActor: mcv
 		Offset: 1,1
 		Facing: 432
@@ -150,6 +150,11 @@ FACT:
 	ProvidesPrerequisite@allowedtobuildHq:
 		Prerequisite: can-build-hq-finale
 		RequiresCondition: can-build-hqI || can-build-hqII
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateFACT
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateFACT
+		Proxy: stolentech.fact
 
 FACT.Husk:
 	Inherits: ^BuildingHusk
@@ -170,6 +175,7 @@ FACT.Husk:
 NUKE:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
+	Inherits@OVERLOAD: ^HackableOverloadable
 	Selectable:
 		Bounds: 48,48
 	HitShape:
@@ -186,7 +192,7 @@ NUKE:
 		Queue: Building.GDI, Building.Nod
 		Description: Generates a standard amount of power.
 	Building:
-		Footprint: xX xx
+		Footprint: Xx xx
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Health:
@@ -256,6 +262,7 @@ NUKE.Upgraded.Husk:
 NUK2:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
+	Inherits@OVERLOAD: ^HackableOverloadable
 	Selectable:
 		Bounds: 48,48
 	HitShape:
@@ -272,7 +279,7 @@ NUK2:
 		Queue: Building.GDI, Building.Nod
 		Description: Provides more power, cheaper than keep\nbuilding the standard Power Plant.
 	Building:
-		Footprint: xX xx
+		Footprint: Xx xx
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Health:
@@ -339,6 +346,64 @@ NUK2.Upgraded.Husk:
 	RenderSprites:
 		Image: gdinuk2.husk
 
+NUK3:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^3x2Shape
+	Inherits@OVERLOAD: ^HackableOverloadable
+	HitShape:
+		TargetableOffsets: -355,-1024,0
+	Buildable:
+		BuildPaletteOrder: 13
+		BuildLimit: 1
+		Prerequisites: tmpl, ~stolentech.fact, ~techlevel.high
+		Queue: Building.GDI, Building.Nod
+		Description: Provides triple the power of\na standard Power Plant.\n  Maximum one can be built.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Ultimate Power Plant
+	ProvidesPrerequisite:
+		Prerequisite: anypower
+	Building:
+		Footprint: xXx xxx
+		Dimensions: 3,2
+		LocalCenterOffset: 0,-512,0
+	Selectable:
+		Bounds: 72,48
+		DecorationBounds: 72,48,0,0
+	Health:
+		HP: 85000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		Range: 5c0
+	WithBuildingBib:
+	Power:
+		Amount: 300
+	ScalePowerWithHealth:
+	SpawnActorOnDeath:
+		Actor: nuk3.husk
+		OwnerType: InternalName
+	RenderSprites:
+		Image: nuk3
+		FactionImages:
+			nod: nodnuk3
+
+NUK3.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 72,48
+	Building:
+		Footprint: xXx xxx
+		Dimensions: 3,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Ultimate Power Plant (Destroyed)
+	RenderSprites:
+		Image: nuk3.husk
+		FactionImages:
+			nod: nodnuk3.husk
+
 PROC:
 	Inherits: ^BaseBuilding
 	Inherits@RESOURCES: ^StoresResources
@@ -377,8 +442,6 @@ PROC:
 	Selectable:
 		Bounds: 72,56
 		DecorationBounds: 73,72
-	CustomSellValue:
-		Value: 500
 	FreeActor:
 		Actor: HARV
 		SpawnOffset: 1,2
@@ -410,6 +473,14 @@ PROC:
 	ProximityExternalCondition@OnRefineryBib:
 		Condition: onrefinerybib
 		Range: 2c0
+	#	when Harv gets upgraded i need
+	#	able to modify this reduce down
+	#	to 300 to compensate Harv 1200
+	CustomSellValue:
+		Value: 500
+	#	GrantConditionOnPrerequisite@StealthHarvester:
+	#	Condition: harvstealth-upgraded
+	#	Prerequisites: harvstealth.upgrade
 
 PROC.Husk:
 	Inherits: ^BuildingHusk
@@ -510,7 +581,7 @@ PYLE:
 			TopLeft: -1024, -1024
 			BottomRight: 1024, 640
 	Valued:
-		Cost: 500
+		Cost: 450
 	Tooltip:
 		Name: Barracks
 	ProvidesPrerequisite:
@@ -583,6 +654,11 @@ PYLE:
 	SpawnActorOnDeath:
 		Actor: pyle.husk
 		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltratePYLE
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltratePYLE
+		Proxy: stolentech.pyle
 
 PYLE.Husk:
 	Inherits: ^BuildingHusk
@@ -603,7 +679,7 @@ HAND:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 630,-512,0, 355,512,0, -281,-512,0, -630,512,0
 	Valued:
-		Cost: 500
+		Cost: 450
 	Tooltip:
 		Name: Hand of Nod
 	ProvidesPrerequisite:
@@ -689,6 +765,11 @@ HAND:
 	#	GrantConditionOnProduction:
 	#	Condition: notwhileproducing
 	#	ShowSelectionBar: false
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateHAND
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateHAND
+		Proxy: stolentech.hand
 
 HAND.Husk:
 	Inherits: ^BuildingHusk
@@ -776,6 +857,15 @@ WEAP:
 	SpawnActorOnDeath:
 		Actor: weap.husk
 		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateWEAP
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateWEAP
+		Proxy: stolentech.weap
+	#	GrantConditionOnProduction@ProductionSmoke:
+	#	Duration: 126
+	#	Condition: 
+	#	ShowSelectionBar: false
 
 WEAP.Husk:
 	Inherits: ^BuildingHusk
@@ -878,6 +968,11 @@ AFLD:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateAFLD
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateAFLD
+		Proxy: stolentech.afld
 
 AFLD.Husk:
 	Inherits: ^BuildingHusk
@@ -947,6 +1042,27 @@ FIX:
 		Range: 1c0
 	Sellable:
 		RequiresCondition: !unit.docked && !build-incomplete && !being-captured && !being-demolished
+	GrantExternalConditionPower@FieldRepairs:
+		PauseOnCondition: lowpower
+		OrderName: FieldRepairPower
+		Prerequisites: ~global-fieldrepairs, ~techlevel.unrestricted
+		Icon: fieldrepair
+		ChargeInterval: 6000
+		Dimensions: 3, 3
+		Footprint: xxx xxx xxx
+		Duration: 375
+		Description: Field Repairs
+		LongDesc: Affected vehicles self-repair for 1% of their\nmaximum health per second for 15 second duration.
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		Condition: fieldrepair
+		Cursor: repair
+		Sequence: none
+		SupportPowerPaletteOrder: 6
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	SupportPowerChargeBar:
 
 FIX.Husk:
 	Inherits: ^BuildingHusk
@@ -1031,6 +1147,11 @@ HPAD:
 	ProximityExternalCondition@OnHelipad:
 		Condition: onhelipad
 		Range: 1c0
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateHPAD
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateHPAD
+		Proxy: stolentech.hpad
 
 HPAD.Husk:
 	Inherits: ^BuildingHusk
@@ -1138,7 +1259,7 @@ HQ:
 		DirectionArrowAnimation: paradirection
 		GuardDuration: 500
 		Cordon: 8c0
-		SupportPowerPaletteOrder: 7
+		SupportPowerPaletteOrder: 5
 	InterceptorPower@NodInterceptorsUpgraded:
 		PauseOnCondition: lowpower
 		OrderName: NodInterceptorsUpgraded
@@ -1162,7 +1283,7 @@ HQ:
 		DirectionArrowAnimation: paradirection
 		GuardDuration: 750
 		Cordon: 8c0
-		SupportPowerPaletteOrder: 7
+		SupportPowerPaletteOrder: 5
 	SupportPowerChargeBar:
 	RenderSprites:
 		Image: hq
@@ -1181,6 +1302,11 @@ HQ:
 	WithRangeCircle@AirRadar:
 		RequiresCondition: airradar-upgraded
 		Range: 20c0
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateHQ
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateHQ
+		Proxy: stolentech.hq
 
 HQ.Husk:
 	Inherits: ^BuildingHusk
@@ -1314,6 +1440,9 @@ HQ.GDI:
 	SpawnActorOnDeath@UPGRADED:
 		Actor: eye.husk
 		RequiresCondition: eyeupgrade
+	#	hmm, infiltrate for support Power is not conditional
+	#	that means EYE will have to do without unique
+	#	InfiltrateForSupportPower@STOLENTECH:
 
 HQ.GDI.Husk:
 	Inherits: ^BuildingHusk
@@ -1412,6 +1541,11 @@ EYE:
 	SpawnActorOnDeath:
 		Actor: eye.husk
 		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateHQ
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateHQ
+		Proxy: stolentech.hq
 
 EYE.Husk:
 	Inherits: ^BuildingHusk
@@ -1450,8 +1584,6 @@ TECH:
 		Name: Tech Center
 	Health:
 		HP: 80000
-	Targetable:
-		TargetTypes: Ground, C4, DetonateAttack, Structure
 	Armor:
 		Type: Wood
 	RevealsShroud:
@@ -1540,6 +1672,11 @@ TECH:
 	SpawnActorOnDeath:
 		Actor: tech.husk
 		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateTECH
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateTECH
+		Proxy: stolentech.tech
 
 TECH.Husk:
 	Inherits: ^BuildingHusk
@@ -1561,6 +1698,11 @@ TMPL:
 	-Capturable:
 	-CaptureNotification:
 	-CaptureManager:
+	-MindControllable:
+	-Targetable@HACKABLE:
+	-MindControllableProgressBar@HACKABLE:
+	-WithDecoration@HACKED:
+	-WithDecoration@RESTORING:
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 0,-896,0, 0,896,0, 840,0,0, -706,0,0, -706,-768,0, -706,640,0
@@ -1627,7 +1769,7 @@ TMPL:
 		Actor: tmpl.husk
 		OwnerType: InternalName
 	Production:
-		Produces: Aircraft.Nod
+		Produces: Aircraft.Nod, Cyborg
 		PauseOnCondition: build-incomplete
 	ProductionQueue@Nod:
 		Type: Aircraft.Nod
@@ -1646,6 +1788,73 @@ TMPL:
 	Exit:
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateTMPL
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateTMPL
+		Proxy: stolentech.tmpl
+	AirstrikePower@AirstrikeSFIG:
+		OrderName: AirStrikeSFIG
+		PauseOnCondition: lowpower
+		Prerequisites: ~nodairstrike.unlock
+		Icon: sfigicon
+		ChargeInterval: 4500
+		SquadSize: 1
+		QuantizedFacings: 8
+		Description: Air Strike
+		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: sfig
+		DisplayBeacon: True
+		BeaconPoster: airstrike
+		DisplayRadarPing: True
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airstrike
+		SupportPowerPaletteOrder: 2
+	ProvidesPrerequisite@CYBORGPRODUCTION:
+		Prerequisite: cyborg.production
+		RequiresCondition: cyborg-production
+	GrantConditionOnPrerequisite@CYBORGPRODUCTION:
+		Condition: cyborg-production
+		Prerequisites: cyborg.upgrade, hand
+	#	this is far left, has wrong facing
+	Exit@1:
+		RequiresCondition: cyborg-production
+		SpawnOffset: -625,540,0
+		ExitCell: 1,1
+		ProductionTypes: Cyborg
+	#	this will be center
+	Exit@2:
+		RequiresCondition: cyborg-production
+		SpawnOffset: -185,590,0
+		ExitCell: 1,1
+		ProductionTypes: Cyborg
+	#	this is far right
+	Exit@3:
+		RequiresCondition: cyborg-production
+		SpawnOffset: 0,540,0
+		ExitCell: 1,1
+		ProductionTypes: Cyborg
+	RallyPoint:
+	GrantConditionOnPrerequisite@Cyborgs:
+		Prerequisites: cyborg.upgrade
+		Condition: cyborgs-enabled
+	UnitConverter:
+		Type: Cyborg
+		ReadyAudio: UnitReady
+		NoCashAudio: NoBuild
+		BlockedAudio: OnHold
+		RequiresCondition: cyborgs-enabled
+		CostDifferenceRequired: true
+		EjectOnInsufficientFunds: true
+		SelectionBarColor: 87ceeb
+		ProductionInterval: 200
+	AcceptsDeliveredCash:
+		ValidTypes: CyborgRefund
 
 TMPL.Husk:
 	Inherits: ^BuildingHusk
@@ -1727,6 +1936,21 @@ TMPF:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateFAKE
+	InfiltrateForDecoration:
+		Types: NodInfiltrateFAKE
+		Position: Top
+		Margin: 0, 4
+		RequiresSelection: true
+		Image: pips
+		Sequence: tag-fake
+	#	GrantConditionOnInfiltration:
+	#	Condition: self-destruct
+	#	Duration: 126
+	#	KillsSelf:
+	#	Delay: 125
+	#	RequiresCondition: self-destruct
 
 NODBIO:
 	Inherits: ^BaseBuilding
@@ -1778,6 +2002,29 @@ NODBIO:
 		ValidPowerStates: Low, Critical
 	RenderSprites:
 		Image: bio
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateBIO
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateBIO
+		Proxy: stolentech.bio
+	GrantExternalConditionPower@StealthPlug:
+		PauseOnCondition: lowpower
+		OrderName: StealthPlugPower
+		Prerequisites: ~stolentech.bio, ~techlevel.unrestricted
+		Icon: slthplug
+		ChargeInterval: 6000
+		Dimensions: 1, 1
+		Footprint: x
+		Duration: 0
+		Description: Stealth Plug
+		LongDesc: Renders one Vehicle permanently Invisible.
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		Condition: cloak-crate-collected
+		#	Cursor: 
+		Sequence: none
+		SupportPowerPaletteOrder: 7
+	SupportPowerChargeBar:
 
 NODBIO.Husk:
 	Inherits: ^BuildingHusk
@@ -1800,6 +2047,11 @@ UPGC:
 	-Capturable:
 	-CaptureNotification:
 	-CaptureManager:
+	-MindControllable:
+	-Targetable@HACKABLE:
+	-MindControllableProgressBar@HACKABLE:
+	-WithDecoration@HACKED:
+	-WithDecoration@RESTORING:
 	Selectable:
 		Bounds: 72,48
 		DecorationBounds: 72,48,0,12
@@ -1911,6 +2163,11 @@ UPGC:
 		ChargeInterval: 6000
 		PauseOnCondition: lowpower
 		AutoFire: True
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateUPGC
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateUPGC
+		Proxy: stolentech.upgc
 
 UPGC.Husk:
 	Inherits: ^BuildingHusk
@@ -1956,3 +2213,47 @@ ANYBIO:
 		Name: a Laboratory
 	Buildable:
 		Description: a Laboratory
+
+stolentech.fact:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.pyle:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.hand:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.weap:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.afld:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.hpad:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.hq:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.tech:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.upgc:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.tmpl:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+stolentech.bio:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:

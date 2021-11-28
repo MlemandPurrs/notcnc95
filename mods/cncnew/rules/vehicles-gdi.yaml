@@ -19,7 +19,7 @@ JEEP:
 	Mobile:
 		TurnSpeed: 40
 		Speed: 156
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 16000
 	Armor:
@@ -72,7 +72,7 @@ APC:
 	Mobile:
 		TurnSpeed: 20
 		Speed: 132
-		PauseOnCondition: notmobile || emp-crate-collected || boarding
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 19000
 	Armor:
@@ -130,6 +130,10 @@ APC:
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded
 
 MTNK:
 	Inherits: ^Tank
@@ -151,7 +155,7 @@ MTNK:
 		Description: Main Battle Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
 	Mobile:
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 45000
 	Armor:
@@ -258,7 +262,7 @@ HTNK:
 		Locomotor: heavytracked
 		Speed: 56
 		TurnSpeed: 12
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 87000
 	Armor:
@@ -354,7 +358,7 @@ MSAM:
 	Mobile:
 		Speed: 85
 		TurnSpeed: 16
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition:  aiming || emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 12000
 	Armor:
@@ -440,8 +444,18 @@ MSAM:
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
-	WithTurretAimAnimation:
+	WithTurretAimAnimation@PRIMARY:
+		Armament: primary
 		Sequence: aim
+		RequiresCondition: aiming
+	WithTurretAimAnimation@SECONDARY:
+		Armament: secondary
+		Sequence: aim
+		RequiresCondition: aiming
+	WithTurretAimAnimation@TERTIARY:
+		Armament: tertiary
+		Sequence: aim
+		RequiresCondition: aiming	
 	#	disappears whenever reloading
 	#	RenderRangeCircle:
 	#	FallbackRange: 11c0
@@ -451,6 +465,11 @@ MSAM:
 	GrantConditionOnPrerequisite@MobileSAM:
 		Condition: mobilesam-upgraded
 		Prerequisites: mobilesam.upgrade
+	GrantConditionOnAttack:
+		ArmamentNames: primary, secondary, tertiary
+		Condition: aiming
+		RevokeDelay: 50
+		RevokeAll: false
 
 MHQ:
 	Inherits: ^Vehicle
@@ -468,7 +487,7 @@ MHQ:
 		Type: Medium
 	Mobile:
 		Speed: 85
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	RevealsShroud:
 		Range: 6c0
 	WithIdleOverlay@SPINNER:
@@ -524,7 +543,7 @@ ICBM:
 	Mobile:
 		Speed: 52
 		TurnSpeed: 9
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	RevealsShroud:
 		Range: 5c0
 	Armament:
@@ -556,14 +575,23 @@ ICBM:
 	AmmoPool:
 		Name: primary
 		Ammo: 1
-		#	ReloadDelay: 1125
+		#	ReloadDelay: 2250
 		AmmoCondition: ammo
+	#	precisely affects only ReloadDelay:
+	#	from above, not doing anything for
+	#	ReloadAmmoPool
+	#	ReloadAmmoDelayMultiplier:
+	#	Modifier: 70
+	#	RequiresCondition: unit.docked
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
 		PipCount: 1
 		FullSequence: pip-green
 		RequiresSelection: true
+	Rearmable:
+		RearmActors: fix
+		AmmoPools: none
 	ReloadAmmoPoolCA:
 		Delay: 2250
 		Count: 1
@@ -609,6 +637,7 @@ MSAR:
 		Type: Heavy
 	Mobile:
 		Speed: 68
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 		RequireForceMoveCondition: !undeployed
 	RevealsShroud@Normal:
 		Range: 6c0
@@ -685,7 +714,7 @@ PBAT:
 	Mobile:
 		Speed: 99
 		TurnSpeed: 28
-		PauseOnCondition: emp-crate-collected || boarding
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 18000
 	Armor:
@@ -763,7 +792,7 @@ AAV:
 		TurnSpeed: 20
 		Speed: 132
 		Locomotor: amphibious
-		PauseOnCondition: notmobile || emp-crate-collected || boarding
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
 	Health:
 		HP: 19000
 	Armor:
@@ -811,3 +840,7 @@ AAV:
 		RequiresCondition: floating
 	Carryable:
 		RequiresCondition: !floating
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded

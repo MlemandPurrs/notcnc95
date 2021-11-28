@@ -1,7 +1,3 @@
-fb4:
-	idle:
-		Length: 4
-		ZOffset: 1023
 
 fire:
 	Defaults:
@@ -326,6 +322,8 @@ pips:
 		Tick: 300
 	pip-carryall: pip-carryall
 		Offset: 0, -6
+	pip-knife: pip-knife
+		Offset 0, -11
 
 overlay:
 	Defaults: trans.icn
@@ -365,6 +363,9 @@ icon:
 	pinficon: pinficon
 	zoneicon: dropzoneicon
 	cepticon: cepticon
+	fieldrepair: frepicon
+	slthplug: slthplugicon
+	sfigicon: sfigicon
 
 moveflsh:
 	idle:
@@ -612,3 +613,48 @@ parabomb:
 		Start: 8
 		Length: 5
 		ZOffset: 1023
+
+fb1:
+	idle:
+		Length: *
+		ZOffset: 1023
+
+fb2:
+	idle:
+		Length: *
+		ZOffset: 1023
+
+fb3:
+	idle:
+		Facings: 32
+		ZOffset: 1023
+
+fb4:
+	idle:
+		Length: *
+		ZOffset: 1023
+
+hacked:
+	hacked: hacked
+		ZOffset: 2047
+		Length: 2
+		Tick: 500
+	overloading: hacked
+		ZOffset: 2047
+		Length: 4
+		Tick: 500
+	restoring: hacked
+		ZOffset: 2047
+		Start: 4
+		Length: 2
+		Tick: 250
+
+hacking:
+	hacking: hacking
+		ZOffset: 2047
+		Length: *
+		Tick: 80
+		Offset: 1, -9
+
+empty:
+	idle: empty

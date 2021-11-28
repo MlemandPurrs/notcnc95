@@ -225,3 +225,14 @@ PBAT.Husk:
 		IntoActor: pbat
 	RenderSprites:
 		Image: mlrs.destroyed
+
+TDN.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Tank Destroyer (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: tdn
+	RenderSprites:
+		Image: tdn.destroyed

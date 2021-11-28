@@ -331,6 +331,62 @@ gdinuk2.husk:
 		Length: *
 		Offset: 0,0
 
+nuk3:
+	idle:
+		Length: 4
+		Tick: 1000
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 1000
+	dead:
+		Start: 8
+		Tick: 800
+	make: nuk3make
+		Length: *
+		Tick: 80
+	bib: bib2
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+	icon: nukeicon
+
+nuk3.husk:
+	idle: nuk3
+		Start: 8
+	bib: bib2
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+
+nodnuk3:
+	idle:
+		Length: 4
+		Tick: 1000
+	damaged-idle:
+		Start: 4
+		Length: 4
+		Tick: 1000
+	dead:
+		Start: 8
+		Tick: 800
+	make: nodnuk3make
+		Length: *
+		Tick: 80
+	bib: bib2
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+	icon: nukeicon
+
+nodnuk3.husk:
+	idle: nodnuk3
+		Start: 8
+	bib: bib2
+		UseTilesetExtension: true
+		Length: *
+		Offset: 0,0
+
 proc:
 	idle:
 		Length: 6
@@ -677,6 +733,8 @@ fix:
 		Length: *
 		Offset: 0,-9
 	icon: fixicon
+	none: blank1
+		Length: *
 
 fix.husk:
 	idle: fix
@@ -699,11 +757,11 @@ nodfix:
 hq:
 	idle:
 		Length: 16
-		Tick: 100
+		Tick: 160
 	damaged-idle:
 		Start: 16
 		Length: 16
-		Tick: 100
+		Tick: 160
 	dead:
 		Start: 32
 		Tick: 800
@@ -771,11 +829,11 @@ gdihq.husk:
 nodhq:
 	idle: nodhq
 		Length: 16
-		Tick: 100
+		Tick: 160
 	damaged-idle: nodhq
 		Start: 16
 		Length: 16
-		Tick: 100
+		Tick: 160
 	dead: nodhq
 		Start: 32
 		Tick: 800
@@ -1010,6 +1068,8 @@ nodbio:
 		Tick: 160
 		Offset: 0,-22
 		BlendMode: DoubleMultiplicative
+	none: blank1
+		Length: *
 	icon: bioicon
 		Offset: 0,0
 
@@ -1443,6 +1503,8 @@ bio:
 		UseTilesetExtension: true
 		Length: *
 		Offset: 0,0
+	none: blank1
+		Length: *
 	icon: nodbioicon
 		Offset: 0,0
 

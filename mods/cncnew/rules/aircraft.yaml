@@ -378,7 +378,7 @@ TRAN:
 		TurnSpeed: 20
 		Speed: 150
 		AltitudeVelocity: 0c100
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: emp-crate-collected || being-captured
 	Health:
 		HP: 9000
 	Armor:
@@ -413,6 +413,10 @@ TRAN:
 		Actor: TRAN.Husk
 	Selectable:
 		DecorationBounds: 41,41
+	Targetable@HIJACKED:
+		RequiresCondition: !airborne && !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !airborne && !loaded
 
 TRAN.Husk:
 	Inherits: ^HelicopterHusk
@@ -456,7 +460,7 @@ ORCA:
 		Speed: 186
 		TakeoffSounds: orcaup1.aud
 		LandingSounds: orcadwn1.aud
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: emp-crate-collected || being-captured
 	Health:
 		HP: 9000
 	Armor:
@@ -581,6 +585,7 @@ HELI:
 	Aircraft:
 		TurnSpeed: 28
 		Speed: 180
+		PauseOnCondition: emp-crate-collected || being-captured
 	Health:
 		HP: 12500
 	Armor:
@@ -724,7 +729,7 @@ MH60:
 	Aircraft:
 		TurnSpeed: 14
 		Speed: 112
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: emp-crate-collected || being-captured
 	AttackAircraft:
 		Armaments: primary, secondary, tertiary, quartenary
 		FacingTolerance: 20
@@ -867,15 +872,15 @@ RH66:
 		TurnSpeed: 16
 		Speed: 150
 		Voice: Move
-		PauseOnCondition: emp-crate-collected
+		PauseOnCondition: emp-crate-collected || being-captured
 	Guard:
 		Voice: Move
 	DeathSounds@SAKURA:
 		Voice: Die
 	Cloak:
 		CloakTypes: AirStealth
-		InitialDelay: 150
-		CloakDelay: 150
+		InitialDelay: 90
+		CloakDelay: 90
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
 		Palette: cloak
@@ -946,7 +951,7 @@ OCAR:
 	RenderSprites:
 		Image: orcaca
 	Valued:
-		Cost: 1500
+		Cost: 1200
 	Tooltip:
 		Name: Orca Carryall
 	UpdatesPlayerStatistics:
@@ -967,6 +972,7 @@ OCAR:
 		Repulsable: True
 		IdleTurnSpeed: 4
 		Voice: Move
+		PauseOnCondition: emp-crate-collected || being-captured
 	Carryall:
 		BeforeLoadDelay: 10
 		BeforeUnloadDelay: 15
@@ -974,6 +980,8 @@ OCAR:
 		Voice: Action
 		AllowDropOff: True
 		CarryCondition: carrying
+		PickUpCursor: guard
+		DropOffCursor: guard
 	SpeedMultiplier@carrying:
 		Modifier: 80
 		RequiresCondition: carrying
@@ -1023,12 +1031,18 @@ OCAR:
 		TrailLength: 15
 		UsePlayerColor: false
 		Color: FFFFFF80
+	Sellable:
+		RequiresCondition: unit.sellable && !carrying
 	-GrantConditionOnPrerequisite@BOMBARD:
 	-FirepowerMultiplier@BOMBARD:
 	-WithDecoration@BOMBARD:
 	-GrantConditionOnPrerequisite@SEEK:
 	-RangeMultiplier@SEEK:
 	-WithDecoration@SEEK:
+	Targetable@HIJACKED:
+		RequiresCondition: !airborne && !carrying
+	Capturable@HIJACKED:
+		RequiresCondition: !airborne && !carrying
 
 OCAR.Husk:
 	Inherits: ^PlaneHusk
@@ -1049,12 +1063,24 @@ OCAR.Husk:
 
 OCAR.Reinforce:
 	Inherits: OCAR
+	-Targetable@HIJACKED:
+	-GrantConditionOnCapture@HIJACKED:
+	-Capturable@HIJACKED:
+	-WithDecoration@HIJACKED:
+	-ProvidesPrerequisite@LIMITINGJACK:
+	-EjectOnDeath@HIJACKED:
 	-Buildable:
+	-CaptureManager:
+	-GrantConditionIfOwnerIsNeutral:
+	-Targetable@DRIVERKILL:
+	-ChangesHealth@DRIVER_DEAD:
+	-Capturable@DRIVER_DEAD:
 	Carryall:
 		DropRange: 30c0
 	Aircraft:
 		IdleBehavior: LeaveMap
 		Repulsable: False
+		PauseOnCondition: emp-crate-collected
 	-Selectable:
 	-Voiced:
 	RejectsOrders:
@@ -1080,7 +1106,7 @@ NODHIND:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
 	Buildable:
-		BuildPaletteOrder: 95
+		BuildPaletteOrder: 16
 		Prerequisites: ~disabled
 		Queue: Vehicle.Nod
 		Description: Slow helicopter gunship armed with dual chainguns\nand anti-ground rockets.\nCannot attack Air units.\n  Strong vs Infantry, Tanks\n  Weak vs fast Units, Aircraft
@@ -1101,6 +1127,7 @@ NODHIND:
 		TurnSpeed: 16
 		Speed: 130
 		InitialFacing: 192
+		PauseOnCondition: emp-crate-collected || being-captured
 	AttackAircraft:
 		Armaments: primary, secondary
 		FacingTolerance: 60
@@ -1175,3 +1202,223 @@ NODHIND.Husk:
 		Type: GroundPosition
 	RenderSprites:
 		Image: nodhind
+
+NODV22:
+	Inherits: ^Helicopter
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	RenderSprites:
+		Image: nodv22
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Nod Carryall
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 16
+		Prerequisites: hpad, fix, ~stolentech.hpad
+		Queue: Vehicle.Nod
+		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
+	Aircraft:
+		CruiseAltitude: 2048
+		AltitudeVelocity: 0c100
+		IdealSeparation: 0c768
+		TurnSpeed: 20
+		Speed: 236
+		TakeoffSounds: dropup1.aud
+		LandingSounds: dropdwn1.aud
+		Repulsable: True
+		IdleTurnSpeed: 4
+		Voice: Move
+		PauseOnCondition: emp-crate-collected || being-captured
+	Carryall:
+		BeforeLoadDelay: 10
+		BeforeUnloadDelay: 15
+		LocalOffset: 0, 0, 0
+		Voice: Action
+		AllowDropOff: True
+		CarryCondition: carrying
+		PickUpCursor: guard
+		DropOffCursor: guard
+	SpeedMultiplier@carrying:
+		Modifier: 80
+		RequiresCondition: carrying
+	Health:
+		HP: 30000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	SpawnActorOnDeath:
+		Actor: NODV22.Husk
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		Interval: 2
+	Selectable:
+		DecorationBounds: 40,36,0,0
+	Voiced:
+		VoiceSet: MechanicVoice
+	Contrail@1:
+		Offset: -885,-116,0
+		TrailLength: 16
+		UsePlayerColor: false
+		ZOffset: -512
+		Color: FFFFFF80
+	Contrail@2:
+		Offset: -885,116,0
+		TrailLength: 16
+		UsePlayerColor: false
+		ZOffset: -512
+		Color: FFFFFF80
+	WithIdleOverlay@ROTOR1AIR:
+		Offset: 118,784,386
+		Sequence: rotor
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR1GROUND:
+		#	Offset: 82,785,432
+		Offset: 118,784,386
+		Sequence: slow-rotor
+		RequiresCondition: !airborne
+	WithIdleOverlay@ROTOR2AIR:
+		Offset: 118,-784,386
+		Sequence: rotor2
+		RequiresCondition: airborne
+	WithIdleOverlay@ROTOR2GROUND:
+		#	Offset: 82,-785,432
+		Offset: 118,-784,386
+		Sequence: slow-rotor2
+		RequiresCondition: !airborne
+	Sellable:
+		RequiresCondition: unit.sellable && !carrying
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
+	Targetable@HIJACKED:
+		RequiresCondition: !airborne && !carrying
+	Capturable@HIJACKED:
+		RequiresCondition: !airborne && !carrying
+
+NODV22.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Nod Carryall
+	Aircraft:
+		TurnSpeed: 4
+		Speed: 46
+	SmokeTrailWhenDamaged:
+		Offset: -427,0,0
+		MinDamage: Undamaged
+	WithIdleOverlay@ROTOR1:
+		Offset: 82,785,432
+		Sequence: rotor
+	WithIdleOverlay@ROTOR2:
+		Offset: 82,-785,432
+		Sequence: rotor2
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: nodv22
+		PlayerPalette: overlayplayer
+
+NODV22.Reinforce:
+	Inherits: NODV22
+	-Buildable:
+	-Targetable@HIJACKED:
+	-GrantConditionOnCapture@HIJACKED:
+	-Capturable@HIJACKED:
+	-WithDecoration@HIJACKED:
+	-ProvidesPrerequisite@LIMITINGJACK:
+	-EjectOnDeath@HIJACKED:
+	-CaptureManager:
+	-GrantConditionIfOwnerIsNeutral:
+	-Targetable@DRIVERKILL:
+	-ChangesHealth@DRIVER_DEAD:
+	-Capturable@DRIVER_DEAD:
+	Carryall:
+		DropRange: 30c0
+	Aircraft:
+		IdleBehavior: LeaveMap
+		Repulsable: False
+		PauseOnCondition: emp-crate-collected
+	-Selectable:
+	-Voiced:
+	RejectsOrders:
+	Interactable:
+
+#	simplest would be to make this a Nod Airstrike
+SFIG:
+	Inherits: ^Plane
+	-ActorLostNotification:
+	Interactable:
+	HitShape:
+	Health:
+		HP: 22500
+	Armor:
+		Type: Heavy
+	Tooltip:
+		Name: Stealth Bomber
+	Valued:
+		Cost: 1600
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+		Repulsable: False
+		AirborneCondition: airborne
+	AttackBomber:
+		Armaments: bombs
+	Armament@BOMBS:
+		Name: bombs
+		Weapon: Napalm
+		#	Weapon: BomberHJM
+		LocalOffset: 300,0,-43
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	SpawnActorOnDeath:
+		Actor: SFIG.Husk
+	RevealsShroud@AirRadar:
+		ValidRelationships: Enemy
+		Range: 3c512
+		Type: CenterPosition
+		RevealGeneratedShroud: false
+		RequiresCondition: in-airwarning-radius
+	AnnounceOnSeen@AirRadar:
+		PingRadar: true
+		Notification: EnemyPlanesApproaching
+	ExternalCondition@AirRadar:
+		Condition: in-airwarning-radius
+	Cloak:
+		CloakTypes: AirStealth
+		InitialDelay: 0
+		CloakDelay: 90
+		CloakSound: trans1.aud
+		UncloakSound: trans1.aud
+		Palette: cloak
+		IsPlayerPalette: false
+		UncloakOn: Attack, Damage
+		PauseOnCondition: cloak-force-disabled || !airborne
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	-MapEditorData:
+
+SFIG.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Stealth Fighter
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+	SmokeTrailWhenDamaged:
+		Offset: -853,0,171
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: sfig

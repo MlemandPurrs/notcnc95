@@ -308,3 +308,23 @@ HindChainGun:
 	Inherits: ChainGun
 	Range: 6c0
 	Report: gun5.aud
+
+Colt45:
+	ReloadDelay: 16
+	Range: 5c0
+	Report: colt45.aud
+	BurstDelays: 2
+	Burst: 10
+	ValidTargets: Ground, Infantry
+	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Mine
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 42
+		Damage: 5000
+		ValidTargets: Infantry
+		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		ImpactActors: false
+		ValidTargets: Ground, Water

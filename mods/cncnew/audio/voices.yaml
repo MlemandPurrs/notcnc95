@@ -67,6 +67,7 @@ CommandoVoice:
 		Build: rokroll1
 		Kill: keepem1,laugh1,lefty1,tuffguy1
 		Boink: boink
+		Action: gotit1
 
 DinoVoice:
 	Voices:
@@ -149,3 +150,88 @@ ChemVoice:
 		Build: chemkilltakevitamins
 		Kill: chemkilldisintegrated, chemkilllaugh, chemkillmelted, chemhitburn
 		Boink: boink
+
+SBHVoice:
+	DefaultVariant: .aud
+	Voices:
+		Select: sbhtauntsafewithme, sbhtauntbrother, sbhassistfaith
+		Move: sbhtauntwithyou, sbhtauntactivity, sbhtauntcovered
+		Action: sbhtakeemout, sbhtauntsilent, sbhassistproud
+		Die: sbhhitwhat, sbhhitwhat2
+		Burned: sbhhitwhat, sbhhitwhat2
+		Zapped: sbhhitwhat, sbhhitwhat2
+		Poisoned: sbhhitwhat, sbhhitwhat2
+		Build: sbhkillgloryofnod
+		Kill: sbhkillinfidel, sbhkillshame, sbhtauntmaggot, sbhkilllaugh
+		Enter: sbhnobetter, sbhkilltakethat
+		Boink: boink
+
+MendozaVoice:
+	DefaultVariant: .aud
+	Voices:
+		Select: dozaivegotyournumber, dozaletsgetiton, dozamypleasure, dozabringiton
+		Move: dozakillmeifyoucan, dozafightlikeaman, dozashowmewhatyougot, 
+		Action: dozalineemup, dozaillteachyoualesson, dozafightingtime
+		Die: dozaimnotgettingpaidforthis, dozamissedvitals, dozacowardsandfools
+		Burned: dozafool
+		Zapped: dozafool
+		Poisoned: dozafool
+		Build: dozaletsgetiton, dozahopeimpaidextraforthis, dozaallworkedup
+		Kill: dozaeasy, dozainfidel, dozamaggot, dozafool, dozalikesheeptoslaughter
+		Demolish: dozawasteoftime, dozawhataletdown
+		Boink: boink
+
+CyborgVoice:
+	Voices:
+		Select: cyp-i000,cyp-i002,cyp-i006
+		Move: cyp-i008,cyp-i010,cyp-i014,cyp-i016,cyp-i020
+		Attack: cyp-i008,cyp-i010,cyp-i012,cyp-i018
+		Action: cyp-i008,cyp-i010,cyp-i012,cyp-i018
+		Die: cyp-n104,cyp-n106,cyp-n108
+		Burned: cyp-n108
+		Zapped: cyp-n106
+		Poisoned: cyp-n104
+		Build: cyp-i000
+		Boink: boink
+	DisableVariants: Die, Burned, Zapped, Poisoned, Boink
+
+CyborgCommandoVoice:
+	Voices:
+		Select: 23-i000, 23-i002, 23-i004, 23-i006
+		Move: 23-i008, 23-i010, 23-i012, 23-i016
+		Attack: 23-i014, 23-i018, 23-i020, 23-i022
+		Action: 23-i008, 23-i010, 23-i012, 23-i016
+		Demolish: 23-i016
+		Die: 22-n104, 22-n106, 22-n108
+		Burned: 22-n104, 22-n106, 22-n108
+		Zapped: 22-n104, 22-n106, 22-n108
+		Poisoned: 22-n104, 22-n106, 22-n108
+		Build: 23-i000
+		Kill: 23-i008, 23-i010, 23-i012, 23-i016
+		Boink: boink
+	DisableVariants: Die, Burned, Zapped, Poisoned, Boink
+
+ThiefVoice:
+	Voices:
+		Select: swhat1,syeah1
+		Action: saffirm1,smout1,sokay1
+		Die: nuyell1,nuyell4,nuyell5,nuyell6
+		Burned: yell1
+		Zapped: nuyell3
+		Poisoned: nuyell12
+		Attack: candy,pickclean,fivefinger
+		Boink: boink
+	DisableVariants: Die, Burned, Zapped, Poisoned, Boink
+
+HackerVoice:
+	Voices:
+		Select: hacker-select1, hacker-select2, hacker-select3
+		Move: hacker-move1, hacker-move2, hacker-move3
+		Action: hacker-action1, hacker-action2, hacker-action3
+		Attack: hacker-action1, hacker-action2, hacker-action3
+		Die: hacker-die1, hacker-die2
+		Burned: hacker-die1, hacker-die2
+		Zapped: hacker-die1, hacker-die2
+		Poisoned: hacker-die1, hacker-die2
+		Boink: boink
+	DisableVariants: Die, Burned, Zapped, Poisoned, Boink

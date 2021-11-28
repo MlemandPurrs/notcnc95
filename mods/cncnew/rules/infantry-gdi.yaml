@@ -267,6 +267,14 @@ XO:
 	-Carryable:
 	-WithDecoration@CARRYALL:
 	-WithFacingSpriteBody:
+	-Targetable@HIJACKED:
+	-GrantConditionOnCapture@HIJACKED:
+	-Capturable@HIJACKED:
+	-WithDecoration@HIJACKED:
+	-SpawnActorOnDeath@HIJACKED:
+	-ProvidesPrerequisite@LIMITINGJACK:
+	CaptureManager:
+		-BeingCapturedCondition:
 	QuantizeFacingsFromSequence:
 		Sequence: stand
 	Valued:
@@ -346,6 +354,8 @@ XO:
 		TargetTypes: Repair
 	DetectCloaked:
 		Range: 1c0
+	MapEditorData:
+		Categories: Infantry
 
 #	'Advanced' Grenadier
 #	hence E22

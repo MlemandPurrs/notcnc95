@@ -44,6 +44,9 @@ E1:
 	ProducibleWithLevel:
 		InitialLevels: 1
 		Prerequisites: e1.veterancy
+	Convertible:
+		SpawnActors: NODE1
+		Voice: Action
 
 E1R1:
 	Inherits: E1
@@ -97,6 +100,9 @@ E3:
 		Cursor: enter-reverse-yellow
 		Payload: 75
 		Type: InfantryRefund
+	Convertible:
+		SpawnActors: NODE3
+		Voice: Action
 
 E3R1:
 	Inherits: E3
@@ -109,82 +115,6 @@ E3R1:
 		OverrideActor: e3
 	-Buildable:
 	-MapEditorData:
-
-#	Nod will be missing their Chems ;_;
-E5:
-	Inherits: ^Soldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	-DamagedByTerrain@TIBERIUM:
-	-GrantConditionOnTerrain@HAZMAT:
-	-GrantConditionOnPrerequisite@HAZMAT:
-	-GrantConditionOnPrerequisite@HAZMAT2:
-	-GrantCondition@HAZMAT:
-	-WithDecoration@HAZMAT:
-	-Targetable@IMMUNETOPOISON:
-	Valued:
-		Cost: 600
-	Tooltip:
-		Name: Chemical Trooper
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 7
-		#	this way Nod will able to get them, too
-		Prerequisites: ~anybio, ~techlevel.high
-		Queue: Infantry.Nod, Infantry.GDI
-		Description: Advanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
-	Mobile:
-		Speed: 56
-		Locomotor: chem
-		PauseOnCondition: dont-move
-		Voice: Move
-	Health:
-		HP: 9000
-	Passenger:
-		CustomPipType: pip-red
-		Voice: Move
-	Guard:
-		Voice: Move
-	AutoTarget:
-		ScanRadius: 4
-	Armament:
-		Weapon: Chemspray
-		LocalOffset: 341,0,256
-		FireDelay: 3
-		MuzzleSequence: muzzle
-	TakeCover:
-		ProneOffset: 190,0,-190
-	WithMuzzleOverlay:
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 200
-		Type: InfantryRefund
-	Targetable:
-		TargetTypes: Ground, Infantry, Chem
-	AttackFrontal:
-		Voice: Attack
-	AttackMove:
-		Voice: Attack
-	GrantConditionOnAttack:
-		Condition: dont-move
-		RevokeDelay: 16
-		RevokeOnNewTarget: False
-		RevokeAll: True
-	Voiced:
-		VoiceSet: ChemVoice
-	VoiceAnnouncement:
-		RequiresCondition: produced
-		Voice: Build
-		ValidRelationships: Ally 
-	AnnounceOnKill:
-	ExternalCondition@PRODUCED:
-		Condition: produced
 
 E6:
 	Inherits: ^Soldier

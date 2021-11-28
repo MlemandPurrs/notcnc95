@@ -477,3 +477,11 @@ SILOTIB:
 		RequiresCondition: growthfast
 	ExternalCondition@Fast:
 		Condition: growthfast
+
+camera.hacker:
+	Inherits: CAMERA
+	RevealsShroud:
+		Range: 0c512
+	KillsSelf:
+		RemoveInstead: true
+		Delay: 50

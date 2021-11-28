@@ -19,7 +19,7 @@ MCV:
 	Mobile:
 		Speed: 71
 		Locomotor: heavywheeled
-		PauseOnCondition: boarding
+		PauseOnCondition: boarding || being-captured
 	Health:
 		HP: 210000
 	Armor:
@@ -69,6 +69,11 @@ HARV:
 	Tooltip:
 		Name: Harvester
 		GenericName: Harvester
+	#	RequiresCondition: !harvstealth-upgraded
+	#	Tooltip@NodUpgraded:
+	#	Name: Stealth Harvester
+	#	GenericName: Harvester
+	#	RequiresCondition: harvstealth-upgraded
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: proc, ~techlevel.low
@@ -153,6 +158,14 @@ HARV:
 	-GrantConditionOnPrerequisite@SEEK:
 	-RangeMultiplier@SEEK:
 	-WithDecoration@SEEK:
+	#	Cloak:
+	#	RequiresCondition: cloak-crate-collected && harvstealth-upgraded
+	#	GrantConditionOnPrerequisite@StealthHarvester:
+	#	Condition: harvstealth-upgraded
+	#	Prerequisites: harvstealth.upgrade
+	#	ProductionCostMultiplier@StealthHarvester:
+	#	Multiplier: 120
+	#	Prerequisites: harvstealth.upgrade
 
 TRUK:
 	Inherits: ^Vehicle
@@ -175,7 +188,7 @@ TRUK:
 		Type: Light
 	Mobile:
 		Speed: 128
-		PauseOnCondition: boarding || emp-crate-collected
+		PauseOnCondition: boarding || emp-crate-collected || being-captured
 	RevealsShroud:
 		Range: 4c0
 	DeliversCash:
