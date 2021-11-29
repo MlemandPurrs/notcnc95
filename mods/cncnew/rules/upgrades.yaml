@@ -585,7 +585,7 @@ interceptors.upgrade:
 		Queue: Aircraft.Nod
 		Prerequisites: ~hq, ~interceptors.unlock, ~nodbio, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Improves Fuel pods of the Interceptors to extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
 	Valued:
 		Cost: 1000
 	RenderSprites:

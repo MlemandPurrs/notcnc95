@@ -1243,7 +1243,7 @@ HQ:
 		Icon: cepticon
 		ChargeInterval: 7500
 		Description: Interceptors
-		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.
+		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
 		SelectTargetSpeechNotification: SelectTarget
 		CameraActor: camera
 		CameraRemoveDelay: 450
@@ -1267,10 +1267,10 @@ HQ:
 		Icon: cepticon
 		ChargeInterval: 7500
 		Description: Interceptors
-		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.
+		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 30 seconds.
 		SelectTargetSpeechNotification: SelectTarget
 		CameraActor: camera
-		CameraRemoveDelay: 450
+		CameraRemoveDelay: 700
 		UnitType: f22
 		QuantizedFacings: 8
 		DisplayBeacon: true
