@@ -336,10 +336,6 @@ XO:
 		WaterImpactSound: splash9.aud
 		WaterCorpseSequence: sml_splash
 		ParachutingCondition: parachute
-	#	WithIdleAnimation@DESCENDING:
-	#	RequiresCondition: parachute
-	#	Interval: 3
-	#	Sequences: descend
 	GrantConditionOnTerrain@Cliffs:
 		TerrainTypes: Cliff
 		Condition: isjetpacking

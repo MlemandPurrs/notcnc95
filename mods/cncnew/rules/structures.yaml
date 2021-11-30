@@ -862,10 +862,6 @@ WEAP:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateWEAP
 		Proxy: stolentech.weap
-	#	GrantConditionOnProduction@ProductionSmoke:
-	#	Duration: 126
-	#	Condition: 
-	#	ShowSelectionBar: false
 
 WEAP.Husk:
 	Inherits: ^BuildingHusk
@@ -1945,12 +1941,6 @@ TMPF:
 		RequiresSelection: true
 		Image: pips
 		Sequence: tag-fake
-	#	GrantConditionOnInfiltration:
-	#	Condition: self-destruct
-	#	Duration: 126
-	#	KillsSelf:
-	#	Delay: 125
-	#	RequiresCondition: self-destruct
 
 NODBIO:
 	Inherits: ^BaseBuilding
@@ -2021,7 +2011,6 @@ NODBIO:
 		SelectTargetSpeechNotification: SelectTarget
 		InsufficientPowerSpeechNotification: InsufficientPower
 		Condition: cloak-crate-collected
-		#	Cursor: 
 		Sequence: none
 		SupportPowerPaletteOrder: 7
 	SupportPowerChargeBar:
@@ -2038,9 +2027,7 @@ NODBIO.Husk:
 	RenderSprites:
 		Image: bio.husk
 
-#	this is Tib Sun era, definitely
-#	actually, nvm scratch that
-#	think i can make it work
+#	GDI Strategy Center
 UPGC:
 	Inherits: ^BaseBuilding
 	Inherits@SHAPE: ^3x2Shape
@@ -2072,7 +2059,6 @@ UPGC:
 		BuildPaletteOrder: 10
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
-		#	Prerequisites: ~disabled
 		Queue: Building.GDI
 		Description: Allows to select one of three Strategies.\nEnables production of ICBM Launcher.\n  Special ability: Supply Dropzone\nPeriodically gain 1k money aid.\n Maximum 1 can be built.\n  Cannot be captured.
 	Valued:

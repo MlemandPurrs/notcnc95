@@ -157,7 +157,6 @@
 			Clear: 100
 			Rough: 80
 			Cliff: 90
-			#	Water: 90
 			Road: 100
 			Bridge: 100
 			Tiberium: 80

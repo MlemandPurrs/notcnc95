@@ -528,7 +528,6 @@ ICBM:
 		BuildPaletteOrder: 16
 		BuildLimit: 1
 		#	Prerequisites: upgc, ~techlevel.unrestricted
-		#	Prerequisites: eye, ~techlevel.unrestricted
 		Prerequisites: ~disabled
 		Queue: Dropzone
 		Description: Nuclear rocket artillery.\nExplodes violently on death.\n  Maximum one can be built.\n  Strong vs Everything over distance\n  Weak vs attacks at close range\n  Requires an large minimum firing distance
@@ -570,8 +569,6 @@ ICBM:
 	RenderRangeCircle:
 	RevealOnFire:
 		ArmamentNames: primary
-	#	ReloadArmamentsBar:
-	#	Color: FFFF00
 	AmmoPool:
 		Name: primary
 		Ammo: 1

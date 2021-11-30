@@ -941,6 +941,7 @@
 	RenderSprites:
 		Palette:
 
+#	todo: reimplement this proper
 #	^TechBuildingHusk:
 #	Inherits: ^CivBuildingHusk
 #	Tooltip:
@@ -1928,3 +1929,4 @@
 		SuccessRate: 100
 		EjectInAir: true
 		EjectOnGround: true
+		RequiresCondition: has-hijacker

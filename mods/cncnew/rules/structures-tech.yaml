@@ -92,7 +92,6 @@ BIO:
 		HP: 250000
 	Tooltip:
 		Name: Biochemical Lab
-	#	Chem Warriors less ridicilous than Visceroids.
 	TooltipDescription@ally:
 		Description: Provides infantry with Tiberium immunity. Enables Chemical Troopers.
 		ValidRelationships: Ally

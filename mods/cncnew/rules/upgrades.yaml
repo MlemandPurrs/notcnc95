@@ -606,8 +606,6 @@ toxicshells.upgrade:
 	RenderSprites:
 		Image: toxicshells.upgrade
 
-#	maybe: implement Infiltrator,
-#	tie tech like this to infiltration
 training.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -640,7 +638,7 @@ nodairstrike.unlock:
 
 #	disabling, Stealth Plug is
 #	more interesting way of
-#	doing invisibility
+#	doing Invisibility on units
 #	harvstealth.upgrade:
 #	Inherits: ^Upgrade
 #	Tooltip:

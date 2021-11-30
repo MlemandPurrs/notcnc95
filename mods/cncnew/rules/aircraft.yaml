@@ -297,10 +297,6 @@ F22:
 		Delay: 250
 		Count: 2
 		ResetOnFire: true
-	#	Armament@BOMBS:
-	#	Name: bombs
-	#	Weapon: ParaBomb
-	#	LocalOffset: 0,-256,-43, 0,256,-43
 	Contrail@1:
 		Offset: -640,171,0
 		TrailLength: 8
@@ -1276,7 +1272,6 @@ NODV22:
 		Sequence: rotor
 		RequiresCondition: airborne
 	WithIdleOverlay@ROTOR1GROUND:
-		#	Offset: 82,785,432
 		Offset: 118,784,386
 		Sequence: slow-rotor
 		RequiresCondition: !airborne
@@ -1285,7 +1280,6 @@ NODV22:
 		Sequence: rotor2
 		RequiresCondition: airborne
 	WithIdleOverlay@ROTOR2GROUND:
-		#	Offset: 82,-785,432
 		Offset: 118,-784,386
 		Sequence: slow-rotor2
 		RequiresCondition: !airborne
@@ -1376,7 +1370,6 @@ SFIG:
 	Armament@BOMBS:
 		Name: bombs
 		Weapon: Napalm
-		#	Weapon: BomberHJM
 		LocalOffset: 300,0,-43
 	Targetable@AIRBORNE:
 		TargetTypes: Airplane

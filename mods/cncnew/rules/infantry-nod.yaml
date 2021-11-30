@@ -132,7 +132,6 @@ RMB2:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 8
-		#	BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high, ~!global-mendoza, !nodhascommando
 		Queue: Infantry.Nod
 		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Stealth\nRemains Invisible outside of Combat.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
@@ -207,7 +206,6 @@ RMB2:
 		Position: TopLeft
 		ValidRelationships: Ally
 		RequiresCondition: hidethatskull
-	#	BuildLimit: 1 interferes with this ??
 	Convertible:
 		SpawnActors: NODGNRL
 		Voice: Move
@@ -305,7 +303,6 @@ INFL:
 		Notification: NewOptions
 		PlayerExperience: 0
 		Voice: Enter
-		#	Cursor: capture
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
@@ -521,7 +518,6 @@ NODE7:
 		Type: InfantryRefund
 		Voice: Move
 
-#	back to being Nod only
 E5:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -818,7 +814,6 @@ NODGNRL:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
-		#	BuildLimit: 1
 		Prerequisites: ~cyborg.production
 		Queue: Cyborg
 		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
@@ -976,7 +971,6 @@ HACK:
 		UndeployedCondition: undeployed
 		UndeployOnMove: true
 		UndeployOnPickup: true
-		#	SmartDeploy: True
 	DeployOnAttack:
 		RequiresCondition: undeployed
 	MindController:
