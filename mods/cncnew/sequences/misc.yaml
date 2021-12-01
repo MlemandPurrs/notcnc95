@@ -232,6 +232,7 @@ crate-effects:
 	hide-map: earth
 	heal: healcrate
 	mine: mine
+		Tick: 100
 	redskull: rapid
 	cloak: cloakcrate
 	levelup: levelup

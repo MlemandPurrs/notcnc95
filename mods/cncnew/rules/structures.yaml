@@ -473,14 +473,16 @@ PROC:
 	ProximityExternalCondition@OnRefineryBib:
 		Condition: onrefinerybib
 		Range: 2c0
-	#	when Harv gets upgraded i need
-	#	able to modify this reduce down
-	#	to 300 to compensate Harv 1200
 	CustomSellValue:
 		Value: 500
-	#	GrantConditionOnPrerequisite@StealthHarvester:
-	#	Condition: harvstealth-upgraded
-	#	Prerequisites: harvstealth.upgrade
+	WithIdleOverlay@ARROWS:
+		RequiresCondition: !build-incomplete && dockincoming
+		Sequence: active
+		PauseOnCondition: dockinprocess
+	ExternalCondition@ARROWS:
+		Condition: dockincoming
+		SourceCap: 1
+		TotalCap: 1
 
 PROC.Husk:
 	Inherits: ^BuildingHusk
@@ -581,7 +583,7 @@ PYLE:
 			TopLeft: -1024, -1024
 			BottomRight: 1024, 640
 	Valued:
-		Cost: 450
+		Cost: 500
 	Tooltip:
 		Name: Barracks
 	ProvidesPrerequisite:
@@ -679,7 +681,7 @@ HAND:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 630,-512,0, 355,512,0, -281,-512,0, -630,512,0
 	Valued:
-		Cost: 450
+		Cost: 500
 	Tooltip:
 		Name: Hand of Nod
 	ProvidesPrerequisite:

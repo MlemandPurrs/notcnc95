@@ -69,11 +69,6 @@ HARV:
 	Tooltip:
 		Name: Harvester
 		GenericName: Harvester
-	#	RequiresCondition: !harvstealth-upgraded
-	#	Tooltip@NodUpgraded:
-	#	Name: Stealth Harvester
-	#	GenericName: Harvester
-	#	RequiresCondition: harvstealth-upgraded
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: proc, ~techlevel.low
@@ -92,6 +87,7 @@ HARV:
 		EmptyCondition: no-tiberium
 	Mobile:
 		Speed: 85
+		PauseOnCondition: boarding || emp-crate-collected || being-captured
 	Health:
 		HP: 62500
 	Armor:
@@ -140,32 +136,32 @@ HARV:
 		RequiresCondition: !driver-dead
 	Carryable:
 		RequiresCondition: !docked && !onrefinerybib
-	#	this is to prevent a epic bug where
-	#	Harvester will teleport to Refinery if
-	#	Refinery has IsDragRequiredYes: enabled
-	#	and Carryall picks up Harvester while
-	#	this Drag is in effect but right a moment 
-	#	before the Dock commences.
+	#	this is to prevent a teleporting bug
 	ExternalCondition@OnRefineryBib:
 		Condition: onrefinerybib
-	#	Addendum:	also that Refinery will never able
-	#	to accept any Harvester ever again after this
-	#	occured once to it, probably remains locked at
-	#	Dragging in 'stance'
 	-GrantConditionOnPrerequisite@BOMBARD:
 	-FirepowerMultiplier@BOMBARD:
 	-WithDecoration@BOMBARD:
 	-GrantConditionOnPrerequisite@SEEK:
 	-RangeMultiplier@SEEK:
 	-WithDecoration@SEEK:
-	#	Cloak:
-	#	RequiresCondition: cloak-crate-collected && harvstealth-upgraded
-	#	GrantConditionOnPrerequisite@StealthHarvester:
-	#	Condition: harvstealth-upgraded
-	#	Prerequisites: harvstealth.upgrade
-	#	ProductionCostMultiplier@StealthHarvester:
-	#	Multiplier: 120
-	#	Prerequisites: harvstealth.upgrade
+	#	ok, this works
+	#	now to make it work for one
+	#	at a time and then only for
+	#	the one its actually going to
+	GrantConditionOnFullHarvester:
+		Condition: fullcargo
+	GrantConditionOnActivity:
+		Activity: FindAndDeliverResources
+		Condition: deliveryinc
+	GrantCondition@REFANIM:
+		Condition: animateref
+		RequiresCondition: fullcargo && deliveryinc
+	ProximityExternalCondition@REFANIM:
+		Condition: dockincoming
+		Range: 6c826
+		ValidStances: Ally
+		RequiresCondition: fullcargo && !emp-crate-collected && !docked
 
 TRUK:
 	Inherits: ^Vehicle

@@ -141,6 +141,7 @@ CRATE:
 		SelectionShares: 3
 		Units: minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon
 		Owner: Creeps
+		Sequence: mine
 	SupportPowerCrateAction@nuke:
 		Proxy: crate.nuke
 		SelectionShares: 1

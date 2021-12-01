@@ -415,6 +415,16 @@ proc:
 	bib: bib2
 		UseTilesetExtension: true
 		Length: *
+	active: proc
+		Start: 6
+		Length: 6
+		Tick: 130
+		Offset: 2,4
+	damaged-active: proc
+		Start: 36
+		Length: 6
+		Tick: 130
+		Offset: 2,4
 	icon: procicon
 
 proc.husk:
@@ -455,6 +465,16 @@ nodproc:
 		UseTilesetExtension: true
 		TilesetOverrides:
 			INTERIOR: TEMPERAT
+	active: nodproc
+		Start: 7
+		Length: 6
+		Tick: 130
+		Offset: 2,4
+	damaged-active: nodproc
+		Start: 36
+		Length: 6
+		Tick: 130
+		Offset: 2,4
 	icon: procicon
 
 nodproc.husk:
