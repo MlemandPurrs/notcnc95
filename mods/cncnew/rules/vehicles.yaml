@@ -160,8 +160,8 @@ HARV:
 	ProximityExternalCondition@REFANIM:
 		Condition: dockincoming
 		Range: 6c826
-		ValidStances: Ally
-		RequiresCondition: fullcargo && !emp-crate-collected && !docked
+		ValidRelationships: Ally
+		RequiresCondition: animateref && !emp-crate-collected && !docked
 
 TRUK:
 	Inherits: ^Vehicle

@@ -12,13 +12,15 @@ Player:
 		RequiresCondition: enable-ai-player
 		HarvesterTypes: harv
 		RefineryTypes: proc
+		HarvestersPerRefinery: 2
+		MaxHarvesters: 8
 	BuildingRepairBotModule@aiplayer:
 		RequiresCondition: enable-ai-player
 	McvManagerBotModuleCA@aiplayer:
 		RequiresCondition: enable-ai-player
 		McvTypes: mcv
 		ConstructionYardTypes: fact
-		McvFactoryTypes: weap,afld
+		McvFactoryTypes: weap, afld
 		MaxBaseRadius: 40
 	CaptureManagerBotModule@engineer:
 		RequiresCondition: enable-ai-player
@@ -29,7 +31,7 @@ Player:
 	CaptureManagerBotModule@mechanic:
 		RequiresCondition: enable-ai-player
 		CapturingActorTypes: mech
-		CapturableActorTypes: ltnk.husk,mtnk.husk,htnk.husk,arty.husk,mlrs.husk,ssm.husk,
+		CapturableActorTypes: ltnk.husk,mtnk.husk,htnk.husk,arty.husk,mlrs.husk,msam.husk,ftnk.husk
 		CheckCaptureTargetsForVisibility: false
 		MaximumCaptureTargetOptions: 15
 	SupportPowerBotModule:
@@ -173,7 +175,7 @@ Player:
 					CheckRadius: 8c0
 	BaseBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
-		BuildingQueues: Building.Nod, Building.GDI
+		BuildingQueues: Building.Nod, Building.GDI, Aircraft.Nod, Aircraft.GDI
 		DefenseQueues: Defence.Nod, Defence.GDI
 		MinimumExcessPower: 30
 		MaximumExcessPower: 150
@@ -188,7 +190,37 @@ Player:
 		AntiAirTypes: sam,cram
 		SiloTypes: silo
 		BuildingDelays:
-			sam: 3000
+			hq: 4500
+			sam: 4500
+			cram: 4500
+			hpad: 4500
+			tech: 6375
+			tmpl: 6375
+			upgc: 8000
+			eye: 8000
+			nodbio: 8000
+			airstrike.unlock: 9000
+			airstrike.upgrade: 9000
+			towmissile.upgrade: 9000
+			targetlaser.upgrade: 9000
+			airradar.upgrade: 9000
+			hellfire.upgrade: 9000
+			c17speed.upgrade: 9000
+			apbullets.upgrade: 9000
+			comparmor.upgrade: 9000
+			machineguns.upgrade: 9000
+			bombard.strat: 9000
+			seek.strat: 9000
+			hold.strat: 9000
+			t55h.unlock: 9000
+			wtnk.unlock: 9000
+			rh66stealth.upgrade: 9000
+			ssmreload.upgrade: 9000
+			supplylines.upgrade: 9000
+			exosuit.unlock: 9000
+			tank.veterancy: 9000
+			e1.veterancy: 9000
+			orca.veterancy: 9000
 		BuildingLimits:
 			proc: 4
 			pyle: 3
@@ -200,9 +232,16 @@ Player:
 			fix: 1
 			silo: 1
 			tech: 1
+			upgc: 1
 			tmpl: 1
 			eye: 1
 			nodbio: 1
+			obli: 7
+			atwr: 5
+			gun: 9
+			gtwr: 6
+			sam: 4
+			cram: 4
 		BuildingFractions:
 			proc: 20
 			pyle: 5
@@ -220,51 +259,93 @@ Player:
 			nodbio: 1
 			tmpl: 1
 			tech: 1
+			upgc: 1
 			fix: 1
 			hpad: 2
+			airstrike.unlock: 1
+			airstrike.upgrade: 1
+			towmissile.upgrade: 1
+			targetlaser.upgrade: 1
+			airradar.upgrade: 1
+			hellfire.upgrade: 1
+			c17speed.upgrade: 1
+			apbullets.upgrade: 1
+			comparmor.upgrade: 1
+			machineguns.upgrade: 1
+			bombard.strat: 1
+			seek.strat: 1
+			hold.strat: 1
+			t55h.unlock: 1
+			wtnk.unlock: 1
+			rh66stealth.upgrade: 1
+			ssmreload.upgrade: 1
+			supplylines.upgrade: 1
+			exosuit.unlock: 1
+			tank.veterancy: 1
+			e1.veterancy: 1
+			orca.veterancy: 1
 	SquadManagerBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
+		MinimumAttackForceDelay: 25
 		SquadSize: 15
 		SquadSizeRandomBonus: 15
 		ExcludeFromSquadsTypes: harv, mcv, e6
 		ConstructionYardTypes: fact
+		RushInterval: 400
+		MaxBaseRadius: 24
+		IdleScanRadius: 18
+		AttackScanRadius: 9
 	UnitBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		UnitBuilderInterval: 25
 		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI
+		UnitDelays:
+			mcv: 12000
 		UnitsToBuild:
 			e1: 65
 			e2: 25
 			terr: 25
 			e3: 40
-			medi: 10
-			mech: 10
+			medi: 5
+			mech: 5
 			e4: 15
 			e5: 15
 			snip: 15
-			harv: 10
-			jeep: 5
-			bggy: 5
+			mort: 15
+			#	harv: 10
+			jeep: 20
+			bggy: 20
 			bike: 20
 			apc: 10
-			btr: 5
+			btr: 10
 			mtnk: 20
 			ltnk: 30
 			htnk: 50
 			ftnk: 10
-			arty: 60
-			mlrs: 40
 			stnk: 40
+			arty: 60
+			msam: 40
+			mlrs: 20
 			mhq: 10
-			ssm: 10
 			heli: 5
 			orca: 5
+			mh60: 5
+			rh66: 5
 			rmbo: 1
 			rmb2: 1
 		UnitLimits:
-			harv: 12
+			#	harv: 12
+			e2: 10
+			e4: 5
+			e5: 5
+			e6: 3
 			rmbo: 1
 			rmb2: 1
-			medi: 5
-			mech: 5
+			medi: 3
+			mech: 3
+			apc: 3
+			btr: 3
+			hmmv: 4
+			bggy: 4
+			bike: 6
 			mhq: 2

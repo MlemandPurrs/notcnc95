@@ -466,7 +466,7 @@ nodproc:
 		TilesetOverrides:
 			INTERIOR: TEMPERAT
 	active: nodproc
-		Start: 7
+		Start: 6
 		Length: 6
 		Tick: 130
 		Offset: 2,4

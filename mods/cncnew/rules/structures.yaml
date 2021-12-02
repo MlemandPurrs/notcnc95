@@ -1214,7 +1214,7 @@ HQ:
 		RequiresCondition: jammed
 	ExternalCondition@JAMMED:
 		Condition: jammed
-	SpawnActorPower@RadarScan:
+	SpawnActorPowerCA@RadarScan:
 		PauseOnCondition: lowpower
 		OrderName: RadarScan
 		Actor: camera.scan
@@ -1232,8 +1232,8 @@ HQ:
 		EffectSequence: scanping
 		EffectPalette: effect
 		DeploySound: reveal1.aud
-		#	TargetCircleRange: 7c536
-		#	TargetCircleColor: 32cd32
+		TargetCircleRange: 7c536
+		TargetCircleColor: 32cd32
 	InterceptorPower@NodInterceptors:
 		PauseOnCondition: lowpower
 		OrderName: NodInterceptors
@@ -1327,7 +1327,7 @@ HQ.GDI:
 	-Power:
 	-SpawnActorOnDeath:
 	-RenderSprites:
-	-SpawnActorPower@RadarScan:
+	-SpawnActorPowerCA@RadarScan:
 	-InterceptorPower@NodInterceptors:
 	-InterceptorPower@NodInterceptorsUpgraded:
 	ProvidesPrerequisite@copy:
