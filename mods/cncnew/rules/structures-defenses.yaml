@@ -882,3 +882,57 @@ LTUR.Husk:
 	WithEmbeddedTurretSpriteBody:
 	Tooltip:
 		Name: Laser Turret (Destroyed)
+
+GDSH:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^1x1Shape
+	-SpawnActorsOnSell:
+	Valued:
+		Cost: 625
+	Tooltip:
+		Name: Outpost
+	Buildable:
+		BuildPaletteOrder: 12
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Defence.GDI, Defence.Nod
+		Description: Expands buildable area.\n  Cannot be chained for base crawling.
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	Health:
+		HP: 40000
+	RevealsShroud:
+		Range: 4c0
+	WithBuildingBib:
+		HasMinibib: true
+	Power:
+		Amount: -10
+		RequiresCondition: !build-incomplete
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	Selectable:
+		Bounds: 24,24
+		DecorationBounds: 22,48,0,-12
+	SpawnActorOnDeath:
+		Actor: gdsh.husk
+		OwnerType: InternalName
+	-RequiresBuildableArea:
+	RequiresBuildableArea:
+		AreaTypes: outpost
+		Adjacent: 16
+	-GivesBuildableArea:
+	GivesBuildableArea:
+		AreaTypes: building
+	BaseProvider:
+		PauseOnCondition: being-captured
+		Range: 8c0
+
+GDSH.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 24,24
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	Tooltip:
+		Name: Outpost (Destroyed)

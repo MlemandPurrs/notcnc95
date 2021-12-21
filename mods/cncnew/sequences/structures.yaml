@@ -1026,12 +1026,35 @@ tmpl:
 	active:
 		Length: 5
 		Tick: 200
-	smoke: atomdoor
-		Length: *
-		Offset: -1,-47
 	damaged-active:
 		Start: 5
 		Length: 5
+	smoke: atomdoor
+		Length: *
+		Offset: -1,-47
+	producing: tmplanim
+		Length: 2
+		Tick: 200
+		#	subtle glowing, nice
+		#	BlendMode: LowAdditive
+		#	spooky red lights
+		#	BlendMode: Additive
+		#	like LowAdditive, but Shadowy
+		#	BlendMode: Subtractive
+		#	nope, wrong one
+		#	BlendMode: Multiply
+		#	also, wrong one
+		#	BlendMode: Multiplicative
+		#	= transparent greyscale
+		#	BlendMode: Translucent
+		#	ah, yes. this the one
+		#	i was searching for
+		BlendMode: Screen
+		ZOffset: 2048
+		Reverses: True
+	#	damaged-producing: tmplanim
+	#	Length: *
+	#	Tick: 200
 	dead:
 		Start: 10
 		Tick: 800
@@ -1644,3 +1667,40 @@ syrd:
 oilplat:
 	idle: oilplat
 		Start: 0
+
+gdsh:
+	Defaults:
+		Offset: 0,-13
+	idle:
+	damaged-idle:
+		Start: 1
+	dead:
+		Start: 2
+		Tick: 800
+	make: gdshmake
+		Length: 20
+		Tick: 80
+	bib: mbGTWR
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: 0,-2
+	icon: gdshicon
+		Offset: 0,0
+
+gdsh.husk:
+	idle: gdsh
+		Start: 2
+		Length: 1
+		Offset: 0,-13
+	bib: mbGTWR
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: 0,-2

@@ -155,6 +155,8 @@ FACT:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateFACT
 		Proxy: stolentech.fact
+	GivesBuildableArea:
+		AreaTypes: building, outpost
 
 FACT.Husk:
 	Inherits: ^BuildingHusk
@@ -1791,8 +1793,8 @@ TMPL:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateTMPL
 		Proxy: stolentech.tmpl
-	AirstrikePower@AirstrikeSFIG:
-		OrderName: AirStrikeSFIG
+	AirstrikePower@NodAirStrike:
+		OrderName: NodAirStrike
 		PauseOnCondition: lowpower
 		Prerequisites: ~nodairstrike.unlock
 		Icon: sfigicon
@@ -1853,6 +1855,13 @@ TMPL:
 		ProductionInterval: 200
 	AcceptsDeliveredCash:
 		ValidTypes: CyborgRefund
+	#	supposed to be for Cyborg conversion
+	WithProductionOverlay:
+		Queues: Aircraft.Nod
+		Sequence: producing
+		PauseOnCondition: lowpower
+	#	Palette:
+	#	IsPlayerPalette:
 
 TMPL.Husk:
 	Inherits: ^BuildingHusk
