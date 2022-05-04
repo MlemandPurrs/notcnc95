@@ -1077,7 +1077,8 @@ OCAR.Reinforce:
 	-ChangesHealth@DRIVER_DEAD:
 	-Capturable@DRIVER_DEAD:
     -Sellable:
-ProximityExternalCondition:
+    -ExternalCondition@Sellable:
+    -ProximityExternalCondition:
     -RevealsShroud:
 	Carryall:
 		DropRange: 30c0
