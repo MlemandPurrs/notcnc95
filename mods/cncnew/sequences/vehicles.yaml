@@ -175,6 +175,9 @@ jeep:
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
+	turrettow: jeeptow
+		Facings: 32
+		UseClassicFacings: True
 	muzzle: minigun
 		Length: 6
 		Facings: 16
@@ -456,28 +459,6 @@ apc.destroyed:
 		Facings: 32
 		ZOffset: -512
 
-napc:
-    Inherits: emp-overlay
-	idle: 
-		Facings: 32
-		UseClassicFacings: True
-	turret: napc-tur
-		Facings: 32
-		UseClassicFacings: True		
-	muzzle: minigun
-		Length: 6
-		Facings: 16
-	medic: medicursor
-		Start: 4
-		Length: 1
-	icon: napcicon
-
-napc.destroyed:
-	idle: napc
-		Facings: 32
-		UseClassicFacings: True
-		ZOffset: -512
-
 truk:
     Inherits: emp-overlay
 	idle:
@@ -699,21 +680,25 @@ atnk.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 
-btr:
+napc:
     Inherits: emp-overlay
 	idle: 
 		Facings: 32
 		UseClassicFacings: True
 	turret: napc-tur
 		Facings: 32
-		UseClassicFacings: True		
+		UseClassicFacings: True
 	muzzle: minigun
 		Length: 6
 		Facings: 16
-	icon: btricon
+	icon: napcicon
 
-btr.destroyed:
-	idle: btr
+napc.destroyed:
+	idle: napc
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: napc-tur
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512
@@ -752,6 +737,50 @@ tdn.destroyed:
 		ZOffset: -512
 	turret: tdn
 		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+#   old sequence of origial nod apc
+
+#   napc:
+#   Inherits: emp-overlay
+#	idle: 
+#   Facings: 32
+#   UseClassicFacings: True
+#   turret: napc-tur
+#   Facings: 32
+#   UseClassicFacings: True		
+#   muzzle: minigun
+#   Length: 6
+#   Facings: 16
+#   medic: medicursor
+#   Start: 4
+#   Length: 1
+#   icon: napcicon
+
+#   napc.destroyed:
+#	idle: napc
+#   Facings: 32
+#   UseClassicFacings: True
+#   ZOffset: -512
+
+disr:
+	Inherits: emp-overlay
+	idle: 
+		Facings: 32
+		UseClassicFacings: True
+	turret: disrtur
+		Facings: 32
+		UseClassicFacings: True
+	icon: disricon
+
+disr.destroyed:
+	idle: disr
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: disrtur
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512

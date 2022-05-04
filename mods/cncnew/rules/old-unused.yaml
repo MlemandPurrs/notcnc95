@@ -1,0 +1,90 @@
+#   the original, unarmed Nod APC
+NAPC:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
+	Inherits@TRANSPORT: ^Transport
+	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
+	Inherits@Cloak: ^AcceptsCloakCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Buildable:
+		BuildPaletteOrder: 3
+		#	Prerequisites: hand, ~techlevel.low
+		Prerequisites: ~disabled
+		Queue: Vehicle.Nod
+		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Unarmed
+	Valued:
+		Cost: 500
+	Health:
+		HP: 20000
+	Mobile:
+		Locomotor: heavywheeled
+		Speed: 156
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
+	Armor:
+		Type: Light
+	Tooltip:
+		Name: Nod APC
+		RequiresCondition: !napcarmed-upgraded && !napcmedic-upgraded
+	Tooltip@armed:
+		Name: Armed Nod APC
+		RequiresCondition: napcarmed-upgraded
+	Tooltip@medic:
+		Name: Medic Nod APC
+		RequiresCondition: napcmedic-upgraded
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadedCondition: loaded
+		LoadingCondition: notmobile
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Passenger:
+		CustomPipType: pip-green
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 250,0,100
+		MuzzleSequence: muzzle
+		RequiresCondition: napcarmed-upgraded
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		RequiresCondition: napcarmed-upgraded
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 24
+		Offset: 176,0,16
+		RequiresCondition: napcarmed-upgraded
+	WithSpriteTurret:
+		RequiresCondition: napcarmed-upgraded
+	WithMuzzleOverlay:
+	ProximityExternalCondition@barracksheal:
+		Condition: barracks
+		ValidRelationships: Ally
+		Range: 1c826
+		RequiresCondition: napcmedic-upgraded && !emp-crate-collected
+	WithRangeCircle:
+		Range: 1c826
+		RequiresCondition: napcmedic-upgraded
+	WithIdleOverlay@MEDIC:
+		Sequence: medic
+		Offset: 0,0,70
+		RequiresCondition: napcmedic-upgraded
+	GrantConditionOnPrerequisite@napcarmed:
+		Condition: napcarmed-upgraded
+		Prerequisites: napcarmed.upgrade
+	GrantConditionOnPrerequisite@napcmedic:
+		Condition: napcmedic-upgraded
+		Prerequisites: napcmedic.upgrade
+	SpawnActorOnDeath:
+		Actor: NAPC.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded

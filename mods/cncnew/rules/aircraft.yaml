@@ -189,7 +189,7 @@ UAV:
 		Color: 32cd32
 		BorderColor: 000000
 		Visible: Always
-		RequiresCondition: uavrange-upgraded	
+		RequiresCondition: uavrange-upgraded
 	RevealsShroud:
 		Range: 15c768
 		Type: CenterPosition
@@ -212,28 +212,33 @@ UAV:
 		UsePlayerColor: false
 	SpawnActorOnDeath:
 		Actor: UAV.Husk
-	GrantConditionOnPrerequisite@UAVSpeed:
-		Condition: uavspeed-upgraded
+	GrantConditionOnPrerequisite@UAVBoostBombardment:
+		Condition: uavutility-upgraded
 		Prerequisites: bombard.strat
-	SpeedMultiplier@UAVSpeed:
-		Modifier: 130
-		RequiresCondition: uavspeed-upgraded
-	DamageMultiplier@UAVArmor:
-		RequiresCondition: uavspeed-upgraded
-		Modifier: 85
-	GrantConditionOnPrerequisite@UAVBooster:
-		Condition: uavrange-upgraded
-		Prerequisites: seek.strat
-	ProximityExternalCondition@UAVBooster:
+	ProximityExternalCondition@UAVBoostBombardment:
 		Range: 15c0
 		ValidRelationships: Ally
 		Condition: uavboosted
-		RequiresCondition: uavrange-upgraded
-	WithRangeCircle@UAVBooster:
+		RequiresCondition: uavutility-upgraded
+	GrantConditionOnPrerequisite@UAVBoostHoldtheLine:
+		Condition: uavrange-upgraded
+		Prerequisites: hold.strat
+	WithRangeCircle@UAVBoostHoldtheLine:
 		Range: 15c0
 		Color: ff8c00
 		RequiresCondition: uavrange-upgraded
 		Visible: always
+	Armament:
+        Weapon: UAVMissile
+		LocalOffset: 432,0,0
+		PauseOnCondition: !ammo
+        RequiresCondition: uavmissile-upgraded
+	AmmoPool:
+        Ammo: 1
+		AmmoCondition: ammo
+    GrantConditionOnPrerequisite@UAVMissile:
+        Condition: uavmissile-upgraded
+        Prerequisites: uavmissile.upgrade
 
 UAV.Husk:
 	Inherits: ^PlaneHusk
@@ -1071,6 +1076,8 @@ OCAR.Reinforce:
 	-Targetable@DRIVERKILL:
 	-ChangesHealth@DRIVER_DEAD:
 	-Capturable@DRIVER_DEAD:
+    -Sellable:
+    -RevealsShroud:
 	Carryall:
 		DropRange: 30c0
 	Aircraft:
@@ -1333,6 +1340,8 @@ NODV22.Reinforce:
 	-Targetable@DRIVERKILL:
 	-ChangesHealth@DRIVER_DEAD:
 	-Capturable@DRIVER_DEAD:
+    -Sellable:
+    -RevealsShroud:
 	Carryall:
 		DropRange: 30c0
 	Aircraft:

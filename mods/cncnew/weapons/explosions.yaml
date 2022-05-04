@@ -140,7 +140,13 @@ FanaticExplode:
 	Inherits: GrenadierExplode
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
-		Damage: 2500	
+		Damage: 2500
+		Versus:
+			Wood: 70
+			Concrete: 70
+			Light: 90
+			Medium: 80
+			Heavy: 70
 		AffectsParent: true
 		InvalidTargets: Fanatic
 

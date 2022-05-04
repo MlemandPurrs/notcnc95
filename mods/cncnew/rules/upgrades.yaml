@@ -263,9 +263,23 @@ mh60medic.upgrade:
 	RenderSprites:
 		Image: mh60medic.upgrade
 
-#	drone better armored and faster
-#	discarded: giving it a rocket to fire
-#	because RECON drone not Combat
+#   WIP
+uavmissile.upgrade:
+    Inherits: ^Upgrade
+    Tooltip:
+        Name: Upgrade: Recon UAV Missile
+    Buildable:
+        BuildPaletteOrder: 21
+        Queue: Aircraft.GDI
+        Prerequisites: ~hq, ~techlevel.unrestricted
+        BuildDuration: 1500
+        Description: Recon Drone gains limited Offensive capacity.\n\n  Upgrades: Recon Drone\n  + Fires one Missile at target
+    Valued:
+        Cost: 1000
+    RenderSprites:
+        Image: uavmissile.upgrade
+
+#	drone boosts units RoF
 bombard.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -274,14 +288,14 @@ bombard.strat:
 		BuildPaletteOrder: 16
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!seek.strat, ~!hold.strat, ~techlevel.high
-		BuildDuration: 2250
-		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains +15% Armor and +30% Speed.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Enables:\n  + Airstrike upgrade\n  + Tank Veterancy upgrade\n\n  Only one Strategy may be chosen.
+		BuildDuration: 1
+		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Enables:\n  + Airstrike upgrade\n  + Tank Veterancy upgrade\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
 		Image: bombard.strat
 
-#	drone boosts units
+#	drone rapid refueling
 seek.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -290,13 +304,14 @@ seek.strat:
 		BuildPaletteOrder: 17
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!hold.strat, ~techlevel.high
-		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Enables:\n  + Orca Veterancy upgrade\n\n  Only one Strategy may be chosen.
+        BuildDuration: 1
+		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Enables:\n  + Orca Veterancy upgrade\n\n  Only one Strategy may be chosen.
 	Valued:
 		Cost: 1500
 	RenderSprites:
 		Image: seek.strat
 
-#	drone rapid refueling
+#	drone increased radius
 hold.strat:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -305,8 +320,8 @@ hold.strat:
 		BuildPaletteOrder: 18
 		Queue: Aircraft.GDI
 		Prerequisites: ~upgc, ~!bombard.strat, ~!seek.strat, ~techlevel.high
-		BuildDuration: 2250
-		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Enables:\n  + Infantry Veterancy upgrade\n\n  Only one Strategy may be chosen.	
+		BuildDuration: 1
+		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains expanded Detection radius.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Enables:\n  + Infantry Veterancy upgrade\n\n  Only one Strategy may be chosen.	
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -514,6 +529,7 @@ powerplants.upgrade:
 	RenderSprites:
 		Image: powerplants.upgrade
 
+#   needs a rework, disabling
 icbm.unlock:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -521,7 +537,8 @@ icbm.unlock:
 	Buildable:
 		BuildPaletteOrder: 24
 		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!msar.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+		#   Prerequisites: ~upgc, ~!msar.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+        Prerequisites: ~disabled
 		BuildDuration: 0
 		Description: ICBM Launcher will be prepared for delivered as super-unit.\n\n  Unlocks: ICBM Launcher\n\n  + Devastating against everything across the range\n  - Very loooong reloading time\n\n  Only one Super-unit may be chosen
 	Valued:
@@ -529,6 +546,7 @@ icbm.unlock:
 	RenderSprites:
 		Image: icbm.unlock
 
+#   also lame, disabling
 msar.unlock:
 	Inherits: ^Upgrade
 	Tooltip:
@@ -536,8 +554,9 @@ msar.unlock:
 	Buildable:
 		BuildPaletteOrder: 25
 		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!icbm.unlock, ~!pbat.unlock, ~techlevel.unrestricted
-		BuildDuration: 0
+		#   Prerequisites: ~upgc, ~!icbm.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+        BuildDuration: 0
 		Description: Mobile Sensor Array will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile Sensor Array\n\n  + Provides Vision in a large area when deployed\n  + Detects Stealth units in a large area when deployed\n  -  Drains power when deployed\n  -  Stealth detection pauses on lowpower\n\n  Only one Super-unit may be chosen
 	Valued:
 		Cost: 1800
@@ -551,7 +570,7 @@ pbat.unlock:
 	Buildable:
 		BuildPaletteOrder: 26
 		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!msar.unlock, ~!icbm.unlock, ~techlevel.unrestricted
+		Prerequisites: ~upgc, ~!disr.unlock, ~techlevel.unrestricted
 		BuildDuration: 0
 		Description: Mobile S.A.M. will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile S.A.M.\n\n  + Powerful anti-air Defense\n  - Light armored for its size\n\n  Only one Super-unit may be chosen
 	Valued:
@@ -681,3 +700,49 @@ cyborgspeed.upgrade:
 		Cost: 1000
 	RenderSprites:
 		Image: cyborgspeed.upgrade
+
+bouncynades.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Bouncing Grenades
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.GDI
+		Prerequisites: ~barracks, ~hq, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Makes Grenades delayed fuse so that they can bounce.\n\n  Upgrades: Grenadier\n  + Bouncing nades can be cleverly used to outrange\n  - The nades might miss more than every so often
+	Valued:
+		Cost: 500
+	RenderSprites:
+		Image: bouncynades.upgrade
+
+disr.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Authorize: Disruptor
+	Buildable:
+		BuildPaletteOrder: 24
+		Queue: Aircraft.GDI
+		Prerequisites: ~upgc, ~!pbat.unlock, ~techlevel.unrestricted
+        #   Prerequisites: ~disabled
+		BuildDuration: 0
+		Description: Disruptor will be prepared for delivery as super-unit.\n\n  Unlocks: Disruptor\n\n  + Heavy tank with Sonic armament.\n  + Fires a continous Sonic beam that damages all within.\n  - Sonic weaponry does not determine friend or foe\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2500
+	RenderSprites:
+		Image: disr.unlock
+
+towhumvee.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: TOW Missile
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Aircraft.GDI
+		Prerequisites: ~weap, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Adds a secondary TOW Launcher to Humvee.\n\n  Upgrades: Humvee\n  + Increases overall damage dealt
+	Valued:
+		Cost: 700
+	RenderSprites:
+		Image: towhumvee.upgrade

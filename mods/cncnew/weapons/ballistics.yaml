@@ -124,9 +124,6 @@ Grenade:
 		LaunchAngle: 62
 		Inaccuracy: 813
 		Image: BOMB
-		BounceCount: 1
-		BounceRangeModifier: 50
-		ValidBounceBlockerRelationships: Ally, Neutral, Enemy
 	Warhead@1Dam: SpreadDamage
 		Spread: 341
 		Damage: 4000
@@ -142,6 +139,23 @@ Grenade:
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@3Eff: CreateEffect
 		Explosions: small_poof
+
+Grenade.Bouncy:
+    Inherits: Grenade
+	Projectile: Bullet
+		Speed: 140
+		Blockable: false
+		LaunchAngle: 62
+		Inaccuracy: 813
+		Image: BOMB
+		BounceCount: 1
+		BounceRangeModifier: 50
+		ValidBounceBlockerRelationships: Ally, Neutral, Enemy    
+
+GrenadeLauncher:
+    Inherits: Grenade
+    Range: 5c0
+    Report: grenlaun.aud
 
 AAVGun:
 	Inherits: ^BallisticWeapon

@@ -42,6 +42,9 @@ Sniper:
 
 HighV:
 	Inherits: ^HeavyMG
+	Projectile: Bullet
+		Speed: 1c682
+        Blockable: false
 
 Vulcan:
 	Inherits: ^HeavyMG

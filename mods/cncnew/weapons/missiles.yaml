@@ -99,6 +99,11 @@ TankRockets:
 	Range: 4c768
 	ReloadDelay: 300
 
+JeepRockets:
+	Inherits: ^MissileWeapon
+	Range: 4c768
+	ReloadDelay: 300
+
 OrcaAGMissiles:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 12
@@ -531,3 +536,43 @@ HindRockets:
 	Report: rockbos3.aud
 	Burst: 2
 	BurstDelays: 7
+
+UAVMissile:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 240
+	Range: 11c0
+	MinRange: 3c0
+	Report: rocket2.aud
+	-Projectile:
+	Projectile: Bullet
+		Speed: 210
+		Blockable: false
+		TrailImage: smokey
+		TrailDelay: 3
+		Inaccuracy: 0c426
+		Image: MISSILE
+		Shadow: True
+		LaunchAngle: 0
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 4500
+		Falloff: 500, 368, 135, 50, 18, 7, 0
+		ValidTargets: Ground, Water, Trees
+		Versus:
+			None: 90
+            Kevlar: 90
+            Flak: 90
+			Wood: 75
+			Light: 70
+            Medium: 55
+			Heavy: 40
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath, Incendiary
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Scorch
+	Warhead@3Eff: CreateEffect
+		Explosions: big_napalm
+		ImpactSounds: firebl3.aud
+	Warhead@4EffWater: CreateEffect
+		Explosions: large_splash
+		ImpactSounds: ssplash3.aud
+		ValidTargets: Water

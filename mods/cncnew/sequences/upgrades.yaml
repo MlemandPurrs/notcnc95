@@ -126,3 +126,15 @@ cyborg.upgrade:
 
 cyborgspeed.upgrade:
 	icon: cyborgspeedicon
+
+bouncynades.upgrade:
+	icon: bouncynadesicon
+
+disr.unlock:
+	icon: disrunlockicon
+
+towhumvee.upgrade:
+	icon: towhumveeicon
+
+uavmissile.upgrade:
+    icon: uavicon

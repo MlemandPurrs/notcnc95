@@ -19,7 +19,7 @@ uav:
 	Inherits: emp-overlay
 	idle:
 		Facings: 32
-		UseClassicFacings: True
+		UseClassicFacings: True    
 	icon: uavicon
 
 tran:

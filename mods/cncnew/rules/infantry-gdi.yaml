@@ -29,6 +29,12 @@ E2:
 		Weapon: Grenade
 		LocalOffset: 0,0,427
 		FireDelay: 15
+        RequiresCondition: !bouncynades-upgraded
+	Armament@Upgraded:
+		Weapon: Grenade.Bouncy
+		LocalOffset: 0,0,427
+		FireDelay: 15
+        RequiresCondition: bouncynades-upgraded
 	TakeCover:
 		ProneOffset: 300,0,-227
 	WithInfantryBody:
@@ -43,6 +49,9 @@ E2:
 		Type: InfantryRefund
 	Targetable:
 		TargetTypes: Ground, Infantry, Grenadier
+	GrantConditionOnPrerequisite@BouncingNades:
+		Condition: bouncynades-upgraded
+		Prerequisites: bouncynades.upgrade
 
 MEDI:
 	Inherits: ^Soldier

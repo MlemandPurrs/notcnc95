@@ -105,16 +105,14 @@ NAPC:
 	Inherits: ^Vehicle
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
 	Inherits@TRANSPORT: ^Transport
-	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
-	Inherits@Cloak: ^AcceptsCloakCrate
-	Inherits@Speed: ^AcceptsSpeedCrate
-	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
 		BuildPaletteOrder: 3
-		#	Prerequisites: hand, ~techlevel.low
-		Prerequisites: ~disabled
+		Prerequisites: hand, ~techlevel.low
 		Queue: Vehicle.Nod
-		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Unarmed
+		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Defenses
 	Valued:
 		Cost: 500
 	Health:
@@ -127,13 +125,6 @@ NAPC:
 		Type: Light
 	Tooltip:
 		Name: Nod APC
-		RequiresCondition: !napcarmed-upgraded && !napcmedic-upgraded
-	Tooltip@armed:
-		Name: Armed Nod APC
-		RequiresCondition: napcarmed-upgraded
-	Tooltip@medic:
-		Name: Medic Nod APC
-		RequiresCondition: napcmedic-upgraded
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	RevealsShroud:
@@ -147,40 +138,23 @@ NAPC:
 		RequiresCondition: unit.sellable && !loaded
 	Passenger:
 		CustomPipType: pip-green
+	#	maybe a unique weapon then to
+	#	make it not overlap with BGGY
+    #   a Grenade launcher, perhaps ?
 	Armament:
-		Weapon: MachineGun
+		#   Weapon: MachineGun
+        Weapon: GrenadeLauncher
 		LocalOffset: 250,0,100
 		MuzzleSequence: muzzle
-		RequiresCondition: napcarmed-upgraded
 		PauseOnCondition: emp-crate-collected
 	AttackTurreted:
-		RequiresCondition: napcarmed-upgraded
 		PauseOnCondition: emp-crate-collected
 	Turreted:
 		TurnSpeed: 24
-		Offset: 176,0,16
-		RequiresCondition: napcarmed-upgraded
+		# Offset: 0,0,128
+        Offset: 60,0,80
 	WithSpriteTurret:
-		RequiresCondition: napcarmed-upgraded
 	WithMuzzleOverlay:
-	ProximityExternalCondition@barracksheal:
-		Condition: barracks
-		ValidRelationships: Ally
-		Range: 1c826
-		RequiresCondition: napcmedic-upgraded && !emp-crate-collected
-	WithRangeCircle:
-		Range: 1c826
-		RequiresCondition: napcmedic-upgraded
-	WithIdleOverlay@MEDIC:
-		Sequence: medic
-		Offset: 0,0,70
-		RequiresCondition: napcmedic-upgraded
-	GrantConditionOnPrerequisite@napcarmed:
-		Condition: napcarmed-upgraded
-		Prerequisites: napcarmed.upgrade
-	GrantConditionOnPrerequisite@napcmedic:
-		Condition: napcmedic-upgraded
-		Prerequisites: napcmedic.upgrade
 	SpawnActorOnDeath:
 		Actor: NAPC.Husk
 		OwnerType: InternalName
@@ -926,68 +900,6 @@ ATNK:
 		CustomPipType: pip-yellow
 	RenderSprites:
 		Image: ltnk
-
-#	maybe should simplify Nod APC like this
-BTR:
-	Inherits: ^Vehicle
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
-	Inherits@TRANSPORT: ^Transport
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Buildable:
-		BuildPaletteOrder: 3
-		Prerequisites: hand, ~techlevel.low
-		Queue: Vehicle.Nod
-		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Defenses
-	Valued:
-		Cost: 500
-	Health:
-		HP: 20000
-	Mobile:
-		Locomotor: heavywheeled
-		Speed: 156
-		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
-	Armor:
-		Type: Light
-	Tooltip:
-		Name: Nod APC
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	RevealsShroud:
-		Range: 5c0
-	Cargo:
-		Types: Infantry
-		MaxWeight: 5
-		LoadedCondition: loaded
-		LoadingCondition: notmobile
-	Sellable:
-		RequiresCondition: unit.sellable && !loaded
-	Passenger:
-		CustomPipType: pip-green
-	#	maybe a unique weapon then to
-	#	make it not overlap with BGGY
-	Armament:
-		Weapon: MachineGun
-		LocalOffset: 250,0,100
-		MuzzleSequence: muzzle
-		PauseOnCondition: emp-crate-collected
-	AttackTurreted:
-		PauseOnCondition: emp-crate-collected
-	Turreted:
-		TurnSpeed: 24
-		Offset: 0,0,128
-	WithSpriteTurret:
-	WithMuzzleOverlay:
-	SpawnActorOnDeath:
-		Actor: BTR.Husk
-		OwnerType: InternalName
-		EffectiveOwnerFromOwner: true
-		Probability: 33
-	Targetable@HIJACKED:
-		RequiresCondition: !loaded
-	Capturable@HIJACKED:
-		RequiresCondition: !loaded
 
 TDN:
 	Inherits: ^Tank

@@ -444,11 +444,29 @@ PROC:
 	Selectable:
 		Bounds: 72,56
 		DecorationBounds: 73,72
-	FreeActor:
+	FreeActorWithDelivery@GDI:
 		Actor: HARV
-		SpawnOffset: 1,2
+		DeliveryOffset: 1,2
+		DeliveringActor: OCAR.Reinforce
 		Facing: 256
-		RequiresCondition: !build-incomplete
+        RequiresCondition: builder-is-gdi
+	FreeActorWithDelivery@Nod:
+		Actor: HARV
+		DeliveryOffset: 1,2
+		DeliveringActor: NODV22.Reinforce
+		Facing: 256
+        RequiresCondition: builder-is-nod
+    GrantConditionOnFaction@GDI:
+		Condition: builder-is-gdi
+        Factions: gdi
+    GrantConditionOnFaction@Nod:
+		Condition: builder-is-nod
+        Factions: nod
+	#   FreeActor:
+	#	Actor: HARV
+	#	SpawnOffset: 1,2
+	#	Facing: 256
+	#	RequiresCondition: !build-incomplete
 	WithBuildingBib:
 	WithResourceLevelOverlay:
 		RequiresCondition: !build-incomplete
@@ -1366,7 +1384,7 @@ HQ.GDI:
 	AirstrikePower@ReconDrone:
 		PauseOnCondition: lowpower
 		OrderName: ReconDrone
-		Prerequisites: ~!hold.strat, ~techlevel.unrestricted
+		Prerequisites: ~!seek.strat, ~techlevel.unrestricted
 		Icon: uav
 		ChargeInterval: 7500
 		Description: Recon Drone
@@ -1386,7 +1404,7 @@ HQ.GDI:
 	AirstrikePower@ReconDroneUpgraded:
 		PauseOnCondition: lowpower
 		OrderName: ReconDroneUpgraded
-		Prerequisites: ~hold.strat, ~techlevel.unrestricted
+		Prerequisites: ~seek.strat, ~techlevel.unrestricted
 		Icon: uav
 		ChargeInterval: 5250
 		Description: Recon Drone
@@ -1575,7 +1593,7 @@ TECH:
 	Buildable:
 		BuildPaletteOrder: 11
 		BuildLimit: 1
-		Prerequisites: hq, ~techlevel.high
+		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.GDI
 		Description: Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and enables Advanced Uplink.\nResearches GDI advanced Technologies.\nMaximum one can be built.
 	Valued:
@@ -1713,7 +1731,7 @@ TMPL:
 	Buildable:
 		BuildPaletteOrder: 11
 		BuildLimit: 1
-		Prerequisites: hq, ~techlevel.high
+		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.Nod
 		Description: Unlocks production of Stealth Tank and Nod Commando.\nResearches Nod advanced Technologies.\n  Maximum one can be built.\n  Cannot be captured.\n  Special Ability: Atom Bomb\nLaunches a devastating atomic bomb at target location.\n  (requires Nod Lab)
 	Building:
@@ -2147,6 +2165,22 @@ UPGC:
 		ChargeInterval: 9000
 		PauseOnCondition: lowpower
 		AutoFire: True
+	ProduceActorPowerCA@DISR:
+		Type: Dropzone
+		Actors: disr
+		Icon: disr
+		Description: Delivery: Disruptor
+		LongDesc: Delivers a Disruptor via Airlift\nto Strategy Center's Dropzone.\n  When Disruptor is lost\nnew will be delivered.
+		Prerequisites: ~disr.unlock, ~techlevel.unrestricted
+		SupportPowerPaletteOrder: 5
+		OrderName: DeliverDisruptor
+		OneShot: false
+		ChargeInterval: 6000
+		PauseOnCondition: lowpower || got.disruptor
+		AutoFire: True
+    GrantConditionOnPrerequisite@LimitingDISR:
+        Condition: got.disruptor
+        Prerequisites: has.disr
 	ProduceActorPowerCA@PBAT:
 		Type: Dropzone
 		Actors: pbat
@@ -2156,10 +2190,13 @@ UPGC:
 		Prerequisites: ~pbat.unlock, ~techlevel.unrestricted
 		SupportPowerPaletteOrder: 5
 		OrderName: DeliverPatriotBattery
-		OneShot: true
+		OneShot: false
 		ChargeInterval: 6000
-		PauseOnCondition: lowpower
+		PauseOnCondition: lowpower || got.patriot
 		AutoFire: True
+    GrantConditionOnPrerequisite@LimitingPBAT:
+        Condition: got.patriot
+        Prerequisites: has.pbat
 	Targetable:
 		TargetTypes: Ground, C4, Structure, NodInfiltrateUPGC
 	InfiltrateForSupportPower@STOLENTECH:

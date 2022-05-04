@@ -34,10 +34,40 @@ JEEP:
 		LocalOffset: 171,0,85
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: JeepRockets
+		LocalOffset: 250,100,150
+		Recoil: 0
+		RequiresCondition: towhumvee-upgraded
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		AmmoPool: ammo
+		Delay: 300
+		Count: 1
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+		RequiresCondition: towhumvee-upgraded
 	AttackTurreted:
 		PauseOnCondition: emp-crate-collected
 	WithMuzzleOverlay:
-	WithSpriteTurret:
+	WithSpriteTurret@1:
+		Sequence: turret
+		RequiresCondition: !towhumvee-upgraded
+	WithSpriteTurret@2:
+		Sequence: turrettow
+		RequiresCondition: towhumvee-upgraded
 	SpawnActorOnDeath:
 		Actor: JEEP.Husk
 		OwnerType: InternalName
@@ -49,6 +79,10 @@ JEEP:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
+	GrantConditionOnPrerequisite@TOWHumvee:
+		Condition: towhumvee-upgraded
+		Prerequisites: towhumvee.upgrade
+
 
 APC:
 	Inherits: ^Tank
@@ -518,6 +552,7 @@ MHQ:
 
 #	todo: boost reload rate by
 #	parking on service depot
+#   friggin OP, needs total rework
 ICBM:
 	Inherits: ^Vehicle
 	Inherits@AUTOTARGET: ^AutoTargetGround
@@ -605,6 +640,7 @@ ICBM:
 	Carryable:
 		-CarriedCondition: oncarryall
 
+#   man, this one is lame. needs cool
 #	todo: reimplement vision boost
 MSAR:
 	Inherits: ^Vehicle
@@ -765,6 +801,8 @@ PBAT:
 		CustomPipType: pip-red
 	RenderSprites:
 		Image: mlrs
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: has.pbat
 
 AAV:
 	Inherits: ^Tank
@@ -841,3 +879,66 @@ AAV:
 		RequiresCondition: !loaded
 	Capturable@HIJACKED:
 		RequiresCondition: !loaded
+
+DISR:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 1350
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Tooltip:
+		Name: Disruptor
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Description: High-tech weapons platform with Sonic armament.\n  Strong vs clustered Ground Units\n  Weak vs Aircraft, Artillery
+	Health:
+		HP: 35000
+	Armor:
+		Type: Heavy
+	SelectionDecorations:
+	Selectable:
+		DecorationBounds: 34,34,0,-3
+	Mobile:
+		Locomotor: heavytracked
+		TurnSpeed: 12
+		Speed: 56
+        PauseOnCondition: emp-crate-collected || boarding || being-captured
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: SonicZap
+		FireDelay: 0
+		LocalOffset: -120,0,150
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Weapon: SonicZapVisual
+		Name: secondary
+		FireDelay: 0
+		LocalOffset: -120,0,150
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 12
+		Offset: -256,0,0
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+		OpportunityFire: False
+	WithSpriteTurret:
+	Targetable:
+		TargetTypes: Ground, Vehicle, Disruptor
+	Explodes:
+		Weapon: UnitExplodeBig
+		EmptyWeapon: UnitExplodeBig
+	SpawnActorOnDeath:
+		Actor: DISR.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: has.disr

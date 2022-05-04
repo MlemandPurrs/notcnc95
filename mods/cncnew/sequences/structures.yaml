@@ -1308,6 +1308,7 @@ cram:
 		Start: 5
 		Length: 1
 		Tick: 800
+        Offset: 0,-13
 	muzzle: gunfire2
 		Start: 1
 		Length: 4

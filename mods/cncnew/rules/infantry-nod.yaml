@@ -23,6 +23,9 @@ TERR:
 		Description: Suicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
 	Armament:
 		Weapon: KamikazeTargeting
+    Armament@Other:
+        Name: secondary
+        Weapon: KamikazeTargetingStructure
 	AttackLeap:
 		Speed: 142
 		Voice: Attack
@@ -354,6 +357,7 @@ INFL:
 	#	InfiltrateFor cannot be conditioned
 	#	i would like to allow INFL to attack
 	#	after the Infiltration has got done
+    #   as there is no point to multiple
 	Infiltrates@FACT:
 		Types: NodInfiltrateFACT
 		Notification: NewOptions

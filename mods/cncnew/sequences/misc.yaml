@@ -367,6 +367,7 @@ icon:
 	fieldrepair: frepicon
 	slthplug: slthplugicon
 	sfigicon: sfigicon
+    disr: disricon
 
 moveflsh:
 	idle:

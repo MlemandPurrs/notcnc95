@@ -56,6 +56,8 @@ NAPC.Husk:
 	Inherits: ^Husk
 	Tooltip:
 		Name: Nod APC (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
 	TransformOnCapture:
 		IntoActor: napc
 	RenderSprites:
@@ -206,15 +208,6 @@ ATNK.Husk:
 	RenderSprites:
 		Image: atnk.destroyed
 
-BTR.Husk:
-	Inherits: ^Husk
-	Tooltip:
-		Name: Nod APC (Destroyed)
-	TransformOnCapture:
-		IntoActor: btr
-	RenderSprites:
-		Image: btr.destroyed
-
 PBAT.Husk:
 	Inherits: ^LightHusk
 	Tooltip:
@@ -236,3 +229,14 @@ TDN.Husk:
 		IntoActor: tdn
 	RenderSprites:
 		Image: tdn.destroyed
+
+DISR.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Disruptor (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: disr
+	RenderSprites:
+		Image: disr.destroyed

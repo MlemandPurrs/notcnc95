@@ -216,13 +216,25 @@ Demolish:
 
 KamikazeTargeting:
 	ReloadDelay: 1
-	ValidTargets: Vehicle, Infantry, Wall, Structure, Creep
+	ValidTargets: Vehicle, Infantry, Creep
+    InvalidTargets: Wall, Structure
 	Range: 1c768
 	TargetActorCenter: true
 	Projectile: InstantHit
 	Warhead@1Dam: TargetDamage
 		Damage: 0
-		ValidTargets: Vehicle, Infantry, Wall, Structure, Creep
+		ValidTargets: Vehicle, Infantry, Creep
+        InvalidTargets: Wall, Structure
+
+KamikazeTargetingStructure:
+	ReloadDelay: 1
+	ValidTargets: Wall, Structure
+	Range: 1c768
+	TargetActorCenter: false
+	Projectile: InstantHit
+	Warhead@1Dam: TargetDamage
+		Damage: 0
+		ValidTargets: Wall, Structure
 
 Heal:
 	ReloadDelay: 70
@@ -475,3 +487,86 @@ PrepareHack:
 	-Report:
 	-Projectile:
 	Projectile: InstantHit
+
+SonicZap:
+	ReloadDelay: 120
+	Range: 6c768
+	TargetActorCenter: true
+	InvalidTargets: Air
+	Report: sonic4.aud
+	Projectile: AreaBeam
+		Speed: 0c428
+		Duration: 65
+		DamageInterval: 3
+		Width: 390
+		Shape: Flat
+		ZOffset: 1023
+		BeyondTargetRange: 0c256
+		Blockable: true
+		TrackTarget: true
+		Color: 00c3ff25
+	Warhead@1Dam: SpreadDamage
+		Range: 0, 32
+		Falloff: 100, 100
+		Damage: 550
+		AffectsParent: false
+		ValidStances: Neutral, Enemy
+		ValidTargets: Ground, Water
+		Versus:
+			Heavy: 80
+			Concrete: 150
+			Wood: 200
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+	Warhead@2Dam: SpreadDamage
+		Range: 0, 32
+		Falloff: 50, 50
+		Damage: 225
+		InvalidTargets: Disruptor, Air
+		AffectsParent: false
+		ValidStances: Ally
+		Versus:
+			Heavy: 80
+			Concrete: 150
+			Wood: 200
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+
+SonicZapVisual:
+	ReloadDelay: 120
+	Range: 6c768
+	TargetActorCenter: true
+	InvalidTargets: Air
+	Projectile: AreaBeam
+		Speed: 0c428
+		Duration: 65
+		DamageInterval: 3
+		Width: 180
+		Shape: Flat
+		ZOffset: 1023
+		BeyondTargetRange: 0c256
+		Blockable: true
+		TrackTarget: true
+		Color: 00fffb35
+	Warhead@1Dam: SpreadDamage
+		Range: 0, 32
+		Falloff: 100, 100
+		Damage: 100
+		AffectsParent: false
+		ValidStances: Neutral, Enemy
+		ValidTargets: Ground, Water
+		Versus:
+			Heavy: 80
+			Concrete: 150
+			Wood: 200
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+	Warhead@2Dam: SpreadDamage
+		Range: 0, 32
+		Falloff: 50, 50
+		Damage: 50
+		InvalidTargets: Disruptor, Air
+		AffectsParent: false
+		ValidStances: Ally
+		Versus:
+			Heavy: 80
+			Concrete: 150
+			Wood: 200
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
