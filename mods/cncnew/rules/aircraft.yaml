@@ -1077,6 +1077,7 @@ OCAR.Reinforce:
 	-ChangesHealth@DRIVER_DEAD:
 	-Capturable@DRIVER_DEAD:
     -Sellable:
+ProximityExternalCondition:
     -RevealsShroud:
 	Carryall:
 		DropRange: 30c0
@@ -1341,6 +1342,8 @@ NODV22.Reinforce:
 	-ChangesHealth@DRIVER_DEAD:
 	-Capturable@DRIVER_DEAD:
     -Sellable:
+    -ExternalCondition@Sellable:
+    -ProximityExternalCondition:
     -RevealsShroud:
 	Carryall:
 		DropRange: 30c0

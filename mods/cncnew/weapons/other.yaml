@@ -510,7 +510,7 @@ SonicZap:
 		Falloff: 100, 100
 		Damage: 550
 		AffectsParent: false
-		ValidStances: Neutral, Enemy
+		ValidRelationships: Neutral, Enemy
 		ValidTargets: Ground, Water
 		Versus:
 			Heavy: 80
@@ -523,7 +523,7 @@ SonicZap:
 		Damage: 225
 		InvalidTargets: Disruptor, Air
 		AffectsParent: false
-		ValidStances: Ally
+		ValidRelationships: Ally
 		Versus:
 			Heavy: 80
 			Concrete: 150
@@ -551,7 +551,7 @@ SonicZapVisual:
 		Falloff: 100, 100
 		Damage: 100
 		AffectsParent: false
-		ValidStances: Neutral, Enemy
+		ValidRelationships: Neutral, Enemy
 		ValidTargets: Ground, Water
 		Versus:
 			Heavy: 80
@@ -564,7 +564,7 @@ SonicZapVisual:
 		Damage: 50
 		InvalidTargets: Disruptor, Air
 		AffectsParent: false
-		ValidStances: Ally
+		ValidRelationships: Ally
 		Versus:
 			Heavy: 80
 			Concrete: 150
