@@ -1,6 +1,6 @@
 Metadata:
 	Title: Not CnC 95
-	Version: Capn Kanes Wrrrrath
+	Version: Dr. Moebius Edition
 	Website: https://www.openra.net
 	WebIcon32: https://www.openra.net/images/icons/cnc_32x32.png
 
@@ -40,6 +40,7 @@ Packages:
 	cncnew|bits/audio/cyborgcommando
 	cncnew|bits/audio/thief
 	cncnew|bits/audio/hacker
+	cncnew|bits/audio/dead6gunner
 	cncnew|bits/temperate
 	cncnew|bits/jungle
 	cncnew|bits/desert
@@ -85,8 +86,9 @@ Rules:
 	cncnew|rules/civilian-desert.yaml
 	cncnew|rules/ships.yaml
 	cncnew|rules/aircraft.yaml
-	cncnew|rules/husks.yaml
 	cncnew|rules/upgrades.yaml
+    cncnew|rules/superunits.yaml
+	cncnew|rules/mercenaries.yaml
 
 Sequences:
 	cncnew|sequences/structures.yaml

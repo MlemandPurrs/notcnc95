@@ -1,0 +1,440 @@
+
+#   GDI Reinforcements
+
+production.airdrop:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Infantry
+	Buildable:
+		Queue: Mercenary.GDI
+		BuildPaletteOrder: 1
+		Prerequisites: army, ~techlevel.unrestricted
+		Description: Prepare a team of Veteran infantry for Airdrop.
+		BuildDuration: 750
+    Valued:
+		Cost: 500
+	RenderSprites:
+		Image: production.airdrop
+	ProduceActorPowerCA:
+		Actors: powerproxy.airdrop
+		Type: Mercenary.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.airdrop:
+	AlwaysVisible:
+	ParatroopersPower@GDIAirdropInfantry:
+		OrderName: GDIAirdropInfantry
+		Icon: pinficon
+		SquadSize: 1
+		UnitType: C17
+		Description: Airdrop: Infantry Squad (Single Use)
+		LongDesc: An C17 Plane drops a small Veteran\ninfantry squad anywhere on the map
+		OneShot: true
+		AllowMultiple: true
+		DropItems: E1R1,E3R1,MEDI,E3R1,E1R1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airdrop
+
+production.airdrop.lightvehicle:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Humvees
+	Buildable:
+		Queue: Mercenary.GDI
+		BuildPaletteOrder: 2
+		Prerequisites: army, wea2, ~techlevel.unrestricted
+		Description: Prepare a team of Humvees for Airdrop.
+        BuildDuration: 1450
+        Icon: jeepicon
+    Valued:
+		Cost: 1225
+	RenderSprites:
+		Image: production.airdrop
+	ProduceActorPowerCA:
+		Actors: powerproxy.airdrop.lightvehicle
+		Type: Mercenary.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.airdrop.lightvehicle:
+	AlwaysVisible:
+	ParatroopersPower@GDIAirdropLightVehicle:
+		OrderName: GDIAirdropLightVehicle
+		Icon: pinficon
+		SquadSize: 1
+		UnitType: C17
+		Description: Airdrop: Humvee Squad (Single Use)
+		LongDesc: An C17 Plane drops a small Veteran\nHumvee squad anywhere on the map
+		OneShot: true
+		AllowMultiple: true
+		DropItems: JEEPR1,JTOWR1,JTOWR1,JEEPR1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airdrop
+
+production.airdrop.heavyvehicle:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Battle Tanks
+	Buildable:
+		Queue: Mercenary.GDI
+		BuildPaletteOrder: 3
+		Prerequisites: army, weap, ~techlevel.unrestricted
+		Description: Prepare a pair of Battle Tanks for Airdrop.
+        BuildDuration: 2250
+        Icon: mtnkicon
+    Valued:
+		Cost: 1750
+	RenderSprites:
+		Image: production.airdrop
+	ProduceActorPowerCA:
+		Actors: powerproxy.airdrop.heavyvehicle
+		Type: Mercenary.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.airdrop.heavyvehicle:
+	AlwaysVisible:
+	ParatroopersPower@GDIAirdropHeavyVehicle:
+		OrderName: GDIAirdropHeavyVehicle
+		Icon: pinficon
+		SquadSize: 1
+		UnitType: C17
+		Description: Airdrop: Battle Tanks (Single Use)
+		LongDesc: An C17 Plane drops a pair of Veteran\nBattle Tanks anywhere on the map
+		OneShot: true
+		AllowMultiple: true
+		DropItems: MTNKR1,MTNKR1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airdrop
+
+#   Nod Mercenaries
+
+SHOT:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 225
+	Tooltip:
+		Name: Shotgunner
+    Mobile:
+		Speed: 68
+	Health:
+		HP: 5000
+	Armor:
+		Type: Kevlar
+	Armament@PRIMARY:
+		Weapon: Shotgun
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Shotgun
+		FireDelay: 1
+		MuzzleSequence: garrison-muzzle
+	TakeCover:
+	AttackFrontal:
+	WithInfantryBody:
+		IdleSequences: idle1,idle2
+		DefaultAttackSequence: shoot
+	DeliversCash:
+		Payload: 56
+		Type: InfantryRefund
+	Passenger:
+		CustomPipType: pip-yellow
+	ProvidesPrerequisite@unitname:
+
+BTR:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove	
+	Inherits@TRANSPORT: ^Transport
+	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
+	Inherits@Cloak: ^AcceptsCloakCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Valued:
+		Cost: 500
+	Health:
+		HP: 20000
+	Mobile:
+		Locomotor: heavywheeled
+		Speed: 156
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
+	Armor:
+		Type: Light
+	Tooltip:
+		Name: BTR
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	RevealsShroud:
+		Range: 5c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadedCondition: loaded
+		LoadingCondition: notmobile
+		InitialUnits: SHOT,SHOT,SHOT,SHOT
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Passenger:
+		CustomPipType: pip-green
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 250,0,100
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 24
+		Offset: 176,0,160
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	ProximityExternalCondition@barracksheal:
+		Condition: barracks
+		ValidRelationships: Ally
+		Range: 1c826
+		RequiresCondition: !emp-crate-collected
+	WithRangeCircle:
+		Range: 1c826
+    #   this doesnt look right maybe 
+    #   paint it over the chassis
+	#   WithIdleOverlay@MEDIC:
+	#	Sequence: medic
+	#	Offset: -128,0,210
+	SpawnActorOnDeath:
+		Actor: BTR.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded
+	ProvidesPrerequisite@unitname:
+
+BTR.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: BTR (Destroyed)
+	TransformOnCapture:
+		IntoActor: btr
+	RenderSprites:
+		Image: btr.destroyed
+
+#   would like Mercs to be limited one at a time.
+#   once the current team dies can order a new one.
+production.dropzone:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Hire: Blackops
+	Buildable:
+		Queue: Mercenary.Nod
+		BuildPaletteOrder: 1
+		Prerequisites: shrn, ~techlevel.unrestricted
+		Description: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
+		BuildDuration: 750
+    Valued:
+		Cost: 500
+	RenderSprites:
+		Image: production.dropzone
+	ProduceActorPowerCA:
+		Actors: powerproxy.dropzone
+		Type: Mercenary.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.dropzone:
+	AlwaysVisible:
+    ProvidesPrerequisite@proxyname:
+	SpawnActorPower@NodDropzoneInfantry:
+		Actor: FLARE.dropzone
+		LifeTime: 280
+		OrderName: NodDropzoneInfantry
+		Icon: blackops
+		Description: Dropzone: Blackops
+		LongDesc: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
+		LaunchSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		OneShot: true
+		AllowMultiple: true
+		Cursor: airdrop
+
+#   deliver a invisible dummy alongside
+#   make dummy check btr and shot, then
+#   suicide when those are no longer present
+FLARE.dropzone:
+	Inherits: FLARE
+	RevealsShroud:
+		Range: 4c0
+	Tooltip:
+		Name: Dropzone Flare
+	FreeActorWithDelivery@2:
+		Actor: BTR
+		DeliveryOffset: -1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0
+
+3TNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Heavy Tank
+		GenericName: Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 60000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 71
+	RevealsShroud:
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 20
+	Armament:
+		Weapon: 105mmDual
+		Recoil: 128
+		RecoilRecovery: 38
+		LocalOffset: 768,85,90, 768,-85,90
+		MuzzleSequence: muzzle
+	AttackTurreted:
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	SpawnActorOnDeath:
+		Actor: 3TNK.Husk
+	Selectable:
+		DecorationBounds: 28,28
+	ProvidesPrerequisite@unitname:
+
+3TNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Heavy Tank (Destroyed)
+	TransformOnCapture:
+		IntoActor: 3tnk
+	RenderSprites:
+		Image: 3tnk.destroyed
+
+production.dropzonetanks:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Hire: Heavy Tanks
+	Buildable:
+		Queue: Mercenary.Nod
+		BuildPaletteOrder: 2
+        #   this causes them to become one-time use only
+        Prerequisites: afld, ~!powerproxy.dropzonetanks, ~techlevel.unrestricted
+		Description: Nod Carryalls drop one pair of\nHeavy Tanks at target location.
+        Icon: 3tnkicon
+		BuildDuration: 1500
+    Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: production.dropzone
+	ProduceActorPowerCA:
+		Actors: powerproxy.dropzonetanks
+		Type: Mercenary.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.dropzonetanks:
+	AlwaysVisible:
+    ProvidesPrerequisite@proxyname:
+	SpawnActorPower@NodDropzoneTanks:
+		Actor: FLARE.dropzone.3tnk
+		LifeTime: 280
+		OrderName: NodDropzoneTanks
+		Icon: soviettank
+		Description: Dropzone: Heavy Tanks
+		LongDesc: Nod Carryalls drop one pair of\nHeavy Tanks at target location.
+		LaunchSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		OneShot: true
+		AllowMultiple: true
+		Cursor: airdrop
+
+FLARE.dropzone.3tnk:
+	Inherits: FLARE.dropzone
+	FreeActorWithDelivery@2:
+		Actor: 3TNK
+		DeliveryOffset: -1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0
+	FreeActorWithDelivery@3:
+		Actor: 3TNK
+		DeliveryOffset: 1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0

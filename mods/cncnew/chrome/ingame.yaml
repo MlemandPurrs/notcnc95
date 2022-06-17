@@ -1183,6 +1183,10 @@ Container@PLAYER_WIDGETS:
 					HoldText: On Hold
 					HotkeyPrefix: SupportPower
 					HotkeyCount: 6
+		SupportPowerTimer@SUPPORT_POWER_TIMER:
+			X: 80
+			Y: 10
+			Order: Descending
 		Image@COMMAND_BAR_BACKGROUND:
 			X: 5
 			Y: WINDOW_BOTTOM - HEIGHT - 5
@@ -1714,7 +1718,7 @@ Container@PLAYER_WIDGETS:
 					X: 18
 					Y: 267
 					Width: 194
-					Height: 26
+					Height: 52
 					Children:
 						ProductionTypeButton@BUILDING:
 							Logic: AddFactionSuffixLogic
@@ -1803,13 +1807,64 @@ Container@PLAYER_WIDGETS:
 									Y: 2
 									ImageCollection: chrome-button
 									ImageName: separator
-						ProductionTypeButton@AIRCRAFT:
+						ProductionTypeButton@UPGRADES:
 							Logic: AddFactionSuffixLogic
 							X: 156
 							Width: 38
 							Height: 26
 							Background: chrome-button-background
 							TooltipText: Upgrades
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
+							ProductionGroup: Upgrades
+							Key: ProductionTypeUpgrades
+							Children:
+								Image@ICON:
+									X: 11
+									Y: 5
+									ImageCollection: production-icons
+                        ProductionTypeButton@MERCENARY:
+                            Logic: AddFactionSuffixLogic
+                            X: 0
+                            Y: 28
+                            Width: 38
+                            Height: 26
+                            Background: chrome-button-background
+                            TooltipText: Reinforcements (GDI)\Mercenaries (Nod)
+                            TooltipContainer: TOOLTIP_CONTAINER
+                            TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
+                            ProductionGroup: Mercenary
+                            Key: ProductionTypeMercenary
+                            Children:
+                                Image@ICON:
+                                    X: 11
+                                    Y: 5
+                                    ImageCollection: production-icons
+                        ProductionTypeButton@NAVAL:
+                            Logic: AddFactionSuffixLogic
+                            X: 39
+                            Y: 28
+                            Width: 38
+                            Height: 26
+                            Background: chrome-button-background
+                            TooltipText: Naval
+                            TooltipContainer: TOOLTIP_CONTAINER
+                            TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
+                            ProductionGroup: Naval
+                            Key: ProductionTypeNaval
+                            Children:
+                                Image@ICON:
+                                    X: 11
+                                    Y: 5
+                                    ImageCollection: production-icons
+						ProductionTypeButton@AIRCRAFT:
+							Logic: AddFactionSuffixLogic
+							X: 78
+                            Y: 28
+							Width: 38
+							Height: 26
+							Background: chrome-button-background
+							TooltipText: Aircraft
 							TooltipContainer: TOOLTIP_CONTAINER
 							TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
 							ProductionGroup: Aircraft
@@ -1819,9 +1874,49 @@ Container@PLAYER_WIDGETS:
 									X: 11
 									Y: 5
 									ImageCollection: production-icons
+								Image@SEPARATOR:
+									Logic: AddFactionSuffixLogic
+									X: 38
+									Y: 2
+									ImageCollection: chrome-button
+									ImageName: separator
+                        ProductionTypeButton@LIGHTVEHICLE:
+                            Logic: AddFactionSuffixLogic
+                            X: 117
+                            Y: 28
+                            Width: 38
+                            Height: 26
+                            Background: chrome-button-background
+                            TooltipText: Light Vehicles (GDI)\Hi-Tech Vehicles(Nod)
+                            TooltipContainer: TOOLTIP_CONTAINER
+                            TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
+                            ProductionGroup: LightVehicle
+                            Key: ProductionTypeLightVehicle
+                            Children:
+                                Image@ICON:
+                                    X: 11
+                                    Y: 5
+                                    ImageCollection: production-icons
+                        ProductionTypeButton@SUPERUNITS:
+                            Logic: AddFactionSuffixLogic
+                            X: 156
+                            Y: 28
+                            Width: 38
+                            Height: 26
+                            Background: chrome-button-background
+                            TooltipText: Supers
+                            TooltipContainer: TOOLTIP_CONTAINER
+                            TooltipTemplate: BUTTON_TOOLTIP_FACTIONSUFFIX
+                            ProductionGroup: Superunits
+                            Key: ProductionTypeSuperunits
+                            Children:
+                                Image@ICON:
+                                    X: 11
+                                    Y: 5
+                                    ImageCollection: production-icons
 		Container@PRODUCTION_BACKGROUND:
 			X: WINDOW_RIGHT - 5 - 18 - 194
-			Y: 319
+            Y: 345
 			Children:
 				Background@ICON_TEMPLATE:
 					Logic: AddFactionSuffixLogic
@@ -1830,7 +1925,7 @@ Container@PLAYER_WIDGETS:
 					Background: panel-black
 		ProductionPalette@PRODUCTION_PALETTE:
 			X: WINDOW_RIGHT - 5 - 17 - 194
-			Y: 320
+            Y: 346
 			Width: 192
 			TooltipContainer: TOOLTIP_CONTAINER
 			TooltipTemplate: PRODUCTION_TOOLTIP_FACTIONSUFFIX
@@ -1847,7 +1942,7 @@ Container@PLAYER_WIDGETS:
 			PreviousProductionTabKey: PreviousProductionTab
 			NextProductionTabKey: NextProductionTab
 			X: WINDOW_RIGHT - 5 - 18 - 194
-			Y: 299
+            Y: 325
 			Width: 194
 			Height: 20
 

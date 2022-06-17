@@ -17,7 +17,7 @@
 		RangeLimit: 7c204
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
-		Damage: 2500
+		Damage: 3000
 		ValidTargets: Ground, Helicopter
 		Versus:
 			None: 30
@@ -152,7 +152,7 @@ MammothMissiles:
 		RangeLimit: 6c0
 	Warhead@1Dam: SpreadDamage
 		Spread: 298
-		Damage: 5000
+		Damage: 7500
 		Versus:
 			None: 45
 			Kevlar: 45
@@ -576,3 +576,309 @@ UAVMissile:
 		Explosions: large_splash
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
+
+AvengerRockets:
+	Inherits: Dragon
+	Burst: 2
+	ReloadDelay: 300
+
+Stinger:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 60
+	Range: 7c512
+    Report: rocket2.aud
+	ValidTargets: Helicopter, Airplane
+	Projectile: MissileCA
+		Arm: 3
+		Inaccuracy: 0
+		HorizontalRateOfTurn: 80
+		RangeLimit: 14c256
+		Speed: 342
+		CloseEnough: 298
+	Warhead@1Dam: SpreadDamage
+		Damage: 25
+		Versus:
+			None: 36
+			Wood: 88
+			Light: 88
+			Heavy: 120
+			Concrete: 60
+
+EMPMissile:
+	ReloadDelay: 120
+	Range: 300c0
+	MinRange: 3c0
+	Report: missile1.aud
+	Projectile: Bullet
+		Blockable: false
+		Shadow: true
+		Inaccuracy: 5c0
+		Image: patriot
+		Palette: player
+		IsPlayerPalette: true
+		TrailImage: smokey
+		TrailDelay: 3
+		Speed: 300
+		LaunchAngle: 45
+	Warhead@2Dam_impact: SpreadDamage
+		Range: 1c0
+		Damage: 4500
+		Falloff: 1000
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		Versus:
+			None: 80
+			Wood: 60
+			Light: 60
+			Heavy: 40
+			Concrete: 60
+	Warhead@1Dam_impact: SpreadDamage
+		Range: 0, 1c1, 2c1, 3c1, 3c512, 4c1, 4c512
+		Damage: 4500
+		Falloff: 1000, 368, 135, 90, 68, 37, 10
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+		Versus:
+			None: 20
+			Wood: 20
+			Light: 20
+			Heavy: 20
+			Concrete: 20
+	Warhead@2Eff: CreateEffect
+		Explosions: pulse_explosion
+		ImpactSounds: empexpl.aud
+	Warhead@emp: GrantExternalCondition
+		Range: 5c0
+		Duration: 500
+		Condition: emp-crate-collected
+		ValidTargets: Vehicle
+		InvalidTargets: EMPInvalid, InvulNoEMP
+	Warhead@2Smu_impact: LeaveSmudge
+		SmudgeType: Crater
+	Warhead@3Smu_area: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees
+		Size: 1
+		Delay: 3
+	Warhead@4Smu_area2: LeaveSmudge
+		SmudgeType: Scorch
+		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees
+		Size: 2,1
+		Delay: 6
+
+ShipRocket:
+	ReloadDelay: 25
+	Range: 5c0
+	Report: rocket2.aud
+	ValidTargets: Ground
+	InvalidTargets: Submarine, Underwater
+	Projectile: Missile
+		Arm: 0
+		Blockable: false
+		Image: MISSILE
+		HorizontalRateOfTurn: 15
+		Speed: 426
+		RangeLimit: 45c0
+		TrailImage: smokey
+		ContrailLength: 8
+		CloseEnough: 500
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 6250
+		ValidTargets: Ground
+		InvalidTargets: Submarine, Underwater
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		Versus:
+			None: 40
+            Kevlar: 50
+            Flak: 30
+			Wood: 30
+			Light: 100
+			Medium: 60
+            Heavy: 40
+
+ShipRocket.AA:
+    Inherits: ShipRocket
+	Range: 8c0
+	ValidTargets: Helicopter
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 3500
+		ValidTargets: Helicopter
+		Versus:
+			Heavy: 50
+
+ASROC:
+	ReloadDelay: 35
+	Range: 6c0
+	Report: rocket1.aud
+	ValidTargets: Submarine, Underwater
+	Projectile: Missile
+		Arm: 0
+		Blockable: false
+		Inaccuracy: 128
+		Image: DRAGON
+		HorizontalRateOfTurn: 15
+		TrailImage: smokey
+		ContrailLength: 8
+		Speed: 298
+		RangeLimit: 20c0
+		MinimumLaunchAngle: 30
+	Warhead@1Dam: SpreadDamage
+		Spread: 426
+		Damage: 6000
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		ValidTargets: Water, Underwater, Bridge
+		Versus:
+			None: 30
+			Wood: 75
+			Light: 75
+            Medium: 50
+			Heavy: 100
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+	Warhead@3Eff: CreateEffect
+		Explosions: small_building
+	Warhead@5EffWater: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash1.aud
+		ValidTargets: Water, Underwater
+		InvalidTargets: Ship, Amphibian, Structure, Bridge
+
+GuidedMissile:
+	ReloadDelay: 120
+	Range: 15c0
+	MinRange: 3c0
+	Burst: 2
+	BurstDelays: 60
+	Report: rocket2.aud
+	ValidTargets: Ground, Water
+	TargetActorCenter: true
+	Projectile: Bullet
+		Image: patriot
+		TrailImage: smokey
+		ContrailLength: 30
+		Speed: 120
+		Blockable: false
+		LaunchAngle: 165
+        #   is GuidedMissile and Inaccuracy ??
+        Inaccuracy: 1c768
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Ground, Water, Submarine
+		Versus:
+			None: 100
+            Kevlar: 100
+            Flak: 100
+			Wood: 100
+			Light: 100
+            Medium: 100
+			Heavy: 100
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		Spread: 1c0
+		Damage: 3600
+		Falloff: 1000, 368, 135, 50, 18, 7, 0
+	Warhead@3Eff: CreateEffect
+		Explosions: small_building
+		ImpactSounds: guidmssl.aud
+		ValidTargets: Ground, Ship, Amphibian, Trees
+	Warhead@5EffWater: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash1.aud
+		ValidTargets: Water, Underwater
+		InvalidTargets: Ground, Ship, Amphibian, Structure, Bridge
+        
+TorpTube:
+	ReloadDelay: 100
+	Range: 9c0
+	Report: torpedo1.aud
+	ValidTargets: Water, Underwater, Bridge
+	Burst: 2
+	BurstDelays: 8
+	Projectile: Missile
+		Image: torpedo
+		Arm: 3
+		Speed: 85
+		TrailImage: bubbles
+		HorizontalRateOfTurn: 4
+		RangeLimit: 10c819
+		BoundToTerrainType: Water
+		Palette: shadow
+		MaximumLaunchAngle: 0
+		CruiseAltitude: 0
+	Warhead@1Dam: SpreadDamage
+		Spread: 426
+		Damage: 6000
+		ValidTargets: Water, Underwater, Bridge
+		Versus:
+			Wood: 50
+			Light: 50
+			Heavy: 85
+			Concrete: 500
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: poof
+		ImpactSounds: xplosml2.aud
+		ValidTargets: Ship, Structure, Underwater, Ground, Bridge
+	Warhead@4EffWater: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash1.aud
+		ValidTargets: Water
+		InvalidTargets: Ship, Structure, Underwater, Bridge
+
+SubMissile:
+	ReloadDelay: 150
+	Range: 15c0
+    MinRange: 3c0
+	Report: rocket2.aud
+	TargetActorCenter: true
+	Projectile: MissileCA
+		Speed: 234
+        Blockable: false
+		Inaccuracy: 0c614
+		HorizontalRateOfTurn: 60
+		RangeLimit: 16c0
+		Image: MISSILE
+        Shadow: True
+		TrailImage: smokey
+		ContrailLength: 16
+	Warhead@1Dam: SpreadDamage
+		Spread: 426
+		Damage: 2500
+		Falloff: 1000, 368, 135, 50, 18, 7, 0
+        ValidTargets: Ground, Water
+		Versus:
+			None: 40
+			Kevlar: 40
+			Flak: 40
+			Wood: 50
+			Light: 30
+            Medium: 30
+			Heavy: 30
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees
+	Warhead@3Eff: CreateEffect
+		Explosions: poof
+		ImpactSounds: xplosml2.aud
+        ValidTargets: Ground, Water, Trees
+	Warhead@4EffWater: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash3.aud
+		ValidTargets: Water
+		InvalidTargets: Ground
+
+SubMissile.barrage:
+	Inherits: SubMissile
+	ReloadDelay: 600
+	Report: rocket1.aud
+    Projectile: MissileCA
+		Inaccuracy: 3c614
+	Burst: 24
+	BurstDelays: 9
+
+SubMissile.barrage.display:
+	ReloadDelay: 740
+	Range: 15c0
+	Projectile: Bullet
+		LaunchAngle: 180
+	Warhead@1Dam: SpreadDamage
+		Damage: 0

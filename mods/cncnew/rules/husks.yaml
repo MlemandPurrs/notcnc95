@@ -52,6 +52,15 @@ APC.Husk:
 	RenderSprites:
 		Image: apc.destroyed
 
+MAAG.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mobile Anti-Air Gun (Destroyed)
+	TransformOnCapture:
+		IntoActor: maag
+	RenderSprites:
+		Image: maag.destroyed
+
 NAPC.Husk:
 	Inherits: ^Husk
 	Tooltip:
@@ -124,6 +133,17 @@ HOWI.Husk:
 		IntoActor: howi
 	RenderSprites:
 		Image: howi.destroyed
+
+PALA.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Paladin SPG (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: pala
+	RenderSprites:
+		Image: pala.destroyed
 
 MSAM.Husk:
 	Inherits: ^LightHusk
@@ -240,3 +260,57 @@ DISR.Husk:
 		IntoActor: disr
 	RenderSprites:
 		Image: disr.destroyed
+
+JTOW.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: TOW Humvee (Destroyed)
+	TransformOnCapture:
+		IntoActor: jtow
+	RenderSprites:
+		Image: jtow.destroyed
+
+JREC.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Light Recon (Destroyed)
+	TransformOnCapture:
+		IntoActor: jrec
+	RenderSprites:
+		Image: jrec.destroyed
+
+JAMB.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Ambulance (Destroyed)
+	TransformOnCapture:
+		IntoActor: jamb
+	RenderSprites:
+		Image: jamb.destroyed
+
+JMEC.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Jeep Mechanic (Destroyed)
+	TransformOnCapture:
+		IntoActor: jmec
+	RenderSprites:
+		Image: jmec.destroyed
+
+JSAM.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Avenger AA (Destroyed)
+	TransformOnCapture:
+		IntoActor: jsam
+	RenderSprites:
+		Image: jsam.destroyed
+
+JCRG.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Mobile Outpost (Destroyed)
+	TransformOnCapture:
+		IntoActor: jcrg
+	RenderSprites:
+		Image: jcrg.destroyed

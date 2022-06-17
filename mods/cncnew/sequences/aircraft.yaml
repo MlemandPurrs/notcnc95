@@ -124,9 +124,23 @@ orcacapod:
 		Facings: 32
 	icon: orcacaicon
 
+f18:
+	Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f18icon
+
 f22:
 	Inherits: emp-overlay
 	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f22icon
+
+nodf22:
+	Inherits: emp-overlay
+	idle: f22nod
 		Facings: 32
 		UseClassicFacings: True
 	icon: f22icon

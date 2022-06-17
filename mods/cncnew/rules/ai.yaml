@@ -317,7 +317,7 @@ Player:
 			bggy: 20
 			bike: 20
 			apc: 10
-			btr: 10
+			napc: 10
 			mtnk: 20
 			ltnk: 30
 			htnk: 50
@@ -344,7 +344,7 @@ Player:
 			medi: 3
 			mech: 3
 			apc: 3
-			btr: 3
+			napc: 3
 			hmmv: 4
 			bggy: 4
 			bike: 6

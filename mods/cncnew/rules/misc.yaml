@@ -241,21 +241,22 @@ fact.colorpicker:
 		Image: fact
 		Palette: colorpicker
 
+
 CAMERA:
 	Interactable:
 	EditorOnlyTooltip:
 		Name: (reveals area to owner)
 	AlwaysVisible:
-	WithSpriteBody:
-	RenderSpritesEditorOnly:
-		Image: camera
-	BodyOrientation:
-		QuantizedFacings: 1
 	Immobile:
 		OccupiesSpace: false
 	RevealsShroud:
 		Range: 9c256
 		Type: CenterPosition
+	BodyOrientation:
+		QuantizedFacings: 1
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
 	MapEditorData:
 		Categories: System
 
@@ -486,3 +487,45 @@ camera.hacker:
 	KillsSelf:
 		RemoveInstead: true
 		Delay: 50
+
+unit.summoner:
+	Inherits@SYSTEM: ^SummonerDummy
+	RenderSprites:
+		Image: dummy
+
+MINV:
+	Inherits: ^Mine
+	RenderSprites:
+		Image: minv
+	Explodes:
+		Weapon: ATMine
+
+gps.satellite:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+camera.satscan:
+	Inherits: CAMERA
+	-RevealsShroud:
+	Buildable:
+		Queue: SpySatellite
+	Tooltip:
+		Name: Satellite Scan
+	RevealsMapCA:
+		RevealGeneratedShroud: false
+		RequiresCondition: uplinkavailable
+		ValidRelationships: Ally
+	KillsSelf:
+		RemoveInstead: true
+		Delay: 1500
+		GrantsCondition: killsself
+	GrantConditionOnPrerequisite@UPLINK:
+		Condition: uplinkavailable
+		Prerequisites: eye
+    VoiceAnnouncement:
+		Voice: Build
+	VoiceAnnouncement@Die:
+		Voice: Die
+		RequiresCondition: killsself
+	Voiced:
+		VoiceSet: SatelliteScanVoice

@@ -12,62 +12,33 @@ JEEP:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 2
-		Prerequisites: weap, ~techlevel.low
-		Queue: Vehicle.GDI
+		BuildPaletteOrder: 1
+		Prerequisites: wea2, ~techlevel.low
+		Queue: LightVehicle.GDI
 		Description: Light scout vehicle.\n  Strong vs Infantry\n  Weak vs Tanks
 	Mobile:
 		TurnSpeed: 40
 		Speed: 156
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 16000
+		HP: 15000
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 8c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 40
-		Offset: -85,0,128
+		Offset: 0,0,156
 	Armament:
 		Weapon: MachineGun
 		LocalOffset: 171,0,85
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
-	Armament@SECONDARY:
-		Name: secondary
-		Weapon: JeepRockets
-		LocalOffset: 250,100,150
-		Recoil: 0
-		RequiresCondition: towhumvee-upgraded
-		PauseOnCondition: !ammo || emp-crate-collected
-	AmmoPool:
-		Name: ammo
-		Armaments: secondary
-		Ammo: 1
-		AmmoCondition: ammo
-	ReloadAmmoPool:
-		AmmoPool: ammo
-		Delay: 300
-		Count: 1
-		PauseOnCondition: emp-crate-collected
-	WithAmmoPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 1
-		FullSequence: pip-green
-		RequiresSelection: true
-		AmmoPools: ammo
-		RequiresCondition: towhumvee-upgraded
 	AttackTurreted:
 		PauseOnCondition: emp-crate-collected
 	WithMuzzleOverlay:
-	WithSpriteTurret@1:
+	WithSpriteTurret:
 		Sequence: turret
-		RequiresCondition: !towhumvee-upgraded
-	WithSpriteTurret@2:
-		Sequence: turrettow
-		RequiresCondition: towhumvee-upgraded
 	SpawnActorOnDeath:
 		Actor: JEEP.Husk
 		OwnerType: InternalName
@@ -79,16 +50,423 @@ JEEP:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
-	GrantConditionOnPrerequisite@TOWHumvee:
-		Condition: towhumvee-upgraded
-		Prerequisites: towhumvee.upgrade
+	GpsRadarDot:
+		Sequence: LightVehicle
 
+JEEP.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Humvee (Destroyed)
+	TransformOnCapture:
+		IntoActor: jeep
+	RenderSprites:
+		Image: jeep.destroyed
+
+JEEPR1:
+	Inherits: JEEP
+	RenderSprites:
+		Image: JEEP
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: ~techlevel.low
+	UpdatesPlayerStatistics:
+		OverrideActor: jeep
+	Parachutable:
+		FallRate: 26
+		ParachutingCondition: parachute
+	WithParachute:
+		Image: parach
+		Sequence: idle
+		OpeningSequence: open
+		ShadowImage: parach-shadow
+		ShadowSequence: idle
+		RequiresCondition: parachute
+	-Buildable:
+	-MapEditorData:
+
+JTOW:
+    Inherits: JEEP
+	Tooltip:
+		Name: TOW Humvee
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: army, ~techlevel.medium
+		Queue: LightVehicle.GDI
+		Description: Mobile anti-tank vehicle.\n  Strong vs Infantry\n  Weak vs Tanks
+		Icon: towicon
+	Armament:
+		Weapon: JeepRockets
+		LocalOffset: 250,0,150
+        Recoil: 0
+		PauseOnCondition: !ammo || emp-crate-collected 
+	AmmoPool:
+		Name: ammo
+		Armaments: primary
+		Ammo: 1
+		AmmoCondition: ammo
+	ReloadAmmoPoolCA:
+        AmmoPool: ammo
+		Delay: 300
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+    -WithMuzzleOverlay:
+	WithSpriteTurret:
+		Sequence: turret-tow
+	SpawnActorOnDeath:
+		Actor: JTOW.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+    -FirepowerMultiplier@APBullets:
+    -GrantConditionOnPrerequisite@APBullets:
+    RenderSprites:
+        Image: jeep
+
+JTOW.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: TOW Humvee (Destroyed)
+	TransformOnCapture:
+		IntoActor: jtow
+	RenderSprites:
+		Image: jtow.destroyed
+
+JTOWR1:
+	Inherits: JTOW
+    RenderSprites:
+        Image: jeep
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: ~techlevel.low
+	UpdatesPlayerStatistics:
+		OverrideActor: jtow
+	Parachutable:
+		FallRate: 26
+		ParachutingCondition: parachute
+	WithParachute:
+		Image: parach
+		Sequence: idle
+		OpeningSequence: open
+		ShadowImage: parach-shadow
+		ShadowSequence: idle
+		RequiresCondition: parachute
+	-Buildable:
+	-MapEditorData:
+
+#todo: add attackgarrisoned to it
+JREC:
+	Inherits: ^Vehicle
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@TRANSPORT: ^Transport
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Light Recon
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: hq, ~techlevel.low
+		Queue: LightVehicle.GDI
+		Description: Fast scout with good sight-radius.\n  Special ability: Camouflage\nCloaks self when near Vegetation or Rocks.\nCan carry 2 Infantry, whom can fire on the move.\n  Armament strength varies with passenger.\n  Unarmed by itself
+	Mobile:
+		TurnSpeed: 40
+		Speed: 156
+		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 15000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Cargo:
+		Types: Infantry
+		MaxWeight: 2
+		LoadingCondition: notmobile
+		LoadedCondition: loaded
+		PassengerConditions:
+			rmbo: commandoinside
+            rmb2: commandoinside
+            node7: commandoinside
+            nodgnrl: commandoinside
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	SpawnActorOnDeath:
+		Actor: JREC.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: commandoinside
+	AttackGarrisoned:
+		Armaments: garrisoned
+		PortOffsets: 384,0,64, 224,-341,64, -224,-341,64, -384,0,64, -224,341,64, 224,341,64
+		PortYaws: 0, 176, 341, 512, 682, 853
+		PortCones: 88, 88, 88, 88, 88, 88
+        RequiresCondition: loaded
+	Carryable:
+		-CarriedCondition: oncarryall
+	Cloak:
+		CloakTypes: Stealth
+		InitialDelay: 90
+		CloakDelay: 90
+		UncloakOn: Attack, Unload, Demolish, Dock, Damage, Heal
+		Palette: cloakgreen
+		IsPlayerPalette: false
+		PauseOnCondition: cloak-force-disabled
+		RequiresCondition: proximity.camouflage
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	ExternalCondition@Camouflage:
+		Condition: proximity.camouflage
+	GpsRadarDot:
+		Sequence: LightVehicle
+
+JREC.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Light Recon (Destroyed)
+	TransformOnCapture:
+		IntoActor: jrec
+	RenderSprites:
+		Image: jrec.destroyed
+
+JAMB:
+	Inherits: ^Vehicle
+	Inherits@selection: ^SelectableSupportUnit    
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Ambulance
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: army, ~techlevel.low
+		Queue: LightVehicle.GDI
+		Description: Mobile healer.\n  Special ability: Healing Aura\nInfantry standing in vicinity self-heal.\n  Unarmed
+	Mobile:
+		TurnSpeed: 40
+		Speed: 156
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 15000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 5c0
+	SpawnActorOnDeath:
+		Actor: JAMB.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ProximityExternalCondition@barracksheal:
+		Condition: barracks
+		ValidRelationships: Ally
+		Range: 1c826
+		RequiresCondition: emp-crate-collected
+	WithRangeCircle:
+		Range: 1c826
+		RequiresCondition: !emp-crate-collected
+	Carryable:
+		-CarriedCondition: oncarryall
+	GpsRadarDot:
+		Sequence: LightVehicle
+
+JAMB.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Ambulance (Destroyed)
+	TransformOnCapture:
+		IntoActor: jamb
+	RenderSprites:
+		Image: jamb.destroyed
+
+JMEC:
+    Inherits: JAMB
+    -ProximityExternalCondition@barracksheal:
+    -WithRangeCircle:
+	Tooltip:
+		Name: Jeep Mechanic
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: fix, ~techlevel.low
+		Queue: LightVehicle.GDI
+		Description: Mobile repairer.\n  Unarmed
+	SpawnActorOnDeath:
+		Actor: JMEC.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Turreted:
+		TurnSpeed: 40
+		Offset: 0,0,96
+	Armament:
+		Weapon: Repair
+		Cursor: repair
+		OutsideRangeCursor: repair
+		TargetRelationships: Ally
+		ForceTargetRelationships: None
+		#   LocalOffset: 171,0,85
+		#   MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	#   WithMuzzleOverlay:
+	WithSpriteTurret:
+		Sequence: turret
+
+JMEC.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Jeep Mechanic (Destroyed)
+	TransformOnCapture:
+		IntoActor: jmec
+	RenderSprites:
+		Image: jmec.destroyed
+
+JSAM:
+    Inherits: JTOW
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Avenger AA
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: eye, ~techlevel.high
+		Queue: LightVehicle.GDI
+		Description: Swift anti-air vehicle.\n  Can attack aircraft only
+		Icon: icon
+	Armament:
+		Weapon: AvengerRockets
+		LocalOffset: 250,100,150, 250,-100,150
+        Recoil: 0
+        -MuzzleSequence: muzzle
+		PauseOnCondition: !ammo || emp-crate-collected 
+	AmmoPool:
+		Ammo: 2
+	ReloadAmmoPoolCA:
+		Delay: 120
+		Count: 2
+	WithAmmoPipsDecoration:
+		PipCount: 2
+	Turreted:
+		Offset: -256,0,128
+	WithSpriteTurret:
+		Sequence: turret
+	SpawnActorOnDeath:
+		Actor: JSAM.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	RevealsShroud:
+		Range: 6c0 
+    RenderSprites:
+        Image: jsam
+	RenderRangeCircle:
+		RangeCircleType: aa
+
+JSAM.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Avenger AA (Destroyed)
+	TransformOnCapture:
+		IntoActor: jsam
+	RenderSprites:
+		Image: jsam.destroyed
+
+JCRG:
+	Inherits: ^Vehicle
+	Inherits@selection: ^SelectableSupportUnit
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	TransferTimedExternalConditionOnTransform:
+		Condition: invulnerability
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Mobile Outpost
+	Buildable:
+		BuildPaletteOrder: 7
+		Prerequisites: hq, fix, ~techlevel.medium
+		Queue: LightVehicle.GDI
+		Description: Deploys into a Outpost expanding buildable area.\n  Unarmed
+	Mobile:
+		Speed: 132
+		Locomotor: wheeled
+		PauseOnCondition: boarding || being-captured
+	Health:
+		HP: 40000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 4c0
+	Transforms:
+		IntoActor: gdsh
+		Offset: 0,0
+		Facing: 592
+		TransformSounds: constru2.aud, hvydoor1.aud
+		NoTransformNotification: BuildingCannotPlaceAudio
+	MustBeDestroyed:
+		RequiredForShortGame: true
+	BaseBuilding:
+	SpawnActorOnDeath:
+		Actor: JCRG.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-blue
+	Targetable@DRIVERKILL:
+		TargetTypes: DriverKillImmune
+		RequiresCondition: !driver-dead
+	-GrantConditionOnPrerequisite@BOMBARD:
+	-FirepowerMultiplier@BOMBARD:
+	-WithDecoration@BOMBARD:
+	-GrantConditionOnPrerequisite@SEEK:
+	-RangeMultiplier@SEEK:
+	-WithDecoration@SEEK:
+	Carryable:
+		-CarriedCondition:
+	GpsRadarDot:
+		Sequence: LightVehicle
+
+JCRG.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Mobile Outpost (Destroyed)
+	TransformOnCapture:
+		IntoActor: jcrg
+	RenderSprites:
+		Image: jcrg.destroyed
 
 APC:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@TRANSPORT: ^Transport
 	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	Inherits@DroneBoost: ^GDIAffectedByDrone
@@ -99,20 +477,99 @@ APC:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 3
+		BuildPaletteOrder: 2
 		Prerequisites: pyle, ~techlevel.low
 		Queue: Vehicle.GDI
-		Description: Armored infantry transport.\nCan attack Aircraft.\n  Strong vs Vehicles\n  Weak vs Infantry
+		Description: Armored infantry transport.\n  Strong vs Infantry\n  Weak vs Armor
 	Mobile:
 		TurnSpeed: 20
 		Speed: 132
 		PauseOnCondition: notmobile || emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 19000
+		HP: 20000
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 7c0
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 48
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 85,0,171
+		MuzzleSequence: muzzle
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	Cargo:
+		Types: Infantry
+		MaxWeight: 5
+		LoadingCondition: notmobile
+		LoadedCondition: loaded
+		PassengerConditions:
+			rmbo: commandoinside
+            rmb2: commandoinside
+            node7: commandoinside
+            nodgnrl: commandoinside
+	Sellable:
+		RequiresCondition: unit.sellable && !loaded
+	Explodes:
+		Weapon: UnitExplodeBig
+		EmptyWeapon: UnitExplodeBig
+	SpawnActorOnDeath:
+		Actor: APC.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Targetable@HIJACKED:
+		RequiresCondition: !loaded
+	Capturable@HIJACKED:
+		RequiresCondition: !loaded
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: commandoinside
+
+APC.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: APC (Destroyed)
+	TransformOnCapture:
+		IntoActor: apc
+	RenderSprites:
+		Image: apc.destroyed
+
+MAAG:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Mobile Anti-Air Gun
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: hq, ~techlevel.low
+		Queue: Vehicle.GDI
+		Description: Mobile Anti-Air Gun.\nCan attack Aircraft.\n  Strong vs Vehicles\n  Weak vs Infantry
+        Icon: maagicon
+	Mobile:
+		TurnSpeed: 20
+		Speed: 132
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 20000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
 	Turreted:
 		TurnSpeed: 48
 	AutoTargetPriority@Air:
@@ -149,25 +606,29 @@ APC:
 	WithSpriteTurret@AIR:
 		Sequence: turret-air
 		RequiresCondition: attack-air
-	Cargo:
-		Types: Infantry
-		MaxWeight: 5
-		LoadingCondition: notmobile
-		LoadedCondition: loaded
 	Sellable:
-		RequiresCondition: unit.sellable && !loaded
+		RequiresCondition: unit.sellable
 	Explodes:
 		Weapon: UnitExplodeBig
 		EmptyWeapon: UnitExplodeBig
 	SpawnActorOnDeath:
-		Actor: APC.Husk
+		Actor: MAAG.Husk
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
-	Targetable@HIJACKED:
-		RequiresCondition: !loaded
-	Capturable@HIJACKED:
-		RequiresCondition: !loaded
+    RenderSprites:
+        Image: apc
+	RenderRangeCircle:
+		RangeCircleType: aa
+
+MAAG.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mobile Anti-Air Gun (Destroyed)
+	TransformOnCapture:
+		IntoActor: maag
+	RenderSprites:
+		Image: maag.destroyed
 
 MTNK:
 	Inherits: ^Tank
@@ -195,7 +656,7 @@ MTNK:
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 20
 	Armament:
@@ -260,6 +721,17 @@ MTNK:
 		InitialLevels: 1
 		Prerequisites: tank.veterancy
 
+MTNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: MBT (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: mtnk
+	RenderSprites:
+		Image: mtnk.destroyed
+
 MTNK.Upgraded:
 	Inherits: MTNK
 	Buildable:
@@ -273,6 +745,28 @@ MTNK.Upgraded:
 	-MapEditorData:
 	-TransformOnCondition@CompositeArmor:
 	-GrantConditionOnPrerequisite@CompositeArmor:
+
+MTNKR1:
+	Inherits: MTNK
+	RenderSprites:
+		Image: MTNK
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: ~techlevel.low
+	UpdatesPlayerStatistics:
+		OverrideActor: mtnk
+	Parachutable:
+		FallRate: 26
+		ParachutingCondition: parachute
+	WithParachute:
+		Image: parach
+		Sequence: idle
+		OpeningSequence: open
+		ShadowImage: parach-shadow
+		ShadowSequence: idle
+		RequiresCondition: parachute
+	-Buildable:
+	-MapEditorData:
 
 HTNK:
 	Inherits: ^Tank
@@ -298,11 +792,11 @@ HTNK:
 		TurnSpeed: 12
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 87000
+		HP: 60000
 	Armor:
 		Type: Heavy
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	WithSpriteTurret:
 	Turreted:
 		TurnSpeed: 12
@@ -356,6 +850,19 @@ HTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
+	GpsRadarDot:
+		Sequence: HeavyVehicle
+
+HTNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mammoth Tank (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: htnk
+	RenderSprites:
+		Image: htnk.destroyed
 
 HTNK.Upgraded:
 	Inherits: HTNK
@@ -371,6 +878,76 @@ HTNK.Upgraded:
 	-GrantConditionOnPrerequisite@CompositeArmor:
 	-MapEditorData:
 
+PALA:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Paladin SPG
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Vehicle.GDI
+		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 12500
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: ArtilleryShell
+		LocalOffset: 624,0,208
+		MuzzleSequence: muzzle
+	Turreted:
+		TurnSpeed: 10
+	AttackTurreted:
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+		Sequence: turret
+	WithMuzzleOverlay:
+	AutoTarget:
+		InitialStanceAI: Defend
+	SpawnActorOnDeath:
+		Actor: PALA.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Explodes:
+		Weapon: ArtilleryShell
+		EmptyWeapon: UnitExplode
+		LoadedChance: 75
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+PALA.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Paladin SPG (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: pala
+	RenderSprites:
+		Image: pala.destroyed
+
 MSAM:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -385,90 +962,50 @@ MSAM:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 6
-		Prerequisites: hq, ~techlevel.medium
+		BuildPaletteOrder: 9
+		Prerequisites: eye, ~techlevel.high
 		Queue: Vehicle.GDI
-		Description: Rocket artillery.\nCan be toggled to fire\nin pairs or volleys.\n  Strong vs all Ground units.
+		Description: Rocket artillery firing in volleys.\n  Strong vs all Ground units.
 	Mobile:
 		Speed: 85
 		TurnSpeed: 16
 		PauseOnCondition:  aiming || emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 12000
+		HP: 12500
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 5c0
+		Range: 6c0
 	Turreted:
 		TurnSpeed: 512
 		Offset: -256,0,128
 	Armament@PRIMARY:
 		Weapon: 227mm
 		LocalOffset: 213,128,0, 213,-128,0
-		ReloadingCondition: notwhilereload
-		RequiresCondition: !deployed
-		PauseOnCondition: !primaryfire || emp-crate-collected
-	Armament@SECONDARY:
-		Name: secondary
-		Weapon: 227mm.2shot
-		LocalOffset: 213,-128,0, 213,128,0
-		ReloadingCondition: notwhilereload
-		RequiresCondition: deployed
-		PauseOnCondition: !aglinkaa || emp-crate-collected
-	Armament@TERTIARY:
-		Name: tertiary
-		Weapon: 227mm.2shot.AA
-		LocalOffset: 213,-128,0, 213,128,0
-		ReloadingCondition: notwhilereload
-		RequiresCondition: deployed && mobilesam-upgraded
-		PauseOnCondition: !aglinkaa || emp-crate-collected
-	AmmoPool@NORMAL:
-		Name: primaryfire
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: primary
 		Armaments: primary
 		Ammo: 6
-		AmmoCondition: primaryfire
-	ReloadAmmoPoolCA@NORMAL:
-		AmmoPool: primaryfire
+		AmmoCondition: ammo
+	ReloadAmmoPoolCA:
+		AmmoPool: primary
 		Delay: 120
 		Count: 6
 		SelectionBarColor: FFFF00
 		PauseOnCondition: emp-crate-collected
-	WithAmmoPipsDecoration@NORMAL:
+	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
 		PipCount: 3
 		FullSequence: pip-green
 		RequiresSelection: true
-		AmmoPools: primaryfire
-		RequiresCondition: !deployed
-	AmmoPool@WEAPONLINK:
-		Name: weaponlink
-		Armaments: secondary, tertiary
-		Ammo: 2
-		AmmoCondition: aglinkaa
-	ReloadAmmoPoolCA@WEAPONLINK:
-		AmmoPool: weaponlink
-		Delay: 45
-		Count: 2
-		SelectionBarColor: FFFF00
-		PauseOnCondition: emp-crate-collected
-	WithAmmoPipsDecoration@WEAPONLINK:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 1
-		FullSequence: pip-green
-		RequiresSelection: true
-		AmmoPools: weaponlink
-		RequiresCondition: deployed
+		AmmoPools: primary
 	AttackFrontal:
-		Armaments: primary, secondary, tertiary
+		Armaments: primary
 		TargetFrozenActors: True
 		ForceFireIgnoresActors: True
 		PauseOnCondition: emp-crate-collected
-	GrantConditionOnDeploy:
-		DeployedCondition: deployed
-		SkipMakeAnimation: true
-		RequiresCondition: !notwhilereload
 	WithSpriteTurret:
 	Explodes:
 		Weapon: UnitExplodeMech
@@ -478,32 +1015,29 @@ MSAM:
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
-	WithTurretAimAnimation@PRIMARY:
-		Armament: primary
-		Sequence: aim
-		RequiresCondition: aiming
-	WithTurretAimAnimation@SECONDARY:
-		Armament: secondary
-		Sequence: aim
-		RequiresCondition: aiming
-	WithTurretAimAnimation@TERTIARY:
-		Armament: tertiary
-		Sequence: aim
-		RequiresCondition: aiming	
-	#	disappears whenever reloading
-	#	RenderRangeCircle:
-	#	FallbackRange: 11c0
-	WithRangeCircle:
+    WithRangeCircle:
 		Range: 11c0
 		Color: FFFF0080
-	GrantConditionOnPrerequisite@MobileSAM:
-		Condition: mobilesam-upgraded
-		Prerequisites: mobilesam.upgrade
-	GrantConditionOnAttack:
-		ArmamentNames: primary, secondary, tertiary
-		Condition: aiming
+	WithTurretAimAnimation:
+		Armament: primary
+		Sequence: aim
+    	RequiresCondition: aiming
+    GrantConditionOnAttack:
+		ArmamentNames: primary
+    	Condition: aiming
 		RevokeDelay: 50
-		RevokeAll: false
+    	RevokeAll: false
+
+MSAM.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: MLRS (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: msam
+	RenderSprites:
+		Image: msam.destroyed
 
 MHQ:
 	Inherits: ^Vehicle
@@ -523,7 +1057,7 @@ MHQ:
 		Speed: 85
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	RevealsShroud:
-		Range: 6c0
+		Range: 8c0
 	WithIdleOverlay@SPINNER:
 		Sequence: spinner
 		Offset: -256,0,256
@@ -550,259 +1084,21 @@ MHQ:
 	WithSpriteTurret:
 	WithMuzzleOverlay:
 
+MHQ.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Mobile HQ (Destroyed)
+	TransformOnCapture:
+		IntoActor: mhq
+	RenderSprites:
+		Image: mhq.destroyed
+
 #	todo: boost reload rate by
 #	parking on service depot
 #   friggin OP, needs total rework
-ICBM:
-	Inherits: ^Vehicle
-	Inherits@AUTOTARGET: ^AutoTargetGround
-	Inherits@EMP: ^AcceptsEMPCrate
-	Inherits@Speed: ^AcceptsSpeedCrate
-	-Explodes:
-	Buildable:
-		BuildPaletteOrder: 16
-		BuildLimit: 1
-		#	Prerequisites: upgc, ~techlevel.unrestricted
-		Prerequisites: ~disabled
-		Queue: Dropzone
-		Description: Nuclear rocket artillery.\nExplodes violently on death.\n  Maximum one can be built.\n  Strong vs Everything over distance\n  Weak vs attacks at close range\n  Requires an large minimum firing distance
-	Valued:
-		Cost: 2500
-	Tooltip:
-		Name: ICBM Launcher
-	Health:
-		HP: 20000
-	Armor:
-		Type: Medium
-	Mobile:
-		Speed: 52
-		TurnSpeed: 9
-		PauseOnCondition: emp-crate-collected || boarding || being-captured
-	RevealsShroud:
-		Range: 5c0
-	Armament:
-		Name: primary
-		Weapon: ICBM
-		ReloadingCondition: reloading
-		PauseOnCondition: !ammo || emp-crate-collected
-	AutoTarget:
-		InitialStance: HoldFire
-		InitialStanceAI: HoldFire
-		ScanRadius: 15
-	AttackFrontal:
-		PauseOnCondition: emp-crate-collected
-	WithFacingSpriteBody:
-		RequiresCondition: !reloading
-		Name: loaded
-	WithFacingSpriteBody@EMPTY:
-		RequiresCondition: reloading
-		Sequence: empty-idle
-		Name: reloading
-	Explodes:
-		Weapon: MiniNuke
-		EmptyWeapon: UnitExplode
-	RenderRangeCircle:
-	RevealOnFire:
-		ArmamentNames: primary
-	AmmoPool:
-		Name: primary
-		Ammo: 1
-		#	ReloadDelay: 2250
-		AmmoCondition: ammo
-	#	precisely affects only ReloadDelay:
-	#	from above, not doing anything for
-	#	ReloadAmmoPool
-	#	ReloadAmmoDelayMultiplier:
-	#	Modifier: 70
-	#	RequiresCondition: unit.docked
-	WithAmmoPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 1
-		FullSequence: pip-green
-		RequiresSelection: true
-	Rearmable:
-		RearmActors: fix
-		AmmoPools: none
-	ReloadAmmoPoolCA:
-		Delay: 2250
-		Count: 1
-		SelectionBarColor: FFFF00
-		PauseOnCondition: emp-crate-collected
-	AnnounceOnSeen:
-		Notification: NuclearWeaponLaunched
-		PingRadar: True
-	RevealOnDeath:
-		Duration: 100
-		Radius: 2c512
-	Passenger:
-		CustomPipType: pip-red
-	Carryable:
-		-CarriedCondition: oncarryall
 
 #   man, this one is lame. needs cool
 #	todo: reimplement vision boost
-MSAR:
-	Inherits: ^Vehicle
-	Inherits@crates1: ^AcceptsSpeedCrate
-	Inherits@crates2: ^AcceptsCloakCrate
-	Inherits@crates3: ^AcceptsInvulnerabilityCrate
-	Inherits@crates4: ^AcceptsEMPCrate
-	Inherits@crates5: ^AcceptsDeathCrate
-	Valued:
-		Cost: 1800
-	Tooltip:
-		Name: Mobile Sensor Array
-		RequiresCondition: !deployed
-	Tooltip@DEPLOYED:
-		Name: Mobile Sensor Array (deployed)
-		RequiresCondition: deployed
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 16
-		Prerequisites: ~disabled
-		Queue: Dropzone
-		Description: When deployed, provides Vision and Detects Stealth units.\n  Unarmed
-	Health:
-		HP: 22000
-	Armor:
-		Type: Heavy
-	Mobile:
-		Speed: 68
-		PauseOnCondition: emp-crate-collected || boarding || being-captured
-		RequireForceMoveCondition: !undeployed
-	RevealsShroud@Normal:
-		Range: 6c0
-		RequiresCondition: !deployed
-	RevealsShroud@Deployed:
-		Range: 12c0
-		RequiresCondition: deployed	
-	RenderSprites:
-		Image: msar
-	Repairable:
-		RequireForceMoveCondition: !undeployed
-	Passenger:
-		RequireForceMoveCondition: !undeployed
-	Carryable:
-		LocalOffset: 0,0,150
-	GrantCondition@PREVIEWWORKAROUND:
-		Condition: real-actor
-	WithMakeAnimation:
-		BodyNames: deployedbody
-	WithSpriteBody@deployed:
-		Sequence: idle-static
-		RequiresCondition: !undeployed && real-actor
-		Name: deployedbody
-	WithFacingSpriteBody:
-		RequiresCondition: !deployed
-	GrantConditionOnDeploy:
-		PauseOnCondition: emp-crate-collected
-		DeployedCondition: deployed
-		UndeployedCondition: undeployed
-		Facing: 660
-		AllowedTerrainTypes: Clear, Road, Rough
-		DeploySounds: placbldg.aud
-		UndeploySounds: clicky1.aud
-		UndeployOnMove: true
-		UndeployOnPickup: true
-	DetectCloaked@Deployed:
-		Range: 12c0
-		CloakTypes: GroundStealth, Stealth, AirStealth
-		RequiresCondition: deployed && !emp-crate-collected && !lowpower
-	RenderDetectionCircle:
-	#	WithDetectionCircle:
-	#	Range: 12c0
-	#	RequiresCondition: deployed && !emp-crate-collected
-	#	TrailCount: 3
-	Selectable:
-		DecorationBounds: 30,30
-	Power:
-		Amount: -25
-		RequiresCondition: deployed
-	GrantConditionOnPowerState@LOWPOWER:
-		Condition: lowpower
-		ValidPowerStates: Low, Critical
-
-#	placeholder graphics
-#	will be strengthened
-#	todo: get ze graphics
-PBAT:
-	Inherits: ^Tank
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetAir
-	Valued:
-		Cost: 1500
-	Tooltip:
-		Name: Mobile S.A.M.
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 16
-		Prerequisites: ~disabled
-		Queue: Dropzone
-		Description: Powerful anti-air unit.\nCannot attack Ground units.
-		Icon: nodmsamicon
-	Mobile:
-		Speed: 99
-		TurnSpeed: 28
-		PauseOnCondition: emp-crate-collected || boarding || being-captured
-	Health:
-		HP: 18000
-	Armor:
-		Type: Light
-	RevealsShroud:
-		Range: 8c0
-	Turreted:
-		TurnSpeed: 32
-		Offset: -128,0,128
-		RealignDelay: 0
-	Armament:
-		Weapon: Patriot
-		LocalOffset: 0,-171,0, 0,171,0
-		PauseOnCondition: !ammo || emp-crate-collected
-	AmmoPool:
-		Ammo: 2
-		AmmoCondition: ammo
-	WithAmmoPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 2
-		FullSequence: pip-green
-		RequiresSelection: true
-		AmmoPools: primary
-	AttackFrontal:
-		PauseOnCondition: emp-crate-collected
-	WithSpriteTurret:
-		RequiresCondition: ammo > 1
-	WithSpriteTurret@OneMissile:
-		RequiresCondition: ammo == 1
-		Sequence: turret1
-	WithSpriteTurret@NoMissiles:
-		RequiresCondition: !ammo
-		Sequence: turret0
-	AutoTarget:
-		InitialStanceAI: Defend
-	WithRangeCircle:
-		Range: 11c0
-		Color: FFFF0080
-	SpawnActorOnDeath:
-		Actor: PBAT.Husk
-		OwnerType: InternalName
-		EffectiveOwnerFromOwner: true
-		Probability: 33
-	ReloadAmmoPoolCA:
-		Delay: 150
-		Count: 1
-		SelectionBarColor: FFFF00
-		PauseOnCondition: emp-crate-collected
-	Passenger:
-		CustomPipType: pip-red
-	RenderSprites:
-		Image: mlrs
-	ProvidesPrerequisite@LIMITING:
-		Prerequisite: has.pbat
 
 AAV:
 	Inherits: ^Tank
@@ -833,7 +1129,7 @@ AAV:
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 7c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 20
 		Offset: 90,90,90
@@ -880,65 +1176,11 @@ AAV:
 	Capturable@HIJACKED:
 		RequiresCondition: !loaded
 
-DISR:
-	Inherits: ^Tank
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	Valued:
-		Cost: 1350
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
+AAV.Husk:
+	Inherits: ^Husk
 	Tooltip:
-		Name: Disruptor
-	Buildable:
-		Queue: Vehicle
-		BuildPaletteOrder: 16
-		Prerequisites: ~disabled
-		Description: High-tech weapons platform with Sonic armament.\n  Strong vs clustered Ground Units\n  Weak vs Aircraft, Artillery
-	Health:
-		HP: 35000
-	Armor:
-		Type: Heavy
-	SelectionDecorations:
-	Selectable:
-		DecorationBounds: 34,34,0,-3
-	Mobile:
-		Locomotor: heavytracked
-		TurnSpeed: 12
-		Speed: 56
-        PauseOnCondition: emp-crate-collected || boarding || being-captured
-	RevealsShroud:
-		Range: 6c0
-	Armament:
-		Weapon: SonicZap
-		FireDelay: 0
-		LocalOffset: -120,0,150
-		PauseOnCondition: emp-crate-collected
-	Armament@SECONDARY:
-		Weapon: SonicZapVisual
-		Name: secondary
-		FireDelay: 0
-		LocalOffset: -120,0,150
-		PauseOnCondition: emp-crate-collected
-	Turreted:
-		TurnSpeed: 12
-		Offset: -256,0,0
-	AttackTurreted:
-		PauseOnCondition: emp-crate-collected
-		OpportunityFire: False
-	WithSpriteTurret:
-	Targetable:
-		TargetTypes: Ground, Vehicle, Disruptor
-	Explodes:
-		Weapon: UnitExplodeBig
-		EmptyWeapon: UnitExplodeBig
-	SpawnActorOnDeath:
-		Actor: DISR.Husk
-		OwnerType: InternalName
-		EffectiveOwnerFromOwner: true
-		Probability: 33
-	ProvidesPrerequisite@LIMITING:
-		Prerequisite: has.disr
+		Name: AAV (Destroyed)
+	TransformOnCapture:
+		IntoActor: aav
+	RenderSprites:
+		Image: aav.destroyed

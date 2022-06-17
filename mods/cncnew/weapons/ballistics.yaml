@@ -46,7 +46,7 @@
 			Medium: 80
 			Heavy: 70
 
-100mmDual:
+105mmDual:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 70
 	Burst: 2
@@ -68,7 +68,7 @@
 
 TurretGun:
 	Inherits: ^BallisticWeapon
-	ReloadDelay: 20
+	ReloadDelay: 30
 	Range: 6c768
 	Projectile: Bullet
 		Speed: 853
@@ -96,14 +96,14 @@ ArtilleryShell:
 		ContrailLength: 30
 	Warhead@1Dam: SpreadDamage
 		Spread: 341
-		Damage: 10000
+		Damage: 12500
 		Versus:
 			None: 150
 			Kevlar: 150
 			Flak: 140
 			Wood: 120
-			Light: 112
-			Medium: 94
+			Light: 115
+			Medium: 90
 			Heavy: 75
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@3Eff: CreateEffect
@@ -116,7 +116,7 @@ ArtilleryShell:
 Grenade:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 50
-	Range: 4c0
+	Range: 3c256
 	Report: toss1.aud
 	Projectile: Bullet
 		Speed: 140
@@ -154,7 +154,7 @@ Grenade.Bouncy:
 
 GrenadeLauncher:
     Inherits: Grenade
-    Range: 5c0
+    Range: 4c512
     Report: grenlaun.aud
 
 AAVGun:
@@ -312,3 +312,36 @@ ToxicMortarShell:
 		Condition: hitbychem
 		ValidTargets: Infantry
 		InvalidTargets: Chem, HasPoison, PoisonImmune
+
+DepthCharge:
+	ReloadDelay: 60
+	Burst: 2
+	Range: 0c826
+	ValidTargets: Underwater
+	Projectile: Bullet
+		Speed: 150
+		Image: BOMB
+        Blockable: false
+        LaunchAngle: 62
+		Inaccuracy: 64
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 3000
+		ValidTargets: Submarine
+		Versus:
+            None: 100
+            Kevlar: 100
+            Flak: 100
+            Wood: 50
+			Light: 100
+            Medium: 200
+            Heavy: 300
+		DamageTypes: ExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: small_frag
+		ImpactSounds: xplos.aud
+		ValidTargets: Submarine
+	Warhead@4EffWater: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: h2obomb2.aud
+		ValidTargets: Water, Underwater

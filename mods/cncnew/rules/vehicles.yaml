@@ -21,7 +21,7 @@ MCV:
 		Locomotor: heavywheeled
 		PauseOnCondition: boarding || being-captured
 	Health:
-		HP: 210000
+		HP: 225000
 	Armor:
 		Type: Heavy
 	RevealsShroud:
@@ -57,6 +57,17 @@ MCV:
 	-WithDecoration@SEEK:
 	Carryable:
 		-CarriedCondition:
+	GpsRadarDot:
+		Sequence: Constructor
+
+MCV.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: MCV (Destroyed)
+	TransformOnCapture:
+		IntoActor: mcv
+	RenderSprites:
+		Image: mcv.destroyed
 
 HARV:
 	Inherits: ^Tank
@@ -77,7 +88,7 @@ HARV:
 	Selectable:
 		DecorationBounds: 36,36
 	Harvester:
-		Resources: Tiberium, BlueTiberium
+		Resources: Tiberium, BlueTiberium, RedTiberium
 		Capacity: 20
 		BaleLoadDelay: 12
 		BaleUnloadDelay: 6
@@ -162,6 +173,17 @@ HARV:
 		Range: 6c826
 		ValidRelationships: Ally
 		RequiresCondition: animateref && !emp-crate-collected && !docked
+	GpsRadarDot:
+		Sequence: Harvester
+
+HARV.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Harvester (Destroyed)
+	TransformOnCapture:
+		IntoActor: harv
+	RenderSprites:
+		Image: harv.destroyed
 
 TRUK:
 	Inherits: ^Vehicle
@@ -203,3 +225,12 @@ TRUK:
 	-WithDecoration@SEEK:
 	Carryable:
 		-CarriedCondition:
+
+TRUK.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Supply Truck (Destroyed)
+	TransformOnCapture:
+		IntoActor: truk
+	RenderSprites:
+		Image: truk.destroyed

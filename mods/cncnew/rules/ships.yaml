@@ -1,7 +1,11 @@
+
 BOAT:
 	Inherits: ^Ship
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAll
+    -WithFacingSpriteBody:
+    -Mobile:
+    -MustBeDestroyed:
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -36,18 +40,31 @@ BOAT:
 	AutoTarget:
 		AllowMovement: false
 	RejectsOrders:
-	GrantConditionOnDamageState@HEAVY:
-		Condition: heavy-damage
-		ValidDamageStates: Heavy
-	GrantConditionOnDamageState@CRITICAL:
-		Condition: critical-damage
-		ValidDamageStates: Critical
-	SpeedMultiplier@HEAVYDAMAGE:
-		RequiresCondition: heavy-damage
-		Modifier: 75
-	SpeedMultiplier@CRITICALDAMAGE:
-		RequiresCondition: critical-damage
-		Modifier: 50
+
+MINS:
+	Inherits: ^Mine
+	Tooltip:
+		Name: Sea Mine
+	Health:
+		HP: 5000
+		NotifyAppliedDamage: false
+	Cloak:
+		CloakTypes: Underwater
+		InitialDelay: 0
+		CloakDelay: 75
+		CloakSound: subshow1.aud
+		UncloakSound: subshow1.aud
+		Palette: submerged
+		IsPlayerPalette: false
+	RenderSprites:
+		Image: mins
+	Targetable:
+		TargetTypes: Underwater
+	Explodes:
+		Weapon: ASMine
+	GrantExternalConditionToCrusher:
+		OnCrushCondition: minehit
+		OnCrushDuration: 50
 
 LST:
 	Inherits: ^Ship
@@ -58,14 +75,14 @@ LST:
 		Name: Landing Craft
 	Buildable:
 		Queue: Ships.GDI, Ships.Nod
-		Prerequisites: syrd, ~techlevel.low
-		BuildPaletteOrder: 1
+		Prerequisites: ~techlevel.low
+		BuildPaletteOrder: 7
 		Description: Transports ground units across most terrain.\n Slower on land.\n  Unarmed
 	Mobile:
 		Locomotor: hovercraft
 		InitialFacing: 0
 		TurnSpeed: 16
-		Speed: 142
+		Speed: 100
 		PauseOnCondition: notmobile
 	Health:
 		HP: 40000
@@ -75,7 +92,6 @@ LST:
 		Range: 7c0
 	-BodyOrientation:
 	ClassicFacingBodyOrientation:
-	WithFacingSpriteBody:
 	Selectable:
 		Bounds: 48,48
 	WithRoof:
@@ -88,24 +104,18 @@ LST:
 		PassengerFacing: 0
 		LoadingCondition: notmobile
 		LoadedCondition: loaded
-	RepairableNear:
-		RepairActors: syrd
 	Sellable:
-		SellSounds: cashturn.aud
-		Cursor: sell2
-		ShowTicks: false
 		RequiresCondition: ship.sellable && !loaded
-	ExternalCondition@Sellable:
-		Condition: ship.sellable
 
 GB:
 	Inherits: ^Ship
+	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Valued:
 		Cost: 750
 	Buildable:
 		Queue: Ships.GDI, Ships.Nod
-		Prerequisites: syrd, proc, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low, ~global-disablenavy
 		BuildPaletteOrder: 2
 		Description: Multi-role fire-support ship.\n  Strong vs Defenses, Tanks\n  Weak vs Aircraft
 	Tooltip:
@@ -115,7 +125,6 @@ GB:
 	Armor:
 		Type: Heavy
 	Mobile:
-		Locomotor: naval
 		TurnSpeed: 8
 		Speed: 56
 	RevealsShroud:
@@ -132,19 +141,6 @@ GB:
 	RenderRangeCircle:
 	Selectable:
 		DecorationBounds: 65,55
-	WithFacingSpriteBody:
-	GrantConditionOnDamageState@HEAVY:
-		Condition: heavy-damage
-		ValidDamageStates: Heavy
-	GrantConditionOnDamageState@CRITICAL:
-		Condition: critical-damage
-		ValidDamageStates: Critical
-	SpeedMultiplier@HEAVYDAMAGE:
-		RequiresCondition: heavy-damage
-		Modifier: 75
-	SpeedMultiplier@CRITICALDAMAGE:
-		RequiresCondition: critical-damage
-		Modifier: 50
 	CaptureManager:
 	Captures:
 		CaptureTypes: naval
@@ -155,12 +151,608 @@ GB:
 		Image: gb
 		FactionImages:
 			nod: gbdark
-	RepairableNear:
-		RepairActors: syrd
-	Sellable:
-		SellSounds: cashturn.aud
-		Cursor: sell2
-		ShowTicks: false
-		RequiresCondition: ship.sellable
-	ExternalCondition@Sellable:
-		Condition: ship.sellable
+
+#   GDI Navy
+
+PTTD:
+	Inherits: ^Ship
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Selectable:
+		Bounds: 32,32
+	Buildable:
+		Queue: Ships.GDI
+		BuildPaletteOrder: 1
+		Prerequisites: proc, ~techlevel.low, ~!global-disablenavy
+		Description: Fast General-Purpose Ship.\nCan detect and attack submarines.\nCan attack aircraft.\n  Strong vs Submarines, Aircraft\n  Weak vs Ground Targets
+        BuildDuration: 500
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Gunboat
+	Health:
+		HP: 32000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 16
+		Speed: 82
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		Turret: primary
+		TurnSpeed: 24
+		Offset: 600,0,128
+	Armament@PRIMARY:
+		Weapon: BoatMissile
+		Recoil: 0
+		RecoilRecovery: 0
+		LocalOffset: 85,-85,64, 85,85,64
+		LocalYaw: 64, -64
+        Turret: primary
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: ASROC
+		Recoil: 0
+		RecoilRecovery: 0
+        LocalOffset: 0,0,64
+        Turret: primary
+	RenderRangeCircle:
+	AttackTurreted:
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	DetectCloaked:
+		CloakTypes: Underwater
+		Range: 3c768
+	RenderDetectionCircle:
+	HitShape:
+		TargetableOffsets: 341,0,0, -341,0,0
+		Type: Capsule
+			Radius: 288
+			PointA: 0, -341
+			PointB: 0, 341
+
+DDTD:
+	Inherits: ^Ship
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		Bounds: 38,38
+	Buildable:
+		Queue: Ships.GDI
+		BuildPaletteOrder: 2
+		Prerequisites: hq, ~techlevel.medium, ~!global-disablenavy
+		Description: Rocket artillery ship.\n  Strong vs Slow Targets, Buildings\n  Weak vs Aircraft, Ships
+        BuildDuration: 1000
+	Valued:
+		Cost: 1600
+	Tooltip:
+		Name: Missile Cruiser
+	Health:
+		HP: 43000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 16
+		Speed: 52
+        PauseOnCondition: aiming
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		Turret: primary
+		TurnSpeed: 24
+		Offset: 416,0,128
+	Armament@PRIMARY:
+        Turret: primary
+        Name: primary
+		Weapon: GuidedMissile
+		LocalOffset: 0,-100,0, 0,100,0
+        LocalYaw: 64, -64
+        PauseOnCondition: !ammo
+	Armament@SECONDARY:
+        Turret: primary
+		Name: secondary
+		Weapon: GuidedMissile
+		LocalOffset: -520,100,0, -520,-100,0
+        LocalYaw: 64, -64
+        PauseOnCondition: !ammo
+
+	#   Armament@PRIMARY:
+	#	Turret: primary
+	#	Weapon: GuidedMissile
+	#	LocalOffset: 0,-100,0, 0,100,0, -520,-100,0, -520,100,0
+	#	LocalYaw: 64, -64
+	AmmoPool:
+		Name: primary
+		Armaments: primary, secondary
+		Ammo: 4
+		AmmoCondition: ammo
+	ReloadAmmoPoolCA:
+		AmmoPool: primary
+        ReloadWhenAmmoReaches: 0
+		Delay: 120
+		Count: 4
+		SelectionBarColor: FFFF00
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 4
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: primary
+	AttackTurreted:
+        Armaments: primary, secondary
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+    WithRangeCircle:
+		Range: 15c0
+		Color: FFFF0080
+    GrantConditionOnAttack:
+		ArmamentNames: primary, secondary
+    	Condition: aiming
+		RevokeDelay: 50
+    	RevokeAll: false
+    WithMuzzleOverlay:
+	HitShape:
+		TargetableOffsets: 448,0,0, -448,0,0
+		Type: Capsule
+			Radius: 320
+			PointA: 0, -448
+			PointB: 0, 448
+
+CATD:
+	Inherits: ^Ship
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		Bounds: 38,38
+	Buildable:
+		Queue: Ships.GDI
+		BuildPaletteOrder: 3
+		Prerequisites: tech, ~techlevel.high, ~!global-disablenavy
+		Description: Heavy ship armed with a railgun.\nCan defend against Aircraft.\n  Strong vs all Ground Targets\n  Weak vs Aircraft, Submarines
+        BuildDuration: 1500
+	Valued:
+		Cost: 2400
+	Tooltip:
+		Name: Railgun Frigate
+	Health:
+		HP: 54000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 9
+		Speed: 28
+	RevealsShroud:
+		Range: 6c0
+	Turreted@1:
+        Turret: primary
+		TurnSpeed: 8
+		Offset: 1024,0,196
+    Turreted@2:
+		Turret: secondary
+		TurnSpeed: 12
+		Offset: -1236,0,64
+	Armament@PRIMARY:
+    	Turret: primary
+		Weapon: Railgun
+		Recoil: 128
+		RecoilRecovery: 26
+		LocalOffset: 720,0,90
+		MuzzleSequence: muzzle
+	Armament@SECONDARYAG:
+		Turret: secondary
+		Name: secondary
+		Weapon: ShipGattling
+		LocalOffset: 321,0,85
+		MuzzleSequence: muzzle-mg
+		PauseOnCondition: reload-air
+		ReloadingCondition: reload-ground
+    Armament@SECONDARYAA:
+		Turret: secondary
+		Name: tertiary
+		Weapon: ShipGattling.AA
+		LocalOffset: 321,0,85
+		MuzzleSequence: muzzle-mg
+		PauseOnCondition: reload-ground
+		ReloadingCondition: reload-air
+	AttackTurreted:
+		Turrets: primary, secondary
+        Armaments: primary, secondary, tertiary
+	WithSpriteTurret@RAILGUN:
+		Turret: primary
+		Sequence: turret
+	WithSpriteTurret@CHAINGUN:
+		Turret: secondary
+		Sequence: turret-vulcan
+	WithMuzzleOverlay:
+	DetectCloaked:
+		CloakTypes: Underwater
+		Range: 3c768
+	RenderDetectionCircle:
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+	HitShape:
+		TargetableOffsets: 576,0,0, -576,0,0
+		Type: Capsule
+			Radius: 341
+			PointA: 0, -576
+			PointB: 0, 576
+	Targetable:
+		TargetTypes: Ground, Water, Ship, RailgunUser
+
+#   Nod Navy
+
+SB:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Selectable:
+		DecorationBounds: 36,36
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 1
+		Prerequisites: ~proc, ~techlevel.low, ~!global-disablenavy
+		Description: Fast scout boat, armed with rockets.\n Can attack Aircraft.\n Detects Submarines nearby.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Recon Boat
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 12000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 28
+		Speed: 100
+	RevealsShroud:
+		Range: 8c0
+	Armament@PRIMARY:
+		Weapon: BikeRockets
+		LocalOffset: -128, -170, 170, -128, 170, 170
+		LocalYaw: 100, -100
+	AttackFrontal:
+	WithMuzzleOverlay:
+	DetectCloaked:
+		Range: 3c768
+		CloakTypes: Underwater
+	RenderDetectionCircle:
+
+#   maybe rework to have another weapon
+#   Gattling makes sense for it tho
+SCRB:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 36,36
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 2
+		Prerequisites: hq, ~techlevel.medium, ~!global-disablenavy
+		Description: Ship with mounted Gattling gun.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Helicopters\n  Weak vs Tanks, Defenses
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Scarab
+	Health:
+		HP: 20000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 28
+		Speed: 82
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 20
+		Offset: 1,0,96
+	Armament@PRIMARY:
+		Name: primary
+		Weapon: Chaingun
+		LocalOffset: 321,0,85
+		MuzzleSequence: muzzle
+		PauseOnCondition: reload-air
+		ReloadingCondition: reload-ground
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: Chaingun.AA
+		LocalOffset: 220,0,350
+		MuzzleSequence: muzzle-air
+		PauseOnCondition: reload-ground
+		ReloadingCondition: reload-air
+	WithMuzzleOverlay:
+	AttackTurreted:
+		Armaments: primary, secondary
+	WithSpriteTurret:
+		RequiresCondition: !attack-air
+	WithSpriteTurret@AIR:
+		Sequence: turret-air
+		RequiresCondition: attack-air
+	GrantConditionOnAttack:
+		ArmamentNames: secondary
+		Condition: attack-air
+		RevokeDelay: 18
+		RevokeOnNewTarget: False
+		RevokeAll: True
+	RenderRangeCircle:
+		RangeCircleType: aa
+	AppearsOnRadar:
+		ValidRelationships: Ally
+
+LSRS:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 38,38
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 3
+		Prerequisites: tmpl, ~techlevel.high, ~!global-disablenavy
+		Description: Anti-Ground ship armed with a Laser.\nDoesnt appear on enemy Radar.\n Strong vs Slow Targets, Buildings\n  Weak vs Aircraft, Submarines
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Laser Frigate
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 35000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 16
+		Speed: 52
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 14
+		Offset: 460,0,-40
+	Armament@PRIMARY:
+		Weapon: TurretLaser
+		LocalOffset: 412,0,262
+	AttackTurreted:
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+	HitShape:
+		TargetableOffsets: 448,0,0, -448,0,0
+		Type: Capsule
+			Radius: 320
+			PointA: 0, -448
+			PointB: 0, 448
+	RenderRangeCircle:
+	AppearsOnRadar:
+		ValidRelationships: Ally
+
+CATA:
+	Inherits: ^Ship
+	Selectable:
+		Bounds: 32,32
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 4
+		Prerequisites: fix, ~techlevel.medium, ~!global-disablenavy
+		Description: Support ship with a Gattling gun.\nCarries and lays one Sea Mine.\nSea Mines can be restocked near a Naval Yard.\n  Strong vs Infantry, Helicopters\n  Weak vs Tanks, Defenses
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Catamaran
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 20000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 16
+		Speed: 68
+	RevealsShroud:
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 20
+		Offset: -128,0,326
+	Armament@PRIMARY:
+		Name: primary
+		Weapon: Chaingun
+		LocalOffset: 321,0,85
+		MuzzleSequence: muzzle
+		PauseOnCondition: reload-air
+		ReloadingCondition: reload-ground
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: Chaingun.AA
+		LocalOffset: 220,0,350
+		MuzzleSequence: muzzle-air
+		PauseOnCondition: reload-ground
+		ReloadingCondition: reload-air
+	WithMuzzleOverlay:
+	AttackTurreted:
+		Armaments: primary, secondary
+	WithSpriteTurret:
+		RequiresCondition: !attack-air
+	WithSpriteTurret@AIR:
+		Sequence: turret-air
+		RequiresCondition: attack-air
+	GrantConditionOnAttack:
+		ArmamentNames: secondary
+		Condition: attack-air
+		RevokeDelay: 18
+		RevokeOnNewTarget: False
+		RevokeAll: True
+	RenderRangeCircle:
+		RangeCircleType: aa
+	Minelayer:
+		Mine: MINS
+	Rearmable:
+		RearmActors:
+	MineImmune:
+	AmmoPool:
+		Armaments:
+		Ammo: 1
+		RearmSound: minelay1.aud
+	ReloadAmmoPoolCA:
+		AmmoPool: primary
+        ReloadWhenAmmoReaches: 0
+		Delay: 150
+		Count: 1
+        Sound: minelay1.aud
+		SelectionBarColor: FFFF00
+		RequiresCondition: replenishsmine
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-yellow
+		RequiresSelection: true
+		AmmoPools: ammo
+	WithDecoration@MINEREPLENISH:
+		RequiresSelection: true
+		Image: pips
+		Sequence: tag-reload
+		Palette: effect
+		Position: Top
+		ValidRelationships: Ally
+		RequiresCondition: replenishsmine
+	ExternalCondition@MINEREPLENISH:
+		Condition: replenishsmine
+
+#   attempting: toggled to work around issue with Torps
+ASUB:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 38,38
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 5
+		Prerequisites: hq, ~techlevel.medium, ~!global-disablenavy
+		Description: Submerged unit armed with Torpedoes at default\nand anti-ground Missile when deployed to surface.\n\nCan detect other submarines.\n  Strong vs Infantry, Naval units\n  Weak vs Ground units, Aircraft\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 775
+	Tooltip:
+		Name: Attack Submarine
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 25000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 16
+		Speed: 52
+	Turreted@SECONDARY:
+        Turret: primary
+		Offset: -178,0,-50
+	Armament@PRIMARY:
+        Name: primary
+        Turret:
+		Weapon: TorpTube
+		LocalOffset: 0,-171,0, 0,171,0
+		FireDelay: 2
+	Armament@SECONDARY:
+		Name: secondary
+        Turret: primary
+		Weapon: SubMissile
+		LocalOffset: 0,0,124
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo 
+	AttackFrontal@1:
+		Armaments: primary
+        RequiresCondition: !deployed
+    AttackTurreted@2:
+        Armaments: secondary
+        RequiresCondition: deployed
+	WithMuzzleOverlay:
+	AmmoPool:
+        Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+	ReloadAmmoPoolCA:
+        AmmoPool: ammo
+		Delay: 120
+		Count: 1
+        SelectionBarColor: FFFF00
+		PauseOnCondition: ammo
+	HitShape:
+		TargetableOffsets: 448,0,0, -448,0,0
+		Type: Capsule
+			Radius: 256
+			PointA: 0, -448
+			PointB: 0, 448
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+		ScanRadius: 15
+    WithRangeCircle:
+		Range: 15c0
+		Color: FFFF0080
+
+#   maybe rework to be AmmoBased
+#   the weapon then to fire in 2
+BSUB:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 44,44	
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 6
+		Prerequisites: tmpl, nodbio, ~techlevel.high, ~!global-disablenavy
+		Description: Submersible siege unit armed with\nanti-ground missile battery.\n  Strong vs Ships, Buildings\n  Weak vs attacks at close range.\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 2400
+	Tooltip:
+		Name: Ballistic Submarine
+	Health:
+		HP: 85000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 9
+		Speed: 45
+	Turreted:
+		TurnSpeed: 255
+		Offset: 525,0,80
+	Armament@PRIMARY:
+		Weapon: SubMissile.barrage
+		LocalOffset: 0,-151,0, 0,0,0, 0,151,0, -151,151,0, -151,0,0, -151,-151,0
+		FireDelay: 2
+	Armament@RELOAD:
+		Name: secondary
+		Weapon: SubMissile.barrage.display
+		LocalOffset: 0,0,0
+		FireDelay: 2
+	AttackTurreted:
+		Armaments: primary, secondary
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: secondary
+		Color: FFFF00
+	HitShape:
+		TargetableOffsets: 576,0,0, -576,0,0
+		Type: Capsule
+			Radius: 341
+			PointA: 0, -676
+			PointB: 0, 876
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+		ScanRadius: 15
+	GrantConditionOnAttack@UNCLOAK:
+		Condition: is-shooting-ground
+		ArmamentNames: primary
+		RevokeDelay: 75
+	Cloak:
+        PauseOnCondition: cloak-force-disabled || crossing-ford || minehit || is-shooting-ground

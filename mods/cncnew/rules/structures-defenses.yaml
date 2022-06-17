@@ -161,7 +161,7 @@ ATWR:
 	Tooltip:
 		Name: Advanced Guard Tower
 	Buildable:
-		BuildPaletteOrder: 6
+		BuildPaletteOrder: 7
 		Prerequisites: tech, ~techlevel.high
 		Queue: Defence.GDI
 		Description: All-purpose defensive structure.\n  Strong vs Aircraft, Infantry\n  Weak vs Tanks
@@ -238,7 +238,7 @@ OBLI:
 	Tooltip:
 		Name: Obelisk of Light
 	Buildable:
-		BuildPaletteOrder: 6
+		BuildPaletteOrder: 7
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Defence.Nod
 		Description: Advanced base defense.\nRequires power to operate.\n  Strong vs all Ground units\n  Cannot target Aircraft
@@ -307,7 +307,7 @@ CRAM:
 	-BodyOrientation:
 	-RenderDetectionCircle:
 	Buildable:
-		BuildPaletteOrder: 9
+		BuildPaletteOrder: 8
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Defence.GDI
 		Description: Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
@@ -454,7 +454,7 @@ SAM:
 	Tooltip:
 		Name: SAM Site
 	Buildable:
-		BuildPaletteOrder: 9
+		BuildPaletteOrder: 8
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Defence.Nod
 		Description: Cloaked Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
@@ -566,7 +566,7 @@ SBAG:
 	Tooltip:
 		Name: Sandbag Barrier
 	Buildable:
-		BuildPaletteOrder: 1
+		BuildPaletteOrder: 9
 		Prerequisites: fact, ~techlevel.low
 		Queue: Defence.GDI, Defence.Nod
 		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.
@@ -590,7 +590,7 @@ CYCL:
 	Tooltip:
 		Name: Chain Link Barrier
 	Buildable:
-		BuildPaletteOrder: 2
+		BuildPaletteOrder: 10
 		Prerequisites: proc, ~techlevel.medium
 		Queue: Defence.GDI, Defence.Nod
 		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.\nCan be built further than other Walls.
@@ -613,7 +613,7 @@ BRIK:
 	Tooltip:
 		Name: Concrete Barrier
 	Buildable:
-		BuildPaletteOrder: 3
+		BuildPaletteOrder: 11
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
 		Description: Stops Infantry and Vehicles.\nCan be crushed by some Tanks.\nBlocks most projectiles.
@@ -646,7 +646,7 @@ HGATE:
 		Footprint: xxx
 		Dimensions: 3,1
 	Buildable:
-		BuildPaletteOrder: 7
+		BuildPaletteOrder: 12
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
 		Description: Places an horizontal gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
@@ -686,7 +686,7 @@ VGATE:
 		Footprint: x x x
 		Dimensions: 1,3
 	Buildable:
-		BuildPaletteOrder: 8
+		BuildPaletteOrder: 13
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
 		Description: Places an vertical gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
@@ -888,12 +888,13 @@ GDSH:
 	Inherits@shape: ^1x1Shape
 	-SpawnActorsOnSell:
 	Valued:
-		Cost: 625
+		Cost: 700
 	Tooltip:
 		Name: Outpost
 	Buildable:
-		BuildPaletteOrder: 12
-		Prerequisites: hq, ~techlevel.medium
+		BuildPaletteOrder: 14
+		#   Prerequisites: hq, ~techlevel.medium
+        Prerequisites: ~disabled
 		Queue: Defence.GDI, Defence.Nod
 		Description: Expands buildable area.\n  Cannot be chained for base crawling.
 	Building:

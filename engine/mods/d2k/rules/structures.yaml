@@ -868,12 +868,38 @@ high_tech_factory:
 		Cost: 1150
 	Tooltip:
 		Name: High Tech Factory
+	ProductionQueue@GDI:
+		Type: Aircraft.GDI
+		DisplayOrder: 4
+		Factions: gdi
+		Group: Aircraft
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionQueue@Nod:
+		Type: Aircraft.Nod
+		DisplayOrder: 4
+		Factions: nod
+		Group: Aircraft
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@GDI:
+		ProductionType: Aircraft.GDI
+	ProductionBar@Nod:
+		ProductionType: Aircraft.Nod
 	ProductionFromMapEdge:
-		Produces: Aircraft, Upgrade
-	ProductionBar:
-		ProductionType: Aircraft
-	PrimaryBuilding:
-		ProductionQueues: Aircraft
+		Produces: Aircraft.GDI, Aircraft.Nod
+	#   PrimaryBuilding:
+	#	ProductionQueues: Aircraft.GDI, Aircraft.Nod
 	Exit:
 		SpawnOffset: 0,0,728
 		ExitCell: 0,0

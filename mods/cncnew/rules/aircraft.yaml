@@ -25,14 +25,6 @@ C17:
 		ChuteSound: chute1.aud
 	DamageMultiplier@INVULNERABLE:
 		Modifier: 0
-	GrantConditionOnPrerequisite@GLOBALC17STEALTH:
-		Condition: global-C17-stealth
-		Prerequisites: global-C17-stealth
-	Cloak:
-		CloakTypes: AirStealth
-		InitialDelay: 0
-		CloakDelay: 0
-		RequiresCondition: global-C17-stealth
 	Contrail@1:
 		Offset: -261,-650,0
 		TrailLength: 8
@@ -60,6 +52,8 @@ C17:
 	SpeedMultiplier@C17Speed:
 		Modifier: 200
 		RequiresCondition: c17speed-upgraded
+	GpsRadarDot:
+		Sequence: CargoPlane
 
 A10:
 	Inherits: ^Plane
@@ -67,7 +61,7 @@ A10:
 	Interactable:
 	HitShape:
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
 		Type: Heavy
 	Tooltip:
@@ -151,7 +145,7 @@ UAV:
 	Tooltip:
 		Name: Recon Drone
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
 		Type: Heavy
 	Aircraft:
@@ -264,6 +258,99 @@ UAV.Husk:
 	RenderSprites:
 		Image: uav
 
+F18:
+	Inherits: ^Plane
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	-ActorLostNotification:
+	Interactable:
+	HitShape:
+	Health:
+		HP: 12500
+	Armor:
+		Type: Heavy
+	Tooltip:
+		Name: F-18 Hornet
+	Valued:
+		Cost: 1600
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 16
+		IdleTurnSpeed: 8
+		Speed: 343
+		Repulsable: False
+		AirborneCondition: airborne
+	AttackBomberCA:
+		FacingTolerance: 40
+	AttackAircraft:
+		PersistentTargeting: false
+		OpportunityFire: True
+	Armament:
+		Weapon: Dragon
+		LocalOffset: 0,-256,-43, 0,256,-43
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Ammo: 10
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 250
+		Count: 2
+		ResetOnFire: true
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	SpawnActorOnDeath:
+		Actor: F18.Husk
+	RevealsShroud@AirRadar:
+		ValidRelationships: Enemy
+		Range: 3c512
+		Type: CenterPosition
+		RevealGeneratedShroud: false
+		RequiresCondition: in-airwarning-radius
+	AnnounceOnSeen@AirRadar:
+		PingRadar: true
+		Notification: EnemyPlanesApproaching
+	ExternalCondition@AirRadar:
+		Condition: in-airwarning-radius
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: AttackAnything
+	-MapEditorData:
+
+F18.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: F-18 Hornet
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: f22
+
 F22:
 	Inherits: ^Plane
 	Inherits@AUTOTARGET: ^AutoTargetAir
@@ -271,7 +358,7 @@ F22:
 	Interactable:
 	HitShape:
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
 		Type: Heavy
 	Tooltip:
@@ -371,9 +458,9 @@ TRAN:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 13
+		BuildPaletteOrder: 1
 		Prerequisites: hpad, ~techlevel.medium
-		Queue: Vehicle.GDI, Vehicle.Nod
+		Queue: Aircraft.GDI, Aircraft.Nod
 		Description: Fast Infantry Transport Helicopter.\n  Unarmed
 	Aircraft:
 		TurnSpeed: 20
@@ -381,7 +468,7 @@ TRAN:
 		AltitudeVelocity: 0c100
 		PauseOnCondition: emp-crate-collected || being-captured
 	Health:
-		HP: 9000
+		HP: 10000
 	Armor:
 		Type: Light
 	RevealsShroud:
@@ -408,6 +495,11 @@ TRAN:
 		MaxWeight: 10
 		AfterUnloadDelay: 40
 		LoadedCondition: loaded
+		PassengerConditions:
+			rmbo: commandoinside
+            rmb2: commandoinside
+            node7: commandoinside
+            nodgnrl: commandoinside
 	Sellable:
 		RequiresCondition: unit.sellable && !loaded
 	SpawnActorOnDeath:
@@ -418,6 +510,13 @@ TRAN:
 		RequiresCondition: !airborne && !loaded
 	Capturable@HIJACKED:
 		RequiresCondition: !airborne && !loaded
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: commandoinside
 
 TRAN.Husk:
 	Inherits: ^HelicopterHusk
@@ -452,9 +551,9 @@ ORCA:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 14
-		Prerequisites: hpad, hq, ~!orcaammo.upgrade, ~techlevel.medium
-		Queue: Vehicle.GDI
+		BuildPaletteOrder: 2
+		Prerequisites: hpad, hq, ~techlevel.medium
+		Queue: Aircraft.GDI
 		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
 	Aircraft:
 		TurnSpeed: 28
@@ -463,7 +562,7 @@ ORCA:
 		LandingSounds: orcadwn1.aud
 		PauseOnCondition: emp-crate-collected || being-captured
 	Health:
-		HP: 9000
+		HP: 12500
 	Armor:
 		Type: Medium
 	RevealsShroud:
@@ -483,45 +582,60 @@ ORCA:
 		MuzzleSequence: muzzle
 		LocalOffset: 427,0,-213
 		PauseOnCondition: !ammo
+	Armament@QUARTENARY:
+        Name: quartenary
+		Weapon: DepthCharge
+		LocalOffset: 128,-213,-85, 128,213,-85
+        PauseOnCondition: !ammodc
+        RequiresCondition: !navy-disabled
 	WithMuzzleOverlay:
 	AutoTarget:
 		ScanRadius: 5
 	AttackAircraft:
-		Armaments: primary, secondary, tertiary
+		Armaments: primary, secondary, tertiary, quartenary
 		FacingTolerance: 80
 		OpportunityFire: false
 		PersistentTargeting: false
 		AttackType: Hover
-	AmmoPool:
+	AmmoPool@1:
+        Name: primary
 		Armaments: primary, secondary
 		Ammo: 6
 		ReloadDelay: 100
 		ReloadCount: 2
 		AmmoCondition: ammo
+	AmmoPool@2:
+		Name: ammodc
+		Armaments: quartenary
+		Ammo: 4
+		ReloadDelay: 40
+		AmmoCondition: ammodc
 	SpawnActorOnDeath:
 		Actor: ORCA.Husk
 	WithMoveAnimation:
 		MoveSequence: move
 	Rearmable:
+        AmmoPools: primary, ammodc
 		RearmActors: hpad
 	Selectable:
 		DecorationBounds: 30,24
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
+        PipCount: 3
+        AmmoPools: primary
 		RequiresSelection: true
-	#	!airborne is there for because
-	#	Aircraft freezes if Transformed mid-flight
-	TransformOnCondition@OrcaAmmoUpgrade:
-		IntoActor: ORCA.Upgraded.NoAmmo
-		RequiresCondition: orcaammo-upgraded && !airborne && onhelipad
-	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
-		Condition: orcaammo-upgraded
-		Prerequisites: orcaammo.upgrade
-	ExternalCondition@OnHelipad:
-		Condition: onhelipad
-	#	this whole jazz can be avoided simply by 
-	#	making AmmoPool into a conditional trait
+	WithAmmoPipsDecoration@2:
+		Position: BottomLeft
+		Margin: 4, 6
+		PipCount: 2
+		FullSequence: pip-blue
+		RequiresSelection: true
+		AmmoPools: ammodc
+        RequiresCondition: !navy-disabled
+	GrantConditionOnPrerequisite@navydisabler:
+		Condition: navy-disabled
+		Prerequisites: global-disablenavy
 	ProducibleWithLevel:
 		InitialLevels: 1
 		Prerequisites: orca.veterancy
@@ -539,33 +653,6 @@ ORCA.Husk:
 	RenderSprites:
 		Image: orca
 
-ORCA.Upgraded:
-	Inherits: ORCA
-	Buildable:
-		Prerequisites: hpad, hq, ~orcaammo.upgrade, ~techlevel.medium
-	AmmoPool:
-		Ammo: 10
-	RenderSprites:
-		Image: orca
-	-TransformOnCondition@OrcaAmmoUpgrade:
-	-GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
-	-ExternalCondition@OnHelipad:
-	-MapEditorData:
-
-#	to prevent instant full ammo on transform
-ORCA.Upgraded.NoAmmo:
-	Inherits: ORCA.Upgraded
-	-Buildable:
-	#	and affected by the ceases 
-	#	rearming on transform bug
-	#	for aircraft, na großartig
-	Aircraft:
-		TakeOffOnCreation: false
-	AmmoPool:
-		InitialAmmo: 0
-	RenderSprites:
-		Image: orca
-
 HELI:
 	Inherits: ^Helicopter
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -579,9 +666,9 @@ HELI:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 14
+		BuildPaletteOrder: 2
 		Prerequisites: hpad, hq, ~techlevel.medium
-		Queue: Vehicle.Nod
+		Queue: Aircraft.Nod
 		Description: Helicopter Gunship with Chainguns.\nCan be upgraded to become better against Tanks.\n  Strong vs Infantry, Light Vehicles, Aircraft\n  Weak vs Tanks, Anti-Air
 	Aircraft:
 		TurnSpeed: 28
@@ -618,6 +705,12 @@ HELI:
 		LocalOffset: 0,-213,-85, 0,213,-85
 		PauseOnCondition: !ammorock || emp-crate-collected
 		RequiresCondition: hellfire-upgraded
+	Armament@FIFTH:
+        Name: antisubmarine
+		Weapon: DepthCharge
+		LocalOffset: 128,-213,-85, 128,213,-85
+        PauseOnCondition: !ammodc || emp-crate-collected
+        RequiresCondition: !navy-disabled
 	AmmoPool@1:
 		Name: ammorock
 		Armaments: tertiary, quartenary
@@ -630,6 +723,12 @@ HELI:
 		Ammo: 12
 		ReloadDelay: 40
 		AmmoCondition: ammogun
+	AmmoPool@3:
+		Name: ammodc
+		Armaments: antisubmarine
+		Ammo: 4
+		ReloadDelay: 40
+		AmmoCondition: ammodc
 	WithAmmoPipsDecoration@1:
 		Position: BottomLeft
 		Margin: 4, 6
@@ -645,10 +744,29 @@ HELI:
 		FullSequence: pip-yellow
 		RequiresSelection: true
 		AmmoPools: ammogun
+	WithAmmoPipsDecoration@3:
+		Position: BottomLeft
+		Margin: 4, 9
+		PipCount: 2
+		FullSequence: pip-blue
+		RequiresSelection: true
+		AmmoPools: ammodc
+        RequiresCondition: hellfire-upgraded && !navy-disabled
+	WithAmmoPipsDecoration@4:
+		Position: BottomLeft
+		Margin: 4, 6
+		PipCount: 2
+		FullSequence: pip-blue
+		RequiresSelection: true
+		AmmoPools: ammodc
+        RequiresCondition: !hellfire-upgraded && !navy-disabled
+	GrantConditionOnPrerequisite@navydisabler:
+		Condition: navy-disabled
+		Prerequisites: global-disablenavy
 	AutoTarget:
 		ScanRadius: 4
 	AttackAircraft:
-		Armaments: primary, secondary, tertiary, quartenary
+		Armaments: primary, secondary, tertiary, quartenary, antisubmarine
 		FacingTolerance: 80
 		OpportunityFire: false
 		PersistentTargeting: false
@@ -666,7 +784,7 @@ HELI:
 		Actor: HELI.Husk
 	Rearmable:
 		RearmActors: hpad
-		AmmoPools: ammorock, ammogun
+		AmmoPools: ammorock, ammogun, ammodc
 	Selectable:
 		DecorationBounds: 30,24
 	GrantConditionOnPrerequisite@hellfirepods:
@@ -700,9 +818,9 @@ MH60:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
 	Buildable:
-		BuildPaletteOrder: 15
+		BuildPaletteOrder: 3
 		Prerequisites: hpad, tech, ~techlevel.high
-		Queue: Vehicle.GDI
+		Queue: Aircraft.GDI
 		Description: Slow moving Helicopter gunship\narmed with dual chainguns.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Light armor\n  Weak vs Tanks, Aircraft
 	Valued:
 		Cost: 1500
@@ -821,9 +939,9 @@ RH66:
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
-		BuildPaletteOrder: 15
+		BuildPaletteOrder: 3
 		Prerequisites: hpad, tmpl, ~techlevel.high
-		Queue: Vehicle.Nod
+		Queue: Aircraft.Nod
 		Description: Attack helicopter that can be upgraded\nto gain Stealth capability.\nDoesnt appear on enemy Radar.\nCannot attack Air units.\n  Strong vs Buildings, clustered Infantry.\n  Weak vs Anti-Air, Detection
 	Valued:
 		Cost: 1800
@@ -832,7 +950,7 @@ RH66:
 	AppearsOnRadar:
 		ValidRelationships: Ally
 	Health:
-		HP: 18000
+		HP: 12500
 	Armor:
 		Type: Light
 	RevealsShroud:
@@ -958,9 +1076,9 @@ OCAR:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 18
+		BuildPaletteOrder: 4
 		Prerequisites: ~hpad, ~fix, ~carryall.unlock, ~techlevel.high
-		Queue: Vehicle.GDI
+		Queue: Aircraft.GDI
 		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
 	Aircraft:
 		CruiseAltitude: 2048
@@ -993,7 +1111,7 @@ OCAR:
 	#	Modifier: 60
 	#	RequiresCondition: carrying && heavy
 	Health:
-		HP: 30000
+		HP: 10000
 	Armor:
 		Type: Medium
 	RevealsShroud:
@@ -1113,7 +1231,7 @@ NODHIND:
 	Buildable:
 		BuildPaletteOrder: 16
 		Prerequisites: ~disabled
-		Queue: Vehicle.Nod
+		Queue: Aircraft.Nod
 		Description: Slow helicopter gunship armed with dual chainguns\nand anti-ground rockets.\nCannot attack Air units.\n  Strong vs Infantry, Tanks\n  Weak vs fast Units, Aircraft
 	Tooltip:
 		Name: Hind Gunship
@@ -1220,9 +1338,9 @@ NODV22:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 16
+		BuildPaletteOrder: 4
 		Prerequisites: hpad, fix, ~stolentech.hpad
-		Queue: Vehicle.Nod
+		Queue: Aircraft.Nod
 		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
 	Aircraft:
 		CruiseAltitude: 2048
@@ -1249,7 +1367,7 @@ NODV22:
 		Modifier: 80
 		RequiresCondition: carrying
 	Health:
-		HP: 30000
+		HP: 10000
 	Armor:
 		Type: Medium
 	RevealsShroud:
@@ -1364,7 +1482,7 @@ SFIG:
 	Interactable:
 	HitShape:
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
 		Type: Heavy
 	Tooltip:
@@ -1428,3 +1546,192 @@ SFIG.Husk:
 		MinDamage: Undamaged
 	RenderSprites:
 		Image: sfig
+
+#   GDI Support Powers
+
+#   this whole jazz is necessary as to because
+#   ProductionFromMapEdge cant work with ^Upgrade
+airstrike.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: Airstrike
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.GDI
+		Prerequisites: ~hq, ~tech, ~techlevel.unrestricted, ~!proxy.airstrike.unlock
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Airstrike' support power.\n\n  Unlocks: Airstrike\n\n  + Burns buildings and infantry along a line.\n  - The Bomber is vulnerable to SAM sites.
+        Icon: airstrike
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.airstrike.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.airstrike.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+airstrike.upgrade:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Upgrade: Airstrike
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.GDI
+		Prerequisites: ~proxy.airstrike.unlock, ~eye, ~tech, ~bombard.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
+        Icon: airstrikeII
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.airstrike.upgrade
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.airstrike.upgrade:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+interceptorsgdi.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: F-18 Interceptors
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.GDI
+		Prerequisites: ~hq, ~tech, ~!proxy.interceptorsgdi.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+        Icon: interceptorgdi
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.interceptorsgdi.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.interceptorsgdi.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+#   Nod Support Powers
+
+interceptorsnod.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: F-22 Interceptors
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~tmpl, ~!proxy.interceptorsnod.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+        Icon: interceptornod
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.interceptorsnod.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.interceptorsnod.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+interceptorsnod.upgrade:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Upgrade: F-22 Extra Fuel Pods
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.Nod
+		Prerequisites: ~proxy.interceptorsnod.unlock, ~nodbio, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+        Icon: interceptornodupg
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.interceptorsnod.upgrade
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.interceptorsnod.upgrade:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+nodairstrike.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: Stealth Airstrike
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~tmpl, ~techlevel.unrestricted, ~!proxy.nodairstrike.unlock, ~stolentech.tech
+		BuildDuration: 1500
+        Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
+        Icon: airstrikenod
+	Valued:
+		Cost: 1000
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.nodairstrike.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.nodairstrike.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+nodairstrike.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Stealth Airstrike
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~tmpl, ~stolentech.tech
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+    RenderSprites:
+        Image: dummy.airstrikers

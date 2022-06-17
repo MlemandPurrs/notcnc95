@@ -435,9 +435,24 @@ production-icons:
 		vehicle: 819, 68, 16, 16
 		vehicle-disabled: 819, 85, 16, 16
 		vehicle-alert: 819, 102, 16, 16
-		aircraft: 836, 68, 16, 16
-		aircraft-disabled: 836, 85, 16, 16
-		aircraft-alert: 836, 102, 16, 16
+		upgrades: 836, 68, 16, 16
+		upgrades-disabled: 836, 85, 16, 16
+		upgrades-alert: 836, 102, 16, 16
+        mercenary: 887, 68, 16, 16
+        mercenary-disabled: 887, 85, 16, 16
+        mercenary-alert: 887, 102, 16, 16
+        naval: 955, 68, 16, 16
+        naval-disabled: 955, 85, 16, 16
+        naval-alert: 955, 102, 16, 16
+        aircraft: 1006, 68, 16, 16
+        aircraft-disabled: 1006, 85, 16, 16 
+        aircraft-alert: 1006, 102, 16, 16
+        lightvehicle: 989, 68, 16, 16
+        lightvehicle-disabled: 989, 85, 16, 16
+        lightvehicle-alert: 989, 102, 16, 16
+        superunits: 853, 68, 16, 16
+        superunits-disabled: 853, 85, 16, 16
+        superunits-alert: 853, 102, 16, 16
 
 order-icons:
 	Inherits: ^Chrome

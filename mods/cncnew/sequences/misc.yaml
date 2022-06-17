@@ -95,6 +95,16 @@ missile:
 		Facings: 32
 		ZOffset: 1023
 
+torpedo:
+	idle: missile
+		Facings: 32
+		ZOffset: -1023
+
+bubbles:
+	idle:
+		Length: *
+		Tick: 220
+
 patriot:
 	idle:
 		Facings: 32
@@ -135,6 +145,12 @@ explosion:
 	corpse: squish
 		ZOffset: -512
 		Tick: 1600
+	pulse_explosion: pulsefx2
+		BlendMode: Additive
+		Tick: 80
+	pulse_explosion_small: pulsefx1
+		BlendMode: Alpha
+		Tick: 80
 
 rank:
 	Defaults:
@@ -179,7 +195,9 @@ beacon:
 		Offset: 0,-42
 	ceptbcon: ceptbcon
 		Offset: 0,-42
-
+    empbcon: empbcon
+		Offset: 0,-42
+        
 select:
 	repair:
 		Start: 2
@@ -277,6 +295,7 @@ waypoint:
 camera:
 	idle:
 		Length: *
+	icon: blankicon
 
 clock:
 	idle: hclock
@@ -363,11 +382,19 @@ icon:
 	pbat: nodmsamicon
 	pinficon: pinficon
 	zoneicon: dropzoneicon
-	cepticon: cepticon
+	cepticon: nodcepticon
+    gdicepticon: gdicepticon
 	fieldrepair: frepicon
 	slthplug: slthplugicon
 	sfigicon: sfigicon
     disr: disricon
+    blackops: bopsicon
+    soviettank: 3tnkicon
+    antiairgun: zsuicon
+    empmicon: empmicon
+    spysat: ssaticon
+    sathack: sathicon
+    blank: blankicon
 
 moveflsh:
 	idle:
@@ -411,6 +438,8 @@ resources:
 shroud:
 	Defaults:
 		Length: 12
+	shroud: shadow
+		Length: *
 	typea: shadow
 	typeb: shadow
 		Start: 12
@@ -660,3 +689,82 @@ hacking:
 
 empty:
 	idle: empty
+
+production.airdrop:
+	icon: pinficon
+    jeepicon: jeepicon
+    mtnkicon: mtnkicon
+
+production.dropzone:
+	icon: bopsicon
+	3tnkicon: 3tnkicon
+
+dummy.airstrikers:
+	idle: blank32
+		Facings: 32
+	airstrike: a10icon
+    airstrikeII: airstrike2icon
+    interceptorgdi: gdicepticon
+    interceptorgdiupg: f22upgradeicon
+    interceptornod: nodcepticon
+    interceptornodupg: f22upgradeicon
+    airstrikenod: sfigicon
+
+production.infantry:
+	e1icon: e1icon
+    e2icon: e2icon
+    e3icon: e3icon
+    e4icon: e4icon
+    e5icon: e5icon
+    e12icon: e12icon
+    e22icon: e22icon
+    e23icon: e23icon
+    snipicon: snipicon
+    terricon: terricon
+    stngicon: stngicon
+
+mins:
+	idle:
+		Length: *
+		ZOffset: -512
+		Tick: 250
+
+gpsdot:
+    Infantry:
+        Start: 0
+    HeavyInfantry:
+        Start: 1
+    LightVehicle:
+        Start: 2
+    Vehicle:
+        Start: 3
+    HeavyVehicle:
+        Start: 4
+    Harvester:
+        Start: 5
+    Constructor:
+        Start: 6
+    Conyard:
+        Start: 7
+    Building:
+        Start: 8
+    TechBuilding:
+        Start: 9
+    IncomeBuilding:
+        Start: 10
+    Communications:
+        Start: 11
+    NavalBuilding:
+        Start: 12
+    Ship:
+        Start: 13
+    Submarine:
+        Start: 14
+    Helicopter:
+        Start: 15
+    Airplane:
+        Start: 16
+    CargoPlane:
+        Start: 17
+    Aliencraft:
+        Start: 18

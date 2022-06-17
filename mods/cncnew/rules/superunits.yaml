@@ -1,0 +1,864 @@
+
+^Superunit:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	Buildable:
+		Queue: Superunits.GDI, Superunits.Nod
+		BuildLimit: 1
+		BuildDurationModifier: 100
+	ProvidesPrerequisite@upgradename:
+
+#   GDI Superunits
+
+DISR:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 1350
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Tooltip:
+		Name: Disruptor
+	Buildable:
+		Queue: Vehicle
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Description: High-tech weapons platform with Sonic armament.\n  Strong vs clustered Ground Units\n  Weak vs Aircraft, Artillery
+	Health:
+		HP: 35000
+	Armor:
+		Type: Heavy
+	SelectionDecorations:
+	Selectable:
+		DecorationBounds: 34,34,0,-3
+	Mobile:
+		Locomotor: heavytracked
+		TurnSpeed: 12
+		Speed: 56
+        PauseOnCondition: emp-crate-collected || boarding || being-captured
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: SonicZap
+		FireDelay: 0
+		LocalOffset: -120,0,150
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Weapon: SonicZapVisual
+		Name: secondary
+		FireDelay: 0
+		LocalOffset: -120,0,150
+		PauseOnCondition: emp-crate-collected
+	Turreted:
+		TurnSpeed: 12
+		Offset: -256,0,0
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+		OpportunityFire: False
+	WithSpriteTurret:
+	Targetable:
+		TargetTypes: Ground, Vehicle, Disruptor
+	Explodes:
+		Weapon: UnitExplodeBig
+		EmptyWeapon: UnitExplodeBig
+	SpawnActorOnDeath:
+		Actor: DISR.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: has.disr
+	GpsRadarDot:
+		Sequence: HeavyVehicle
+
+DISR.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Disruptor (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: disr
+	RenderSprites:
+		Image: disr.destroyed
+
+disr.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Authorize: Disruptor
+	Buildable:
+		BuildPaletteOrder: 4
+		Queue: Superunits.GDI
+		Prerequisites: ~upgc, ~!pbat.unlock, ~techlevel.unrestricted
+        #   Prerequisites: ~disabled
+		BuildDuration: 0
+		Description: Disruptor will be prepared for delivery as super-unit.\n\n  Unlocks: Disruptor\n\n  + Heavy tank with Sonic armament.\n  + Fires a continous Sonic beam that damages all within.\n  - Sonic weaponry does not determine friend or foe\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2500
+	RenderSprites:
+		Image: disr.unlock
+
+PBAT:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Mobile S.A.M.
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Queue: Dropzone
+		Description: Powerful anti-air unit.\nCannot attack Ground units.
+		Icon: nodmsamicon
+	Mobile:
+		Speed: 99
+		TurnSpeed: 28
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 18000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 32
+		Offset: -128,0,128
+		RealignDelay: 0
+	Armament:
+		Weapon: Patriot
+		LocalOffset: 0,-171,0, 0,171,0
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Ammo: 2
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 2
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: primary
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+		RequiresCondition: ammo > 1
+	WithSpriteTurret@OneMissile:
+		RequiresCondition: ammo == 1
+		Sequence: turret1
+	WithSpriteTurret@NoMissiles:
+		RequiresCondition: !ammo
+		Sequence: turret0
+	AutoTarget:
+		InitialStanceAI: Defend
+	WithRangeCircle:
+		Range: 11c0
+		Color: FFFF0080
+	SpawnActorOnDeath:
+		Actor: PBAT.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	ReloadAmmoPoolCA:
+		Delay: 150
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	Passenger:
+		CustomPipType: pip-red
+	RenderSprites:
+		Image: mlrs
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: has.pbat
+
+PBAT.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Patriot Battery (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: pbat
+	RenderSprites:
+		Image: mlrs.destroyed
+
+pbat.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Authorize: Mobile S.A.M.
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Superunits.GDI
+		Prerequisites: ~upgc, ~!disr.unlock, ~techlevel.unrestricted
+		BuildDuration: 0
+		Description: Mobile S.A.M. will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile S.A.M.\n\n  + Powerful anti-air Defense\n  - Light armored for its size\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: pbat.unlock
+
+ICBM:
+	Inherits: ^Vehicle
+	Inherits@AUTOTARGET: ^AutoTargetGround
+	Inherits@EMP: ^AcceptsEMPCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	-Explodes:
+	Buildable:
+		BuildPaletteOrder: 16
+		BuildLimit: 1
+		#	Prerequisites: upgc, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+		Queue: Dropzone
+		Description: Nuclear rocket artillery.\nExplodes violently on death.\n  Maximum one can be built.\n  Strong vs Everything over distance\n  Weak vs attacks at close range\n  Requires an large minimum firing distance
+	Valued:
+		Cost: 2500
+	Tooltip:
+		Name: ICBM Launcher
+	Health:
+		HP: 20000
+	Armor:
+		Type: Medium
+	Mobile:
+		Speed: 52
+		TurnSpeed: 9
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	RevealsShroud:
+		Range: 5c0
+	Armament:
+		Name: primary
+		Weapon: ICBM
+		ReloadingCondition: reloading
+		PauseOnCondition: !ammo || emp-crate-collected
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+		ScanRadius: 15
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithFacingSpriteBody:
+		RequiresCondition: !reloading
+		Name: loaded
+	WithFacingSpriteBody@EMPTY:
+		RequiresCondition: reloading
+		Sequence: empty-idle
+		Name: reloading
+	Explodes:
+		Weapon: MiniNuke
+		EmptyWeapon: UnitExplode
+	RenderRangeCircle:
+	RevealOnFire:
+		ArmamentNames: primary
+	AmmoPool:
+		Name: primary
+		Ammo: 1
+		#	ReloadDelay: 2250
+		AmmoCondition: ammo
+	#	precisely affects only ReloadDelay:
+	#	from above, not doing anything for
+	#	ReloadAmmoPool
+	#	ReloadAmmoDelayMultiplier:
+	#	Modifier: 70
+	#	RequiresCondition: unit.docked
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+	Rearmable:
+		RearmActors: fix
+		AmmoPools: none
+	ReloadAmmoPoolCA:
+		Delay: 2250
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	AnnounceOnSeen:
+		Notification: NuclearWeaponLaunched
+		PingRadar: True
+	RevealOnDeath:
+		Duration: 100
+		Radius: 2c512
+	Passenger:
+		CustomPipType: pip-red
+	Carryable:
+		-CarriedCondition: oncarryall
+
+#   needs a rework, disabling
+icbm.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Authorize: ICBM Launcher
+	Buildable:
+		BuildPaletteOrder: 4
+		Queue: Superunits.GDI
+		#   Prerequisites: ~upgc, ~!msar.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+        Prerequisites: ~disabled
+		BuildDuration: 0
+		Description: ICBM Launcher will be prepared for delivered as super-unit.\n\n  Unlocks: ICBM Launcher\n\n  + Devastating against everything across the range\n  - Very loooong reloading time\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2500
+	RenderSprites:
+		Image: icbm.unlock
+
+MSAR:
+	Inherits: ^Vehicle
+	Inherits@crates1: ^AcceptsSpeedCrate
+	Inherits@crates2: ^AcceptsCloakCrate
+	Inherits@crates3: ^AcceptsInvulnerabilityCrate
+	Inherits@crates4: ^AcceptsEMPCrate
+	Inherits@crates5: ^AcceptsDeathCrate
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Mobile Sensor Array
+		RequiresCondition: !deployed
+	Tooltip@DEPLOYED:
+		Name: Mobile Sensor Array (deployed)
+		RequiresCondition: deployed
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 16
+		Prerequisites: ~disabled
+		Queue: Dropzone
+		Description: When deployed, provides Vision and Detects Stealth units.\n  Unarmed
+	Health:
+		HP: 22000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 68
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+		RequireForceMoveCondition: !undeployed
+	RevealsShroud@Normal:
+		Range: 6c0
+		RequiresCondition: !deployed
+	RevealsShroud@Deployed:
+		Range: 12c0
+		RequiresCondition: deployed	
+	RenderSprites:
+		Image: msar
+	Repairable:
+		RequireForceMoveCondition: !undeployed
+	Passenger:
+		RequireForceMoveCondition: !undeployed
+	Carryable:
+		LocalOffset: 0,0,150
+	GrantCondition@PREVIEWWORKAROUND:
+		Condition: real-actor
+	WithMakeAnimation:
+		BodyNames: deployedbody
+	WithSpriteBody@deployed:
+		Sequence: idle-static
+		RequiresCondition: !undeployed && real-actor
+		Name: deployedbody
+	WithFacingSpriteBody:
+		RequiresCondition: !deployed
+	GrantConditionOnDeploy:
+		PauseOnCondition: emp-crate-collected
+		DeployedCondition: deployed
+		UndeployedCondition: undeployed
+		Facing: 660
+		AllowedTerrainTypes: Clear, Road, Rough
+		DeploySounds: placbldg.aud
+		UndeploySounds: clicky1.aud
+		UndeployOnMove: true
+		UndeployOnPickup: true
+	DetectCloaked@Deployed:
+		Range: 12c0
+		CloakTypes: GroundStealth, Stealth, AirStealth
+		RequiresCondition: deployed && !emp-crate-collected && !lowpower
+	RenderDetectionCircle:
+	#	WithDetectionCircle:
+	#	Range: 12c0
+	#	RequiresCondition: deployed && !emp-crate-collected
+	#	TrailCount: 3
+	Selectable:
+		DecorationBounds: 30,30
+	Power:
+		Amount: -25
+		RequiresCondition: deployed
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+#   also lame, disabling
+msar.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Authorize: Mobile Sensor Array
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Superunits.GDI
+		#   Prerequisites: ~upgc, ~!icbm.unlock, ~!pbat.unlock, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+        BuildDuration: 0
+		Description: Mobile Sensor Array will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile Sensor Array\n\n  + Provides Vision in a large area when deployed\n  + Detects Stealth units in a large area when deployed\n  -  Drains power when deployed\n  -  Stealth detection pauses on lowpower\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 1800
+	RenderSprites:
+		Image: msar.unlock
+
+#   GDI Strategies
+
+#	drone boosts units RoF
+bombard.strat:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Strategy: Bombardment
+	Buildable:
+		BuildPaletteOrder: 10
+		Queue: Superunits.GDI
+		Prerequisites: ~tech, ~!seek.strat, ~!hold.strat, ~techlevel.high
+		BuildDuration: 1
+		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Enables:\n  + Airstrike upgrade\n  + Tank Veterancy upgrade\n\n  Only one Strategy may be chosen.
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: bombard.strat
+
+#	drone rapid refueling
+seek.strat:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Strategy: Seek & Destroy
+	Buildable:
+		BuildPaletteOrder: 11
+		Queue: Superunits.GDI
+		Prerequisites: ~tech, ~!bombard.strat, ~!hold.strat, ~techlevel.high
+        BuildDuration: 1
+		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Enables:\n  + Orca Veterancy upgrade\n\n  Only one Strategy may be chosen.
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: seek.strat
+
+#	drone increased radius
+hold.strat:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Strategy: Hold the Line
+	Buildable:
+		BuildPaletteOrder: 12
+        Queue: Superunits.GDI
+		Prerequisites: ~tech, ~!bombard.strat, ~!seek.strat, ~techlevel.high
+		BuildDuration: 1
+		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains expanded Detection radius.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Enables:\n  + Infantry Veterancy upgrade\n\n  Only one Strategy may be chosen.	
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: hold.strat
+
+#	sort of incentive compensation for 
+#	keep training the now expensive stuff
+tank.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Tank Crews
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Superunits.GDI
+		Prerequisites: ~weap, ~fix, ~upgc, ~bombard.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Main Battle Tanks.\n\n  Enables: Initial veterancy rank-up for MBT
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: tank.veterancy
+
+e1.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Infantry
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Superunits.GDI
+		Prerequisites: ~pyle, ~upgc, ~hold.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Riflemen.\n\n  Enables: Initial veterancy rank-up for Rifleman
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: e1.veterancy
+
+orca.veterancy:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Veterancy: Orca Pilots
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Superunits.GDI
+		Prerequisites: ~hpad, ~hq, ~upgc, ~seek.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build Veteran Orcas.\n\n  Enables: Initial veterancy rank-up for Orca
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: orca.veterancy
+
+EMPB:
+	Inherits: ^BaseBuilding
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@shape: ^2x1Shape
+	-ActorPreviewPlaceBuildingPreview:
+	-WithSpriteBody:
+	-GivesBuildableArea:
+    -BodyOrientation:
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	Targetable:
+		TargetTypes: Ground, C4, Structure, Defense
+	MapEditorData:
+		Categories: Defense
+	-CommandBarBlacklist:
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tech, ~techlevel.unrestricted
+		Queue: Defence.GDI
+		Description: Stores, prepares and launches E.M.P. Missiles.\nMaximum one can be built.\n  Requires power to operate.\n  Special Ability: E.M.P. Missile\nFires a missile which disables\nall Vehicles in the area for 20 seconds.
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: EMP Missile Launcher
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 100000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 2
+		InitialFacing: 0
+		RealignDelay: -1
+	WithEmbeddedTurretSpriteBody:
+		PauseOnCondition: lowpower
+	AttackTurreted:
+		PauseOnCondition: lowpower
+		RequiresCondition: !build-incomplete && !reloading
+		OpportunityFire: False
+		PersistentTargeting: False
+		ForceFireIgnoresActors: True
+	WithMuzzleOverlay:
+	Armament:
+		Weapon: EMPMissile
+		PauseOnCondition: lowpower
+		LocalOffset: 1000,0,500
+		MuzzleSequence: muzzle
+		ReloadingCondition: reloading
+	AttackOrderPower@EMPMISSILE:
+		OrderName: EMPMissile
+		PauseOnCondition: lowpower
+		Cursor: empstrike
+		Icon: empmicon
+		ChargeInterval: 4500
+		Description: E.M.P. Missile
+		LongDesc: Fires a missile which disables all\nVehicles and Structures in the area\nfor a duration of 20 seconds.\nKills Aircraft caught in blast radius.
+		SupportPowerPaletteOrder: 2
+		DisplayTimerRelationships: Ally
+	SupportPowerChargeBar:
+	Power:
+		Amount: -100
+	ClassicFacingBodyOrientation:
+	Explodes:
+		Weapon: BuildingExplode
+		EmptyWeapon: BuildingExplode
+	Selectable:
+		Bounds: 48,32,0,12
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -1024, -78
+			BottomRight: 1024, 1232
+	RejectsOrders:
+		Except: Sell, PowerDown
+	ProvidesPrerequisite@buildingname:
+	SpawnActorOnDeath:
+		Actor: empb.husk
+		OwnerType: InternalName
+	Building:
+		TerrainTypes: Clear,Road
+	SequencePlaceBuildingPreview:
+		Sequence: place
+		SequencePalette: placebuilding
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+EMPB.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,24
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: EMP Missile Launcher (Destroyed)
+
+#   Nod Superunits
+
+T55H:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Scorpion Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~t55h.unlock, ~techlevel.high
+		Queue: LightVehicle.Nod
+		Description: Experimental Nod Tank.\nScorpion Tail shoots Laser.\n  Maximum 1 can be built.\n  Strong vs Vehicles, Buildings\n  Weak vs Aircraft, Infantry
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: boarding || emp-crate-collected || pauseforlaser || being-captured
+	Health:
+		HP: 63000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 16
+	GrantCondition@pauseforlaser:
+		Condition: pauseforlaser
+		RequiresCondition: ammoready && pointinglazer
+	Armament@Primary:
+		Name: primary
+		Weapon: 105mmDual
+		LocalOffset: 821,85,171, 821,-85,171
+		Recoil: 85
+		RecoilRecovery: 42
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected || ammoready
+		#	pausing on Laser firing to account for the below
+		#	issue somehwat as otherwise Laser can end up
+		#	going across the screen if both actors move away
+	Armament@Secondary:
+		Name: secondary
+		Weapon: LaserTank
+		#	Ignores max range because LaserZap projectile 
+		#	doesnt have a RangeLimit field at all
+		FireDelay: 100
+		LocalOffset: -326,0,560
+		MuzzlePalette: player
+		PauseOnCondition: emp-crate-collected || !ammoready
+	Armament@Tertiary:
+		Name: tertiary
+		Weapon: LaserTankFiringFX
+		LocalOffset: -326,0,560
+		FireDelay: 20
+		MuzzleSequence: laser-muzzle
+		MuzzlePalette: player
+		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
+	Armament@Quartenary:
+		Name: quartenary
+		Weapon: LaserTankFiringFXSound
+		LocalOffset: -326,0,560
+		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
+	GrantConditionWhileAiming:
+		Condition: pointinglazer
+	AttackTurreted:
+		Armaments: primary, secondary, tertiary, quartenary
+		PauseOnCondition: emp-crate-collected
+	AmmoPool:
+		Name: lasercharge
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammoready
+	ReloadAmmoPoolCA:
+		AmmoPool: lasercharge
+		Delay: 400
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-red
+		RequiresSelection: true
+		AmmoPools: lasercharge
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Passenger:
+		CustomPipType: pip-red
+	Explodes:
+		Weapon: UnitExplodeMech
+		EmptyWeapon: UnitExplodeMech
+	Passenger:
+		CustomPipType: pip-red
+	GpsRadarDot:
+		Sequence: HeavyVehicle
+
+#   WithProductionDoorOverlay breaks the unlock
+#   if LightVehicle because it expects a location
+t55h.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Unlock: Scorpion Tank
+	Buildable:
+		BuildPaletteOrder: 10
+		Queue: Superunits.Nod
+		Prerequisites: ~tmpl, ~nodbio, ~!nodctnk.unlock, ~!wtnk.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build the Scorpion Tank as super-unit.\n\n  Unlocks: Scorpion Tank\n\n  + Heavy tank with decent damage output\n  + Shoots Laser from Scorpion tail\n  - Immobilizes when shooting Laser\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: t55h.unlock
+
+WTNK:
+	Inherits: ^Tank
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~wtnk.unlock, ~techlevel.high
+		Queue: LightVehicle.Nod
+		Description: Prototype MGT-1A microwave gun tank.\n  Kills Vehicle crews allowing take-over by Mechanic.\n  Temporarily disables Defenses on hit.\n  Strong vs Infantry, Defenses\n  Weak vs Aircraft, Light Vehicles
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Microwave Tank
+	Health:
+		HP: 20000
+	Armor:
+		Type: Heavy
+	Mobile:
+		Speed: 80
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Passenger:
+		CustomPipType: pip-red
+	RevealsShroud:
+		Range: 5c0
+	Turreted:
+		TurnSpeed: 16
+		Offset: 0,0,0
+	Armament@PRIMARY:
+		Weapon: MicrowaveZap
+		FireDelay: 7
+		LocalOffset: 500,0,140
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	Armament@PRIMARYSOUND:
+		Weapon: MicrowaveZapSound
+		PauseOnCondition: emp-crate-collected
+	AttackTurreted:
+		TargetFrozenActors: True
+		OpportunityFire: False
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Selectable:
+		DecorationBounds: 28,28
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+wtnk.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Unlock: Microwave Tank
+	Buildable:
+		BuildPaletteOrder: 11
+		Queue: Superunits.Nod
+		Prerequisites: ~tmpl, ~nodbio, ~!nodctnk.unlock, ~!t55h.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build the Microwave Tank as super-unit.\n\n  Unlocks: Microwave Tank\n\n  + Kills enemy Vehicle crews, allowing a take-over.\n  + Disables enemy Defenses\n  - Damage output leaves much to be desired\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: wtnk.unlock
+
+#   we could apply Deviator mechanic to this 
+#   in order to make it more interesting
+NODCTNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Chemical Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 12
+		BuildLimit: 1
+		Prerequisites: tmpl, nodbio, ~nodctnk.unlock, ~techlevel.high
+		Queue: LightVehicle.Nod
+		Description: Heavily armored chemicals-spraying vehicle.\nCan crush Concrete Walls.\n  Strong vs Infantry, Buildings\n  Weak vs Aircraft
+	Mobile:
+		Locomotor: heavytracked
+		TurnSpeed: 12
+		Speed: 71
+		PauseOnCondition: dont-move || boarding || emp-crate-collected || being-captured
+	Health:
+		HP: 54000
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 5c0
+	Armament:
+		Weapon: BigChemspray
+		LocalOffset: 768,128,42, 768,-128,42
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	Explodes:
+		Weapon: ChemtankExplode
+		EmptyWeapon: ChemtankExplode
+	Passenger:
+		CustomPipType: pip-red
+	GrantConditionOnAttack:
+		Condition: dont-move
+		RevokeDelay: 16
+		RevokeOnNewTarget: False
+		RevokeAll: True
+
+nodctnk.unlock:
+	Inherits: ^Superunit
+	Tooltip:
+		Name: Unlock: Chemical Tank
+	Buildable:
+		BuildPaletteOrder: 12
+		Queue: Superunits.Nod
+		Prerequisites: ~tmpl, ~nodbio, ~!t55h.unlock, ~!wtnk.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows to build the Chemical Tank as super-unit.\n\n  Unlocks: Chemical Tank\n\n  + Very heavily armored Vehicle\n  + Weaponry can spawn Visceroids\n  - Slow movement speed\n\n  Only one Super-unit may be chosen
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: nodctnk.unlock

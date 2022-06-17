@@ -17,6 +17,7 @@
 	ClassicFacingBodyOrientation:
 	QuantizeFacingsFromSequence:
 	RenderSprites:
+		PlayerPalette: overlayplayer
 
 ^1x1Shape:
 	HitShape:
@@ -281,6 +282,8 @@
 		Sequence: pip-carryall
 		Position: Top
 		RequiresCondition: awaiting
+	GpsRadarDot:
+		Sequence: Vehicle
 
 ^Tank:
 	Inherits: ^Vehicle
@@ -368,6 +371,8 @@
 		Categories: Aircraft
 	SpawnActorOnDeath:
 		RequiresCondition: airborne
+	GpsRadarDot:
+		Sequence: Helicopter
 
 ^InfantryTiberiumDamage:
 	DamagedByTerrain@TIBERIUM:
@@ -554,6 +559,8 @@
 		OpeningSequence: open
 		Offset: 0,0,427
 		RequiresCondition: parachute
+	GpsRadarDot:
+		Sequence: Infantry
 
 ^Soldier:
 	Inherits: ^Infantry
@@ -693,21 +700,49 @@
 		IdleBehavior: LeaveMap
 	MapEditorData:
 		Categories: Aircraft
+	GpsRadarDot:
+		Sequence: Airplane
+
+^SlowdownWhenDamagedShip:
+	GrantConditionOnDamageState@HEAVY:
+		Condition: heavy-damage
+		ValidDamageStates: Heavy
+	GrantConditionOnDamageState@CRITICAL:
+		Condition: critical-damage
+		ValidDamageStates: Critical
+	SpeedMultiplier@HEAVYDAMAGE:
+		RequiresCondition: heavy-damage
+		Modifier: 75
+	SpeedMultiplier@CRITICALDAMAGE:
+		RequiresCondition: critical-damage
+		Modifier: 50
 
 ^Ship:
 	Inherits@1: ^ExistsInWorld
 	Inherits@3: ^SpriteActor
 	Inherits@selection: ^SelectableCombatUnit
 	Inherits@handicaps: ^PlayerHandicaps
+	Inherits@slowdown: ^SlowdownWhenDamagedShip 
+	Inherits@AIBoost: ^ProductionAIBoost
+	Inherits@SellUnit: ^SellableNearShipyard
+	#   Inherits@GDIUpgrades: ^GDIUnitUpgrades
+	Inherits@bounty: ^GlobalBounty
+	Inherits@FieldRepair: ^AffectedByFieldRepair
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
+	Mobile:
+		Locomotor: naval
+		TurnSpeed: 10
+	Selectable:
+		Bounds: 24,24
 	Targetable:
 		TargetTypes: Ground, Water, Ship
-	HiddenUnderFog:
 	ActorLostNotification:
+	HiddenUnderFog:
 	AttackMove:
 	WithDamageOverlay:
+	WithFacingSpriteBody:
 	Explodes:
 		Weapon: UnitExplodeShip
 		EmptyWeapon: UnitExplodeShip
@@ -715,11 +750,110 @@
 	Guardable:
 	Tooltip:
 		GenericName: Ship
+	MustBeDestroyed:
 	Voiced:
 		VoiceSet: VehicleVoice
 	HitShape:
 	MapEditorData:
 		Categories: Naval
+	RepairableNear:
+		RepairActors: syrd, syrd.gdi, syrd.nod
+	DetectCloaked:
+		CloakTypes: Underwater
+		Range: 1c0
+	DamageMultiplier@LaserDesignator:
+		Modifier: 120
+		RequiresCondition: laser-designated
+	ExternalCondition@LaserDesignator:
+		Condition: laser-designated
+		TotalCap: 1
+	WithColoredOverlay@LaserDesignator:
+		RequiresCondition: laser-designated
+		Palette: laserpaint
+	Targetable@REPAIR:
+		RequiresCondition: damaged
+		TargetTypes: Repair
+	GrantConditionOnDamage@Repair:
+		Types: Repair
+		Condition: repairflash
+		Duration: 3
+	WithColoredOverlay@repairflash:
+		RequiresCondition: repairflash
+		Palette: highlight
+	GrantConditionOnDamageState@DAMAGED:
+		Condition: damaged
+		ValidDamageStates: Light, Medium, Heavy, Critical
+	GpsRadarDot:
+		Sequence: Ship
+
+^Submarine:
+	Inherits: ^Ship
+	-MustBeDestroyed:
+	RevealsShroud:
+		Range: 6c0
+		RequiresCondition: !underwater
+		RevealGeneratedShroud: false
+	RevealsShroud@UNDERWATER:
+		Range: 3c0
+		RequiresCondition: underwater
+	Cloak:
+		CloakTypes: Underwater
+		InitialDelay: 0
+		CloakDelay: 75
+		CloakSound: subshow1.aud
+		UncloakSound: subshow1.aud
+		CloakedCondition: underwater
+		Palette: submerged
+		IsPlayerPalette: false
+		UncloakOn: Heal, Dock, SelfHeal, Demolish
+		PauseOnCondition: cloak-force-disabled || crossing-ford || minehit
+		RequiresCondition: !deployed
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	Targetable:
+		TargetTypes: Ground, Water, Submarine
+		RequiresCondition: !underwater
+	Targetable@UNDERWATER:
+		TargetTypes: Underwater, Submarine
+		RequiresCondition: underwater
+	Targetable@REPAIR:
+		RequiresCondition: !underwater && damaged
+		TargetTypes: Repair
+	GrantConditionOnTerrain@CROSSINGFORD:
+		Condition: crossing-ford
+		TerrainTypes: Ford
+	GrantConditionOnDeploy:
+		DeployedCondition: deployed
+	ExternalCondition@MINEHIT:
+		Condition: minehit
+	Explodes:
+		Weapon: UnitExplodeSubmarine
+		EmptyWeapon: UnitExplodeSubmarine
+	DetectCloaked:
+		CloakTypes: Underwater
+		Range: 3c768
+	RenderDetectionCircle:
+	Sellable:
+		SellSounds: cashturn.aud
+		Cursor: sell2
+		ShowTicks: false
+		RequiresCondition: ship.sellable && !underwater
+	ChangesHealth@FieldRepair:
+		RequiresCondition: fieldrepair && !underwater
+	WithDecoration@FieldRepair:
+		RequiresCondition: fieldrepair && !underwater
+	SpeedMultiplier@ONSURFACE:
+		Modifier: 120
+		RequiresCondition: deployed && !heavy-damage && !critical-damage
+	SpeedMultiplier@ONSURFACEHEAVYDAMAGE:
+		RequiresCondition: deployed && heavy-damage
+		Modifier: 90
+	SpeedMultiplier@ONSURFACECRITICALDAMAGE:
+		RequiresCondition: deployed && critical-damage
+		Modifier: 60
+	GpsRadarDot:
+		Sequence: Submarine
 
 ^Building:
 	Inherits@1: ^ExistsInWorld
@@ -760,6 +894,7 @@
 	Tooltip:
 		GenericName: Structure
 	FrozenUnderFog:
+	FrozenUnderFogUpdatedByGpsRadar:
 	Demolishable:
 	MapEditorData:
 		Categories: Building
@@ -857,6 +992,8 @@
 	EdibleByLeap:
 	Targetable:
 		TargetTypes: Ground, C4, Structure
+	GpsRadarDot:
+		Sequence: Building
 
 ^FakeBuilding:
 	Inherits: ^BaseBuilding
@@ -889,7 +1026,7 @@
 		Categories: Civilian building
 	RenderSprites:
 		Palette: staticterrain
-
+ 
 ^CivBuildingHusk:
 	Inherits@1: ^SpriteActor
 	Interactable:
@@ -940,32 +1077,38 @@
 		IsPlayerPalette: True
 	RenderSprites:
 		Palette:
+	GpsRadarDot:
+		Sequence: TechBuilding
 
-#	todo: reimplement this proper
-#	^TechBuildingHusk:
-#	Inherits: ^CivBuildingHusk
-#	Tooltip:
-#	GenericName: Tech Building (Destroyed)
-#	Targetable:
-#	TargetTypes: Ground, NoAutoTarget
-#	CaptureManager:
-#	BeingCapturedCondition: being-captured
-#	Capturable:
-#	Types: techbuilding-husk
-#	RequiresCondition: !awaitcooldown
-#	CapturableProgressBar:	
-#	RequiresCondition: being-captured
-#	CapturableProgressBlink:
-#	prevent instant restore
-#	GrantTimedCondition@Cooldown:
-#	Condition: awaitcooldown
-# 3 minute should suffice
-#	Duration: 4500
-#	this is not appearing
-#	TimedConditionBar@Cooldown:	
-#	Condition: awaitcooldown
-#	Color: ffffff
-#	SelectionDecorations:
+^TechBuildingHusk:
+	Inherits@1: ^SpriteActor
+	Inherits@shape: ^1x1Shape
+	Interactable:
+	AppearsOnRadar:
+	Health:
+		HP: 10000
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+	WithSpriteBody:
+	Targetable:
+		RequiresForceFire: true
+		TargetTypes: Ground, NoAutoTarget
+	Tooltip:
+		GenericName: Tech Building (Destroyed)
+		GenericStancePrefix: false
+		ShowOwnerRow: false
+	FrozenUnderFog:
+	ScriptTriggers:
+	MapEditorData:
+		Categories: Husk
+	CaptureManager:
+	Capturable:
+		Types: restore-tech
+		ValidRelationships: Enemy, Neutral, Ally
+    CapturableProgressBlink:
+	TransformOnCapture:
+		ForceHealthPercentage: 35
 
 ^CivField:
 	Inherits: ^CivBuilding
@@ -1126,6 +1269,10 @@
 		Categories: Tree
 	RequiresSpecificOwners:
 		ValidOwnerNames: Neutral
+	ProximityExternalCondition:
+        ValidRelationships: Ally, Neutral, Enemy
+		Condition: proximity.camouflage
+		Range: 1c826
 
 ^TreeHusk:
 	Inherits@1: ^SpriteActor
@@ -1198,6 +1345,10 @@
 		Categories: Decoration
 	RequiresSpecificOwners:
 		ValidOwnerNames: Neutral
+	ProximityExternalCondition:
+        ValidRelationships: Ally, Neutral, Enemy
+		Condition: proximity.camouflage
+		Range: 1c826
 
 ^CommonHuskDefaults:
 	Inherits@1: ^ClassicFacingSpriteActor
@@ -1442,7 +1593,7 @@
 		Condition: stopatmedium
 		ValidDamageStates: Heavy
 	ChangesHealth@LOWPOWERDMG:
-		Step: -140
+		Step: -150
 		Delay: 52
 		StartIfBelow: 101
 		DamageCooldown: 0
@@ -1484,6 +1635,16 @@
 		Range: 1c0
 	ExternalCondition@Sellable:
 		Condition: unit.sellable
+
+^SellableNearShipyard:
+	Sellable:
+		RefundPercent: 50
+		SellSounds: cashturn.aud
+		Cursor: sell-vehicle
+		ShowTicks: false
+		RequiresCondition: ship.sellable
+	ExternalCondition@Sellable:
+		Condition: ship.sellable
 
 ^Mine:
 	Inherits: ^SpriteActor
@@ -1794,8 +1955,8 @@
 ^AffectedByFieldRepair:
 	ChangesHealth@FieldRepair:
 		Step: 0
-		PercentageStep: 1
-		Delay: 6
+		PercentageStep: 2
+		Delay: 25
 		StartIfBelow: 101
 		DamageCooldown: 0
 		RequiresCondition: fieldrepair
@@ -1930,3 +2091,43 @@
 		EjectInAir: true
 		EjectOnGround: true
 		RequiresCondition: has-hijacker
+
+^SummonerDummy:
+	Inherits@1: ^ExistsInWorld
+	Inherits@4: ^SpriteActor
+	OwnerLostAction:
+		Action: Kill
+	Armor:
+		Type: None
+	HiddenUnderFog:
+		Type: GroundPosition
+	ProximityCaptor:
+		Types: Plane
+	Tooltip:
+		GenericName: You shouldnt be seeing this...
+	WithShadow:
+		Offset: 43, 128, 0
+		ZOffset: -129
+	WithFacingSpriteBody:
+	MustBeDestroyed:
+	Voiced:
+		VoiceSet: GenericVoice
+	HitShape:
+	ParaDrop:
+		DropRange: 0c512
+	Health:
+		HP: 1
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Cargo:
+		MaxWeight: 10
+	RejectsOrders:
+	Interactable:
+		Bounds: 1,1
+		DecorationBounds: 1,1
+	SelectionDecorations:

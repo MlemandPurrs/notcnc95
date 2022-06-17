@@ -17,7 +17,7 @@ FACT:
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 210000
+		HP: 225000
 	Armor:
 		Type: Concrete
 	RevealsShroud:
@@ -157,6 +157,14 @@ FACT:
 		Proxy: stolentech.fact
 	GivesBuildableArea:
 		AreaTypes: building, outpost
+	GpsRadarDot:
+		Sequence: Conyard
+    #   does the power actually function ?
+    #   RevealsMapCA:
+	#	RevealGeneratedShroud: false
+	#	RequiresCondition: uplinkavailable
+	#	ValidRelationships: Ally
+    #   nope, it doesnt, ok but why ??
 
 FACT.Husk:
 	Inherits: ^BuildingHusk
@@ -190,7 +198,7 @@ NUKE:
 		Prerequisite: anypower
 	Buildable:
 		BuildPaletteOrder: 1
-		Prerequisites: fact, ~!powerplants.upgrade, ~techlevel.low
+		Prerequisites: fact, ~techlevel.low
 		Queue: Building.GDI, Building.Nod
 		Description: Generates a standard amount of power.
 	Building:
@@ -235,32 +243,6 @@ NUKE.Husk:
 		FactionImages:
 			nod: nodnuke.husk
 
-NUKE.Upgraded:
-	Inherits: NUKE
-	Buildable:
-		Queue: Building.GDI
-		Prerequisites: fact, ~powerplants.upgrade, ~techlevel.low
-	Power:
-		Amount: 150
-	SpawnActorOnDeath:
-		Actor: nuke.upgraded.husk
-		OwnerType: InternalName		
-	RenderSprites:
-		Image: gdinuke
-
-NUKE.Upgraded.Husk:
-	Inherits: ^BuildingHusk
-	Interactable:
-		Bounds: 48,48
-	Building:
-		Footprint: xx xx
-		Dimensions: 2,2
-		LocalCenterOffset: 0,-512,0
-	Tooltip:
-		Name: Power Plant (Destroyed)
-	RenderSprites:
-		Image: gdinuke.husk
-
 NUK2:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
@@ -276,8 +258,8 @@ NUK2:
 	ProvidesPrerequisite:
 		Prerequisite: anypower
 	Buildable:
-		BuildPaletteOrder: 4
-		Prerequisites: hq, ~!powerplants.upgrade, ~techlevel.medium
+		BuildPaletteOrder: 7
+		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
 		Description: Provides more power, cheaper than keep\nbuilding the standard Power Plant.
 	Building:
@@ -322,32 +304,6 @@ NUK2.Husk:
 		FactionImages:
 			nod: nodnuk2.husk
 
-NUK2.Upgraded:
-	Inherits: NUK2
-	Buildable:
-		Queue: Building.GDI
-		Prerequisites: hq, ~powerplants.upgrade, ~techlevel.medium
-	Power:
-		Amount: 300
-	SpawnActorOnDeath:
-		Actor: nuk2.upgraded.husk
-		OwnerType: InternalName	
-	RenderSprites:
-		Image: gdinuk2
-
-NUK2.Upgraded.Husk:
-	Inherits: ^BuildingHusk
-	Interactable:
-		Bounds: 48,48
-	Building:
-		Footprint: xx xx
-		Dimensions: 2,2
-		LocalCenterOffset: 0,-512,0
-	Tooltip:
-		Name: Advanced Power Plant (Destroyed)
-	RenderSprites:
-		Image: gdinuk2.husk
-
 NUK3:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^3x2Shape
@@ -357,11 +313,11 @@ NUK3:
 	Buildable:
 		BuildPaletteOrder: 13
 		BuildLimit: 1
-		Prerequisites: tmpl, ~stolentech.fact, ~techlevel.high
+		Prerequisites: anytier3, ~techlevel.high
 		Queue: Building.GDI, Building.Nod
 		Description: Provides triple the power of\na standard Power Plant.\n  Maximum one can be built.
 	Valued:
-		Cost: 1000
+		Cost: 950
 	Tooltip:
 		Name: Ultimate Power Plant
 	ProvidesPrerequisite:
@@ -471,7 +427,7 @@ PROC:
 	WithResourceLevelOverlay:
 		RequiresCondition: !build-incomplete
 	Power:
-		Amount: -40
+		Amount: -30
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:
@@ -519,6 +475,22 @@ PROC.Husk:
 		FactionImages:
 			nod: nodproc.husk
 
+#   problem: if you assign same building to 
+#   both Building and Defence queue will build one 
+#   copy for each queue resulting in 2 for price of 1 
+PROC.Clone:
+    Inherits: PROC
+	Buildable:
+		BuildPaletteOrder: 3
+		Queue: Defence.GDI, Defence.Nod
+	ProvidesPrerequisite@ISACOPY:
+        Prerequisite: proc
+	RenderSprites:
+		Image: proc
+		FactionImages:
+			nod: nodproc
+    -MapEditorData:
+
 SILO:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x1Shape
@@ -533,7 +505,7 @@ SILO:
 	Buildable:
 		BuildPaletteOrder: 6
 		Prerequisites: proc, ~techlevel.low
-		Queue: Building.GDI, Building.Nod
+		Queue: Defence.GDI, Defence.Nod
 		Description: Stores processed Tiberium.\n  Special: Periodic Income\nThe stored resources are gradually converted into Cash,\ngenerating income aslong not low on power.
 	Building:
 		Footprint: xx
@@ -681,6 +653,20 @@ PYLE:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltratePYLE
 		Proxy: stolentech.pyle
+	ProvidesPrerequisite@InfantryGDI:
+		Prerequisite: infantry.is.gdi
+		RequiresCondition: gdi.player
+	GrantConditionOnFaction@InfantryGDI:
+		Condition: gdi.player
+		Factions: gdi
+		ResetOnOwnerChange: True
+	ProvidesPrerequisite@InfantryNod:
+		Prerequisite: infantry.is.nod
+		RequiresCondition: nod.player
+	GrantConditionOnFaction@InfantryNod:
+		Condition: nod.player
+		Factions: nod
+		ResetOnOwnerChange: True
 
 PYLE.Husk:
 	Inherits: ^BuildingHusk
@@ -792,6 +778,20 @@ HAND:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateHAND
 		Proxy: stolentech.hand
+	ProvidesPrerequisite@InfantryGDI:
+		Prerequisite: infantry.is.gdi
+		RequiresCondition: gdi.player
+	GrantConditionOnFaction@InfantryGDI:
+		Condition: gdi.player
+		Factions: gdi
+		ResetOnOwnerChange: True
+	ProvidesPrerequisite@InfantryNod:
+		Prerequisite: infantry.is.nod
+		RequiresCondition: nod.player
+	GrantConditionOnFaction@InfantryNod:
+		Condition: nod.player
+		Factions: nod
+		ResetOnOwnerChange: True
 
 HAND.Husk:
 	Inherits: ^BuildingHusk
@@ -805,6 +805,138 @@ HAND.Husk:
 	RenderSprites:
 		Image: hand.husk
 
+#   todo: implement train Infantry like TS Armory
+ARMY:
+	Inherits: ^BaseBuilding
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 60000
+	Tooltip:
+		Name: Armory
+	Buildable:
+		BuildLimit: 1
+		BuildPaletteOrder: 11
+		Prerequisites: pyle, hq, ~techlevel.medium
+		Queue: Building.GDI
+		Description: Unlocks production of advanced Infantry and Light Vehicles.\nResearches GDI basic Technologies.\n  Maximum one can be built.
+	RevealsShroud:
+		Range: 4c0
+	WithBuildingBib:
+	WithSpriteBody:
+		PauseOnCondition: lowpower
+	Power:
+		Amount: -40
+	ProvidesPrerequisite@buildingname:
+	Valued:
+		Cost: 1000
+	SpawnActorOnDeath:
+		Actor: army.husk
+		OwnerType: InternalName
+	Production:
+		Produces: Upgrades.GDI, BasicUpgrades
+		PauseOnCondition: build-incomplete
+	ProductionQueue@TechGDI:
+		Type: Upgrades.GDI
+		DisplayOrder: 4
+		Factions: gdi
+		Group: Upgrades
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@TechGDI:
+		ProductionType: Upgrades.GDI
+	Exit:
+
+ARMY.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Armory (Destroyed)
+	RenderSprites:
+		Image: army.husk
+
+SHRN:
+	Inherits: ^BaseBuilding
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 60000
+	Tooltip:
+		Name: Shrine of Blackhand
+	Buildable:
+		BuildLimit: 1
+		BuildPaletteOrder: 5
+		Prerequisites: hand, hq, ~techlevel.medium
+		Queue: Building.Nod
+		Description: Unlocks production of Infiltrator.\nResearches Nod basic Technologies.\n  Maximum one can be built.
+	RevealsShroud:
+		Range: 4c0
+	WithBuildingBib:
+	WithSpriteBody:
+		PauseOnCondition: lowpower
+	Power:
+		Amount: -40
+	ProvidesPrerequisite@buildingname:
+	Valued:
+		Cost: 1000
+	SpawnActorOnDeath:
+		Actor: shrn.husk
+		OwnerType: InternalName
+	WithIdleOverlay@ORB:
+		Sequence: idle-orb
+		PauseOnCondition: lowpower
+		RequiresCondition: !build-incomplete
+	Production:
+		Produces: Upgrades.Nod, BasicUpgrades
+		PauseOnCondition: build-incomplete
+	ProductionQueue@TechNod:
+		Type: Upgrades.Nod
+		DisplayOrder: 4
+		Factions: nod
+		Group: Upgrades
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@TechNod:
+		ProductionType: Upgrades.Nod
+	Exit:
+
+SHRN.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Shrine of Blackhand (Destroyed)
+	RenderSprites:
+		Image: shrn.husk
+
 WEAP:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^3x2Shape
@@ -816,14 +948,14 @@ WEAP:
 	Valued:
 		Cost: 2000
 	Tooltip:
-		Name: Weapons Factory
+		Name: Heavy War Factory
 	ProvidesPrerequisite:
 		Prerequisite: vehicleproduction
 	Buildable:
 		BuildPaletteOrder: 5
-		Prerequisites: anypower, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low
 		Queue: Building.GDI
-		Description: Produces Vehicles and Helicopters
+		Description: Produces Armor and Vehicles.
 	Building:
 		Footprint: xxx +++ ===
 		Dimensions: 3,3
@@ -832,7 +964,7 @@ WEAP:
 		Bounds: 72,48
 		DecorationBounds: 72,64,0,-16
 	Health:
-		HP: 120000
+		HP: 125000
 	RevealsShroud:
 		Range: 4c0
 	WithBuildingBib:
@@ -898,6 +1030,100 @@ WEAP.Husk:
 	RenderSprites:
 		Image: weap.husk
 
+WEA2:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^3x2Shape
+	Tooltip:
+		Name: Light War Factory
+	Valued:
+		Cost: 1000
+	Buildable:
+		BuildPaletteOrder: 4
+        Prerequisites: anypower, ~techlevel.low
+		Queue: Building.GDI
+		Description: Produces Light Vehicles.
+	Building:
+		Footprint: xxx x+x ===
+		Dimensions: 3,3
+        LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 62500
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		Range: 4c0
+	WithBuildingBib:
+	WithProductionDoorOverlay:
+		RequiresCondition: !build-incomplete
+		Sequence: build-top
+	RallyPoint:
+		Path: 0,3
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: 0,-256,0
+		ExitCell: 1,2
+		ExitDelay: 3
+		ProductionTypes: LightVehicle.GDI
+
+	#   Exit@2:
+	#	RequiresCondition: !being-captured
+	#	SpawnOffset: 0,-512,0
+	#	ExitCell: 1,2
+	#	ExitDelay: 3
+	#	ProductionTypes: LightVehicle.GDI
+
+	Production:
+		Produces: LightVehicle.GDI
+		PauseOnCondition: build-incomplete
+	ProductionQueue:
+		Type: LightVehicle.GDI
+		DisplayOrder: 8
+		Group: LightVehicle
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar:
+		ProductionType: LightVehicle.GDI
+	ProvidesPrerequisite@buildingname:
+	ProvidesPrerequisite:
+		Prerequisite: vehicleproduction
+	RenderSprites:
+		Image: miniweap
+	SpawnActorOnDeath:
+		Actor: wea2.husk
+		OwnerType: InternalName
+	Selectable:
+		Bounds: 72,48
+	-ActorPreviewPlaceBuildingPreview:
+	SequencePlaceBuildingPreview:
+		Sequence: place
+		SequencePalette: placebuilding
+	Power:
+		Amount: -20
+		RequiresCondition: !build-incomplete
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateWEAP
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateWEAP
+		Proxy: stolentech.weap
+
+WEA2.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 72,48
+	Building:
+		Footprint: xxx === ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Light War Factory (Destroyed)
+	RenderSprites:
+		Image: miniweap.husk
+
 AFLD:
 	Inherits: ^BaseBuilding
 	Selectable:
@@ -914,7 +1140,7 @@ AFLD:
 	ProvidesPrerequisite:
 		Prerequisite: vehicleproduction
 	Buildable:
-		BuildPaletteOrder: 5
+		BuildPaletteOrder: 4
 		Prerequisites: anypower, ~techlevel.low
 		Queue: Building.Nod
 		Description: Provides a dropzone for\nVehicle and Helicopter reinforcements.\n  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n  (requires Communications Center)
@@ -923,7 +1149,7 @@ AFLD:
 		Dimensions: 4,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 110000
+		HP: 125000
 	RevealsShroud:
 		Range: 7c0
 	RallyPoint:
@@ -967,9 +1193,10 @@ AFLD:
 		Description: Paratroopers
 		UnitType: c17
 		LongDesc: A C-17 drops a squad of veteran Infantry\nanywhere on the map.
-		DropItems: E1R1,E1R1,E1R1,E3R1,E3R1
+		DropItems: E1R1,E3R1,E1R1,E3R1,E1R1
 		ReinforcementsArrivedSpeechNotification: Reinforce
 		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
 		AllowImpassableCells: false
 		QuantizedFacings: 8
 		CameraActor: camera.small
@@ -1005,6 +1232,87 @@ AFLD.Husk:
 	RenderSprites:
 		Image: afld.husk
 
+STRP:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^3x2Shape
+	Selectable:
+		Bounds: 72,48
+        DecorationBounds: 72,48,0,0
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 420,0,0, 420,-1024,0, 420,1024,0, -777,0,0, -777,-1024,0, -777,1024,0
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Subterranean Weapons Plant
+	ProvidesPrerequisite:
+		Prerequisite: vehicleproduction
+	Buildable:
+		BuildPaletteOrder: 11
+        Prerequisites: tmpl, ~techlevel.high
+		Queue: Building.Nod
+		Description: Produces Hi-Tech Vehicles.
+	Building:
+		Footprint: XX+ xx+ ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 62500
+	RevealsShroud:
+		Range: 7c0
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: -1024,0,0
+		ExitCell: 2,1
+		ProductionTypes: LightVehicle.Nod
+        ExitDelay: 5
+	Production:
+		Produces: LightVehicle.Nod
+		PauseOnCondition: build-incomplete
+	WithBuildingBib:
+	WithProductionDoorOverlay:
+		Sequence: build-top
+		RequiresCondition: !build-incomplete
+	ProductionQueue:
+		Type: LightVehicle.Nod
+		DisplayOrder: 3
+		Group: LightVehicle
+		LowPowerModifier: 150
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar:
+		ProductionType: LightVehicle.Nod
+	Power:
+		Amount: -40
+		RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	SpawnActorOnDeath:
+		Actor: strp.husk
+		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateAFLD
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateAFLD
+		Proxy: stolentech.afld
+	RenderSprites:
+		Image: strp
+
+STRP.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 72,48
+	Building:
+		Footprint: XXX xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Subterranean Weapons Plant (Destroyed)
+	RenderSprites:
+		Image: strp.husk
+
 FIX:
 	Inherits: ^BaseBuilding
 	HitShape:
@@ -1014,7 +1322,7 @@ FIX:
 	Valued:
 		Cost: 800
 	Tooltip:
-		Name: Repair Facility
+		Name: Service Depot
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: vehicleproduction, ~techlevel.medium
@@ -1070,7 +1378,7 @@ FIX:
 		Footprint: xxx xxx xxx
 		Duration: 375
 		Description: Field Repairs
-		LongDesc: Affected vehicles self-repair for 1% of their\nmaximum health per second for 15 second duration.
+		LongDesc: Affected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration.
 		SelectTargetSpeechNotification: SelectTarget
 		InsufficientPowerSpeechNotification: InsufficientPower
 		Condition: fieldrepair
@@ -1094,6 +1402,232 @@ FIX.Husk:
 	RenderSprites:
 		Image: fix.husk
 
+SYRD.gdi:
+	Inherits: ^BaseBuilding
+	-GivesBuildableArea:
+	-SpawnActorsOnSell:
+	-EdibleByLeap:
+	Selectable:
+		Bounds: 72,48
+	HitShape:
+		TargetableOffsets: 768,0,0, 768,-1024,0, 768,1024,0
+		Type: Rectangle
+			TopLeft: -1536, -1152
+			BottomRight: 1536, 598
+	HitShape@BOTTOM:
+		TargetableOffsets: -768,0,0
+		Type: Rectangle
+			TopLeft: -512, 598
+			BottomRight: 512, 1110
+	Buildable:
+		Queue: Building.GDI
+		BuildPaletteOrder: 6
+		Prerequisites: proc, ~techlevel.low, ~!global-disablenavy
+		Description: Produces and repairs\nships and transports.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Naval Yard
+	Building:
+		Footprint: XXX xxx XXX
+		Dimensions: 3,3
+		TerrainTypes: Water
+	RequiresBuildableArea:
+		Adjacent: 8
+	Health:
+		HP: 100000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	Production:
+		Produces: Ships.GDI
+		PauseOnCondition: build-incomplete || being-demolished
+	ProductionQueue@GDIShips:
+		Type: Ships.GDI
+		DisplayOrder: 6
+		Group: Naval
+		Factions: gdi
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@GDIShips:
+		ProductionType: Ships.GDI
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,1024,0
+		Facing: 160
+		ExitCell: 0,2
+		ProductionTypes: Ships.GDI
+	Exit@2:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,1024,0
+		Facing: 224
+		ExitCell: 2,2
+		ProductionTypes: Ships.GDI
+	Exit@3:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,-1024,0
+		Facing: 96
+		ExitCell: 0,0
+		ProductionTypes: Ships.GDI
+	Exit@4:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,-1024,0
+		Facing: 32
+		ExitCell: 2,0
+		ProductionTypes: Ships.GDI
+	RepairsUnits:
+		HpPerStep: 1000
+		Interval: 14
+		StartRepairingNotification: Repairing
+		PlayerExperience: 0
+		RepairDamageTypes: Repair
+	RallyPoint:
+	Power:
+		Amount: -40
+        RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	ProximityExternalCondition@MINEREPLENISH:
+		Condition: replenishsmine
+		Range: 5c0
+		RequiresCondition: !build-incomplete
+	ProximityExternalCondition@SELLSHIPS:
+		Condition: ship.sellable
+		Range: 5c0
+    RenderSprites:
+        Image: syrd
+	GpsRadarDot:
+		Sequence: NavalBuilding
+
+SYRD.nod:
+	Inherits: ^BaseBuilding
+	-GivesBuildableArea:
+	-SpawnActorsOnSell:
+	-EdibleByLeap:
+	Selectable:
+		Bounds: 72,48
+	HitShape:
+		TargetableOffsets: 768,0,0, 768,-1024,0, 768,1024,0
+		Type: Rectangle
+			TopLeft: -1536, -1152
+			BottomRight: 1536, 598
+	HitShape@BOTTOM:
+		TargetableOffsets: -768,0,0
+		Type: Rectangle
+			TopLeft: -512, 598
+			BottomRight: 512, 1110
+	Buildable:
+		Queue: Building.Nod
+		BuildPaletteOrder: 6
+		Prerequisites: proc, ~techlevel.low, ~!global-disablenavy
+		Description: Produces and repairs\nships and transports.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Nod Naval Yard
+	Building:
+		Footprint: XXX xxx XXX
+		Dimensions: 3,3
+		TerrainTypes: Water
+	RequiresBuildableArea:
+		Adjacent: 8
+	Health:
+		HP: 100000
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 5c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+	Production:
+		Produces: Ships.Nod
+		PauseOnCondition: build-incomplete || being-demolished
+	ProductionQueue@NodShips:
+		Type: Ships.Nod
+		DisplayOrder: 6
+		Group: Naval
+		Factions: nod
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@NodShips:
+		ProductionType: Ships.Nod
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: 0,-213,0
+		Facing: 384
+		ExitCell: -1,2
+		ProductionTypes: Ships.Nod
+	Exit@2:
+		RequiresCondition: !being-captured
+		SpawnOffset: 0,-213,0
+		Facing: 640
+		ExitCell: 3,2
+		ProductionTypes: Ships.Nod
+	Exit@3:
+		RequiresCondition: !being-captured
+		SpawnOffset: 0,0,0
+		Facing: 128
+		ExitCell: 0,0
+		ProductionTypes: Ships.Nod
+	Exit@4:
+		RequiresCondition: !being-captured
+		SpawnOffset: 0,0,0
+		Facing: 896
+		ExitCell: 2,0
+		ProductionTypes: Ships.Nod
+	RepairsUnits:
+		HpPerStep: 1000
+		Interval: 14
+		StartRepairingNotification: Repairing
+		PlayerExperience: 0
+		RepairDamageTypes: Repair
+	RallyPoint:
+	Power:
+		Amount: -40
+        RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	WithProductionDoorOverlay:
+		RequiresCondition: !build-incomplete
+		Sequence: build-top
+	WithProductionOverlay@REDLIGHTSTOP:
+		Sequence: build-lights
+		RequiresCondition: !build-incomplete
+		#   PauseOnCondition: lowpower
+	WithProductionOverlay@REDLIGHTSDOOR:
+		Sequence: door-lights
+		RequiresCondition: !build-incomplete
+		#   PauseOnCondition: lowpower
+	RenderSprites:
+		Image: nodspen
+	ProximityExternalCondition@MINEREPLENISH:
+		Condition: replenishsmine
+		Range: 5c0
+		RequiresCondition: !build-incomplete
+	ProximityExternalCondition@SELLSHIPS:
+		Condition: ship.sellable
+		Range: 5c0
+	#   GrantConditionOnPowerState@LOWPOWER:
+	#	Condition: lowpower
+	#	ValidPowerStates: Low, Critical
+	GpsRadarDot:
+		Sequence: NavalBuilding
+
 HPAD:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
@@ -1107,10 +1641,10 @@ HPAD:
 	Tooltip:
 		Name: Helipad
 	Buildable:
-		BuildPaletteOrder: 7
+		BuildPaletteOrder: 10
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Resupplies and Repairs Helicopters.
+		Description: Builds, Resupplies and Repairs Helicopters.
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -1121,6 +1655,7 @@ HPAD:
 	Exit@1:
 		SpawnOffset: 0,-256,0
 		Facing: 896
+        ProductionTypes: Aircraft.GDI, Aircraft.Nod
 	RallyPoint:
 	Reservable:
 	RepairsUnits:
@@ -1170,6 +1705,36 @@ HPAD:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateHPAD
 		Proxy: stolentech.hpad
+	ProductionQueue@GDI:
+		Type: Aircraft.GDI
+		DisplayOrder: 7
+		Factions: gdi
+		Group: Aircraft
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionQueue@Nod:
+		Type: Aircraft.Nod
+		DisplayOrder: 7
+		Factions: nod
+		Group: Aircraft
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@GDI:
+		ProductionType: Aircraft.GDI
+	ProductionBar@Nod:
+		ProductionType: Aircraft.Nod
+	ProductionFromMapEdge:
+		Produces: Aircraft.GDI, Aircraft.Nod
 
 HPAD.Husk:
 	Inherits: ^BuildingHusk
@@ -1197,7 +1762,7 @@ HQ:
 		BuildPaletteOrder: 9
 		Prerequisites: proc, anypower, ~can-build-hq-finale, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Provides an overview\nof the battlefield.\nCan detect cloaked units.\nUnlocks Artillery and specialist Infantry.\n  Special Ability: Radar Scan\nReveals an area of the map\nand cloaked enemy units there.
+		Description: Provides an overview\nof the battlefield.\nCan detect cloaked units.\nUnlocks Artillery, Recon Bike and Flamethrower.\n  Special Ability: Radar Scan\nReveals an area of the map\nand cloaked enemy units there.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1212,15 +1777,15 @@ HQ:
 	RevealsShroud:
 		Range: 10c0
 	WithBuildingBib:
-	ProvidesRadar:
-		RequiresCondition: !lowpower
+	#   ProvidesRadar:
+	#	RequiresCondition: !lowpower
 	RenderDetectionCircle:
 	DetectCloaked:
 		CloakTypes: GroundStealth, Stealth, AirStealth
 		Range: 5c0
 		RequiresCondition: !lowpower
 	Power:
-		Amount: -50
+		Amount: -60
 		RequiresCondition: !build-incomplete
 	SpawnActorOnDeath:
 		Actor: hq.husk
@@ -1228,7 +1793,7 @@ HQ:
 	ProvidesPrerequisite@buildingname:
 	ProvidesPrerequisite@LOCALRADAR:
 		Prerequisite: activedome
-		RequiresCondition: !jammed && !build-incomplete
+		RequiresCondition: !jammed && !lowpower && !build-incomplete
 	ProvidesPrerequisite@GLOBALJAM:
 		Prerequisite: isbeingjammed
 		RequiresCondition: jammed
@@ -1257,7 +1822,7 @@ HQ:
 	InterceptorPower@NodInterceptors:
 		PauseOnCondition: lowpower
 		OrderName: NodInterceptors
-		Prerequisites: ~interceptors.unlock, ~!interceptors.upgrade
+		Prerequisites: ~proxy.interceptorsnod.unlock, ~!proxy.interceptorsnod.upgrade
 		Icon: cepticon
 		ChargeInterval: 7500
 		Description: Interceptors
@@ -1281,7 +1846,7 @@ HQ:
 	InterceptorPower@NodInterceptorsUpgraded:
 		PauseOnCondition: lowpower
 		OrderName: NodInterceptorsUpgraded
-		Prerequisites: ~interceptors.upgrade
+		Prerequisites: ~proxy.interceptorsnod.upgrade
 		Icon: cepticon
 		ChargeInterval: 7500
 		Description: Interceptors
@@ -1300,6 +1865,30 @@ HQ:
 		UseDirectionalTarget: True
 		DirectionArrowAnimation: paradirection
 		GuardDuration: 750
+		Cordon: 8c0
+		SupportPowerPaletteOrder: 5
+	InterceptorPower@GDIInterceptors:
+		PauseOnCondition: lowpower
+		OrderName: GDIInterceptors
+		Prerequisites: ~proxy.interceptorsgdi.unlock
+		Icon: gdicepticon
+		ChargeInterval: 7500
+		Description: F-18 Interceptors
+		LongDesc: A squadron of F-18 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
+		SelectTargetSpeechNotification: SelectTarget
+		CameraActor: camera
+		CameraRemoveDelay: 450
+		UnitType: f18
+		QuantizedFacings: 8
+		DisplayBeacon: true
+		BeaconPoster: ceptbcon
+		SquadSize: 3
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		GuardDuration: 500
 		Cordon: 8c0
 		SupportPowerPaletteOrder: 5
 	SupportPowerChargeBar:
@@ -1325,6 +1914,40 @@ HQ:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateHQ
 		Proxy: stolentech.hq
+	Production:
+		Produces: Mercenary.GDI, Mercenary.Nod
+		PauseOnCondition: build-incomplete
+	ProductionQueue@MercsGDI:
+		Type: Mercenary.GDI
+		DisplayOrder: 5
+		Factions: gdi
+		Group: Mercenary
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@MercsGDI:
+		ProductionType: Mercenary.GDI
+	ProductionQueue@MercsNod:
+		Type: Mercenary.Nod
+		DisplayOrder: 5
+		Factions: nod
+		Group: Mercenary
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@MercsNod:
+		ProductionType: Mercenary.Nod
+	Exit:
+	GpsRadarDot:
+		Sequence: Communications
 
 HQ.Husk:
 	Inherits: ^BuildingHusk
@@ -1358,7 +1981,7 @@ HQ.GDI:
 		Queue: Building.GDI
 		Description: Provides an overview\nof the battlefield.\nCan detect cloaked units.\n  Special Ability: Recon Drone\nAn UAV reveals a strip of the map\nand cloaked enemy units within sight.
 	Tooltip@BASE:
-		Name: GDI Communications Center
+		Name: Communications Center
 		RequiresCondition: !eyeupgrade
 	Tooltip@UPGRADED:
 		Name: Advanced Communications Center
@@ -1438,6 +2061,49 @@ HQ.GDI:
 		DisplayTimerRelationships: Ally, Neutral, Enemy
 		CameraActor: camera.small
 	SupportPowerChargeBar:
+	Production:
+		Produces: Mercenary.GDI, SpySattelite
+		PauseOnCondition: build-incomplete
+	DummyGpsPower:
+		PauseOnCondition: lowpower
+		Icon: spysat
+		OneShot: true
+		ChargeInterval: 12
+		Description: Satellite Launch
+		LongDesc: Some dummy required to make Sattelite Scan work
+		RevealDelay: 6
+		LaunchSpeechNotification:
+		DisplayTimerRelationships: Ally
+		Condition: sat-launch
+        DoorImage: gdihq
+        SatelliteImage: atomicfake
+        SatelliteSequence: up
+        RequiresActiveRadar: true
+	ExternalCondition@DummyGpsPower:
+		Condition: sat-launch
+    GrantExternalConditionToOwner:
+        Condition: gps-is-up
+        RequiresCondition: sat-launch
+	ProduceActorPowerCA@SatelliteScan:
+        RequiresCondition: eyeupgrade && sat-launch
+		PauseOnCondition: lowpower
+		Prerequisites: upgc
+        OrderName: SatelliteScanPower
+		Icon: spysat
+		ChargeInterval: 10500
+        #   short duration for testing
+        #   ChargeInterval: 750
+		Description: Spy Satellite
+		LongDesc: Periodically reveals the entire map\nfor one minute duration.\n  (activated automatically)
+		Actors: camera.satscan
+		Type: SpySatellite
+		AutoFire: True
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+        #   LaunchSpeechNotification: NotReady
+        #   ok, it seems the power launches but the unit
+        #   is not getting generated as im not hearing 
+        #   any sattelite sound its supposed to emit on
+        #   getting created
 	RenderSprites:
 		Image: gdihq
 	Pluggable:
@@ -1447,7 +2113,7 @@ HQ.GDI:
 		Requirements:
 			eyeupgrade: !eyeupgrade && !build-incomplete
 	Power@BASE:
-		Amount: -40
+		Amount: -60
 		RequiresCondition: !eyeupgrade
 	Power@UPGRADED:
 		Amount: -80
@@ -1461,6 +2127,29 @@ HQ.GDI:
 	#	hmm, infiltrate for support Power is not conditional
 	#	that means EYE will have to do without unique
 	#	InfiltrateForSupportPower@STOLENTECH:
+    -ProductionQueue@MercsNod:
+    -ProductionBar@MercsNod:
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+
+    #   doesnt do anything, broken
+	#   GpsPower:
+	#	PauseOnCondition: lowpower
+    #   RequiresCondition: eyeupgrade
+    #   Prerequisites: upgc, ~techlevel.unrestricted
+	#	Icon: spysat
+	#	OneShot: true
+	#	ChargeInterval: 375
+	#	Description: Spy Satellite
+	#	LongDesc: Reveals map terrain and provides tactical\ninformation. Requires power and active radar.
+	#	RevealDelay: 375
+	#	LaunchSpeechNotification:
+	#	DisplayTimerRelationships: Ally, Neutral, Enemy
+	#	SupportPowerPaletteOrder: 99
+    #   DoorImage: gdihq
+    #   SatelliteImage: dummy
 
 HQ.GDI.Husk:
 	Inherits: ^BuildingHusk
@@ -1471,7 +2160,7 @@ HQ.GDI.Husk:
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Tooltip:
-		Name: GDI Communications Center (Destroyed)
+		Name: Communications Center (Destroyed)
 	RenderSprites:
 		Image: gdihq.husk
 
@@ -1489,9 +2178,9 @@ EYE.Plug:
 		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and Sniper.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
 	Plug:
 		Type: eyeupgrade
-	#	this is to show will use extra -40 power when applied on the tooltip
+	#	this is to show will use extra -20 power when applied on the tooltip
 	Power:
-		Amount: -40
+		Amount: -20
 
 EYE:
 	Inherits: ^BaseBuilding
@@ -1522,12 +2211,18 @@ EYE:
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Health:
-		HP: 130000
+		HP: 80000
 	RevealsShroud:
 		Range: 10c0
 	WithBuildingBib:
-	ProvidesRadar:
-		RequiresCondition: !lowpower
+	ProvidesPrerequisite@LOCALRADAR:
+		Prerequisite: activedome
+		RequiresCondition: !jammed && !lowpower && !build-incomplete
+	ProvidesPrerequisite@GLOBALJAM:
+		Prerequisite: isbeingjammed
+		RequiresCondition: jammed
+	ExternalCondition@JAMMED:
+		Condition: jammed
 	RenderDetectionCircle:
 	DetectCloaked:
 		CloakTypes: GroundStealth, Stealth, AirStealth
@@ -1539,7 +2234,7 @@ EYE:
 		OrderName: IonCannon
 		Icon: ioncannon
 		Cursor: ioncannon
-		ChargeInterval: 9000
+		ChargeInterval: 10500
 		Description: Ion Cannon
 		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
 		BeginChargeSpeechNotification: IonCannonCharging
@@ -1553,7 +2248,7 @@ EYE:
 		DisplayTimerRelationships: Ally, Neutral, Enemy
 	SupportPowerChargeBar:
 	Power:
-		Amount: -200
+		Amount: -80
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
@@ -1564,6 +2259,11 @@ EYE:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateHQ
 		Proxy: stolentech.hq
+	GpsRadarDot:
+		Sequence: Communications
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
 
 EYE.Husk:
 	Inherits: ^BuildingHusk
@@ -1578,6 +2278,80 @@ EYE.Husk:
 	RenderSprites:
 		Image: eye.husk
 
+NCOM:
+	Inherits: ^BaseBuilding
+	Inherits@IDISABLE: ^DisabledOverlay
+	Inherits@shape: ^2x2Shape
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 630,-384,0, 630,384,0, -700,-512,0, -700,512,0
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Buildable:
+		BuildLimit: 1
+		BuildPaletteOrder: 12
+		Prerequisites: tmpl, hq, ~techlevel.high
+		Queue: Building.Nod
+		Description: Unlocks production of Hacker.\nMaximum one can be built.\n  Special Ability: Sattelite Hack\nReveals the location of Enemy structures and units\nthrough the fog of war.\n (requires active Radar)
+	Tooltip:
+		Name: Intelligence Center
+	Power:
+		Amount: -60
+	Health:
+		HP: 60000
+	RevealsShroud:
+		Range: 4c0
+	Valued:
+		Cost: 1200
+	ProvidesPrerequisite@buildingname:
+	WithBuildingBib:
+	GrantPrerequisiteChargeDrainPowerCA@SatteliteHack:
+		OrderName: SatteliteHack
+		DischargeModifier: 600
+		Prerequisite: haxx-active
+		ChargeInterval: 4500
+		Icon: sathack
+		Description: Sattelite Hack
+		LongDesc: Reveals the location of Enemy structures and units\nthrough the fog of war.\n (requires active Radar)
+		RequiresCondition: !build-incomplete
+		PauseOnCondition: !radar-active || lowpower
+		LaunchSound: hacksat.aud
+		DisplayTimerRelationships: Ally
+		SelectTargetSpeechNotification: SelectTarget
+		Prerequisites: ~hq, ~techlevel.unrestricted
+		EarlyDeactivationPenalty: 1500
+	SupportPowerChargeBar:
+	DrainPrerequisitePowerOnDamage:
+		OrderName: SatteliteHack
+	GrantConditionOnPrerequisite@RadarActive:
+		Prerequisites: activedome
+		Condition: radar-active
+	GrantConditionOnPrerequisite@SatteliteHack:
+		Prerequisites: haxx-active
+		Condition: haxx-active
+	GpsRadarProvider:
+		RequiresCondition: haxx-active && !lowpower
+	RenderSprites:
+		Image: ncom
+	SpawnActorOnDeath:
+		Actor: ncom.husk
+
+NCOM.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Intelligence Center (Destroyed)
+	RenderSprites:
+		Image: ncom.husk
+
 TECH:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^3x2Shape
@@ -1591,7 +2365,7 @@ TECH:
 		Dimensions: 3,2
 		LocalCenterOffset: 0,-512,0
 	Buildable:
-		BuildPaletteOrder: 11
+		BuildPaletteOrder: 14
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.GDI
@@ -1601,7 +2375,7 @@ TECH:
 	Tooltip:
 		Name: Tech Center
 	Health:
-		HP: 80000
+		HP: 100000
 	Armor:
 		Type: Wood
 	RevealsShroud:
@@ -1619,7 +2393,7 @@ TECH:
 	AirstrikePower@AirstrikeA10:
 		OrderName: AirStrikeA10
 		PauseOnCondition: lowpower
-		Prerequisites: ~airstrike.unlock, ~!airstrike.upgrade
+		Prerequisites: ~proxy.airstrike.unlock, ~!proxy.airstrike.upgrade
 		Icon: airstrike
 		ChargeInterval: 4500
 		SquadSize: 1
@@ -1641,7 +2415,7 @@ TECH:
 	AirstrikePower@AirstrikeA10Upgraded:
 		OrderName: AirstrikeA10Upgraded
 		PauseOnCondition: lowpower
-		Prerequisites: ~airstrike.upgrade
+		Prerequisites: ~proxy.airstrike.upgrade
 		Icon: airstrike
 		ChargeInterval: 7500
 		SquadSize: 3
@@ -1670,13 +2444,13 @@ TECH:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 		SellSounds: cashturn.aud
 	Production:
-		Produces: Aircraft.GDI
+		Produces: Upgrades.GDI, AdvancedUpgrades
 		PauseOnCondition: build-incomplete
-	ProductionQueue@GDI:
-		Type: Aircraft.GDI
+	ProductionQueue@TechGDI:
+		Type: Upgrades.GDI
 		DisplayOrder: 4
 		Factions: gdi
-		Group: Aircraft
+		Group: Upgrades
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
 		BlockedAudio: NoBuild
@@ -1684,8 +2458,8 @@ TECH:
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
-	ProductionBar@GDI:
-		ProductionType: Aircraft.GDI
+	ProductionBar@TechGDI:
+		ProductionType: Upgrades.GDI
 	Exit:
 	SpawnActorOnDeath:
 		Actor: tech.husk
@@ -1695,6 +2469,8 @@ TECH:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateTECH
 		Proxy: stolentech.tech
+	ProvidesPrerequisite:
+		Prerequisite: anytier3
 
 TECH.Husk:
 	Inherits: ^BuildingHusk
@@ -1729,7 +2505,7 @@ TMPL:
 	Tooltip:
 		Name: Temple of Nod
 	Buildable:
-		BuildPaletteOrder: 11
+		BuildPaletteOrder: 14
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.Nod
@@ -1742,7 +2518,7 @@ TMPL:
 		Bounds: 72,48
 		DecorationBounds: 72,68,0,-12
 	Health:
-		HP: 210000
+		HP: 200000
 	RevealsShroud:
 		Range: 6c0
 	NukePower:
@@ -1780,20 +2556,20 @@ TMPL:
 		Sequence: smoke
 	SupportPowerChargeBar:
 	Power:
-		Amount: -150
+		Amount: -120
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
 		Actor: tmpl.husk
 		OwnerType: InternalName
 	Production:
-		Produces: Aircraft.Nod, Cyborg
+		Produces: Upgrades.Nod, AdvancedUpgrades, Superunits.Nod, Cyborg
 		PauseOnCondition: build-incomplete
 	ProductionQueue@Nod:
-		Type: Aircraft.Nod
+		Type: Upgrades.Nod
 		DisplayOrder: 4
 		Factions: nod
-		Group: Aircraft
+		Group: Upgrades
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
 		BlockedAudio: NoBuild
@@ -1801,8 +2577,22 @@ TMPL:
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
-	ProductionBar@Nod:
-		ProductionType: Aircraft.Nod
+	ProductionQueue@SupersNod:
+		Type: Superunits.Nod
+		DisplayOrder: 9
+		Factions: nod
+		Group: Superunits
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@TechNod:
+		ProductionType: Upgrades.Nod
+	ProductionBar@SuperunitsNod:
+		ProductionType: Superunits.Nod
 	Exit:
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished
@@ -1814,7 +2604,7 @@ TMPL:
 	AirstrikePower@NodAirStrike:
 		OrderName: NodAirStrike
 		PauseOnCondition: lowpower
-		Prerequisites: ~nodairstrike.unlock
+		Prerequisites: ~proxy.nodairstrike.unlock
 		Icon: sfigicon
 		ChargeInterval: 4500
 		SquadSize: 1
@@ -1880,6 +2670,8 @@ TMPL:
 		PauseOnCondition: lowpower
 	#	Palette:
 	#	IsPlayerPalette:
+	ProvidesPrerequisite:
+		Prerequisite: anytier3
 
 TMPL.Husk:
 	Inherits: ^BuildingHusk
@@ -1911,10 +2703,10 @@ TMPF:
 		GenericVisibility: Enemy
 		GenericStancePrefix: False
 	Buildable:
-		BuildPaletteOrder: 10
+		BuildPaletteOrder: 14
 		BuildLimit: 1
 		Prerequisites: hq, ~techlevel.high
-		Queue: Building.Nod
+		Queue: Defence.Nod
 		Description: Appears like a Temple of Nod to your enemies.\n  Maximum one can be built.\n  Special ability: Fake Nuke\nThis missile looks like an Atom Bomb,\nuntil it detonates non-violently.
 		Icon: fake-icon
 	Building:
@@ -1926,7 +2718,7 @@ TMPF:
 	Valued:
 		Cost: 625
 	Health:
-		HP: 210000
+		HP: 200000
 	Armor:
 		Type: Wood
 	Explodes:
@@ -1984,15 +2776,15 @@ NODBIO:
 		Footprint: xx xx
 		Dimensions: 2,2
 	Health:
-		HP: 60000
+		HP: 80000
 	Armor:
 		Type: Wood
 	Buildable:
-		BuildPaletteOrder: 12
+		BuildPaletteOrder: 15
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Building.Nod
-		Description: Enables production of SSM Launcher and Chemical Trooper.\nEnables Nuclear Strike at Temple of Nod.\n  Maximum one can be built.\n  Requires Power to operate.
+		Description: Enables production of SSM Launcher,\nChemical Trooper and Chemical Mortar.\nEnables Nuclear Strike at Temple of Nod.\n  Maximum one can be built.\n  Requires Power to operate.
 	Tooltip:
 		Name: Nod Lab
 	Valued:
@@ -2004,7 +2796,7 @@ NODBIO:
 		Sequence: idle-smoke
 		RequiresCondition: !build-incomplete && !lowpower
 	Power:
-		Amount: -100
+		Amount: -80
 		RequiresCondition: !build-incomplete
 	RevealsShroud:
 		MinRange: 5c0
@@ -2076,7 +2868,7 @@ UPGC:
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-1024,0
 	Health:
-		HP: 80000
+		HP: 125000
 	Armor:
 		Type: Wood
 	RevealsShroud:
@@ -2085,18 +2877,35 @@ UPGC:
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Buildable:
-		BuildPaletteOrder: 10
+		BuildPaletteOrder: 15
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Building.GDI
-		Description: Allows to select one of three Strategies.\nEnables production of ICBM Launcher.\n  Special ability: Supply Dropzone\nPeriodically gain 1k money aid.\n Maximum 1 can be built.\n  Cannot be captured.
+		Description: Allows to select one of three Strategies.\nEnables production of Superunits.\n  Special ability: Supply Dropzone\nPeriodically gain 1k money aid.\n Maximum 1 can be built.\n  Cannot be captured.
 	Valued:
 		Cost: 2500
 	Tooltip:
 		Name: Strategy Center
 	Power:
-		Amount: -150
+		Amount: -120
 	ProvidesPrerequisite@buildingname:
+	Production:
+		Produces: Superunits.GDI
+		PauseOnCondition: build-incomplete
+	ProductionQueue@SupersGDI:
+		Type: Superunits.GDI
+		DisplayOrder: 9
+		Factions: gdi
+		Group: Superunits
+		LowPowerModifier: 150
+		ReadyAudio: UnitReady
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar@SupersGDI:
+		ProductionType: Superunits.GDI
 	ProductionAirdropCA:
 		Produces: Dropzone
 		PauseOnCondition: lowpower
@@ -2247,6 +3056,14 @@ ANYBIO:
 		Name: a Laboratory
 	Buildable:
 		Description: a Laboratory
+
+ANYTIER3:
+	AlwaysVisible:
+	Interactable:
+	Tooltip:
+		Name: Tech Center or Temple of Nod
+	Buildable:
+		Description: Tech Center or Temple of Nod
 
 stolentech.fact:
 	AlwaysVisible:

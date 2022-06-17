@@ -72,6 +72,15 @@ Terrain:
 		Type: Shallow
 		TargetTypes: Water
 		Color: B09C78
+	TerrainType@Jumpjet:
+		Type: Jumpjet
+		Color: 745537
+	TerrainType@RedTiberium:
+		Type: RedTiberium
+		TargetTypes: Ground
+		AcceptsSmudgeType: Crater, Scorch
+		Color: f53333
+		RestrictPlayerColor: true
 
 Templates:
 	Template@255:

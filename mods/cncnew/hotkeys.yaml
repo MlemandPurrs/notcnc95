@@ -14,6 +14,26 @@ ProductionTypeVehicle: Y
 	Description: Vehicle Tab
 	Types: Production, Player
 
-ProductionTypeAircraft: U
+ProductionTypeUpgrades: U
+	Description: Upgrades Tab
+	Types: Production, Player
+
+ProductionTypeMercenary: D
+	Description: Mercenaries Tab
+	Types: Production, Player
+
+ProductionTypeNaval: F
+	Description: Naval Tab
+	Types: Production, Player
+
+ProductionTypeAircraft: G
 	Description: Aircraft Tab
+	Types: Production, Player
+
+ProductionTypeLightVehicle: H
+	Description: Light Vehicles Tab
+	Types: Production, Player
+    
+ProductionTypeSuperunits: J
+	Description: Supers Tab
 	Types: Production, Player

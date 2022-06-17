@@ -88,3 +88,1673 @@ NAPC:
 		RequiresCondition: !loaded
 	Capturable@HIJACKED:
 		RequiresCondition: !loaded
+
+LTNK.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Light Tanks
+	Buildable:
+		Queue: Vehicle
+		BuildAtProductionType: Paradrop
+		BuildPaletteOrder: 1000
+		Prerequisites: dome, ~vehicles.usa, ~techlevel.low
+		Description: Prepare a trio of Light Tanks for airdrop.
+	TooltipExtras:
+		Strengths: • Strong vs Heavy Armor, Light Armor
+		Weaknesses: • Weak vs Infantry, Defenses\n• Cannot attack Aircraft
+	Valued:
+		Cost: 1750
+	RenderSprites:
+		Image: squad.airborne.tank
+	ProduceActorPowerCA:
+		Actors: powerproxy.airborne.tank
+		Type: Paradrop
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: Heavy
+
+powerproxy.airborne.tank:
+	AlwaysVisible:
+	ParatroopersPower:
+		OrderName: airbornetank
+		Icon: airdropicon
+		SquadSize: 1
+		UnitType: c17
+		Description: Airdrop: Light Tanks (Single Use)
+		LongDesc: A C-17 Plane drops a trio of Light Tanks\nanywhere on the map.
+		OneShot: true
+		AllowMultiple: true
+		DropItems: LTNK,LTNK,LTNK
+		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: Reinforce
+		LaunchSpeechNotification: ReinforcementsArrived
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.paradrop
+		DisplayBeacon: true
+		BeaconPoster: lrairdropicon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+
+#   the old Humvee from before Light Vehicles
+JEEP:
+	Inherits: ^Vehicle
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 400
+	Tooltip:
+		Name: Humvee
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 1
+		Prerequisites: wea2, ~techlevel.low
+		Queue: LightVehicle.GDI
+		Description: Light scout vehicle.\n  Strong vs Infantry\n  Weak vs Tanks
+	Mobile:
+		TurnSpeed: 40
+		Speed: 156
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 15000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 8c0
+	Turreted:
+		TurnSpeed: 40
+		Offset: -85,0,128
+	Armament:
+		Weapon: MachineGun
+		LocalOffset: 171,0,85
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: JeepRockets
+		LocalOffset: 250,100,150
+		Recoil: 0
+		RequiresCondition: towhumvee-upgraded
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		AmmoPool: ammo
+		Delay: 300
+		Count: 1
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+		RequiresCondition: towhumvee-upgraded
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret@1:
+		Sequence: turret
+		RequiresCondition: !towhumvee-upgraded
+	WithSpriteTurret@2:
+		Sequence: turrettow
+		RequiresCondition: towhumvee-upgraded
+	SpawnActorOnDeath:
+		Actor: JEEP.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade
+	GrantConditionOnPrerequisite@TOWHumvee:
+		Condition: towhumvee-upgraded
+		Prerequisites: towhumvee.upgrade
+
+#   this was silly and no longer relevant
+#   mobilesam.upgrade:
+#	Inherits: ^Upgrade
+#	Tooltip:
+#	Name: Upgrade: MLRS Anti-Air
+#	Buildable:
+#	BuildPaletteOrder: 8
+#	Queue: Upgrades.GDI
+#	Prerequisites: ~hq, ~techlevel.unrestricted
+#	BuildDuration: 1500
+#	Description: Allows MLRS to shoot Helicopters when in 2-shot modus.\n\n  Upgrades: Multiple Launch Rocket System\n  + The unit doubles as Mobile SAM
+#	Valued:
+#	Cost: 1000
+#	RenderSprites:
+#	Image: mobilesam.upgrade
+
+#	failed to get this work using mainline
+#	will give it another shot now have CA
+#	artydualshot.upgrade:
+#	Inherits: ^Upgrade
+#	Tooltip:
+#	Name: Upgrade: Artillery Dual Shot
+#	Buildable:
+#	BuildPaletteOrder: 9
+#	Queue: Upgrades.Nod
+#	Prerequisites: ~hq, ~techlevel.unrestricted
+#	BuildDuration: 1500
+#	Description: The Artillery may randomly shoot a extra shell.\n\n  Upgrades: Artillery\n  + 10% chance to shoot a second artillery shell
+#	Valued:
+#	Cost: 1000
+#	RenderSprites:
+#	Image: artydualshot.upgrade
+
+
+#	trying 'normal' apc
+napcarmed.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Armed APC
+	Buildable:
+		BuildPaletteOrder: 10
+		Queue: Upgrades.Nod
+		#	Prerequisites: ~hand, ~afld, ~!napcmedic.upgrade, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: Arms Nod APCs with a machinegun turret.\n\n  Upgrades: Nod APC\n  + Gains Machinegun weapon.\n\n  Only one Nod APC upgrade may be chosen.
+	Valued:
+		Cost: 800
+	RenderSprites:
+		Image: napcarmed.upgrade
+
+#	trying 'normal' apc
+napcmedic.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Medical APC
+	Buildable:
+		BuildPaletteOrder: 11
+		Queue: Upgrades.Nod
+		#	Prerequisites: ~hand, ~afld, ~!napcarmed.upgrade, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: Outfits Nod APCs with healing modules.\n\n  Upgrades: Nod APC\n  + Allows adjacent Infantry to self-heal\n\n  Only one Nod APC upgrade may be chosen.
+	Valued:
+		Cost: 800
+	RenderSprites:
+		Image: napcmedic.upgrade
+
+#	Cargo is not conditional  qq
+#	mh60cargo.upgrade:
+#	Inherits: ^Upgrade
+#	Tooltip:
+#	Name: Upgrade: Black Hawk Cargo
+#	Buildable:
+#	BuildPaletteOrder: 11
+#	Queue: Upgrades.GDI
+#	Prerequisites: ~hpad, ~!mh60medic.upgrade, ~techlevel.unrestricted
+#	BuildDuration: 1500
+#	Description: Black Hawks are refitted to allow carrying Infantry.\n\n  Upgrades: Black Hawk\n  + May carry up to 5 Infantry\n  - Ammo gets reduced
+#	Valued:
+#	Cost: 1000
+#	RenderSprites:
+#	Image: mh60cargo.upgrade
+
+#	im not satisfied with the workarounds
+#	and the side-effects they are causing
+#	so this will have to wait...
+orcaammo.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Orca Ammo
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Upgrades.GDI
+		#	Prerequisites: ~hpad, ~eye, ~techlevel.unrestricted
+		Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: Add two more rocket salvo to Orca.\n\n  Upgrades: Orca\n  + Orca gains +4 Ammo\n  - Rearming to full takes longer\n  Existing Orcas can be upgraded by landing on Helipad
+	Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: orcaammo.upgrade
+
+#	unsure if this is needed
+powerplants.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Power Plants
+	Buildable:
+		BuildPaletteOrder: 23
+        BuildAtProductionType: AdvancedUpgrades
+		Queue: Upgrades.GDI
+		#   Prerequisites: ~upgc, ~techlevel.unrestricted
+        Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: Develop more refined designs that generate more Power.\n\n  Upgrades: Power Plants\n  + Standard plant Generates 50 more Power\n  + Advanced plant Generates 100 more Power\n  Existing Powerplants will not be affected!
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: powerplants.upgrade
+
+#   GDI Powerplants
+
+NUKE.Upgraded:
+	Inherits: NUKE
+	Buildable:
+		Queue: Building.GDI
+		Prerequisites: fact, ~powerplants.upgrade, ~techlevel.low
+	Power:
+		Amount: 150
+	SpawnActorOnDeath:
+		Actor: nuke.upgraded.husk
+		OwnerType: InternalName		
+	RenderSprites:
+		Image: gdinuke
+
+NUKE.Upgraded.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Power Plant (Destroyed)
+	RenderSprites:
+		Image: gdinuke.husk
+
+NUK2.Upgraded:
+	Inherits: NUK2
+	Buildable:
+		Queue: Building.GDI
+		Prerequisites: hq, ~powerplants.upgrade, ~techlevel.medium
+	Power:
+		Amount: 300
+	SpawnActorOnDeath:
+		Actor: nuk2.upgraded.husk
+		OwnerType: InternalName	
+	RenderSprites:
+		Image: gdinuk2
+
+NUK2.Upgraded.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Advanced Power Plant (Destroyed)
+	RenderSprites:
+		Image: gdinuk2.husk
+
+#   Orca Upgrade fail
+
+ORCA:
+	Inherits: ^Helicopter
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Orca
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 14
+		Prerequisites: hpad, hq, ~!orcaammo.upgrade, ~techlevel.medium
+		Queue: Aircraft.GDI
+		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
+	Aircraft:
+		TurnSpeed: 28
+		Speed: 186
+		TakeoffSounds: orcaup1.aud
+		LandingSounds: orcadwn1.aud
+		PauseOnCondition: emp-crate-collected || being-captured
+	Health:
+		HP: 12500
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Weapon: OrcaAGMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@SECONDARY:
+		Weapon: OrcaAAMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@TERTIARY:
+		Name: tertiary
+		Weapon: MachineGunH
+		MuzzleSequence: muzzle
+		LocalOffset: 427,0,-213
+		PauseOnCondition: !ammo
+	WithMuzzleOverlay:
+	AutoTarget:
+		ScanRadius: 5
+	AttackAircraft:
+		Armaments: primary, secondary, tertiary
+		FacingTolerance: 80
+		OpportunityFire: false
+		PersistentTargeting: false
+		AttackType: Hover
+	AmmoPool:
+		Armaments: primary, secondary
+		Ammo: 6
+		ReloadDelay: 100
+		ReloadCount: 2
+		AmmoCondition: ammo
+	SpawnActorOnDeath:
+		Actor: ORCA.Husk
+	WithMoveAnimation:
+		MoveSequence: move
+	Rearmable:
+		RearmActors: hpad
+	Selectable:
+		DecorationBounds: 30,24
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+	#	!airborne is there for because
+	#	Aircraft freezes if Transformed mid-flight
+	TransformOnCondition@OrcaAmmoUpgrade:
+		IntoActor: ORCA.Upgraded.NoAmmo
+		RequiresCondition: orcaammo-upgraded && !airborne && onhelipad
+	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
+		Condition: orcaammo-upgraded
+		Prerequisites: orcaammo.upgrade
+	ExternalCondition@OnHelipad:
+		Condition: onhelipad
+	#	this whole jazz can be avoided simply by 
+	#	making AmmoPool into a conditional trait
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: orca.veterancy
+
+ORCA.Husk:
+	Inherits: ^HelicopterHusk
+	Tooltip:
+		Name: Orca
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 186
+	RevealsShroud:
+		Range: 10c0
+		Type: GroundPosition
+	RenderSprites:
+		Image: orca
+
+ORCA.Upgraded:
+	Inherits: ORCA
+	Buildable:
+		Prerequisites: hpad, hq, ~orcaammo.upgrade, ~techlevel.medium
+	AmmoPool:
+		Ammo: 10
+	RenderSprites:
+		Image: orca
+	-TransformOnCondition@OrcaAmmoUpgrade:
+	-GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
+	-ExternalCondition@OnHelipad:
+	-MapEditorData:
+
+#	to prevent instant full ammo on transform
+ORCA.Upgraded.NoAmmo:
+	Inherits: ORCA.Upgraded
+	-Buildable:
+	#	and affected by the ceases 
+	#	rearming on transform bug
+	#	for aircraft, na großartig
+	Aircraft:
+		TakeOffOnCreation: false
+	AmmoPool:
+		InitialAmmo: 0
+	RenderSprites:
+		Image: orca
+
+#   this refuses to work with ProductionFromMapEdge
+airstrike.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Airstrike
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.GDI
+		Prerequisites: ~hq, ~tech, ~techlevel.unrestricted, ~!airstrike.unlock
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Airstrike' support power.\n\n  Unlocks: Airstrike\n\n  + Burns buildings and infantry along a line.\n  - The Bomber is vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: airstrike.unlock
+
+airstrike.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Airstrike
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.GDI
+		Prerequisites: ~airstrike.unlock, ~eye, ~tech, ~bombard.strat, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: airstrike.upgrade
+
+gdiinterceptors.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: F-18 Interceptors
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Aircraft.GDI
+		Prerequisites: ~hq, ~tech, ~!gdiinterceptors.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: gdiinterceptors.unlock
+
+nodinterceptors.unlock:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Unlock: Interceptors
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.Nod
+		Prerequisites: ~hq, ~tmpl, ~!nodinterceptors.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Plane is vulnerable to SAM sites.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: nodinterceptors.unlock
+
+nodinterceptors.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Interceptors
+	Buildable:
+		BuildPaletteOrder: 7
+		Queue: Aircraft.Nod
+		Prerequisites:  ~nodinterceptors.unlock,  ~nodbio, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: nodinterceptors.upgrade
+
+    #   Airstrike on Tech Center
+	AirstrikePower@AirstrikeA10:
+		OrderName: AirStrikeA10
+		PauseOnCondition: lowpower
+		Prerequisites: ~airstrike.unlock, ~!airstrike.upgrade
+		Icon: airstrike
+		ChargeInterval: 4500
+		SquadSize: 1
+		QuantizedFacings: 8
+		Description: Air Strike
+		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: a10
+		DisplayBeacon: True
+		BeaconPoster: airstrike
+		DisplayRadarPing: True
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airstrike
+		SupportPowerPaletteOrder: 2
+	AirstrikePower@AirstrikeA10Upgraded:
+		OrderName: AirstrikeA10Upgraded
+		PauseOnCondition: lowpower
+		Prerequisites: ~airstrike.upgrade
+		Icon: airstrike
+		ChargeInterval: 7500
+		SquadSize: 3
+		QuantizedFacings: 8
+		Description: Air Strike
+		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: a10
+		DisplayBeacon: True
+		BeaconPoster: airstrike
+		DisplayRadarPing: True
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airstrike
+		SupportPowerPaletteOrder: 2
+	SupportPowerChargeBar:
+    
+#   Light Tank modified to be Anti-Air
+ATNK:
+	Inherits: ^Tank
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Anti-Air Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 17
+		Prerequisites: hq, ~stolentech.hq
+		Queue: Vehicle.Nod
+		Description: Mobile Anti-Air unit.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+		Icon: atnkicon		
+	Mobile:
+		TurnSpeed: 28
+		Speed: 110
+		PauseOnCondition: emp-crate-collected || boarding || being-captured
+	Health:
+		HP: 34000
+	Armor:
+		Type: Medium
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 46
+	Armament:
+		Weapon: AAVulcan
+		LocalOffset: 85,85,299, 85,-85,299
+		MuzzleSequence: muzzle-air
+		PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: primary
+		Ammo: 12
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		AmmoPool: ammo
+		Delay: 75
+		Count: 12
+		PauseOnCondition: ammo || emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+	AttackTurreted:
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+		Sequence: turret-aa
+	SpawnActorOnDeath:
+		Actor: ATNK.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderSprites:
+		Image: ltnk
+
+ATNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Anti-Air Tank (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: atnk
+	RenderSprites:
+		Image: atnk.destroyed
+
+ASUB:
+	Inherits: SS
+	#	-Turreted@SECONDARY:
+	-WithSpriteTurret:
+	-WithMuzzleOverlay:
+	#	-Armament@SECONDARY:
+	#	-GrantConditionOnAttack@UNCLOAK:
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Submarine
+		BuildPaletteOrder: 4
+		Prerequisites: ~spen, dome, ~navy.nod, ~!player.rebels, ~techlevel.medium
+		Description: Submerged anti-ship unit\narmed with Torpedoes and Cluster Missile.\nCan detect other submarines.\n  Strong vs Infantry, Naval units\n  Weak vs Ground units, Aircraft\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 875
+	Tooltip:
+		Name: Attack Submarine
+	Mobile:
+		TurnSpeed: 5
+		Speed: 56
+	Armament@SECONDARY:
+		Weapon: ClusterRocket
+		LocalOffset: 0,0,124
+		PauseOnCondition: empdisable || !ammo 
+	AmmoPool:
+		Armaments: secondary
+		Ammo: 1
+		PipCount: 1
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 149
+		Count: 1
+		PauseOnCondition: ammo
+	ReloadArmamentsBar@SECONDARY:
+		Armaments: secondary
+		Color: FFFF00
+	Turreted@SECONDARY:
+		Offset: -178,0,-50
+	RenderSprites:
+		Image: asub
+	RenderRangeCircle:
+		FallbackRange: 12c0
+
+BSUB:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetNavalAssaultMove	
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Submarine
+		BuildPaletteOrder: 6
+		Prerequisites: ~spen, tmpl, ~navy.nod, ~!player.rebels, ~techlevel.high
+		Description: Submersible siege unit armed with\nanti-ground missile battery.\n  Strong vs Ships, Buildings\n  Weak vs attacks at close range.\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 2400
+	Tooltip:
+		Name: Ballistic Submarine
+	Health:
+		HP: 85000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 3
+		Speed: 46
+	Turreted:
+		TurnSpeed: 255
+		Offset: 525,0,80
+	RevealsShroud:
+		MinRange: 5c0
+		Range: 8c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 5c0
+	Armament@PRIMARY:
+		Weapon: SubMissile.barrage
+		LocalOffset: 0,-151,0, 0,0,0, 0,151,0, -151,151,0, -151,0,0, -151,-151,0
+		FireDelay: 2
+		PauseOnCondition: empdisable
+	Armament@RELOAD:
+		Name: secondary
+		Weapon: SubMissile.barrage.display
+		LocalOffset: 0,0,0
+		FireDelay: 2
+		PauseOnCondition: empdisable
+	AttackTurreted:
+		Armaments: primary, secondary
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		PauseOnCondition: empdisable
+	SelectionDecorations:
+	Selectable:
+		DecorationBounds: 44,44
+	RenderRangeCircle:
+	RenderDetectionCircle:
+	ReloadArmamentsBar:
+		Armaments: secondary
+		Color: FFFF00
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+		ScanRadius: 15
+	HitShape:
+		TargetableOffsets: 576,0,0, -576,0,0
+		Type: Capsule
+			Radius: 341
+			PointA: 0, -676
+			PointB: 0, 876
+
+#	EMP Submarine
+ESUB:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetNavalAssaultMove
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Submarine
+		BuildPaletteOrder: 7
+		Prerequisites: ncom, ~navy.nod, ~!player.rebels, ~techlevel.high
+		Description: Submarine that emits an EMP blast.\nCan detect other submarines.\n  Immune to EMP\n  Strong vs Naval units\n  Weak vs everything Else\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: EMP Submarine
+	Health:
+		HP: 25000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 4
+		Speed: 56
+	Targetable@DontEMP:
+		TargetTypes: EMPInvalid
+	Armament:
+		Weapon: Microlaser.Sub
+		LocalOffset: 0,0,0
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Ammo: 1
+		PipCount: 1
+		PipType: Blue
+		ReloadDelay: 25
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 275
+		Count: 1
+	AttackTurreted:
+	Turreted:
+		Offset: 450,0,155
+	WithSpriteTurret:
+		RequiresCondition: !underwater
+	WithIdleOverlay@ATTACKANIM:
+		RequiresCondition: is-shooting
+		Offset: 450,0,155
+		Sequence: attack-anim
+	GrantConditionOnAttack@ATTACKANIM:
+		Condition: is-shooting
+		RevokeDelay: 32
+	ReloadArmamentsBar:
+		Color: 2879DB
+	HitShape:
+		TargetableOffsets: 448,0,0, -448,0,0
+		Type: Capsule
+			Radius: 256
+			PointA: 0, -448
+			PointB: 0, 448
+
+SCRB:
+	Inherits: ^Ship
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 36,36
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 2
+		Prerequisites: hq, ~techlevel.medium
+		Description: Ship with mounted Gattling gun.\n  Strong vs Infantry, Helicopters\n  Weak vs Tanks, Defenses
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Scarab
+	Health:
+		HP: 20000
+	Armor:
+		Type: Medium
+	Mobile:
+		TurnSpeed: 14
+		Speed: 92
+	Turreted:
+		Offset: 1,0,170
+	Armament@PRIMARY:
+		Name: primary
+		Weapon: Chaingun
+		LocalOffset: 321,0,85
+		MuzzleSequence: muzzle
+		PauseOnCondition: !(!reload-air)
+		ReloadingCondition: reload-ground
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: Chaingun.AA
+		LocalOffset: 220,0,350
+		MuzzleSequence: muzzle-air
+		PauseOnCondition: !(!reload-ground)
+		ReloadingCondition: reload-air
+	WithMuzzleOverlay:
+	AttackTurreted:
+		Armaments: primary, secondary
+	WithSpriteTurret@CHAINGUNAG:
+		Turret: secondary
+		Sequence: turret
+		RequiresCondition: attack-ground
+	WithSpriteTurret@CHAINGUNAA:
+		Turret: secondary
+		Sequence: turret-aa
+		RequiresCondition: !attack-ground
+	GrantConditionOnAttack:
+		ArmamentNames: primary, secondary
+		Condition: attack-ground
+		RevokeDelay: 18
+		RevokeOnNewTarget: False
+		RevokeAll: True
+
+#   Why does this shoot Torpedo sometimes above in a Arc ??
+#   almost as if gets confused and shoots TorpTube inplace
+#   of SubMissile, somehow
+ASUB:
+	Inherits: ^Submarine
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Selectable:
+		DecorationBounds: 38,38
+	Buildable:
+		Queue: Ships.Nod
+		BuildPaletteOrder: 5
+		Prerequisites: hq, ~techlevel.medium, ~!global-disablenavy
+		Description: Submerged anti-ship unit armed with Torpedoes\nand Missile against Coastal targets.\nCan detect other submarines.\n  Strong vs Infantry, Naval units\n  Weak vs Ground units, Aircraft\n  Special Ability: Submerge\nCan dive underwater to become invisible\nmove unseen and avoid damage of most weapons.\nCan be manually ordered to surface for Repairs.\nMovespeed increase by 20% when on surface\nunless the Submarine is heavily damaged.
+	Valued:
+		Cost: 775
+	Tooltip:
+		Name: Attack Submarine
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 25000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 16
+		Speed: 56
+	Armament@PRIMARY:
+        Name: primary
+		Weapon: TorpTube
+		LocalOffset: 0,-171,0, 0,171,0
+		FireDelay: 2
+	Armament@SECONDARY:
+		Name: secondary
+		Weapon: SubMissile
+		LocalOffset: 0,0,124
+		MuzzleSequence: muzzle
+		PauseOnCondition: !ammo 
+	AttackFrontal:
+		Armaments: primary, secondary
+	WithMuzzleOverlay:
+	AmmoPool:
+        Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-green
+		RequiresSelection: true
+		AmmoPools: ammo
+	ReloadAmmoPoolCA:
+        AmmoPool: ammo
+		Delay: 120
+		Count: 1
+        SelectionBarColor: FFFF00
+		PauseOnCondition: ammo
+	HitShape:
+		TargetableOffsets: 448,0,0, -448,0,0
+		Type: Capsule
+			Radius: 256
+			PointA: 0, -448
+			PointB: 0, 448
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: HoldFire
+		ScanRadius: 15
+	GrantConditionOnAttack@UNCLOAK:
+		Condition: is-shooting-ground
+		ArmamentNames: secondary
+		RevokeDelay: 75
+    WithRangeCircle:
+		Range: 15c0
+		Color: FFFF0080
+
+production.dropzone:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Hire: Blackops
+	Buildable:
+		Queue: Mercenary.Nod
+		BuildPaletteOrder: 1
+		Prerequisites: shrn, !powerproxy.dropzone, ~techlevel.unrestricted
+		Description: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
+		BuildDuration: 750
+    Valued:
+		Cost: 500
+	RenderSprites:
+		Image: production.dropzone
+	ProduceActorPowerCA:
+		Actors: powerproxy.dropzone
+		Type: Mercenary.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+#   wait until use the Power once, how to ?
+#   current Issue: removes itself while they alive
+powerproxy.dropzone:
+	AlwaysVisible:
+    ProvidesPrerequisite@proxyname:
+    Interactable:
+	Immobile:
+		OccupiesSpace: false
+ 	BodyOrientation:
+		QuantizedFacings: 1
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
+	MapEditorData:
+		Categories: IgnoreGameBogus
+    KillsSelf:
+        RemoveInstead: true
+        Delay: 2
+        #   PauseOnCondition: team-deploying
+        RequiresCondition: !team-expended && !team-deploying
+    GrantConditionOnPrerequisite@SHOT:
+        Condition: shot-alive
+        Prerequisites: shot
+    GrantConditionOnPrerequisite@BTR:
+        Condition: btr-alive
+        Prerequisites: btr
+    GrantCondition@EXPENDED:
+        Condition: team-expended
+        RequiresCondition: btr-alive && shot-alive
+    GrantCondition@DEPLOYING:
+        Condition: team-deploying
+        RequiresCondition: !btr-alive && !shot-alive && !team-expended
+	SpawnActorPower@NodDropzoneInfantry:
+		Actor: FLARE.dropzone
+		LifeTime: 280
+		OrderName: NodDropzoneInfantry
+		Icon: blackops
+		Description: Dropzone: Blackops
+		LongDesc: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
+		LaunchSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		OneShot: true
+		AllowMultiple: true
+		Cursor: airdrop
+
+#   Merc hind will be based on this
+	AirReinforcementsPower@ShadowTeam:
+		OrderName: shadowteam
+		Prerequisites: ~radar.shadow, techlevel.unrestricted
+		Icon: shadteam
+		ChargeInterval: 6000
+		Description: Shadow Team
+		LongDesc: \nCalls for a Shadow Team; three stealth infantry\n    that arrive via glider armed with grenades\n    and a machine pistol.\n\nOperatives can be ordered to land\n    via the deploy command.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: sgli
+		QuantizedFacings: 8
+		DisplayBeacon: false
+		SquadSize: 3
+		SquadOffset: -1024,1024,0
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		PauseOnCondition: disabled || being-warped
+		LaunchSpeechNotification: ReinforcementsArrived
+		EndChargeSpeechNotification: Reinforce
+        
+#   make this available for GDI after XO research 
+	ParatroopersPower@xodrop:
+		OrderName: xodrop
+		Prerequisites: ~aircraft.talon, ~techlevel.medium
+		Icon: xodrop
+		ChargeInterval: 8250
+		Description: X-O Drop
+		UnitType: ocar.xo
+		LongDesc: \nAn Orca transport drops a squad of X-O Powersuits\n    at the target location.
+		SquadSize: 1
+		SquadOffset: 0,1792,0
+		DropItems: XO,XO,XO
+		ReinforcementsArrivedSpeechNotification: ReinforcementsArrived
+		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: Reinforce
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.paradrop
+		DisplayBeacon: true
+		BeaconPoster: xodrop
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+
+#   can base the Jams Minimap on this
+	GrantPrerequisiteChargeDrainPowerCA@RADAR:
+		OrderName: advradarorder
+		DischargeModifier: 600
+		Prerequisite: scan-active
+		ChargeInterval: 4500
+		Icon: arscan
+		IconPalette: chrometd
+		Description: Advanced Radar Scan
+		LongDesc: \nReveals the location of enemy structures & units\n    through the fog of war.
+		RequiresCondition: !build-incomplete && tower.radar
+		PauseOnCondition: !radar-active || disabled || being-warped
+		LaunchSound: gradarup.aud
+		BeginChargeSound: gradardn.aud
+		DisplayTimerRelationships: Ally
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		Prerequisites: ~techlevel.unrestricted
+		EarlyDeactivationPenalty: 1500
+    GrantExternalConditionToOwner:
+        Condition: jammer-online
+    ProvidesPrerequisite:
+        Prerequisite: block-minimap
+        RequiresCondition: jammer-online
+
+#   C&C All version of jamming minimap
+	IonCannonPower@Blackout:
+		PauseOnCondition: disabled || lowpower
+		OrderName: Blackout
+		Prerequisites: ~techlevel.unrestricted
+		Icon: sathack
+		ChargeInterval: 9000
+		Effect: radarcratetd
+		Weapon: hack.blackout
+		OnFireSound: sspysate.aud
+		Description: Communication Blackout
+		LongDesc: Jams enemy Radar in a 18 tile radius\naround targeted point for 45 seconds.
+		CameraActor: camera.minimum
+		Cursor: airstrike
+		DisplayRadarPing: True
+		SupportPowerPaletteOrder: 7
+
+#   RA+ version of jamming minimap
+	SpawnActorPower@CommsJam:
+		PauseOnCondition: disabled || lowpower
+		OrderName: CommsJam
+		Prerequisites: spro, player.kazakh, ~techlevel.unrestricted
+		Description: Communications Jam
+		LongDesc: Obscures an area on the map with shroud for 2 minutes\nand jams enemy Radar within a 16 tile radius.
+		Icon: cjamicon
+		Actor: dummy.commsjam
+		LifeTime: 3000
+		ChargeInterval: 7500
+		SupportPowerPaletteOrder: 5
+		DeploySound: sspysate.aud
+		Cursor: chrono-target
+		EffectImage: radarcratetd
+		EffectSequence: idle
+		EffectPalette: effect
+
+#   C&C+ version of jamming minimap
+	ProduceActorPower@BLACKOUT:
+		PauseOnCondition: disabled || empdisable
+		Prerequisites: ~techlevel.unrestricted
+		Description: Sattelite Hack
+		LongDesc: Blackouts the opposition's minimap for a while
+		Icon: sattelitehack
+		Actors: blackout
+		Type: Intelligence
+		ChargeInterval: 7500
+		OrderName: SatteliteHackPowerInfoOrder
+
+HQ.GDI:
+	Inherits: HQ
+	-Tooltip:
+	-Power:
+	-SpawnActorOnDeath:
+	-RenderSprites:
+	-SpawnActorPowerCA@RadarScan:
+	-InterceptorPower@NodInterceptors:
+	-InterceptorPower@NodInterceptorsUpgraded:
+	ProvidesPrerequisite@copy:
+		Prerequisite: hq
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: proc, anypower, ~!can-build-hq-finale, ~techlevel.medium
+		Queue: Building.GDI
+		Description: Provides an overview\nof the battlefield.\nCan detect cloaked units.\n  Special Ability: Recon Drone\nAn UAV reveals a strip of the map\nand cloaked enemy units within sight.
+	Tooltip@BASE:
+		Name: Communications Center
+		RequiresCondition: !eyeupgrade
+	Tooltip@UPGRADED:
+		Name: Advanced Communications Center
+		RequiresCondition: eyeupgrade
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: eye.plug
+		RequiresCondition: eyeupgrade
+	ProvidesPrerequisite@COPY2:
+		Prerequisite: eye
+		RequiresCondition: eyeupgrade
+	WithIdleOverlay@DISH:
+		Sequence: idle-dish
+		PauseOnCondition: lowpower
+		RequiresCondition: !eyeupgrade && !build-incomplete
+	WithIdleOverlay@OTHERDISH:
+		Sequence: idle-dish2
+		PauseOnCondition: lowpower
+		RequiresCondition: !build-incomplete
+	WithIdleOverlay@EYE:
+		Sequence: idle-dish3
+		PauseOnCondition: lowpower
+		RequiresCondition: eyeupgrade && !build-incomplete
+	AirstrikePower@ReconDrone:
+		PauseOnCondition: lowpower
+		OrderName: ReconDrone
+		Prerequisites: ~!seek.strat, ~techlevel.unrestricted
+		Icon: uav
+		ChargeInterval: 7500
+		Description: Recon Drone
+		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: uav
+		QuantizedFacings: 32
+		DisplayBeacon: true
+		BeaconPoster: uav
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: sonar-target
+		SupportPowerPaletteOrder: 3
+	AirstrikePower@ReconDroneUpgraded:
+		PauseOnCondition: lowpower
+		OrderName: ReconDroneUpgraded
+		Prerequisites: ~seek.strat, ~techlevel.unrestricted
+		Icon: uav
+		ChargeInterval: 5250
+		Description: Recon Drone
+		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: uav
+		QuantizedFacings: 32
+		DisplayBeacon: true
+		BeaconPoster: uav
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: sonar-target
+		SupportPowerPaletteOrder: 3
+	IonCannonPower@IonCannon:
+		RequiresCondition: eyeupgrade
+		PauseOnCondition: lowpower
+		Prerequisites: ~techlevel.unrestricted
+		OrderName: IonCannon
+		Icon: ioncannon
+		ChargeInterval: 6750
+		Description: Ion Cannon
+		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+		OnFireSound: ion1.aud
+		Cursor: ioncannon
+		SelectTargetSpeechNotification: SelectTarget 
+		DisplayRadarPing: True
+		SupportPowerPaletteOrder: 1
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+		CameraActor: camera.small
+	SupportPowerChargeBar:
+	Production:
+		Produces: Mercenary.GDI, SpySattelite
+		PauseOnCondition: build-incomplete
+	DummyGpsPower:
+		PauseOnCondition: lowpower
+		Icon: spysat
+		OneShot: true
+		ChargeInterval: 25
+		Description: Satellite Launch
+		LongDesc: Some dummy required to make Sattelite Scan work
+		RevealDelay: 3
+		LaunchSpeechNotification:
+		DisplayTimerRelationships: Ally
+		Condition: sat-launch
+        DoorImage: gdihq
+        SatelliteImage: atomicfake
+        SatelliteSequence: up
+	ExternalCondition@DummyGpsPower:
+		Condition: sat-launch
+    #   I HAD TO ADD ICON TO THIS TO MAKE IT NOT CRASH
+    #   ORIGINAL DIDNT HAVE THIS ISSUE
+	ProduceActorPowerCA@DummyGpsPower:
+		Actors: gps.satellite
+		Type: SpySatellite
+        Icon: blank
+		ChargeInterval: 25
+		OneShot: true
+		OrderName: ProduceActorSat
+		AutoFire: True
+		RequiresCondition: sat-launch
+	ProduceActorPowerCA@SatelliteScan:
+        RequiresCondition: eyeupgrade
+		PauseOnCondition: lowpower
+		Prerequisites: upgc, gps.satellite
+        OrderName: SatelliteScanPower
+		Icon: spysat
+		ChargeInterval: 10500
+		Description: Spy Satellite
+		LongDesc: Periodically reveals the entire map\nfor one minute duration (activated automatically).
+		Actors: camera.satscan
+		Type: SpySatellite
+		AutoFire: True
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+	RenderSprites:
+		Image: gdihq
+	Pluggable:
+		Offset: 0,0
+		Conditions:
+			eyeupgrade: eyeupgrade
+		Requirements:
+			eyeupgrade: !eyeupgrade && !build-incomplete
+	Power@BASE:
+		Amount: -60
+		RequiresCondition: !eyeupgrade
+	Power@UPGRADED:
+		Amount: -80
+		RequiresCondition: eyeupgrade
+	SpawnActorOnDeath@BASE:
+		Actor: hq.gdi.husk
+		RequiresCondition: !eyeupgrade
+	SpawnActorOnDeath@UPGRADED:
+		Actor: eye.husk
+		RequiresCondition: eyeupgrade
+	#	hmm, infiltrate for support Power is not conditional
+	#	that means EYE will have to do without unique
+	#	InfiltrateForSupportPower@STOLENTECH:
+    -ProductionQueue@MercsNod:
+    -ProductionBar@MercsNod:
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+HQ.GDI.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,40
+	Building:
+		Footprint: Xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Communications Center (Destroyed)
+	RenderSprites:
+		Image: gdihq.husk
+
+EYE.Plug:
+	Inherits: ^BuildingPlug
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Sattelite Uplink
+	Buildable:
+		BuildPaletteOrder: 12
+		Prerequisites: hq, tech, !eye.plug, ~!aitoodumb, ~techlevel.high
+		Queue: Building.GDI
+		BuildLimit: 1
+		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and Sniper.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
+	Plug:
+		Type: eyeupgrade
+	#	this is to show will use extra -20 power when applied on the tooltip
+	Power:
+		Amount: -20
+
+EYE:
+	Inherits: ^BaseBuilding
+	Inherits@IDISABLE: ^DisabledOverlay
+	HitShape:
+		TargetableOffsets: 0,0,0, 0,512,128, 420,-598,213
+		Type: Rectangle
+			TopLeft: -1024, -384
+			BottomRight: 1024, 1024
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Advanced Communications Center
+	ProvidesPrerequisite@copy:
+		Prerequisite: hq
+	Buildable:
+		BuildPaletteOrder: 12
+		Prerequisites: tech, ~aitoodumb, ~techlevel.high
+		Queue: Building.GDI
+		Description: Provides radar and Orbital Ion Cannon support power.\nUnlocks Mobile HQ and Sniper.\nRequires power to operate.
+	Building:
+		Footprint: Xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Selectable:
+		Bounds: 48,40,0,9
+		DecorationBounds: 48,53,0,-4
+	WithSpriteBody:
+		PauseOnCondition: lowpower
+	Health:
+		HP: 80000
+	RevealsShroud:
+		Range: 10c0
+	WithBuildingBib:
+	ProvidesPrerequisite@LOCALRADAR:
+		Prerequisite: activedome
+		RequiresCondition: !jammed && !lowpower && !build-incomplete
+	ProvidesPrerequisite@GLOBALJAM:
+		Prerequisite: isbeingjammed
+		RequiresCondition: jammed
+	ExternalCondition@JAMMED:
+		Condition: jammed
+	RenderDetectionCircle:
+	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
+		Range: 5c0
+		RequiresCondition: !lowpower
+	IonCannonPower@IonCannon:
+		PauseOnCondition: lowpower
+		Prerequisites: ~techlevel.unrestricted
+		OrderName: IonCannon
+		Icon: ioncannon
+		Cursor: ioncannon
+		ChargeInterval: 10500
+		Description: Ion Cannon
+		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
+		BeginChargeSpeechNotification: IonCannonCharging
+		EndChargeSpeechNotification: IonCannonReady
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
+		OnFireSound: ion1.aud
+		DisplayRadarPing: True
+		CameraActor: camera.small
+		SupportPowerPaletteOrder: 1
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+	SupportPowerChargeBar:
+	Production:
+		Produces: SpySattelite
+		PauseOnCondition: build-incomplete
+	Exit:
+	DummyGpsPower:
+		PauseOnCondition: lowpower
+		Icon: spysat
+		OneShot: true
+		ChargeInterval: 750
+		Description: Satellite Launch
+		LongDesc: Some dummy required to make Sattelite Scan work
+		RevealDelay: 1
+		LaunchSpeechNotification: NotReady
+		DisplayTimerRelationships: Ally
+		Condition: sat-launch
+        DoorImage: eye
+        SatelliteImage: dummy
+	ExternalCondition@DummyGpsPower:
+		Condition: sat-launch
+	ProduceActorPowerCA@DummyGpsPower:
+		Actors: gps.satellite
+		Type: SpySatellite
+		ChargeInterval: 750
+		OneShot: true
+		OrderName: ProduceActorSat
+		AutoFire: True
+		RequiresCondition: sat-launch
+	ProduceActorPowerCA@SatelliteScan:
+		PauseOnCondition: lowpower
+		Prerequisites: upgc, ~gps.satellite
+        OrderName: SatelliteScanPower
+		Icon: spysat
+		ChargeInterval: 10500
+		Description: Spy Satellite
+		LongDesc: Periodically reveals the entire map\nfor a one minute duration (activated automatically).
+		Actors: camera.satscan
+		Type: SpySatellite
+		AutoFire: True
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+	Power:
+		Amount: -80
+		RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	SpawnActorOnDeath:
+		Actor: eye.husk
+		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateHQ
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateHQ
+		Proxy: stolentech.hq
+	GpsRadarDot:
+		Sequence: Communications
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+EYE.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 48,40
+	Building:
+		Footprint: Xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Advanced Communications Center (Destroyed)
+	RenderSprites:
+		Image: eye.husk
+
+#   this one works partially, a bit
+HQ.GDI:
+	Inherits: HQ
+	-Tooltip:
+	-Power:
+	-SpawnActorOnDeath:
+	-RenderSprites:
+	-SpawnActorPowerCA@RadarScan:
+	-InterceptorPower@NodInterceptors:
+	-InterceptorPower@NodInterceptorsUpgraded:
+	ProvidesPrerequisite@copy:
+		Prerequisite: hq
+	Buildable:
+		BuildPaletteOrder: 9
+		Prerequisites: proc, anypower, ~!can-build-hq-finale, ~techlevel.medium
+		Queue: Building.GDI
+		Description: Provides an overview\nof the battlefield.\nCan detect cloaked units.\n  Special Ability: Recon Drone\nAn UAV reveals a strip of the map\nand cloaked enemy units within sight.
+	Tooltip@BASE:
+		Name: Communications Center
+		RequiresCondition: !eyeupgrade
+	Tooltip@UPGRADED:
+		Name: Advanced Communications Center
+		RequiresCondition: eyeupgrade
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: eye.plug
+		RequiresCondition: eyeupgrade
+	ProvidesPrerequisite@COPY2:
+		Prerequisite: eye
+		RequiresCondition: eyeupgrade
+	WithIdleOverlay@DISH:
+		Sequence: idle-dish
+		PauseOnCondition: lowpower
+		RequiresCondition: !eyeupgrade && !build-incomplete
+	WithIdleOverlay@OTHERDISH:
+		Sequence: idle-dish2
+		PauseOnCondition: lowpower
+		RequiresCondition: !build-incomplete
+	WithIdleOverlay@EYE:
+		Sequence: idle-dish3
+		PauseOnCondition: lowpower
+		RequiresCondition: eyeupgrade && !build-incomplete
+	AirstrikePower@ReconDrone:
+		PauseOnCondition: lowpower
+		OrderName: ReconDrone
+		Prerequisites: ~!seek.strat, ~techlevel.unrestricted
+		Icon: uav
+		ChargeInterval: 7500
+		Description: Recon Drone
+		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: uav
+		QuantizedFacings: 32
+		DisplayBeacon: true
+		BeaconPoster: uav
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: sonar-target
+		SupportPowerPaletteOrder: 3
+	AirstrikePower@ReconDroneUpgraded:
+		PauseOnCondition: lowpower
+		OrderName: ReconDroneUpgraded
+		Prerequisites: ~seek.strat, ~techlevel.unrestricted
+		Icon: uav
+		ChargeInterval: 5250
+		Description: Recon Drone
+		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		SelectTargetSpeechNotification: SelectTarget
+		UnitType: uav
+		QuantizedFacings: 32
+		DisplayBeacon: true
+		BeaconPoster: uav
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: sonar-target
+		SupportPowerPaletteOrder: 3
+	IonCannonPower@IonCannon:
+		RequiresCondition: eyeupgrade
+		PauseOnCondition: lowpower
+		Prerequisites: ~techlevel.unrestricted
+		OrderName: IonCannon
+		Icon: ioncannon
+		ChargeInterval: 6750
+		Description: Ion Cannon
+		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+		OnFireSound: ion1.aud
+		Cursor: ioncannon
+		SelectTargetSpeechNotification: SelectTarget 
+		DisplayRadarPing: True
+		SupportPowerPaletteOrder: 1
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+		CameraActor: camera.small
+	SupportPowerChargeBar:
+	Production:
+		Produces: Mercenary.GDI, SpySattelite
+		PauseOnCondition: build-incomplete
+	DummyGpsPower:
+		PauseOnCondition: lowpower
+		Icon: spysat
+		OneShot: true
+		ChargeInterval: 25
+		Description: Satellite Launch
+		LongDesc: Some dummy required to make Sattelite Scan work
+		RevealDelay: 3
+		LaunchSpeechNotification:
+		DisplayTimerRelationships: Ally
+		Condition: sat-launch
+        DoorImage: gdihq
+        SatelliteImage: atomicfake
+        SatelliteSequence: up
+        RequiresActiveRadar: true
+	ExternalCondition@DummyGpsPower:
+		Condition: sat-launch
+    GrantExternalConditionToOwner:
+        Condition: gps-is-up
+        RequiresCondition: sat-launch
+	ProduceActorPowerCA@SatelliteScan:
+        RequiresCondition: eyeupgrade && sat-launch
+		PauseOnCondition: lowpower
+		Prerequisites: upgc
+        OrderName: SatelliteScanPower
+		Icon: spysat
+		#   ChargeInterval: 10500
+        #   short duration for testing
+        ChargeInterval: 750
+		Description: Spy Satellite
+		LongDesc: Periodically reveals the entire map\nfor one minute duration.\n  (activated automatically)
+		Actors: camera.satscan
+		Type: SpySatellite
+		AutoFire: True
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+        #   LaunchSpeechNotification: NotReady
+        #   ok, it seems the power launches but the unit
+        #   is not getting generated as im not hearing 
+        #   any sattelite sound its supposed to emit
+	RenderSprites:
+		Image: gdihq
+	Pluggable:
+		Offset: 0,0
+		Conditions:
+			eyeupgrade: eyeupgrade
+		Requirements:
+			eyeupgrade: !eyeupgrade && !build-incomplete
+	Power@BASE:
+		Amount: -60
+		RequiresCondition: !eyeupgrade
+	Power@UPGRADED:
+		Amount: -80
+		RequiresCondition: eyeupgrade
+	SpawnActorOnDeath@BASE:
+		Actor: hq.gdi.husk
+		RequiresCondition: !eyeupgrade
+	SpawnActorOnDeath@UPGRADED:
+		Actor: eye.husk
+		RequiresCondition: eyeupgrade
+	#	hmm, infiltrate for support Power is not conditional
+	#	that means EYE will have to do without unique
+	#	InfiltrateForSupportPower@STOLENTECH:
+    -ProductionQueue@MercsNod:
+    -ProductionBar@MercsNod:
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+
+gps.satellite:
+	AlwaysVisible:
+	ProvidesPrerequisite:
+        Prerequisite: gps.sattelite
+
+#   doesnt actually reveal, hmm...
+#   absolutely refuses to appear, why ?
+camera.satscan:
+	Inherits: CAMERA
+	-RevealsShroud:
+	Buildable:
+		Queue: SpySatellite
+	Tooltip:
+		Name: Satellite Scan
+	RevealsMapCA:
+		RevealGeneratedShroud: false
+		RequiresCondition: uplinkavailable
+		ValidRelationships: Ally
+	KillsSelf:
+		RemoveInstead: true
+		Delay: 1500
+		GrantsCondition: killsself
+	GrantConditionOnPrerequisite@UPLINK:
+		Condition: uplinkavailable
+		Prerequisites: eye
+    VoiceAnnouncement:
+		Voice: Build
+	VoiceAnnouncement@Die:
+		Voice: Die
+		RequiresCondition: killsself
+	Voiced:
+		VoiceSet: SatelliteScanVoice

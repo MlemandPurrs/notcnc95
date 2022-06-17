@@ -146,6 +146,9 @@ e1:
 		Tick: 1600
 		ZOffset: -511
 	icon: e1icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 e2:
 	stand:
@@ -804,6 +807,9 @@ rmbo:
 		Tick: 1600
 		ZOffset: -511
 	icon: rmboicon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 rmb2:
 	stand:
@@ -885,6 +891,9 @@ rmb2:
 		Tick: 1600
 		ZOffset: -511
 	icon: rmb2icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 medi:
 	stand:
@@ -1081,6 +1090,9 @@ tecn:
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 mech:
 	stand:
@@ -1229,6 +1241,10 @@ snip:
 		ZOffset: -511
 	icon: snipicon
 		UseTilesetExtension: false
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
+        UseTilesetExtension: false
 
 xo:
     Inherits: emp-overlay
@@ -1578,6 +1594,9 @@ node7:
 		Length: 7
 		Facings: 8
 	icon: node7icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 e23:
 	stand:
@@ -1754,6 +1773,9 @@ node1:
 		Tick: 1600
 		ZOffset: -511
 	icon: e1icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 node3:
 	stand:
@@ -2156,3 +2178,248 @@ hack:
 		Length: 9
 		Tick: 160
 	icon: hackicon
+
+shot:
+	stand:
+		Facings: 8
+	stand2:
+		Start: 8
+		Facings: 8
+	run:
+		Start: 16
+		Length: 6
+		Facings: 8
+		Tick: 100
+	shoot:
+		Start: 64
+		Length: 7
+		Facings: 8
+	liedown:
+		Start: 120
+		Length: 2
+		Facings: 8
+	standup:
+		Start: 168
+		Length: 2
+		Facings: 8
+	prone-stand:
+		Start: 136
+		Stride: 4
+		Facings: 8
+	prone-stand2:
+		Start: 136
+		Stride: 4
+		Facings: 8
+	prone-run:
+		Start: 136
+		Length: 4
+		Facings: 8
+		Tick: 100
+	prone-shoot:
+		Start: 184
+		Length: 7
+		Facings: 8
+	idle1:
+		Start: 240
+		Length: 14
+		Tick: 120
+	idle2:
+		Start: 255
+		Length: 16
+		Tick: 120
+	die1:
+		Start: 272
+		Length: 8
+		Tick: 80
+	die2:
+		Start: 280
+		Length: 8
+		Tick: 80
+	die3:
+		Start: 288
+		Length: 8
+		Tick: 80
+	die4:
+		Start: 296
+		Length: 12
+		Tick: 80
+	die5:
+		Start: 308
+		Length: 18
+		Tick: 80
+	die6:
+		Start: 308
+		Length: 18
+		Tick: 80
+	die7: electro
+		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+		Length: *
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			SNOW: TEMPERAT
+			JUNGLE: TEMPERAT
+			CARIBIC: TEMPERAT
+	die-crushed: e2rot
+		Start: 16
+		Length: 4
+		Tick: 1600
+		ZOffset: -511
+	garrison-muzzle: minigun
+		Length: 6
+		Facings: 8
+	icon: shoticon
+
+stng:
+	stand:
+		Facings: 8
+	stand2:
+		Start: 8
+		Facings: 8
+	run:
+		Start: 16
+		Length: 6
+		Facings: 8
+		Tick: 100
+	shoot:
+		Start: 64
+		Length: 16
+		Facings: 8
+	liedown:
+		Start: 192
+		Length: 2
+		Facings: 8
+	standup:
+		Start: 240
+		Length: 2
+		Facings: 8
+	prone-stand:
+		Start: 208
+		Stride: 4
+		Facings: 8
+	prone-stand2:
+		Start: 208
+		Stride: 4
+		Facings: 8
+	prone-run:
+		Start: 208
+		Length: 4
+		Facings: 8
+		Tick: 100
+	prone-shoot:
+		Start: 256
+		Length: 16
+		Facings: 8
+	idle1:
+		Start: 384
+		Length: 14
+		Tick: 120
+	idle2:
+		Start: 398
+		Length: 18
+		Tick: 120
+	cheer:
+		Start: 470
+		Length: 3
+		Facings: 8
+		Tick: 120	
+	die1:
+		Start: 416
+		Length: 9
+		Tick: 80
+	die2:
+		Start: 424
+		Length: 8
+		Tick: 80
+	die3:
+		Start: 432
+		Length: 8
+		Tick: 80
+	die4:
+		Start: 440
+		Length: 12
+		Tick: 80
+	die5:
+		Start: 452
+		Length: 18
+		Tick: 80
+	die6:
+		Start: 452
+		Length: 18
+		Tick: 80
+	die7: electro
+		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+		Length: *
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			SNOW: TEMPERAT
+			JUNGLE: TEMPERAT
+			CARIBIC: TEMPERAT
+	die-crushed: e2rot
+		Start: 16
+		Length: 4
+		Tick: 1600
+		ZOffset: -511
+	icon: stngicon
+
+jump:
+	stand: jumpjet
+		Start: 0
+		Facings: 8
+	flying: jumpjet-air
+		Start: 0
+		Length: 6
+		Facings: 8
+	run: jumpjet
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 100
+	flying-run: jumpjet-air
+		Start: 48
+		Length: 6
+		Facings: 8
+		Tick: 100
+	shoot: jumpjet
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	flying-shoot: jumpjet-air
+		Start: 96
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1: blank32
+		Length: *
+	die2: blank32
+		Length: *
+	die3: blank32
+		Length: *
+	die4: blank32
+		Length: *
+	die5: blank32
+		Length: *
+	die6: blank32
+		Length: *
+	die7: electro
+		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+		Length: *
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			SNOW: TEMPERAT
+			JUNGLE: TEMPERAT
+			CARIBIC: TEMPERAT
+	die-crushed: e2rot
+		Start: 16
+		Length: 4
+		Tick: 1600
+		ZOffset: -511
+	icon: jumpicon
+
+jump.husk:
+	die-falling: jumpjet-air-die
+		Length: *
+		Tick: 100

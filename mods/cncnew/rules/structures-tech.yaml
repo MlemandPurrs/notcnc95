@@ -25,9 +25,11 @@ V19:
 		Condition: enabled
 	RenderSprites:
 		Palette: player
+	GpsRadarDot:
+		Sequence: IncomeBuilding
 
 V19.Husk:
-	Inherits: ^CivBuildingHusk
+	Inherits: ^TechBuildingHusk
 	-RenderSprites:
 	Interactable:
 		Bounds: 24,24
@@ -40,6 +42,11 @@ V19.Husk:
 		Dimensions: 1,1
 	Tooltip:
 		Name: Oil Derrick (Destroyed)
+	TooltipDescription:
+		Description: Capture to receive additional funds.
+		ValidRelationships: Neutral, Enemy, Ally
+	TransformOnCapture:
+		IntoActor: v19
 	RenderSprites:
 
 HOSP:
@@ -67,7 +74,7 @@ HOSP:
 	ProvidesPrerequisite@buildingname:
 
 HOSP.Husk:
-	Inherits: ^CivBuildingHusk
+	Inherits: ^TechBuildingHusk
 	-RenderSprites:
 	Interactable:
 		Bounds: 48,48
@@ -76,8 +83,13 @@ HOSP.Husk:
 		Dimensions: 2,2
 	Tooltip:
 		Name: Hospital (Destroyed)
+	TooltipDescription:
+		Description: Capture to enable self-healing for Infantry.
+		ValidRelationships: Neutral, Enemy, Ally
 	WithBuildingBib:
 		HasMinibib: true
+	TransformOnCapture:
+		IntoActor: hosp
 	RenderSprites:
 
 BIO:
@@ -93,21 +105,19 @@ BIO:
 	Tooltip:
 		Name: Biochemical Lab
 	TooltipDescription@ally:
-		Description: Provides infantry with Tiberium immunity. Enables Chemical Troopers.
+		Description: Provides infantry with Tiberium immunity.
 		ValidRelationships: Ally
 	TooltipDescription@other:
-		Description: Capture to enable Tiberium immunity for infantry. Enables Chemical Troopers.
+		Description: Capture to enable Tiberium immunity for infantry.
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: BIO.Husk
 	ProvidesPrerequisite@buildingname:
-	ProvidesPrerequisite@chemwarrior:
-		Prerequisite: anybio
 	RenderSprites:
 		Image: nodbio
 
 BIO.Husk:
-	Inherits: ^CivBuildingHusk
+	Inherits: ^TechBuildingHusk
 	-RenderSprites:
 	Interactable:
 		Bounds: 48,48
@@ -116,6 +126,11 @@ BIO.Husk:
 		Dimensions: 2,2
 	Tooltip:
 		Name: Biochemical Lab (Destroyed)
+	TooltipDescription:
+		Description: Capture to enable Tiberium immunity for infantry.
+		ValidRelationships: Neutral, Enemy
+	TransformOnCapture:
+		IntoActor: bio
 	RenderSprites:
 		Image: nodbio.husk
 
@@ -125,13 +140,14 @@ BIO.Husk:
 #	interchangeably as an
 #	Prison or Tech Center, or WE.
 MISS:
-	Inherits: ^CivBuilding
+	Inherits: ^TechBuilding
 	Inherits@shape: ^3x2Shape
 	Selectable:
 		Bounds: 72,48
 	Building:
 		Footprint: xxx xxx
 		Dimensions: 3,2
+        LocalCenterOffset: 0,-512,0
 	Tooltip:
 		Name: Objective Building
 	Valued:
@@ -142,6 +158,21 @@ MISS:
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:
 		Palette: player
+
+MISS.Husk:
+	Inherits: ^TechBuildingHusk
+	Interactable:
+		Bounds: 72,48
+	Building:
+		Footprint:  xxx xxx
+		Dimensions: 3,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Objective Building (Destroyed)
+	TransformOnCapture:
+		IntoActor: miss
+	RenderSprites:
+		Image: miss.husk
 
 TECHSILO:
 	Inherits: ^TechBuilding
@@ -278,8 +309,8 @@ SYRD:
 		PauseOnCondition: build-incomplete || being-demolished
 	ProductionQueue@GDIShips:
 		Type: Ships.GDI
-		DisplayOrder: 3
-		Group: Vehicle
+		DisplayOrder: 6
+		Group: Naval
 		Factions: gdi
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
@@ -290,8 +321,8 @@ SYRD:
 		CancelledAudio: Cancelled
 	ProductionQueue@NodShips:
 		Type: Ships.Nod
-		DisplayOrder: 3
-		Group: Vehicle
+		DisplayOrder: 6
+		Group: Naval
 		Factions: nod
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
@@ -337,8 +368,129 @@ SYRD:
 		ProductionTypes: Ships.GDI, Ships.Nod
 	Power:
 		Amount: -40
-		RequiresCondition: !build-incomplete
+		RequiresCondition: !build-incomplete && !owner.is.neutral
+    GrantConditionIfOwnerIsNeutral:
+        Condition: owner.is.neutral
 	ProvidesPrerequisite@buildingname:
+	ProximityExternalCondition@MINEREPLENISH:
+		Condition: replenishsmine
+		Range: 5c0
+		RequiresCondition: !build-incomplete
 	ProximityExternalCondition@SELLSHIPS:
 		Condition: ship.sellable
 		Range: 5c0
+	GpsRadarDot:
+		Sequence: NavalBuilding
+
+RPAD:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 768,-512,0, 768,512,0, -281,-512,0, -630,512,0
+	Building:
+		Footprint: ++ ++
+		Dimensions: 2,2
+	Health:
+		HP: 250000
+	Tooltip:
+		Name: Reinforcements Pad
+	TooltipDescription@ally:
+		Description: Periodically provides Reinforcements, free of charge.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to periodically obtain Reinforcements.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: RPAD.Husk
+	ProvidesPrerequisite@buildingname:
+	RenderSprites:
+		Image: rpad
+	ProductionAirdropCA@1:
+		Produces: PadReinforcementsGDI
+		ActorType: ocar.reinforce
+		IncomingAudio: Reinforce
+		BaselineSpawn: true
+	ProductionAirdropCA@2:
+		Produces: PadReinforcementsNod
+		ActorType: nodv22.reinforce
+		IncomingAudio: Reinforce
+		BaselineSpawn: true
+	WithDeliveryAnimation:
+	Exit@1:
+		SpawnOffset: 0,-256,0
+		Facing: 896
+        #   ProductionTypes: PadReinforcementsGDI, PadReinforcementsNod
+	RallyPoint:
+	PeriodicProducerCA@GDIReinforcement:
+		Type: PadReinforcementsGDI
+		ChargeDuration: 1500
+		Actors: mtnk
+		ShowSelectionBar: true
+		RequiresCondition: gdi.player && enabled
+	PeriodicProducerCA@NodReinforcement:
+		Type: PadReinforcementsNod
+		ChargeDuration: 1500
+		Actors: ltnk
+		ShowSelectionBar: true
+		RequiresCondition: nod.player && enabled
+	GrantConditionOnFaction@GDI:
+		Condition: gdi.player
+		Factions: gdi
+		ResetOnOwnerChange: True
+	GrantConditionOnFaction@Nod:
+		Condition: nod.player
+		Factions: nod
+		ResetOnOwnerChange: True
+	GrantConditionOnCombatantOwner:
+		Condition: enabled
+
+RPAD.Husk:
+	Inherits: ^TechBuildingHusk
+	-RenderSprites:
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: ++ ++
+		Dimensions: 2,2
+	Tooltip:
+		Name: Reinforcements Pad (Destroyed)
+	TooltipDescription:
+		Description: Capture to periodically obtain Reinforcements.
+		ValidRelationships: Ally, Neutral, Enemy
+	TransformOnCapture:
+		IntoActor: rpad
+	RenderSprites:
+		Image: rpad.husk
+
+WIND:
+	Inherits: ^TechBuilding
+	Selectable:
+		Bounds: 24,24,0,16
+        DecorationBounds: 24,48,0,0
+	Building:
+		Footprint: _ x
+		Dimensions: 1,2
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 80000
+	Tooltip:
+		Name: Wind Plant
+	TooltipDescription@ally:
+		Description: Provides +25 Power.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to obtain +25 Power.
+		ValidRelationships: Neutral, Enemy
+    #   no husk graphic
+	#   SpawnActorOnDeath:
+	#	Actor: WIND.Husk
+	GpsRadarDot:
+		Sequence: TechBuilding
+	Power:
+		Amount: 25
+		RequiresCondition: !owner.is.neutral
+    GrantConditionIfOwnerIsNeutral:
+        Condition: owner.is.neutral

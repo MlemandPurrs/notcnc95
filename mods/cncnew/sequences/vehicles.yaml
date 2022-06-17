@@ -168,28 +168,119 @@ htnk.destroyed:
 
 jeep:
     Inherits: emp-overlay
-	idle:
+	idle: jeepnew
 		Facings: 32
 		UseClassicFacings: True
-	turret:
-		Start: 32
+	turret: jeep-tur
 		Facings: 32
 		UseClassicFacings: True
-	turrettow: jeeptow
+	turret-tow: jeep-tow
 		Facings: 32
 		UseClassicFacings: True
 	muzzle: minigun
 		Length: 6
 		Facings: 16
 	icon: jeepicon
+    towicon: jtowicon
 
 jeep.destroyed:
-	idle: jeep
+	idle: jeepnew
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512
-	turret: jeep
+	turret: jeep-tur
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+jtow.destroyed
+	idle: jeepnew
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: jeep-tow
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+jrec:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: jrecicon
+
+jrec.destroyed
+	idle: jrec
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+jamb:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: jambicon
+
+jamb.destroyed
+	idle: jamb
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+jmec:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret: rep-tur
+		Facings: 32
+		UseClassicFacings: True
+	icon: jmecicon
+
+jmec.destroyed
+	idle: jmec
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: rep-tur
+		Facings: 32
+		UseClassicFacings: True
+        ZOffset: -512
+
+jsam:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret: jsam
 		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -1
+	icon: jsamicon
+
+jsam.destroyed
+	idle: jsam
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: jsam
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+jcrg:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: gdshicon
+
+jcrg.destroyed:
+	idle: jcrg
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512
@@ -387,21 +478,6 @@ stnk.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 
-arty:
-    Inherits: emp-overlay
-	idle:
-		Facings: 32
-		UseClassicFacings: True
-	muzzle: gunfire2
-		Length: *
-	icon: artyicon
-
-arty.destroyed:
-	idle: arty
-		Facings: 32
-		UseClassicFacings: True
-		ZOffset: -512
-
 howi:
     Inherits: emp-overlay
 	idle:
@@ -421,6 +497,45 @@ howi.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 	turret: howi
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+arty:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: gunfire2
+		Length: *
+	icon: artyicon
+
+arty.destroyed:
+	idle: arty
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+pala:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret:
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: gunfire2
+		Length: *
+	icon: palaicon
+
+pala.destroyed:
+	idle: pala
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: pala
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
@@ -449,8 +564,15 @@ apc:
 	unload:
 		Start: 32
 	icon: apcicon
+    maagicon: maagicon
 
 apc.destroyed:
+	idle: apc
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+maag.destroyed:
 	idle: apc
 		Facings: 32
 		UseClassicFacings: True
@@ -741,29 +863,27 @@ tdn.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 
-#   old sequence of origial nod apc
+btr:
+    Inherits: emp-overlay
+	idle: 
+        Facings: 32
+        UseClassicFacings: True
+    turret: napc-tur
+        Facings: 32
+        UseClassicFacings: True		
+    muzzle: minigun
+        Length: 6
+        Facings: 16
+    medic: medicursor
+        Start: 4
+        Length: 1
+    icon: napcicon
 
-#   napc:
-#   Inherits: emp-overlay
-#	idle: 
-#   Facings: 32
-#   UseClassicFacings: True
-#   turret: napc-tur
-#   Facings: 32
-#   UseClassicFacings: True		
-#   muzzle: minigun
-#   Length: 6
-#   Facings: 16
-#   medic: medicursor
-#   Start: 4
-#   Length: 1
-#   icon: napcicon
-
-#   napc.destroyed:
-#	idle: napc
-#   Facings: 32
-#   UseClassicFacings: True
-#   ZOffset: -512
+btr.destroyed:
+    idle: btr
+        Facings: 32
+        UseClassicFacings: True
+        ZOffset: -512
 
 disr:
 	Inherits: emp-overlay
@@ -781,6 +901,44 @@ disr.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 	turret: disrtur
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
+mrep:
+	Inherits: emp-overlay
+	idle: 
+		Facings: 32
+		UseClassicFacingFudge: True
+	icon: mrepicon
+
+mrep.destroyed:
+	idle: mrep
+		Facings: 32
+		UseClassicFacingFudge: True
+		ZOffset: -512
+
+3tnk:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	turret:
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: cannmuzz
+		Length: 2
+		Facings: 16
+	icon: 3tnkicon
+
+3tnk.destroyed:
+	idle: 3tnk
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+	turret: 3tnk
+		Start: 32
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: -512

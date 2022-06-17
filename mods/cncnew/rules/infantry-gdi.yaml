@@ -12,9 +12,9 @@ E2:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: proc, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Fast infantry armed with grenades.\nGrenades will bounce incase of missing.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+		Description: Fast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
 	Mobile:
 		Speed: 71
 	Health:
@@ -52,14 +52,18 @@ E2:
 	GrantConditionOnPrerequisite@BouncingNades:
 		Condition: bouncynades-upgraded
 		Prerequisites: bouncynades.upgrade
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Grenade
 
 MEDI:
 	Inherits: ^Soldier
+	Inherits@selection: ^SelectableSupportUnit
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
-		BuildPaletteOrder: 6
-		Prerequisites: hq, ~techlevel.medium
+		BuildPaletteOrder: 9
+		Prerequisites: army, ~techlevel.medium
 		Queue: Infantry.GDI
 		Description: Heals nearby infantry.\nSelf-heals slowly out of combat.\n  Unarmed
 	Tooltip:
@@ -118,10 +122,10 @@ SNIP:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 9
-		Prerequisites: eye, ~techlevel.high
+		BuildPaletteOrder: 11
+		Prerequisites: eye, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Marksman infantry with an Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+		Description: Marksman infantry with an Sniper rifle.\n  Special ability: Camouflage\nCloaks self when near Vegetation or Rocks.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
 	Health:
 		HP: 5000
 	Armor:
@@ -167,19 +171,27 @@ SNIP:
 		Type: InfantryRefund
 	Cloak:
 		CloakTypes: Stealth
-		InitialDelay: 120
-		CloakDelay: 120
-		UncloakOn: Attack, Unload, Demolish, Move
+		InitialDelay: 90
+		CloakDelay: 90
+		UncloakOn: Unload, Demolish, Dock, Damage, Heal
 		Palette: cloakgreen
 		IsPlayerPalette: false
 		PauseOnCondition: cloak-force-disabled
-		RequiresCondition: !harambe
+		RequiresCondition: proximity.camouflage
 	GrantConditionOnDamageState@UNCLOAK:
 		Condition: cloak-force-disabled
 		ValidDamageStates: Critical
-	GrantConditionOnMovement:
-		Condition: harambe
-		ValidMovementTypes: None
+	ExternalCondition@Camouflage:
+		Condition: proximity.camouflage
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Sniper
+		MuzzleSequence: garrison-muzzle
+
+    #   ah soo, this breaks it
+	#   GrantConditionOnTerrain@Camouflage:
+	#	Condition: terrain.camouflage
+	#	TerrainTypes: Rough
 
 RMBO:
 	Inherits: ^Soldier
@@ -194,7 +206,7 @@ RMBO:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 8
+		BuildPaletteOrder: 10
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Infantry.GDI
@@ -265,6 +277,10 @@ RMBO:
 		Palette: effect
 		Position: TopLeft
 		ValidRelationships: Ally, Enemy, Neutral
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: HighV
+		MuzzleSequence: garrison-muzzle
 
 XO:
 	Inherits: ^Vehicle
@@ -297,9 +313,9 @@ XO:
 	Armor:
 		Type: Light
 	Buildable:
-		BuildPaletteOrder: 10
+		BuildPaletteOrder: 8
 		Prerequisites: tech, ~exosuit.unlock, ~techlevel.high
-		Queue: Infantry.GDI
+		Queue: LightVehicle.GDI
 		Description: Power armored Infantry unit.\n  Cannot be crushed.\n  Immune to Tiberium.\n  Special ability: Jet Packs\nCan scale Cliffs as it was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles, Aircraft
 	Mobile:
 		Locomotor: powerfoot
@@ -310,8 +326,9 @@ XO:
 	Guard:
 		Voice: Move
 	Passenger:
+        CargoType: Infantry
 		CustomPipType: pip-red
-		Weight: 2
+		Weight: 5
 		Voice: Move
 	RevealsShroud:
 		Range: 4c0
@@ -361,6 +378,128 @@ XO:
 		Range: 1c0
 	MapEditorData:
 		Categories: Infantry
+	GpsRadarDot:
+		Sequence: HeavyInfantry
+
+JUMP:
+	Inherits: ^Soldier
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	-Crushable:
+	-TakeCover:
+	-Parachutable:
+	-WithParachute:
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 12
+		Prerequisites: upgc, ~jumpjet.unlock, ~techlevel.high
+		Description: Airborne soldier armed with a minigun.\n  Strong vs Infantry, Light vehicles\n Weak vs Armor, Anti-Air
+	Valued:
+		Cost: 650
+	Tooltip:
+		Name: Jumpjet Trooper
+	Mobile:
+		Speed: 71
+		Locomotor: jumpjet
+		Voice: Move
+	Guard:
+		Voice: Move
+	Health:
+		HP: 12000
+	Armor:
+		Type: Light
+	Passenger:
+		CustomPipType: pip-red
+        Weight: 2
+	RevealsShroud:
+		Range: 5c0
+	Armament:
+		Weapon: ChainGun
+	AttackFrontal:
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
+	WithInfantryBody:
+		RequiresCondition: !airborne
+        -IdleSequences: idle1, idle2
+		StandSequences: stand
+		DefaultAttackSequence: shoot
+	WithInfantryBody@AIRBORNE:
+		RequiresCondition: airborne
+		DefaultAttackSequence: flying-shoot
+		StandSequences: flying
+		MoveSequence: flying-run
+	Hovers:
+		RequiresCondition: airborne
+	DamagedByTerrain@TIBERIUM:
+		RequiresCondition: !airborne && !hazmatsuits
+	Targetable:
+		TargetTypes: Ground, Infantry
+		RequiresCondition: !airborne
+	Targetable@HEAL:
+		RequiresCondition: !airborne && damaged
+	Targetable@AIRBORNE:
+		TargetTypes: Air, Helicopter
+		RequiresCondition: airborne
+	SpawnActorOnDeath@AIRBORNE:
+		Actor: JUMP.Husk
+		RequiresCondition: airborne
+	WithShadow@AIRBORNE:
+		RequiresCondition: airborne
+	GrantConditionOnJumpjetLayer:
+		Condition: airborne
+	Explodes:
+		Weapon: GrenadierExplode
+		EmptyWeapon: GrenadierExplode
+		Chance: 100
+		RequiresCondition: !airborne
+	FirepowerMultiplier@APBullets:
+		Modifier: 120
+		RequiresCondition: apbullets-upgraded
+	GrantConditionOnPrerequisite@APBullets:
+		Condition: apbullets-upgraded
+		Prerequisites: apbullets.upgrade
+	DeliversCash:
+		Cursor: enter-reverse-yellow
+		Payload: 150
+		Type: InfantryRefund
+		Voice: Move
+	Voiced:
+		VoiceSet: GunnerVoice
+	ExternalCondition@PRODUCED:
+		Condition: produced
+	VoiceAnnouncement:
+		RequiresCondition: produced
+		Voice: Build
+		ValidRelationships: Ally
+	AnnounceOnKill:
+
+JUMP.Husk:
+	RenderSprites:
+	BodyOrientation:
+		QuantizedFacings: 1
+	Aircraft:
+	HiddenUnderFog:
+		Type: GroundPosition
+	ScriptTriggers:
+	Tooltip:
+		Name: Jumpjet Infantry
+	FallsToEarth:
+		Velocity: 86
+		Explosion:
+	Aircraft:
+		Speed: 186
+		CanHover: True
+		VTOL: true
+	WithSpriteBody:
+		Sequence: die-falling
+	Health:
+	HitShape:
+	WithDeathAnimation:
+		FallbackSequence: die-falling
+	Interactable:
 
 #	'Advanced' Grenadier
 #	hence E22
@@ -371,8 +510,8 @@ E22:
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
-		BuildPaletteOrder: 11
-		Prerequisites: ~disabled
+		BuildPaletteOrder: 8
+		Prerequisites: army, hq, ~techlevel.medium, ~!global-squadenabled
 		Queue: Infantry.GDI
 		Description: Infantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
 	Valued:
@@ -409,6 +548,7 @@ E22:
 #	'Advanced' Rifleman
 E12:
 	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
 	Inherits@DroneBoost: ^GDIAffectedByDrone
@@ -419,8 +559,8 @@ E12:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 12
-		Prerequisites: ~disabled
+		BuildPaletteOrder: 7
+		Prerequisites: army, ~techlevel.medium, ~!global-squadenabled
 		Queue: Infantry.GDI
 		Description: Infantry equipped with Machine Gun.\n  Strong vs Infantry\n  Weak vs Vehicles, Defenses
 	Mobile:
@@ -449,3 +589,191 @@ E12:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
+
+E12R1:
+	Inherits: E12
+	RenderSprites:
+		Image: E12
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: ~techlevel.low
+	UpdatesPlayerStatistics:
+		OverrideActor: e12
+	-Buildable:
+	-MapEditorData:
+
+#   dedicated Anti-Air Rocketguy
+STNG:
+	Inherits: ^Soldier
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
+	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Anti-Air Soldier
+	Buildable:
+		BuildPaletteOrder: 5
+		Prerequisites: hq, ~techlevel.medium, ~!global-squadenabled
+		Queue: Infantry.GDI
+		Description: Anti-aircraft infantry.\n  Cannot attack Ground units.\n  Strong vs Aircraft\n  Weak vs everything Else
+	Mobile:
+		Speed: 42
+	Health:
+		HP: 4500
+	Passenger:
+		CustomPipType: pip-yellow
+	Armor:
+		Type: Flak    
+	AutoTarget:
+		ScanRadius: 6
+	Armament@PRIMARY:
+		Weapon: Stinger
+		LocalOffset: 256,43,341
+		FireDelay: 5
+	TakeCover:
+		ProneOffset: 180,0,-200
+	AttackFrontal:
+	WithInfantryBody:
+		DefaultAttackSequence: shoot
+	DeliversCash:
+        Cursor: enter-reverse-yellow
+		Payload: 125
+		Type: InfantryRefund
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Stinger
+
+#   Experimental squad production
+
+E2.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Grenadier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 3
+        Prerequisites: proc, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\nfast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+        Icon: e2icon
+    Valued:
+		Cost: 225
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e2, e2, e2, e2
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+SNIP.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Sniper
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 11
+        Prerequisites: eye, ~techlevel.high, ~global-squadenabled
+		Description: Deploys a pair of\nmarksman infantry with Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+        Icon: snipicon
+    Valued:
+		Cost: 900
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: snip, snip
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E12.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Machine Gunner
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 8
+        Prerequisites: army, ~techlevel.medium, ~global-squadenabled
+		Description: Deploys a pair of\ninfantry equipped with Machine Gun.\n  Strong vs Infantry\n  Weak vs Vehicles, Defenses
+        Icon: e12icon
+    Valued:
+		Cost: 400
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e12, e12
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E22.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Mortar Soldier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 8
+        Prerequisites: army, ~techlevel.medium, ~global-squadenabled
+		Description: Deploys a pair of\ninfantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+        Icon: e22icon
+    Valued:
+		Cost: 600
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e22, e22
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+STNG.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Anti-Air Soldier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 5
+		Prerequisites: hq, ~techlevel.medium, ~global-squadenabled
+		Description: Deploys a pair of\nanti-aircraft infantry.\n  Cannot attack Ground units.\n  Strong vs Aircraft\n  Weak vs everything Else
+        Icon: stngicon
+    Valued:
+		Cost: 600
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: stng, stng
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true

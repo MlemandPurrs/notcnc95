@@ -20,11 +20,11 @@ BGGY:
 		Speed: 170
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 12000
+		HP: 12500
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 8c0
+		Range: 6c0
 	Turreted:
 		TurnSpeed: 40
 		Offset: -43,0,128
@@ -52,6 +52,17 @@ BGGY:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
+	GpsRadarDot:
+		Sequence: LightVehicle
+
+BGGY.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Nod Buggy (Destroyed)
+	TransformOnCapture:
+		IntoActor: bggy
+	RenderSprites:
+		Image: bggy.destroyed
 
 BIKE:
 	Inherits: ^Vehicle
@@ -76,7 +87,7 @@ BIKE:
 		Locomotor: wheeled
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 11000
+		HP: 7500
 	Armor:
 		Type: Light
 	RevealsShroud:
@@ -100,6 +111,17 @@ BIKE:
 		Range: 3c768
 		RequiresCondition: !emp-crate-collected
 	RenderDetectionCircle:
+	GpsRadarDot:
+		Sequence: LightVehicle
+
+BIKE.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Recon Bike (Destroyed)
+	TransformOnCapture:
+		IntoActor: bike
+	RenderSprites:
+		Image: bike.destroyed
 
 NAPC:
 	Inherits: ^Vehicle
@@ -134,6 +156,11 @@ NAPC:
 		MaxWeight: 5
 		LoadedCondition: loaded
 		LoadingCondition: notmobile
+		PassengerConditions:
+			rmbo: commandoinside
+            rmb2: commandoinside
+            node7: commandoinside
+            nodgnrl: commandoinside
 	Sellable:
 		RequiresCondition: unit.sellable && !loaded
 	Passenger:
@@ -164,6 +191,24 @@ NAPC:
 		RequiresCondition: !loaded
 	Capturable@HIJACKED:
 		RequiresCondition: !loaded
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: commandoinside
+
+NAPC.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Nod APC (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: napc
+	RenderSprites:
+		Image: napc.destroyed
 
 LTNK:
 	Inherits: ^Tank
@@ -187,11 +232,11 @@ LTNK:
 		Speed: 110
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 34000
+		HP: 32500
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 28
 	Armament:
@@ -247,6 +292,17 @@ LTNK:
 		Condition: towmissile-upgraded
 		Prerequisites: towmissile.upgrade
 
+LTNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Light Tank (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: ltnk
+	RenderSprites:
+		Image: ltnk.destroyed
+
 FTNK:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -269,11 +325,11 @@ FTNK:
 		Speed: 99
 		PauseOnCondition: dont-move || boarding || emp-crate-collected || being-captured
 	Health:
-		HP: 27000
+		HP: 35000
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	Armament:
 		Weapon: BigFlamer
 		LocalOffset: 512,128,42, 512,-128,42
@@ -298,6 +354,15 @@ FTNK:
 		RevokeOnNewTarget: False
 		RevokeAll: True
 
+FTNK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Flame Tank (Destroyed)
+	TransformOnCapture:
+		IntoActor: ftnk
+	RenderSprites:
+		Image: ftnk.destroyed
+
 ARTY:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -320,7 +385,7 @@ ARTY:
 		Speed: 85
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 7500
+		HP: 12500
 	Armor:
 		Type: Light
 	RevealsShroud:
@@ -352,10 +417,15 @@ ARTY:
 		Armaments: primary
 		Color: FFFF00
 
-#	this breaks the conundrum where siege units are
-#	balanced around being AttackFrontal, in Renegade
-#	MLRS too had became turreted Attack so it was no
-#	issue there, here it gives a huge advantage to Nod
+ARTY.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: Artillery (Destroyed)
+	TransformOnCapture:
+		IntoActor: arty
+	RenderSprites:
+		Image: arty.destroyed
+
 HOWI:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -363,15 +433,15 @@ HOWI:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
-		Cost: 900
+		Cost: 700
 	Tooltip:
 		Name: Howitzer
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 6
-		#	hence disabled
-		Prerequisites: ~disabled
+		#   Prerequisites: hq, ~techlevel.medium
+        Prerequisites: ~disabled
 		Queue: Vehicle.Nod
 		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
 	Mobile:
@@ -383,7 +453,7 @@ HOWI:
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 5c0
+		Range: 6c0
 	Armament:
 		Weapon: HowitzerShell
 		LocalOffset: 624,0,208
@@ -415,11 +485,22 @@ HOWI:
 		Armaments: primary
 		Color: FFFF00
 
+HOWI.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Howitzer (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: howi
+	RenderSprites:
+		Image: howi.destroyed
+
 MLRS:
 	Inherits: ^Tank
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 1500
@@ -437,11 +518,11 @@ MLRS:
 		TurnSpeed: 28
 		PauseOnCondition: aiming || emp-crate-collected || boarding || being-captured
 	Health:
-		HP: 18000
+		HP: 12500
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 8c0
+		Range: 6c0
 	Turreted:
 		TurnSpeed: 32
 		Offset: -128,0,128
@@ -499,6 +580,17 @@ MLRS:
 		RevokeDelay: 50
 		RevokeAll: false
 
+MLRS.Husk:
+	Inherits: ^LightHusk
+	Tooltip:
+		Name: SSM Launcher (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: mlrs
+	RenderSprites:
+		Image: mlrs.destroyed
+
 STNK:
 	Inherits: ^Vehicle
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -530,7 +622,7 @@ STNK:
 	Armor:
 		Type: Light
 	RevealsShroud:
-		Range: 7c0
+		Range: 5c0
 	Cloak:
 		InitialDelay: 90
 		CloakDelay: 90
@@ -570,206 +662,17 @@ STNK:
 	Passenger:
 		CustomPipType: pip-red
 
-T55H:
-	Inherits: ^Tank
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 2000
+STNK.Husk:
+	Inherits: ^Husk
 	Tooltip:
-		Name: Scorpion Tank
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 12
-		BuildLimit: 1
-		Prerequisites: tmpl, nodbio, ~t55h.unlock, ~techlevel.high
-		Queue: Vehicle.Nod
-		Description: Experimental Nod Tank.\nScorpion Tail shoots Laser.\n  Maximum 1 can be built.\n  Strong vs Vehicles, Buildings\n  Weak vs Aircraft, Infantry
-	Mobile:
-		TurnSpeed: 16
-		Speed: 85
-		PauseOnCondition: boarding || emp-crate-collected || pauseforlaser || being-captured
-	Health:
-		HP: 63000
-	Armor:
-		Type: Heavy
-	RevealsShroud:
-		Range: 6c0
-	Turreted:
-		TurnSpeed: 16
-	GrantCondition@pauseforlaser:
-		Condition: pauseforlaser
-		RequiresCondition: ammoready && pointinglazer
-	Armament@Primary:
-		Name: primary
-		Weapon: 100mmDual
-		LocalOffset: 821,85,171, 821,-85,171
-		Recoil: 85
-		RecoilRecovery: 42
-		MuzzleSequence: muzzle
-		PauseOnCondition: emp-crate-collected || ammoready
-		#	pausing on Laser firing to account for the below
-		#	issue somehwat as otherwise Laser can end up
-		#	going across the screen if both actors move away
-	Armament@Secondary:
-		Name: secondary
-		Weapon: LaserTank
-		#	Ignores max range because LaserZap projectile 
-		#	doesnt have a RangeLimit field at all
-		FireDelay: 100
-		LocalOffset: -326,0,560
-		MuzzlePalette: player
-		PauseOnCondition: emp-crate-collected || !ammoready
-	Armament@Tertiary:
-		Name: tertiary
-		Weapon: LaserTankFiringFX
-		LocalOffset: -326,0,560
-		FireDelay: 20
-		MuzzleSequence: laser-muzzle
-		MuzzlePalette: player
-		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
-	Armament@Quartenary:
-		Name: quartenary
-		Weapon: LaserTankFiringFXSound
-		LocalOffset: -326,0,560
-		PauseOnCondition: emp-crate-collected || !ammoready || !pointinglazer
-	GrantConditionWhileAiming:
-		Condition: pointinglazer
-	AttackTurreted:
-		Armaments: primary, secondary, tertiary, quartenary
-		PauseOnCondition: emp-crate-collected
-	AmmoPool:
-		Name: lasercharge
-		Armaments: secondary
-		Ammo: 1
-		AmmoCondition: ammoready
-	ReloadAmmoPoolCA:
-		AmmoPool: lasercharge
-		Delay: 400
-		Count: 1
-		SelectionBarColor: FFFF00
-		PauseOnCondition: emp-crate-collected
-	WithAmmoPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 1
-		FullSequence: pip-red
-		RequiresSelection: true
-		AmmoPools: lasercharge
-	WithMuzzleOverlay:
-	WithSpriteTurret:
-	Passenger:
-		CustomPipType: pip-red
+		Name: Stealth Tank (Destroyed)
+	TransformOnCapture:
+		IntoActor: stnk
+	RenderSprites:
+		Image: stnk.destroyed
 	Explodes:
-		Weapon: UnitExplodeMech
-		EmptyWeapon: UnitExplodeMech
-	Passenger:
-		CustomPipType: pip-red
-
-WTNK:
-	Inherits: ^Tank
-	Inherits@GAINSEXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Buildable:
-		BuildPaletteOrder: 12
-		BuildLimit: 1
-		Prerequisites: tmpl, nodbio, ~wtnk.unlock, ~techlevel.high
-		Queue: Vehicle.Nod
-		Description: Prototype MGT-1A microwave gun tank.\n  Kills Vehicle crews allowing take-over by Mechanic.\n  Temporarily disables Defenses on hit.\n  Strong vs Infantry, Defenses\n  Weak vs Aircraft, Light Vehicles
-	Valued:
-		Cost: 1800
-	Tooltip:
-		Name: Microwave Tank
-	Health:
-		HP: 20000
-	Armor:
-		Type: Heavy
-	Mobile:
-		Speed: 80
-		PauseOnCondition: emp-crate-collected || boarding || being-captured
-	Passenger:
-		CustomPipType: pip-red
-	RevealsShroud:
-		Range: 6c0
-	Turreted:
-		TurnSpeed: 16
-		Offset: 0,0,0
-	Armament@PRIMARY:
-		Weapon: MicrowaveZap
-		FireDelay: 7
-		LocalOffset: 500,0,140
-		MuzzleSequence: muzzle
-		PauseOnCondition: emp-crate-collected
-	Armament@PRIMARYSOUND:
-		Weapon: MicrowaveZapSound
-		PauseOnCondition: emp-crate-collected
-	AttackTurreted:
-		TargetFrozenActors: True
-		OpportunityFire: False
-		PauseOnCondition: emp-crate-collected
-	WithMuzzleOverlay:
-	WithSpriteTurret:
-	Selectable:
-		DecorationBounds: 28,28
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	ReloadArmamentsBar:
-		Armaments: primary
-		Color: FFFF00
-
-NODCTNK:
-	Inherits: ^Tank
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 1500
-	Tooltip:
-		Name: Chemical Tank
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 12
-		BuildLimit: 1
-		Prerequisites: tmpl, nodbio, ~nodctnk.unlock, ~techlevel.high
-		Queue: Vehicle.Nod
-		#	todo: make this not suck.
-		Description: Heavily armored chemicals-spraying vehicle.\nCan crush Concrete Walls.\n  Strong vs Infantry, Buildings\n  Weak vs Aircraft
-	Mobile:
-		Locomotor: heavytracked
-		TurnSpeed: 12
-		Speed: 71
-		PauseOnCondition: dont-move || boarding || emp-crate-collected || being-captured
-	Health:
-		HP: 54000
-	Armor:
-		Type: Heavy
-	RevealsShroud:
-		Range: 6c0
-	Armament:
-		Weapon: BigChemspray
-		LocalOffset: 768,128,42, 768,-128,42
-		MuzzleSequence: muzzle
-		PauseOnCondition: emp-crate-collected
-	AttackFrontal:
-		PauseOnCondition: emp-crate-collected
-	WithMuzzleOverlay:
-	Explodes:
-		Weapon: ChemtankExplode
-		EmptyWeapon: ChemtankExplode
-	Passenger:
-		CustomPipType: pip-red
-	GrantConditionOnAttack:
-		Condition: dont-move
-		RevokeDelay: 16
-		RevokeOnNewTarget: False
-		RevokeAll: True
+		Weapon: UnitExplodeStealthTank
+		EmptyWeapon: UnitExplodeStealthTank
 
 NODMTNK:
 	Inherits: ^Tank
@@ -784,9 +687,9 @@ NODMTNK:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 18
-		Prerequisites: fix, ~stolentech.weap
-		Queue: Vehicle.Nod
+		BuildPaletteOrder: 4
+		Prerequisites: fix, stolentech.weap
+		Queue: LightVehicle.Nod
 		Description: General-Purpose Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
 	Mobile:
 		Speed: 85
@@ -796,7 +699,7 @@ NODMTNK:
 	Armor:
 		Type: Medium
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 20
 	Armament:
@@ -830,76 +733,20 @@ NODMTNK:
 		Probability: 33
 	Selectable:
 		DecorationBounds: 28,28
-	GrantConditionOnPrerequisite@LaserDesignator:
+	GrantConditionOnPrerequisite@ToxicShells:
 		Condition: toxicshells-upgraded
 		Prerequisites: toxicshells.upgrade
 
-ATNK:
-	Inherits: ^Tank
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@AUTOTARGET: ^AutoTargetAir
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 600
+NODMTNK.Husk:
+	Inherits: ^Husk
 	Tooltip:
-		Name: Anti-Air Tank
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 17
-		Prerequisites: hq, ~stolentech.hq
-		Queue: Vehicle.Nod
-		Description: Mobile Anti-Air unit.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
-		Icon: atnkicon		
-	Mobile:
-		TurnSpeed: 28
-		Speed: 110
-		PauseOnCondition: emp-crate-collected || boarding || being-captured
-	Health:
-		HP: 34000
-	Armor:
-		Type: Medium
-	RevealsShroud:
-		Range: 6c0
-	Turreted:
-		TurnSpeed: 46
-	Armament:
-		Weapon: AAVulcan
-		LocalOffset: 85,85,299, 85,-85,299
-		MuzzleSequence: muzzle-air
-		PauseOnCondition: !ammo || emp-crate-collected
-	AmmoPool:
-		Name: ammo
-		Armaments: primary
-		Ammo: 12
-		AmmoCondition: ammo
-	ReloadAmmoPool:
-		AmmoPool: ammo
-		Delay: 75
-		Count: 12
-		PauseOnCondition: ammo || emp-crate-collected
-	WithAmmoPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		PipCount: 6
-		FullSequence: pip-green
-		RequiresSelection: true
-		AmmoPools: ammo
-	AttackTurreted:
-		PauseOnCondition: emp-crate-collected
-	WithMuzzleOverlay:
-	WithSpriteTurret:
-		Sequence: turret-aa
-	SpawnActorOnDeath:
-		Actor: ATNK.Husk
-		OwnerType: InternalName
-		EffectiveOwnerFromOwner: true
-		Probability: 33
-	Passenger:
-		CustomPipType: pip-yellow
+		Name: Medium Tank (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: nodmtnk
 	RenderSprites:
-		Image: ltnk
+		Image: nodmtnk.destroyed
 
 TDN:
 	Inherits: ^Tank
@@ -908,9 +755,9 @@ TDN:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
-		BuildPaletteOrder: 19
+		BuildPaletteOrder: 3
 		Prerequisites: tmpl, ~stolentech.afld
-		Queue: Vehicle.Nod
+		Queue: LightVehicle.Nod
 		Description: Tank Destroyer.\n  Strong vs Tanks\n  Weak vs Infantry, Aircraft
 	Valued:
 		Cost: 950
@@ -925,7 +772,7 @@ TDN:
 		Locomotor: wheeled
 		PauseOnCondition: emp-crate-collected || boarding || being-captured
 	RevealsShroud:
-		Range: 4c0
+		Range: 5c0
 	Turreted:
 		TurnSpeed: 14
 		Offset: -80,0,-20
@@ -945,3 +792,73 @@ TDN:
 		OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 		Probability: 33
+
+TDN.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Tank Destroyer (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: tdn
+	RenderSprites:
+		Image: tdn.destroyed
+
+MREP:
+	Inherits: ^Tank
+	Inherits@Invulnerability: ^AcceptsInvulnerabilityCrate
+	Inherits@Cloak: ^AcceptsCloakCrate
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: LightVehicle.Nod
+		Prerequisites: fix, ~techlevel.high
+		Description: Mechanized Repair Service.\nRepairs nearby vehicles\n  Unarmed
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Mobile Repair Vehicle
+	Health:
+		HP: 10000
+	Armor:
+		Type: Light
+	Voiced:
+		VoiceSet: EngineerVoice
+	Mobile:
+		TurnSpeed: 28    
+		Speed: 110
+		Voice: Action
+        PauseOnCondition: emp-crate-collected || boarding || being-captured
+	RevealsShroud:
+		Range: 5c0
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	Armament:
+		Weapon: Repair
+		Cursor: repair
+		OutsideRangeCursor: repair
+		TargetRelationships: Ally
+		ForceTargetRelationships: None
+		PauseOnCondition: emp-crate-collected
+	CaptureManager:
+	Captures@BUILDING:
+		CaptureTypes: building
+		PlayerExperience: 25
+		CaptureDelay: 375
+	AutoTarget:
+	AutoTargetPriority@DEFAULT:
+		ValidTargets: Vehicle, Ship
+	SpawnActorOnDeath:
+		Actor: MREP.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+
+MREP.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mobile Repair Vehicle (Destroyed)
+	TransformOnCapture:
+		IntoActor: mrep
+	RenderSprites:
+		Image: mrep.destroyed

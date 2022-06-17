@@ -18,7 +18,7 @@ World:
 	-PlayerColorPalette:
 	-PaletteFromPlayerPaletteWithAlpha@placebuilding:
 	IndexedPlayerPalette@buildings:
-		BasePalette: terrain
+		BasePalette: player
 		BaseName: player-buildings
 		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
 		PlayerIndex:
@@ -26,7 +26,7 @@ World:
 			Nod: 127, 126, 125, 124, 122, 46, 120, 47, 125, 124, 123, 122, 42, 121, 120, 120
 			Neutral: 192, 164, 132, 155, 133, 197, 112, 12, 163, 132, 155, 133, 134, 197, 154, 198
 	IndexedPlayerPalette@units:
-		BasePalette: terrain
+		BasePalette: player
 		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
 		PlayerIndex:
 			GDI: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
@@ -45,6 +45,14 @@ World:
 		Modifier: 0
 	ExternalCondition@UNKILLABLE:
 		Condition: unkillable
+
+^SpriteActor:
+	RenderSprites:
+		PlayerPalette: player
+
+^ClassicFacingSpriteActor:
+	RenderSprites:
+		PlayerPalette: player
 
 HARV:
 	RenderSprites:

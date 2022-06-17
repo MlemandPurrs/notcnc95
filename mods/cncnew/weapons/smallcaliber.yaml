@@ -2,7 +2,7 @@ Sniper:
 	Report: ramgun2.aud
 	ValidTargets: Ground, Infantry
 	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Creep
-	ReloadDelay: 40
+	ReloadDelay: 60
 	Range: 8c0
 	Projectile: Bullet
 		Speed: 5c682
@@ -104,7 +104,7 @@ HeliAAGun:
 	Report: mgun2.aud
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
-		Damage: 1000
+		Damage: 1500
 		InvalidTargets: Wall
 		Versus:
 			None: 150
@@ -168,7 +168,7 @@ MachineGunH:
 
 APCGun:
 	ReloadDelay: 9
-	Range: 5c0
+	Range: 6c512
 	Report: gun20.aud
 	Burst: 2
 	Projectile: Bullet
@@ -192,7 +192,7 @@ APCGun:
 
 APCGun.AA:
 	Inherits: APCGun
-	Range: 7c0
+	Range: 6c512
 	ValidTargets: Helicopter
 	Projectile: Bullet
 		Speed: 2c0
@@ -208,7 +208,7 @@ APCGun.AA:
 ChainGun:
 	Inherits: ^HeavyMG
 	ReloadDelay: 12
-	Range: 5c0
+	Range: 6c512
 	MinRange: 0c768
 	Projectile: InstantHit
 		Blockable: false
@@ -218,7 +218,7 @@ ChainGun:
 
 ChainGun.AA:
 	Inherits: ChainGun
-	Range: 5c0
+	Range: 6c512
 	ValidTargets: Helicopter
 	MinRange: 1c256
 	Projectile: InstantHit
@@ -331,3 +331,67 @@ Colt45:
 		Explosions: piff
 		ImpactActors: false
 		ValidTargets: Ground, Water
+
+Shotgun:
+	ReloadDelay: 32
+	Range: 2c256
+	InvalidTargets: Wall
+	Report: shotgunfire.aud
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 2500
+		InvalidTargets: Wall
+		Versus:
+			None: 150
+			Kevlar: 130
+			Flak: 170
+			Wood: 30
+			Light: 50
+            Medium: 30
+			Heavy: 10
+		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		ValidTargets: Ground, Air
+	Warhead@3EffWater: CreateEffect
+		Explosions: water_piffs
+		ValidTargets: Water, Underwater
+		InvalidTargets: Ship, Structure, Bridge
+
+ShipGattling:
+	ReloadDelay: 25
+	Range: 8c0
+	Report: minigun.aud
+	Burst: 5
+	BurstDelays: 4
+	InvalidTargets: Wall
+	Projectile: InstantHit
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 1500
+		DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
+		InvalidTargets: Wall
+		Versus:
+			None: 100
+            Kevlar: 90
+            Flak: 110
+			Wood: 35
+			Light: 65
+            Medium: 45
+			Heavy: 25
+	Warhead@2Eff: CreateEffect
+		Explosions: piffs
+		ImpactActors: false
+		ValidTargets: Ground, Water, Helicopter
+
+ShipGattling.AA:
+    Inherits: ShipGattling
+    ValidTargets: Helicopter, Airplane
+	Projectile: InstantHit
+		Inaccuracy: 0c256
+		Blockable: false
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter, Airplane

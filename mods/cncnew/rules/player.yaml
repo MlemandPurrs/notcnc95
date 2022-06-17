@@ -31,7 +31,10 @@ Player:
 		CheckboxDisplayOrder: 9
 	BaseAttackNotifier:
 	Shroud:
+		FogCheckboxEnabled: True
+		FogCheckboxLocked: False
 		FogCheckboxDisplayOrder: 3
+		ExploredMapCheckboxEnabled: False
 	LobbyPrerequisiteCheckbox@GLOBALFACTUNDEPLOY:
 		ID: factundeploy
 		Label: Redeployable MCVs
@@ -39,50 +42,6 @@ Player:
 		Enabled: True
 		DisplayOrder: 7
 		Prerequisites: global-factundeploy
-	LobbyPrerequisiteCheckbox@GLOBALC17STEALTH:
-		ID: C17-Stealth
-		Label: Stealth Deliveries
-		Description: Nod's delivery plane is cloaked
-		Enabled: False
-		DisplayOrder: 16
-		Prerequisites: global-C17-stealth
-	PlayerStatistics:
-	FrozenActorLayer:
-	PlaceBeacon:
-	ProvidesTechPrerequisite@low:
-		Name: Low
-		Prerequisites: techlevel.low
-		Id: low
-	ProvidesTechPrerequisite@medium:
-		Name: Medium
-		Prerequisites: techlevel.low, techlevel.medium
-		Id: medium
-	ProvidesTechPrerequisite@nosuper:
-		Name: High (No Super)
-		Prerequisites: techlevel.low, techlevel.medium, techlevel.high
-		Id: nopowers
-	ProvidesTechPrerequisite@all:
-		Name: High (with Super)
-		Prerequisites: techlevel.low, techlevel.medium, techlevel.high, techlevel.unrestricted
-		Id: unrestricted
-	GrantConditionOnPrerequisiteManager:
-	ResourceStorageWarning:
-	PlayerExperience:
-	GameSaveViewportManager:
-	PlayerRadarTerrain:
-	ProvidesRadar@GLOBALRADAR:
-		RequiresCondition: minimap.always.on && !isbeingjammed
-	GrantConditionOnPrerequisite@GLOBALRADAR:
-		Condition: minimap.always.on
-		Prerequisites: global-minimap
-	ProvidesRadar@LOCALRADAR:
-		RequiresCondition: !minimap.always.on && minimap.with.radar && !isbeingjammed
-	GrantConditionOnPrerequisite@LOCALRADAR:
-		Condition: minimap.with.radar
-		Prerequisites: activedome
-	GrantConditionOnPrerequisite@GLOBALJAM:
-		Condition: isbeingjammed
-		Prerequisites: isbeingjammed
 	LobbyPrerequisiteCheckbox@GLOBALMULTIENGINEER:
 		ID: multiengineer
 		Label: Multi Engineer
@@ -97,13 +56,6 @@ Player:
 		Enabled: False
 		DisplayOrder: 14
 		Prerequisites: global-freeaircraft
-	LobbyPrerequisiteCheckbox@FREERADAR:
-		ID: freeradar
-		Label: Minimap Always On
-		Description: Minimap available independent of Radar structure, can still get jammed through the Radar structure
-		Enabled: False
-		DisplayOrder: 6
-		Prerequisites: global-minimap
 	LobbyPrerequisiteCheckbox@AIBOOSTER:
 		ID: aibooster
 		Label: AI Booster
@@ -137,7 +89,7 @@ Player:
 		Label: Alt. Nod Commando
 		Description: Enables Mendoza as Nod commando
 		Enabled: False
-		DisplayOrder: 96
+		DisplayOrder: 16
 		Prerequisites: global-mendoza
 	LobbyPrerequisiteCheckbox@BOINK:
 		ID: boinksound
@@ -153,6 +105,72 @@ Player:
 		Enabled: False
 		DisplayOrder: 98
 		Prerequisites: global-givehazmat
+	LobbyPrerequisiteCheckbox@GLOBALSQUADPRODUCTION:
+		ID: Squad-Production
+		Label: Infantry Squads
+		Description: Most combat Infantry gets produced in fours or pairs
+		Enabled: False
+		DisplayOrder: 96
+		Prerequisites: global-squadenabled
+	LobbyPrerequisiteCheckbox@NAVYDISABLER:
+		ID: disablenavy
+		Label: Disable Navy
+		Description: Disallows production of Ships and Submarines
+		Enabled: False
+		DisplayOrder: 95
+		Prerequisites: global-disablenavy
+	PlayerStatistics:
+	FrozenActorLayer:
+	PlaceBeacon:
+	ProvidesTechPrerequisite@low:
+		Name: Low
+		Prerequisites: techlevel.low
+		Id: low
+	ProvidesTechPrerequisite@medium:
+		Name: Medium
+		Prerequisites: techlevel.low, techlevel.medium
+		Id: medium
+	ProvidesTechPrerequisite@nosuper:
+		Name: High (No Super)
+		Prerequisites: techlevel.low, techlevel.medium, techlevel.high
+		Id: nopowers
+	ProvidesTechPrerequisite@all:
+		Name: High (with Super)
+		Prerequisites: techlevel.low, techlevel.medium, techlevel.high, techlevel.unrestricted
+		Id: unrestricted
+	GrantConditionOnPrerequisiteManager:
+	ResourceStorageWarning:
+	PlayerExperience:
+	GameSaveViewportManager:
+	PlayerRadarTerrain:
+    #   GpsWatcher:
+    GpsRadarWatcher:
+	EnemyWatcher:
+	ProvidesRadar@GLOBALRADAR:
+		RequiresCondition: minimap.always.on && !isbeingjammed
+	GrantConditionOnPrerequisite@GLOBALRADAR:
+		Condition: minimap.always.on
+		Prerequisites: global-minimap
+	ProvidesRadar@LOCALRADAR:
+		RequiresCondition: !minimap.always.on && minimap.with.radar && !isbeingjammed
+	GrantConditionOnPrerequisite@LOCALRADAR:
+		Condition: minimap.with.radar
+		Prerequisites: activedome
+	GrantConditionOnPrerequisite@GLOBALJAM:
+		Condition: isbeingjammed
+		Prerequisites: isbeingjammed
+	LobbyPrerequisiteCheckbox@FREERADAR:
+		ID: freeradar
+		Label: Minimap Always On
+		Description: Minimap available independent of Radar structure, can still get jammed through the Radar structure
+		Enabled: False
+		DisplayOrder: 6
+		Prerequisites: global-minimap
 	VeteranProductionIconOverlay:
 		Image: veteranoverlay
 		Sequence: veteran
+	ExternalCondition@DummyGpsPower:
+        Condition: gps-is-up
+    ProvidesPrerequisite@DummyGpsPower:
+        Prerequisite: gps.sattelite
+        RequiresCondition: gps-is-up

@@ -90,6 +90,14 @@ UnitExplodeShip:
 		Explosions: building
 		ImpactSounds: xplobig6.aud
 
+UnitExplodeSubmarine:
+	Inherits: ^DamagingExplosionHE
+	-Warhead@3Smu:
+	Warhead@2Eff: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash9.aud
+		ValidTargets: Ground, Water
+
 UnitExplodeSmall:
 	Inherits: ^DamagingExplosionHE
 	Warhead@2Eff: CreateEffect
@@ -149,6 +157,11 @@ FanaticExplode:
 			Heavy: 70
 		AffectsParent: true
 		InvalidTargets: Fanatic
+
+FanaticExplodeUpg:
+    Inherits: FanaticExplode
+    Warhead@1Dam: SpreadDamage
+		Damage: 5000
 
 BuildingExplode:
 	Warhead@1Eff: CreateEffect
@@ -223,3 +236,19 @@ ATMine:
 		SmudgeType: Crater
 		ValidTargets: Ground
 		InvalidTargets: Structure, Wall
+
+ASMine:
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 10000
+		AffectsParent: true
+		InvalidTargets: Mine
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		ValidTargets: Ship, Submarine, Underwater
+	Warhead@2Eff: CreateEffect
+		Explosions: big_frag
+		ImpactSounds: mineblo1.aud
+	Warhead@4EffWater: CreateEffect
+		Explosions: big_frag
+		ImpactSounds: mineblo1.aud
+		ValidTargets: Underwater
