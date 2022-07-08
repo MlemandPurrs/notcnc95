@@ -1547,6 +1547,55 @@ SFIG.Husk:
 	RenderSprites:
 		Image: sfig
 
+C130:
+	Inherits: ^Plane
+	Inherits@TRANSPORT: ^Transport
+	Interactable:
+	Tooltip:
+		Name: C-130 Plane
+	Valued:
+		Cost: 2000
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 20
+		Speed: 236
+		LandingSounds: vc130diva.aud, vc130divb.aud
+		Repulsable: False
+		MaximumPitch: 36
+	HiddenUnderFog:
+		AlwaysVisibleRelationships: None
+		Type: CenterPosition
+	Cargo:
+		Types: Infantry, Vehicle, Crate
+		MaxWeight: 10
+	ParaDrop:
+		DropRange: 5c0
+		ChuteSound: chute1.aud
+	Contrail@1:
+		Offset: -261,-650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -85,-384,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@3:
+		Offset: -85,384,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@4:
+		Offset: -261,650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	-MapEditorData:
+	GpsRadarDot:
+		Sequence: CargoPlane
+
 #   GDI Support Powers
 
 #   this whole jazz is necessary as to because

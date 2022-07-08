@@ -59,6 +59,9 @@ MCV:
 		-CarriedCondition:
 	GpsRadarDot:
 		Sequence: Constructor
+    EjectOnTransform:
+        PilotActor: jack
+        RequiresCondition: has-hijacker
 
 MCV.Husk:
 	Inherits: ^Husk
@@ -225,6 +228,8 @@ TRUK:
 	-WithDecoration@SEEK:
 	Carryable:
 		-CarriedCondition:
+	Targetable:
+		TargetTypes: Ground, Vehicle, DemoDisguise
 
 TRUK.Husk:
 	Inherits: ^LightHusk

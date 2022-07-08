@@ -175,7 +175,7 @@ Player:
 					CheckRadius: 8c0
 	BaseBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
-		BuildingQueues: Building.Nod, Building.GDI, Aircraft.Nod, Aircraft.GDI
+		BuildingQueues: Building.Nod, Building.GDI
 		DefenseQueues: Defence.Nod, Defence.GDI
 		MinimumExcessPower: 30
 		MaximumExcessPower: 150
@@ -201,26 +201,6 @@ Player:
 			nodbio: 8000
 			airstrike.unlock: 9000
 			airstrike.upgrade: 9000
-			towmissile.upgrade: 9000
-			targetlaser.upgrade: 9000
-			airradar.upgrade: 9000
-			hellfire.upgrade: 9000
-			c17speed.upgrade: 9000
-			apbullets.upgrade: 9000
-			comparmor.upgrade: 9000
-			machineguns.upgrade: 9000
-			bombard.strat: 9000
-			seek.strat: 9000
-			hold.strat: 9000
-			t55h.unlock: 9000
-			wtnk.unlock: 9000
-			rh66stealth.upgrade: 9000
-			ssmreload.upgrade: 9000
-			supplylines.upgrade: 9000
-			exosuit.unlock: 9000
-			tank.veterancy: 9000
-			e1.veterancy: 9000
-			orca.veterancy: 9000
 		BuildingLimits:
 			proc: 4
 			pyle: 3
@@ -264,26 +244,6 @@ Player:
 			hpad: 2
 			airstrike.unlock: 1
 			airstrike.upgrade: 1
-			towmissile.upgrade: 1
-			targetlaser.upgrade: 1
-			airradar.upgrade: 1
-			hellfire.upgrade: 1
-			c17speed.upgrade: 1
-			apbullets.upgrade: 1
-			comparmor.upgrade: 1
-			machineguns.upgrade: 1
-			bombard.strat: 1
-			seek.strat: 1
-			hold.strat: 1
-			t55h.unlock: 1
-			wtnk.unlock: 1
-			rh66stealth.upgrade: 1
-			ssmreload.upgrade: 1
-			supplylines.upgrade: 1
-			exosuit.unlock: 1
-			tank.veterancy: 1
-			e1.veterancy: 1
-			orca.veterancy: 1
 	SquadManagerBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		MinimumAttackForceDelay: 25
@@ -298,20 +258,32 @@ Player:
 	UnitBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		UnitBuilderInterval: 25
-		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI
+		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI, Aircraft.GDI, Aircraft.Nod
 		UnitDelays:
 			mcv: 12000
 		UnitsToBuild:
 			e1: 65
+            e1.squad: 65
 			e2: 25
+            e2.squad: 25
 			terr: 25
+            terr.squad: 25
 			e3: 40
+            e3.squad: 40
 			medi: 5
 			mech: 5
 			e4: 15
+            e4.squad: 15
 			e5: 15
+            e5.squad: 15
 			snip: 15
-			mort: 15
+            snip.squad: 15
+			e21: 15
+            e21.squad: 15
+            e22: 15
+            e22.squad: 15
+            e23: 15
+            e23.squad: 15
 			#	harv: 10
 			jeep: 20
 			bggy: 20
@@ -336,9 +308,18 @@ Player:
 		UnitLimits:
 			#	harv: 12
 			e2: 10
+            e2.squad: 3
 			e4: 5
+            e4.squad: 2
 			e5: 5
+            e5.squad: 2
 			e6: 3
+            e22: 2
+            e22.squad: 1
+            e23: 2
+            e23.squad: 1
+            snip: 3
+            snip.squad: 2
 			rmbo: 1
 			rmb2: 1
 			medi: 3

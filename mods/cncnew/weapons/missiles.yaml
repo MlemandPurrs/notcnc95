@@ -650,7 +650,7 @@ EMPMissile:
 		Duration: 500
 		Condition: emp-crate-collected
 		ValidTargets: Vehicle
-		InvalidTargets: EMPInvalid, InvulNoEMP
+		InvalidTargets: EMPInvalid, Invulnerable
 	Warhead@2Smu_impact: LeaveSmudge
 		SmudgeType: Crater
 	Warhead@3Smu_area: LeaveSmudge

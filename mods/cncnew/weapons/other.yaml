@@ -328,7 +328,7 @@ MicrowaveZap:
 			Heavy: 60
 	Warhead@changeowner: ChangeOwnerToNeutral
 		ValidTargets: DriverKill
-		InvalidTargets: Infantry, Ship, Structure, Wall, Husk, Helicopter, Airplane, DriverKillImmune
+		InvalidTargets: Infantry, Ship, Structure, Wall, Husk, Helicopter, Airplane, DriverKillImmune, Invulnerable
 		ValidRelationships: Ally, Enemy, Neutral
 		Range: 0c511
 	Warhead@emp: GrantExternalCondition
@@ -652,3 +652,11 @@ ai.targeting.helper:
 ai.targeting.helper.noattack:
 	Inherits: ai.targeting.helper
 	ValidTargets: None
+
+DemoTruckTargeting:
+	ValidTargets: Vehicle, Infantry, Creep, Structure, Wall
+	Range: 2c0
+	Projectile: InstantHit
+	Warhead@1Dam: TargetDamage
+		Damage: 0
+		ValidTargets: Vehicle, Infantry, Creep, Structure, Wall

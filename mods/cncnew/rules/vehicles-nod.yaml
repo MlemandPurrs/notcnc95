@@ -862,3 +862,86 @@ MREP.Husk:
 		IntoActor: mrep
 	RenderSprites:
 		Image: mrep.destroyed
+
+DTRK:
+	Inherits: ^Vehicle
+	Inherits@Speed: ^AcceptsSpeedCrate
+	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
+	Inherits@EMP: ^AcceptsEMPCrate
+	-WithFacingSpriteBody:
+	-ClassicFacingBodyOrientation:
+	BodyOrientation:
+	WithFacingSpriteBody@Default:
+		PauseOnCondition: truk
+		RequiresCondition: !truk
+	WithFacingSpriteBody@Truk:
+		Name: truk
+		Sequence: truk-body
+		RequiresCondition: truk
+	Buildable:
+		Queue: LightVehicle.Nod
+		BuildPaletteOrder: 11
+		Prerequisites: nodbio, ~techlevel.high
+		Description: Truck with actively armed nuclear explosives.\nMaximum one can be built.\n Can disguise as enemy Supply Truck.
+        BuildDuration: 1000
+        BuildLimit: 1
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Demolition Truck
+		GenericName: Vehicle
+	-Tooltip:
+	DisguiseTooltip@default:
+		Name: Demolition Truck
+		GenericName: Vehicle
+		RequiresCondition: !truk
+	DisguiseTooltip@truk:
+		Name: Supply Truck
+		GenericName: Vehicle
+		RequiresCondition: truk
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Selectable:
+		Class: DemoDisguise
+	Health:
+		HP: 11000
+	Targetable:
+		TargetTypes: Ground, Vehicle, DemoDisguise
+	Armor:
+		Type: Light
+	Mobile:
+		Speed: 72
+	RevealsShroud:
+		Range: 4c0
+	Disguise:
+		DisguisedCondition: disguise
+		ValidRelationships: Neutral, Enemy
+		TargetTypes: DemoDisguise
+		DisguisedAsConditions:
+			truk: truk
+	WithDecoration@disguise:
+		Image: pips
+		Sequence: pip-disguise
+		Palette: effect
+		Position: Top
+		Margin: 0, 1
+		RequiresCondition: disguise
+	IgnoresDisguise:
+	Explodes:
+		Weapon: MiniNuke
+		EmptyWeapon: MiniNuke
+		DamageSource: Killer
+	AttackFrontal:
+		FacingTolerance: 128
+	Armament@PRIMARY:
+		Weapon: DemoTruckTargeting
+	GrantConditionOnAttack:
+		Condition: triggered
+	GrantConditionOnDeploy:
+		DeployedCondition: triggered
+	KillsSelf@DETONATE:
+		RequiresCondition: invulnerability-crate-collected || triggered
+	Passenger:
+		CustomPipType: pip-red
+	Carryable:
+        -CarriedCondition: oncarryall

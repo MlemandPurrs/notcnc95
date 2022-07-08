@@ -511,6 +511,7 @@ camera.satscan:
 		Queue: SpySatellite
 	Tooltip:
 		Name: Satellite Scan
+    #   absolutely refuses to work, why ??!!??
 	RevealsMapCA:
 		RevealGeneratedShroud: false
 		RequiresCondition: uplinkavailable

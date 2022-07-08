@@ -2078,7 +2078,7 @@ HQ.GDI:
         DoorImage: gdihq
         SatelliteImage: atomicfake
         SatelliteSequence: up
-        RequiresActiveRadar: true
+        RequiresActiveRadar: false
 	ExternalCondition@DummyGpsPower:
 		Condition: sat-launch
     GrantExternalConditionToOwner:

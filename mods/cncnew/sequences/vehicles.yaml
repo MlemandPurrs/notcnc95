@@ -594,6 +594,22 @@ truk.destroyed:
 		UseClassicFacings: True
 		ZOffset: -512
 
+dtrk:
+    Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+    truk-body: truk
+		Facings: 32
+		UseClassicFacings: True
+	icon: trukicon
+
+dtrk.destroyed:
+	idle: dtrk
+		Facings: 32
+		UseClassicFacings: True
+		ZOffset: -512
+
 icbm:
     Inherits: emp-overlay
 	idle:
@@ -909,13 +925,13 @@ mrep:
 	Inherits: emp-overlay
 	idle: 
 		Facings: 32
-		UseClassicFacingFudge: True
+		UseClassicFacings: True
 	icon: mrepicon
 
 mrep.destroyed:
 	idle: mrep
 		Facings: 32
-		UseClassicFacingFudge: True
+		UseClassicFacings: True
 		ZOffset: -512
 
 3tnk:
@@ -941,4 +957,29 @@ mrep.destroyed:
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
+		ZOffset: -512
+
+zsu:
+    Inherits: emp-overlay
+	idle: zsu
+		Facings: 32
+		UseClassicFacings: True
+	turret: zsu
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	muzzle: gunfire2
+		Start: 1
+		Length: 4
+	icon: zsuicon
+
+zsu.destroyed:
+	idle: zsu
+		Facings: 32
+        UseClassicFacings: True
+		ZOffset: -512
+	turret: zsu
+        Start: 32
+		Facings: 32
+        UseClassicFacings: True
 		ZOffset: -512

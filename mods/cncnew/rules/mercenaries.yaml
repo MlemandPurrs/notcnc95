@@ -13,9 +13,9 @@ production.airdrop:
 		BuildPaletteOrder: 1
 		Prerequisites: army, ~techlevel.unrestricted
 		Description: Prepare a team of Veteran infantry for Airdrop.
-		BuildDuration: 750
+		BuildDuration: 1200
     Valued:
-		Cost: 500
+		Cost: 950
 	RenderSprites:
 		Image: production.airdrop
 	ProduceActorPowerCA:
@@ -33,12 +33,12 @@ powerproxy.airdrop:
 		OrderName: GDIAirdropInfantry
 		Icon: pinficon
 		SquadSize: 1
-		UnitType: C17
+		UnitType: C130
 		Description: Airdrop: Infantry Squad (Single Use)
-		LongDesc: An C17 Plane drops a small Veteran\ninfantry squad anywhere on the map
+		LongDesc: An C-130 Plane drops a small Veteran\ninfantry squad anywhere on the map
 		OneShot: true
 		AllowMultiple: true
-		DropItems: E1R1,E3R1,MEDI,E3R1,E1R1
+		DropItems: E1R1,E3R1,E12R1,E3R1,E1R1
 		ReinforcementsArrivedSpeechNotification: Reinforce
 		SelectTargetSpeechNotification: SelectTarget
 		IncomingSpeechNotification: EnemyPlanesApproaching
@@ -66,10 +66,10 @@ production.airdrop.lightvehicle:
 		BuildPaletteOrder: 2
 		Prerequisites: army, wea2, ~techlevel.unrestricted
 		Description: Prepare a team of Humvees for Airdrop.
-        BuildDuration: 1450
+        BuildDuration: 1800
         Icon: jeepicon
     Valued:
-		Cost: 1225
+		Cost: 1550
 	RenderSprites:
 		Image: production.airdrop
 	ProduceActorPowerCA:
@@ -87,9 +87,9 @@ powerproxy.airdrop.lightvehicle:
 		OrderName: GDIAirdropLightVehicle
 		Icon: pinficon
 		SquadSize: 1
-		UnitType: C17
+		UnitType: C130
 		Description: Airdrop: Humvee Squad (Single Use)
-		LongDesc: An C17 Plane drops a small Veteran\nHumvee squad anywhere on the map
+		LongDesc: An C-130 Plane drops a small Veteran\nHumvee squad anywhere on the map
 		OneShot: true
 		AllowMultiple: true
 		DropItems: JEEPR1,JTOWR1,JTOWR1,JEEPR1
@@ -120,10 +120,10 @@ production.airdrop.heavyvehicle:
 		BuildPaletteOrder: 3
 		Prerequisites: army, weap, ~techlevel.unrestricted
 		Description: Prepare a pair of Battle Tanks for Airdrop.
-        BuildDuration: 2250
+        BuildDuration: 1600
         Icon: mtnkicon
     Valued:
-		Cost: 1750
+		Cost: 1350
 	RenderSprites:
 		Image: production.airdrop
 	ProduceActorPowerCA:
@@ -141,12 +141,120 @@ powerproxy.airdrop.heavyvehicle:
 		OrderName: GDIAirdropHeavyVehicle
 		Icon: pinficon
 		SquadSize: 1
-		UnitType: C17
+		UnitType: C130
 		Description: Airdrop: Battle Tanks (Single Use)
-		LongDesc: An C17 Plane drops a pair of Veteran\nBattle Tanks anywhere on the map
+		LongDesc: An C-130 Plane drops a pair of Veteran\nBattle Tanks anywhere on the map
 		OneShot: true
 		AllowMultiple: true
 		DropItems: MTNKR1,MTNKR1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airdrop
+
+production.airdrop.medic:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Medics
+	Buildable:
+		Queue: Mercenary.GDI
+		BuildPaletteOrder: 4
+		Prerequisites: army, ~techlevel.unrestricted
+		Description: Prepare a team of Medics for Airdrop.
+		BuildDuration: 1800
+        Icon: mediicon
+    Valued:
+		Cost: 1550
+	RenderSprites:
+		Image: production.airdrop
+	ProduceActorPowerCA:
+		Actors: powerproxy.airdrop.medic
+		Type: Mercenary.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.airdrop.medic:
+	AlwaysVisible:
+	ParatroopersPower@GDIAirdropMedic:
+		OrderName: GDIAirdropMedic
+		Icon: pinficon
+		SquadSize: 1
+		UnitType: C130
+		Description: Airdrop: Medic Squad (Single Use)
+		LongDesc: An C-130 Plane drops a small squad\nof Medics anywhere on the map
+		OneShot: true
+		AllowMultiple: true
+		DropItems: MEDI,MEDI,MEDI,MEDI
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		IncomingSpeechNotification: EnemyPlanesApproaching
+		AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		Cursor: airdrop
+
+production.airdrop.sniper:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Airdrop: Snipers
+	Buildable:
+		Queue: Mercenary.GDI
+		BuildPaletteOrder: 5
+		Prerequisites: army, ~techlevel.unrestricted
+		Description: Prepare a pair of Snipers for Airdrop.
+		BuildDuration: 1800
+        Icon: snipicon
+    Valued:
+		Cost: 1550
+	RenderSprites:
+		Image: production.airdrop
+	ProduceActorPowerCA:
+		Actors: powerproxy.airdrop.sniper
+		Type: Mercenary.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.airdrop.sniper:
+	AlwaysVisible:
+	ParatroopersPower@GDIAirdropSniper:
+		OrderName: GDIAirdropSniper
+		Icon: pinficon
+		SquadSize: 1
+		UnitType: C130
+		Description: Airdrop: Snipers (Single Use)
+		LongDesc: An C-130 Plane drops a pair of Veteran\nSnipers anywhere on the map
+		OneShot: true
+		AllowMultiple: true
+		DropItems: SNIPR1,SNIPR1
 		ReinforcementsArrivedSpeechNotification: Reinforce
 		SelectTargetSpeechNotification: SelectTarget
 		IncomingSpeechNotification: EnemyPlanesApproaching
@@ -288,7 +396,7 @@ production.dropzone:
 	Buildable:
 		Queue: Mercenary.Nod
 		BuildPaletteOrder: 1
-		Prerequisites: shrn, ~techlevel.unrestricted
+		Prerequisites: shrn, ~!powerproxy.dropzone, ~techlevel.unrestricted
 		Description: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
 		BuildDuration: 750
     Valued:
@@ -345,7 +453,6 @@ FLARE.dropzone:
 		Cost: 1200
 	Tooltip:
 		Name: Heavy Tank
-		GenericName: Tank
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:
@@ -364,7 +471,9 @@ FLARE.dropzone:
 		RecoilRecovery: 38
 		LocalOffset: 768,85,90, 768,-85,90
 		MuzzleSequence: muzzle
+        PauseOnCondition: emp-crate-collected
 	AttackTurreted:
+        PauseOnCondition: emp-crate-collected
 	WithMuzzleOverlay:
 	WithSpriteTurret:
 	SpawnActorOnDeath:
@@ -435,6 +544,134 @@ FLARE.dropzone.3tnk:
 		Facing: 0
 	FreeActorWithDelivery@3:
 		Actor: 3TNK
+		DeliveryOffset: 1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0
+
+ZSU:
+	Inherits: ^Tank
+	Inherits@GAINSEXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Anti-Air Tank
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 25000
+	Armor:
+		Type: Medium
+	Mobile:
+		Speed: 72
+	RevealsShroud:
+		Range: 6c0
+	Turreted:
+		TurnSpeed: 28
+	Armament:
+		Weapon: ZSU-23
+		LocalOffset: 394, 0, 260
+		MuzzleSequence: muzzle
+		PauseOnCondition: emp-crate-collected || !ammo
+	AmmoPool:
+		Armaments: primary
+		Ammo: 24
+		AmmoCondition: ammo
+		ReloadDelay: 6
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 6
+		RequiresSelection: true
+	ReloadAmmoPool:
+		Delay: 42
+		Count: 24
+		RequiresCondition: !ammo
+	WithDecoration@ammoreplenish:
+		RequiresSelection: false
+		Image: pips
+		Sequence: tag-reload-small
+		Position: Top
+		Margin: 0, -6
+		RequiresCondition: !ammo
+	AttackTurreted:
+		Armaments: primary
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	WithSpriteTurret:
+	Selectable:
+		DecorationBounds: 28,28
+	Passenger:
+		CustomPipType: pip-red
+	SpawnActorOnDeath:
+        Actor: ZSU.Husk
+        OwnerType: InternalName
+
+ZSU.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Anti-Air Tank (Destroyed)
+	ThrowsParticle@turret:
+		Anim: turret
+	TransformOnCapture:
+		IntoActor: zsu
+	RenderSprites:
+		Image: zsu.destroyed
+
+production.dropzoneantiair:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Hire: Anti-Air Tanks
+	Buildable:
+		Queue: Mercenary.Nod
+		BuildPaletteOrder: 3
+        Prerequisites: afld, ~!powerproxy.dropzoneantiair, ~techlevel.unrestricted
+		Description: Nod Carryalls drop one pair of\nAnti-Air Tanks at target location.
+        Icon: zsuicon
+		BuildDuration: 1500
+    Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: production.dropzone
+	ProduceActorPowerCA:
+		Actors: powerproxy.dropzoneantiair
+		Type: Mercenary.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+	Armor:
+		Type: None
+
+powerproxy.dropzoneantiair:
+	AlwaysVisible:
+    ProvidesPrerequisite@proxyname:
+	SpawnActorPower@NodDropzoneAntiair:
+		Actor: FLARE.dropzone.antiair
+		LifeTime: 280
+		OrderName: NodDropzoneAntiAir
+		Icon: zsuicon
+		Description: Dropzone: Anti-Air Tanks
+		LongDesc: Nod Carryalls drop one pair of\nAnti-Air Tanks at target location.
+		LaunchSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		OneShot: true
+		AllowMultiple: true
+		Cursor: airdrop
+
+FLARE.dropzone.antiair:
+	Inherits: FLARE.dropzone
+	FreeActorWithDelivery@2:
+		Actor: ZSU
+		DeliveryOffset: -1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0
+	FreeActorWithDelivery@3:
+		Actor: ZSU
 		DeliveryOffset: 1,1
 		DeliveringActor: NODV22.reinforce
 		Facing: 0

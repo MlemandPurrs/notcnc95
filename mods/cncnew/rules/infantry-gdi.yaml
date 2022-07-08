@@ -188,10 +188,17 @@ SNIP:
 		Weapon: Sniper
 		MuzzleSequence: garrison-muzzle
 
-    #   ah soo, this breaks it
-	#   GrantConditionOnTerrain@Camouflage:
-	#	Condition: terrain.camouflage
-	#	TerrainTypes: Rough
+SNIPR1:
+	Inherits: SNIP
+	RenderSprites:
+		Image: SNIP
+	ProducibleWithLevel:
+		InitialLevels: 1
+		Prerequisites: ~techlevel.low
+	UpdatesPlayerStatistics:
+		OverrideActor: snip
+	-Buildable:
+	-MapEditorData:
 
 RMBO:
 	Inherits: ^Soldier

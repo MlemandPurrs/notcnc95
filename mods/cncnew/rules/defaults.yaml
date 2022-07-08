@@ -1859,7 +1859,7 @@
 	ExternalCondition@Invulnerability:
 		Condition: invulnerability-crate-collected
 	Targetable@DontEMPWhileInvuln:
-		TargetTypes: InvulNoEMP
+		TargetTypes: Invulnerable
 		RequiresCondition: invulnerability-crate-collected
 
 ^AcceptsEMPCrate:

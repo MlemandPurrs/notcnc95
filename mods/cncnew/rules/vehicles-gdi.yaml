@@ -75,9 +75,10 @@ JEEPR1:
 		FallRate: 26
 		ParachutingCondition: parachute
 	WithParachute:
-		Image: parach
+		Image: parachl
 		Sequence: idle
 		OpeningSequence: open
+        Offset: 0,0,304
 		ShadowImage: parach-shadow
 		ShadowSequence: idle
 		RequiresCondition: parachute
@@ -94,6 +95,8 @@ JTOW:
 		Queue: LightVehicle.GDI
 		Description: Mobile anti-tank vehicle.\n  Strong vs Infantry\n  Weak vs Tanks
 		Icon: towicon
+	Valued:
+		Cost: 500
 	Armament:
 		Weapon: JeepRockets
 		LocalOffset: 250,0,150
@@ -152,9 +155,10 @@ JTOWR1:
 		FallRate: 26
 		ParachutingCondition: parachute
 	WithParachute:
-		Image: parach
+		Image: parachl
 		Sequence: idle
 		OpeningSequence: open
+        Offset: 0,0,304
 		ShadowImage: parach-shadow
 		ShadowSequence: idle
 		RequiresCondition: parachute
@@ -759,9 +763,10 @@ MTNKR1:
 		FallRate: 26
 		ParachutingCondition: parachute
 	WithParachute:
-		Image: parach
+		Image: parachl
 		Sequence: idle
 		OpeningSequence: open
+        Offset: 0,0,304
 		ShadowImage: parach-shadow
 		ShadowSequence: idle
 		RequiresCondition: parachute

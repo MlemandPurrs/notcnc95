@@ -395,3 +395,33 @@ ShipGattling.AA:
 		Blockable: false
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter, Airplane
+
+ZSU-23:
+	Burst: 2
+	BurstDelays: 0
+	ReloadDelay: 9
+	Range: 10c0
+	Report: aacanon3.aud
+	ValidTargets: Helicopter, Airplane
+	Projectile: Bullet
+		Speed: 1c682
+		Blockable: false
+		Inaccuracy: 1c938
+	Warhead@1Dam: SpreadDamage
+		Spread: 213
+		Damage: 2000
+		ValidTargets: Helicopter, Airplane
+		Versus:
+			None: 40
+			Kevlar: 50
+			Flak: 50
+			Wood: 10
+			Light: 60
+            Medium: 45
+			Heavy: 30
+		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: small_poof
+		ImpactSounds: xplos.aud
+		ImpactActors: true
+		ValidTargets: Helicopter, Airplane

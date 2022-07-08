@@ -1031,8 +1031,6 @@ tecn:
 	stand:
 		Facings: 8
 	panic-stand:
-		Start: 8
-		Length: 6
 		Facings: 8
 	panic-run:
 		Start: 8
