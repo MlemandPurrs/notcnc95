@@ -1710,41 +1710,6 @@ gdsh.husk:
 		Length: *
 		Offset: 0,-2
 
-strp:
-	idle: afld-u
-		ZOffset: -1023
-	damaged-idle: afld-u
-		Start: 1
-		ZOffset: -1023
-	build-top: afld-u-top
-		Length: 10
-		ZOffset: 1024
-	damaged-build-top: afld-u-top
-		Start: 10
-		Length: 10
-		ZOffset: 1024
-	dead: afld-u
-		Start: 2
-		ZOffset: -1023
-		Tick: 800
-	make: afld-u-make
-		Length: *
-		Tick: 80
-	bib: bib2
-		UseTilesetExtension: true
-		Length: *
-        Offset: 0,0
-	icon: aflduicon
-
-strp.husk:
-	idle: afld-u
-		Start: 2
-		ZOffset: -1023
-	bib: bib2
-		UseTilesetExtension: true
-		Length: *
-        Offset: 0,0
-
 army:
 	idle:
 		Start: 0
@@ -2000,3 +1965,43 @@ wind:
 			SNOW: TEMPERAT
 		Length: *
 		Offset: -3,0
+
+strp:
+	idle: afld-u
+		ZOffset: -1023
+	damaged-idle: afld-u
+		Start: 1
+		ZOffset: -1023
+	dead: afld-u
+		Start: 2
+		ZOffset: -1023
+		Tick: 800
+	make: afld-u-make
+		Length: *
+		Tick: 80
+	build-top: afld-u-top
+		Length: 10
+		ZOffset: 1024
+	damaged-build-top: afld-u-top
+		Start: 10
+		Length: 10
+		ZOffset: 1024
+	bib: bib1
+		UseTilesetExtension: true
+		Length: *
+	icon: aflduicon
+
+strp.husk:
+	idle: afld-u
+		Start: 2
+		ZOffset: -1023
+	bib: bib2
+		UseTilesetExtension: true
+		Length: *
+        Offset: 0,0
+
+strp.plug:
+	place: afld-u-make
+		Start: 13
+		Length: 1
+	icon: aflduicon

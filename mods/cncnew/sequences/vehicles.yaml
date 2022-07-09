@@ -602,7 +602,7 @@ dtrk:
     truk-body: truk
 		Facings: 32
 		UseClassicFacings: True
-	icon: trukicon
+	icon: dtrkicon
 
 dtrk.destroyed:
 	idle: dtrk

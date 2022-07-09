@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2021 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -20,9 +20,13 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits
 {
-	[Desc("Transports actors with the `Carryable` trait.")]
+	[Desc("Transports actors with the `" + nameof(Carryable) + "` trait.")]
 	public class CarryallInfo : TraitInfo, Requires<BodyOrientationInfo>, Requires<AircraftInfo>
 	{
+		[ActorReference(typeof(CarryableInfo))]
+		[Desc("Actor type that is initially spawned into this actor.")]
+		public readonly string InitialActor = null;
+
 		[Desc("Delay (in ticks) on the ground while attaching an actor to the carryall.")]
 		public readonly int BeforeLoadDelay = 0;
 
@@ -57,11 +61,19 @@ namespace OpenRA.Mods.Common.Traits
 		[Desc("Condition to grant to the Carryall while it is carrying something.")]
 		public readonly string CarryCondition = null;
 
+		[ActorReference(dictionaryReference: LintDictionaryReference.Keys)]
+		[Desc("Conditions to grant when a specified actor is being carried.",
+			"A dictionary of [actor name]: [condition].")]
+		public readonly Dictionary<string, string> CarryableConditions = new Dictionary<string, string>();
+
 		[VoiceReference]
 		public readonly string Voice = "Action";
 
 		[Desc("Color to use for the target line.")]
 		public readonly Color TargetLineColor = Color.Yellow;
+
+		[GrantedConditionReference]
+		public IEnumerable<string> LinterCarryableConditions => CarryableConditions.Values;
 
 		public override object Create(ActorInitializer init) { return new Carryall(init.Self, this); }
 	}
@@ -93,6 +105,7 @@ namespace OpenRA.Mods.Common.Traits
 		IActorPreview[] carryablePreview;
 		HashSet<string> landableTerrainTypes;
 		int carryConditionToken = Actor.InvalidConditionToken;
+		int carryableConditionToken = Actor.InvalidConditionToken;
 
 		/// <summary>Offset between the carryall's and the carried actor's CenterPositions</summary>
 		public WVec CarryableOffset { get; private set; }
@@ -110,6 +123,18 @@ namespace OpenRA.Mods.Common.Traits
 			move = self.Trait<IMove>();
 			facing = self.Trait<IFacing>();
 			this.self = self;
+
+			if (!string.IsNullOrEmpty(info.InitialActor))
+			{
+				var unit = self.World.CreateActor(false, info.InitialActor.ToLowerInvariant(), new TypeDictionary
+				{
+					new ParentActorInit(self),
+					new OwnerInit(self.Owner)
+				});
+
+				unit.Trait<Carryable>().Attached(unit);
+				AttachCarryable(self, unit);
+			}
 		}
 
 		void ITick.Tick(Actor self)
@@ -175,7 +200,7 @@ namespace OpenRA.Mods.Common.Traits
 			}
 		}
 
-		HashSet<string> IOverrideAircraftLanding.LandableTerrainTypes { get { return landableTerrainTypes ?? aircraft.Info.LandableTerrainTypes; } }
+		HashSet<string> IOverrideAircraftLanding.LandableTerrainTypes => landableTerrainTypes ?? aircraft.Info.LandableTerrainTypes;
 
 		public virtual bool AttachCarryable(Actor self, Actor carryable)
 		{
@@ -187,6 +212,9 @@ namespace OpenRA.Mods.Common.Traits
 			self.World.ScreenMap.AddOrUpdate(self);
 			if (carryConditionToken == Actor.InvalidConditionToken)
 				carryConditionToken = self.GrantCondition(Info.CarryCondition);
+
+			if (Info.CarryableConditions.TryGetValue(carryable.Info.Name, out var carryableCondition))
+				carryableConditionToken = self.GrantCondition(carryableCondition);
 
 			CarryableOffset = OffsetForCarryable(self, carryable);
 			landableTerrainTypes = Carryable.Trait<Mobile>().Info.LocomotorInfo.TerrainSpeeds.Keys.ToHashSet();
@@ -200,6 +228,9 @@ namespace OpenRA.Mods.Common.Traits
 			self.World.ScreenMap.AddOrUpdate(self);
 			if (carryConditionToken != Actor.InvalidConditionToken)
 				carryConditionToken = self.RevokeCondition(carryConditionToken);
+
+			if (carryableConditionToken != Actor.InvalidConditionToken)
+				carryableConditionToken = self.RevokeCondition(carryableConditionToken);
 
 			carryablePreview = null;
 			landableTerrainTypes = null;
@@ -383,8 +414,8 @@ namespace OpenRA.Mods.Common.Traits
 			readonly AircraftInfo aircraftInfo;
 			readonly CarryallInfo info;
 
-			public string OrderID { get { return "DeliverUnit"; } }
-			public int OrderPriority { get { return 6; } }
+			public string OrderID => "DeliverUnit";
+			public int OrderPriority => 6;
 			public bool IsQueued { get; protected set; }
 			public bool TargetOverridesSelection(Actor self, in Target target, List<Actor> actorsAt, CPos xy, TargetModifiers modifiers) { return true; }
 
@@ -411,9 +442,7 @@ namespace OpenRA.Mods.Common.Traits
 
 				var location = self.World.Map.CellContaining(target.CenterPosition);
 				var explored = self.Owner.Shroud.IsExplored(location);
-				cursor = self.World.Map.Contains(location) ?
-					(self.World.Map.GetTerrainInfo(location).CustomCursor ?? info.DropOffCursor) :
-					info.DropOffBlockedCursor;
+				cursor = self.World.Map.Contains(location) ? info.DropOffCursor : info.DropOffBlockedCursor;
 
 				IsQueued = modifiers.HasModifier(TargetModifiers.ForceQueue);
 

@@ -1466,6 +1466,10 @@ NODV22.Reinforce:
     -RevealsShroud:
 	Carryall:
 		DropRange: 30c0
+        CarryableConditions:
+            btr: btr
+            3tnk: tnk3
+            zsu: zsu
 	Aircraft:
 		IdleBehavior: LeaveMap
 		Repulsable: False
@@ -1474,6 +1478,15 @@ NODV22.Reinforce:
 	-Voiced:
 	RejectsOrders:
 	Interactable:
+    ProvidesPrerequisite@btr:
+        Prerequisite: bops
+        RequiresCondition: btr
+    ProvidesPrerequisite@3tnk:
+        Prerequisite: 3tnk
+        RequiresCondition: tnk3
+    ProvidesPrerequisite@zsu:
+        Prerequisite: zsu
+        RequiresCondition: zsu
 
 #	simplest would be to make this a Nod Airstrike
 SFIG:

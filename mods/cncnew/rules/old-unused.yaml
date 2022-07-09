@@ -1758,3 +1758,92 @@ camera.satscan:
 		RequiresCondition: killsself
 	Voiced:
 		VoiceSet: SatelliteScanVoice
+
+STRP:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^3x2Shape
+	Selectable:
+		Bounds: 72,48
+        DecorationBounds: 72,48,0,0
+	HitShape:
+		UseTargetableCellsOffsets: false
+		TargetableOffsets: 0,0,0, 420,0,0, 420,-1024,0, 420,1024,0, -777,0,0, -777,-1024,0, -777,1024,0
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Subterranean Weapons Plant
+	ProvidesPrerequisite:
+		Prerequisite: vehicleproduction
+	Buildable:
+		BuildPaletteOrder: 11
+        Prerequisites: ~disabled
+		Queue: Building.Nod
+		Description: Produces Hi-Tech Vehicles.
+	Building:
+		Footprint: XX+ xx+ ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 62500
+	RevealsShroud:
+		Range: 7c0
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: -1024,0,0
+		ExitCell: 2,1
+		ProductionTypes: LightVehicle.Nod
+        ExitDelay: 5
+	Production:
+		Produces: LightVehicle.Nod
+		PauseOnCondition: build-incomplete
+	WithBuildingBib:
+	WithProductionDoorOverlay:
+		Sequence: build-top
+		RequiresCondition: !build-incomplete
+	ProductionQueue:
+		Type: LightVehicle.Nod
+		DisplayOrder: 3
+		Group: LightVehicle
+		LowPowerModifier: 150
+		BlockedAudio: NoBuild
+		LimitedAudio: BuildingInProgress
+		QueuedAudio: Training
+		OnHoldAudio: OnHold
+		CancelledAudio: Cancelled
+	ProductionBar:
+		ProductionType: LightVehicle.Nod
+	Power:
+		Amount: -40
+		RequiresCondition: !build-incomplete
+	ProvidesPrerequisite@buildingname:
+	SpawnActorOnDeath:
+		Actor: strp.husk
+		OwnerType: InternalName
+	Targetable:
+		TargetTypes: Ground, C4, Structure, NodInfiltrateAFLD
+	InfiltrateForSupportPower@STOLENTECH:
+		Types: NodInfiltrateAFLD
+		Proxy: stolentech.afld
+	RenderSprites:
+		Image: strp
+
+STRP.Husk:
+	Inherits: ^BuildingHusk
+	Interactable:
+		Bounds: 72,48
+	Building:
+		Footprint: XXX xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Subterranean Weapons Plant (Destroyed)
+	RenderSprites:
+		Image: strp.husk
+
+	GrantConditionOnPrerequisite@LIMITINGTNK3:
+		Condition: has-tnk3
+		Prerequisites: 3tnk
+	GrantCondition@LIMITINGTNK3:
+		Condition: no-more-free-syrd
+		GrantPermanently: false
+		RequiresCondition: has-tnk3

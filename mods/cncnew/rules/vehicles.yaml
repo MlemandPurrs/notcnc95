@@ -59,9 +59,9 @@ MCV:
 		-CarriedCondition:
 	GpsRadarDot:
 		Sequence: Constructor
-    EjectOnTransform:
-        PilotActor: jack
-        RequiresCondition: has-hijacker
+    #   EjectOnTransform@HIJACKER:
+    #   PilotActor: jack
+    #   RequiresCondition: has-hijacker
 
 MCV.Husk:
 	Inherits: ^Husk

@@ -688,7 +688,7 @@ NODMTNK:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
-		Prerequisites: fix, stolentech.weap
+		Prerequisites: fix
 		Queue: LightVehicle.Nod
 		Description: General-Purpose Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
 	Mobile:
@@ -756,7 +756,7 @@ TDN:
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: tmpl, ~stolentech.afld
+		Prerequisites: tmpl
 		Queue: LightVehicle.Nod
 		Description: Tank Destroyer.\n  Strong vs Tanks\n  Weak vs Infantry, Aircraft
 	Valued:

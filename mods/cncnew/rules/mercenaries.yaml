@@ -277,6 +277,8 @@ SHOT:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
+	ProvidesPrerequisite@squadname:
+        Prerequisite: bops
 	Valued:
 		Cost: 225
 	Tooltip:
@@ -304,7 +306,6 @@ SHOT:
 		Type: InfantryRefund
 	Passenger:
 		CustomPipType: pip-yellow
-	ProvidesPrerequisite@unitname:
 
 BTR:
 	Inherits: ^Vehicle
@@ -314,6 +315,8 @@ BTR:
 	Inherits@Cloak: ^AcceptsCloakCrate
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@EMP: ^AcceptsEMPCrate
+	ProvidesPrerequisite@squadname:
+        Prerequisite: bops
 	Valued:
 		Cost: 500
 	Health:
@@ -373,7 +376,6 @@ BTR:
 		RequiresCondition: !loaded
 	Capturable@HIJACKED:
 		RequiresCondition: !loaded
-	ProvidesPrerequisite@unitname:
 
 BTR.Husk:
 	Inherits: ^Husk
@@ -386,6 +388,8 @@ BTR.Husk:
 
 #   would like Mercs to be limited one at a time.
 #   once the current team dies can order a new one.
+
+#   current issue: while on transit can build another one
 production.dropzone:
 	AlwaysVisible:
 	Interactable:
@@ -396,7 +400,8 @@ production.dropzone:
 	Buildable:
 		Queue: Mercenary.Nod
 		BuildPaletteOrder: 1
-		Prerequisites: shrn, ~!powerproxy.dropzone, ~techlevel.unrestricted
+        BuildLimit: 1
+		Prerequisites: shrn, ~!bops, ~techlevel.unrestricted
 		Description: A Nod Carryall drops an BTR containing\nfour Shotgunners at target location.
 		BuildDuration: 750
     Valued:
@@ -427,19 +432,18 @@ powerproxy.dropzone:
 		OneShot: true
 		AllowMultiple: true
 		Cursor: airdrop
+    RemoveOnPowerActivation:
+        Actors: production.dropzone
 
-#   deliver a invisible dummy alongside
-#   make dummy check btr and shot, then
-#   suicide when those are no longer present
 FLARE.dropzone:
 	Inherits: FLARE
 	RevealsShroud:
 		Range: 4c0
 	Tooltip:
 		Name: Dropzone Flare
-	FreeActorWithDelivery@2:
+	FreeActorWithDelivery@1:
 		Actor: BTR
-		DeliveryOffset: -1,1
+		DeliveryOffset: 0,1
 		DeliveringActor: NODV22.reinforce
 		Facing: 0
 
@@ -449,6 +453,7 @@ FLARE.dropzone:
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
+    ProvidesPrerequisite@unitname:
 	Valued:
 		Cost: 1200
 	Tooltip:
@@ -480,7 +485,6 @@ FLARE.dropzone:
 		Actor: 3TNK.Husk
 	Selectable:
 		DecorationBounds: 28,28
-	ProvidesPrerequisite@unitname:
 
 3TNK.Husk:
 	Inherits: ^Husk
@@ -501,8 +505,8 @@ production.dropzonetanks:
 	Buildable:
 		Queue: Mercenary.Nod
 		BuildPaletteOrder: 2
-        #   this causes them to become one-time use only
-        Prerequisites: afld, ~!powerproxy.dropzonetanks, ~techlevel.unrestricted
+        BuildLimit: 1
+        Prerequisites: afld, ~!3tnk, ~techlevel.unrestricted
 		Description: Nod Carryalls drop one pair of\nHeavy Tanks at target location.
         Icon: 3tnkicon
 		BuildDuration: 1500
@@ -534,17 +538,20 @@ powerproxy.dropzonetanks:
 		OneShot: true
 		AllowMultiple: true
 		Cursor: airdrop
+    RemoveOnPowerActivation:
+        Actors: production.dropzonetanks
 
 FLARE.dropzone.3tnk:
 	Inherits: FLARE.dropzone
-	FreeActorWithDelivery@2:
-		Actor: 3TNK
-		DeliveryOffset: -1,1
-		DeliveringActor: NODV22.reinforce
-		Facing: 0
-	FreeActorWithDelivery@3:
+    ProvidesPrerequisite@utilname:
+	FreeActorWithDelivery@1:
 		Actor: 3TNK
 		DeliveryOffset: 1,1
+		DeliveringActor: NODV22.reinforce
+		Facing: 0
+	FreeActorWithDelivery@2:
+		Actor: 3TNK
+		DeliveryOffset: 1,-1
 		DeliveringActor: NODV22.reinforce
 		Facing: 0
 
@@ -554,6 +561,7 @@ ZSU:
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@AUTOTARGET: ^AutoTargetAir
 	Inherits@ExpBoost: ^NodAffectedByTraining
+    ProvidesPrerequisite@unitname:
 	Valued:
 		Cost: 900
 	Tooltip:
@@ -630,7 +638,8 @@ production.dropzoneantiair:
 	Buildable:
 		Queue: Mercenary.Nod
 		BuildPaletteOrder: 3
-        Prerequisites: afld, ~!powerproxy.dropzoneantiair, ~techlevel.unrestricted
+        BuildLimit: 1
+        Prerequisites: afld, hq, ~!zsu, ~techlevel.unrestricted
 		Description: Nod Carryalls drop one pair of\nAnti-Air Tanks at target location.
         Icon: zsuicon
 		BuildDuration: 1500
@@ -654,7 +663,7 @@ powerproxy.dropzoneantiair:
 		Actor: FLARE.dropzone.antiair
 		LifeTime: 280
 		OrderName: NodDropzoneAntiAir
-		Icon: zsuicon
+		Icon: sovietzsu
 		Description: Dropzone: Anti-Air Tanks
 		LongDesc: Nod Carryalls drop one pair of\nAnti-Air Tanks at target location.
 		LaunchSpeechNotification: Reinforce
@@ -662,16 +671,20 @@ powerproxy.dropzoneantiair:
 		OneShot: true
 		AllowMultiple: true
 		Cursor: airdrop
+    RemoveOnPowerActivation:
+        Actors: production.dropzoneantiair
 
 FLARE.dropzone.antiair:
 	Inherits: FLARE.dropzone
-	FreeActorWithDelivery@2:
+	FreeActorWithDelivery@1:
 		Actor: ZSU
 		DeliveryOffset: -1,1
 		DeliveringActor: NODV22.reinforce
 		Facing: 0
-	FreeActorWithDelivery@3:
+	FreeActorWithDelivery@2:
 		Actor: ZSU
 		DeliveryOffset: 1,1
 		DeliveringActor: NODV22.reinforce
 		Facing: 0
+
+#   todo: add Hind, Buratino

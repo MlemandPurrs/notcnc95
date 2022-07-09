@@ -1143,7 +1143,7 @@ AFLD:
 		BuildPaletteOrder: 4
 		Prerequisites: anypower, ~techlevel.low
 		Queue: Building.Nod
-		Description: Provides a dropzone for\nVehicle and Helicopter reinforcements.\n  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n  (requires Communications Center)
+		Description: Provides a dropzone for\nVehicle reinforcements.\n  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n  (requires Communications Center)
 	Building:
 		Footprint: XXX+ xxx+ ====
 		Dimensions: 4,3
@@ -1163,6 +1163,7 @@ AFLD:
 	WithBuildingBib:
 	WithIdleOverlay@DISH:
 		RequiresCondition: !build-incomplete
+        PauseOnCondition: lowpower
 		Sequence: idle-dish
 	WithDeliveryAnimation:
 		RequiresCondition: !build-incomplete
@@ -1218,6 +1219,19 @@ AFLD:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateAFLD
 		Proxy: stolentech.afld
+    GrantConditionOnProduction:
+        Condition: notwhiledelivering
+        #   Actors:
+        ShowSelectionBar: false
+	Pluggable:
+		Offset: 0,0
+		Conditions:
+			strpupgrade: strpupgrade
+		Requirements:
+			strpupgrade: !strpupgrade && !build-incomplete && !notwhiledelivering
+    TransformOnCondition:
+    	IntoActor: STRP
+    	RequiresCondition: strpupgrade
 
 AFLD.Husk:
 	Inherits: ^BuildingHusk
@@ -1232,50 +1246,69 @@ AFLD.Husk:
 	RenderSprites:
 		Image: afld.husk
 
-STRP:
-	Inherits: ^BaseBuilding
-	Inherits@shape: ^3x2Shape
-	Selectable:
-		Bounds: 72,48
-        DecorationBounds: 72,48,0,0
-	HitShape:
-		UseTargetableCellsOffsets: false
-		TargetableOffsets: 0,0,0, 420,0,0, 420,-1024,0, 420,1024,0, -777,0,0, -777,-1024,0, -777,1024,0
+STRP.Plug:
+	Inherits: ^BuildingPlug
 	Valued:
-		Cost: 2000
+		Cost: 1000
 	Tooltip:
-		Name: Subterranean Weapons Plant
-	ProvidesPrerequisite:
-		Prerequisite: vehicleproduction
+		Name: Subterranean Plant
 	Buildable:
 		BuildPaletteOrder: 11
-        Prerequisites: tmpl, ~techlevel.high
+		Prerequisites: tmpl, !strp.plug, ~!aitoodumb, ~techlevel.high
 		Queue: Building.Nod
-		Description: Produces Hi-Tech Vehicles.
+		BuildLimit: 1
+		Description: Convert one Airstrip into Subterranean Plant.\nProduces Hi-Tech Vehicles.\n  Maximum one can be built.
+	Plug:
+		Type: strpupgrade
+	#	this is to show will use extra -40 power when applied on the tooltip
+	Power:
+		Amount: -40
+
+STRP:
+	Inherits: ^BaseBuilding
+	Selectable:
+		Bounds: 96,48
+	HitShape:
+		TargetableOffsets: 0,0,0, 0,-512,256, 0,-1451,384, 0,512,128, 0,1536,85
+		Type: Rectangle
+			TopLeft: -2048, -1024
+			BottomRight: 2048, 1024
+	Valued:
+		Cost: 3000
+	Tooltip:
+		Name: Subterranean Plant
+	ProvidesPrerequisite:
+		Prerequisite: vehicleproduction
+	ProvidesPrerequisite@LIMITING:
+		Prerequisite: strp.plug
+	Buildable:
+		BuildPaletteOrder: 11
+		Prerequisites: tmpl, ~aitoodumb, ~techlevel.high
+		Queue: Building.Nod
+		Description: Produces Hi-Tech Vehicles.\n  Maximum one can be built.
 	Building:
-		Footprint: XX+ xx+ ===
-		Dimensions: 3,3
+		Footprint: XXX+ xxx+ ====
+		Dimensions: 4,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 62500
+		HP: 125000
 	RevealsShroud:
 		Range: 7c0
 	RallyPoint:
 	Exit@1:
 		SpawnOffset: -1024,0,0
-		ExitCell: 2,1
+		ExitCell: 3,1
 		ProductionTypes: LightVehicle.Nod
         ExitDelay: 5
 	Production:
 		Produces: LightVehicle.Nod
-		PauseOnCondition: build-incomplete
 	WithBuildingBib:
 	WithProductionDoorOverlay:
 		Sequence: build-top
 		RequiresCondition: !build-incomplete
 	ProductionQueue:
 		Type: LightVehicle.Nod
-		DisplayOrder: 3
+		DisplayOrder: 8
 		Group: LightVehicle
 		LowPowerModifier: 150
 		BlockedAudio: NoBuild
@@ -1286,7 +1319,7 @@ STRP:
 	ProductionBar:
 		ProductionType: LightVehicle.Nod
 	Power:
-		Amount: -40
+		Amount: -80
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
@@ -1297,19 +1330,17 @@ STRP:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateAFLD
 		Proxy: stolentech.afld
-	RenderSprites:
-		Image: strp
 
 STRP.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
 		Bounds: 72,48
 	Building:
-		Footprint: XXX xxx ===
-		Dimensions: 3,3
+		Footprint: XXXX xxxx ====
+		Dimensions: 4,3
 		LocalCenterOffset: 0,-512,0
 	Tooltip:
-		Name: Subterranean Weapons Plant (Destroyed)
+		Name: Subterranean Plant (Destroyed)
 	RenderSprites:
 		Image: strp.husk
 
@@ -2116,13 +2147,15 @@ HQ.GDI:
 		Amount: -60
 		RequiresCondition: !eyeupgrade
 	Power@UPGRADED:
-		Amount: -80
+		Amount: -90
 		RequiresCondition: eyeupgrade
 	SpawnActorOnDeath@BASE:
 		Actor: hq.gdi.husk
+        OwnerType: InternalName
 		RequiresCondition: !eyeupgrade
 	SpawnActorOnDeath@UPGRADED:
 		Actor: eye.husk
+        OwnerType: InternalName
 		RequiresCondition: eyeupgrade
 	#	hmm, infiltrate for support Power is not conditional
 	#	that means EYE will have to do without unique
@@ -2132,7 +2165,6 @@ HQ.GDI:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
-
 
     #   doesnt do anything, broken
 	#   GpsPower:
@@ -2178,9 +2210,9 @@ EYE.Plug:
 		Description: Adds an Sattelite Uplink to\na Communications Center.\nUnlocks Mobile HQ and Sniper.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
 	Plug:
 		Type: eyeupgrade
-	#	this is to show will use extra -20 power when applied on the tooltip
+	#	this is to show will use extra -30 power when applied on the tooltip
 	Power:
-		Amount: -20
+		Amount: -30
 
 EYE:
 	Inherits: ^BaseBuilding
