@@ -48,7 +48,7 @@ LST:
 	Tooltip:
 		Name: Landing Craft
 	Buildable:
-		Queue: Ships.GDI, Ships.Nod
+		Queue: Navy.GDI, Navy.Nod
 		Prerequisites: ~techlevel.low
 		BuildPaletteOrder: 1
 		Description: Transports ground units across most terrain.\n Slower on land.\n  Unarmed
@@ -88,7 +88,7 @@ GB:
 	Valued:
 		Cost: 750
 	Buildable:
-		Queue: Ships.GDI, Ships.Nod
+		Queue: Navy.GDI, Navy.Nod
 		Prerequisites: proc, ~techlevel.low
 		BuildPaletteOrder: 2
 		Description: Multi-role fire-support ship.\n  Strong vs Defenses, Tanks\n  Weak vs Aircraft
@@ -123,7 +123,7 @@ GB:
 ENGB:
 	Inherits: ^Ship
 	Buildable:
-		Queue: Ships.GDI, Ships.Nod
+		Queue: Navy.GDI, Navy.Nod
 		BuildPaletteOrder: 3
 		Prerequisites: proc, ~techlevel.low
 		Description: Externally captures Naval structures.\nCarries and Lays one Sea mine\nto destroy unwary Ships.\nCapable of detecting Sea Mines.\n  Unarmed
@@ -144,7 +144,7 @@ ENGB:
 		Range: 4c0
     CaptureManager:
 	Captures@CAPTURESNAVAL:
-		CaptureTypes: naval
+		CaptureTypes: building-naval
 		PlayerExperience: 0
 		CaptureDelay: 100
 		ConsumedByCapture: false

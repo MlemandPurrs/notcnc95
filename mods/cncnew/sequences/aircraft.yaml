@@ -124,20 +124,6 @@ ocarpod:
 		Facings: 32
 	icon: ocaricon
 
-f18:
-	Inherits: emp-overlay
-	idle:
-		Facings: 32
-		UseClassicFacings: True
-	icon: f18icon
-
-f22:
-	Inherits: emp-overlay
-	idle:
-		Facings: 32
-		UseClassicFacings: True
-	icon: f22icon
-
 nv22:
 	Inherits: emp-overlay
 	idle:
@@ -154,6 +140,20 @@ nv22:
 		Start: 4
 		Length: 8
 	icon: nv22icon
+
+f18:
+	Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f18icon
+
+f22:
+	Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f22icon
 
 sfig:
 	Inherits: emp-overlay

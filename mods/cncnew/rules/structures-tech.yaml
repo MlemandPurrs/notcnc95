@@ -244,7 +244,7 @@ OILPLAT:
 		RequiresForceFire: true
 		TargetTypes: None
 	Capturable:
-		Types: naval
+		Types: building-naval
 	CapturableProgressBar:
 	CapturableProgressBlink:
 	-RepairableBuilding:
@@ -260,7 +260,7 @@ SYRD:
 	OwnerLostAction:
 		Action: ChangeOwner
 	Capturable:
-		Types: building-tech, naval
+		Types: building-tech, building-naval
     CapturableProgressBar:
 	CapturableProgressBlink:
 	CaptureNotification:
@@ -293,10 +293,10 @@ SYRD:
 		GenericStancePrefix: false
 		ShowOwnerRow: True
 	TooltipDescription@ally:
-		Description: Boats can be produced here.
+		Description: Ships can be produced here.
 		ValidRelationships: Ally
 	TooltipDescription@other:
-		Description: Capture to produce Boats.
+		Description: Capture to produce Ships.
 		ValidRelationships: Neutral, Enemy
 	Health:
 		HP: 120000
@@ -305,10 +305,10 @@ SYRD:
 	RevealsShroud:
 		Range: 4c0
 	Production:
-		Produces: Ships.GDI, Ships.Nod
+		Produces: Navy.GDI, Navy.Nod
 		PauseOnCondition: build-incomplete || being-demolished
-	ProductionQueue@GDIShips:
-		Type: Ships.GDI
+	ProductionQueue@GDINavy:
+		Type: Navy.GDI
 		DisplayOrder: 6
 		Group: Naval
 		Factions: gdi
@@ -319,8 +319,8 @@ SYRD:
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
-	ProductionQueue@NodShips:
-		Type: Ships.Nod
+	ProductionQueue@NodNavy:
+		Type: Navy.Nod
 		DisplayOrder: 6
 		Group: Naval
 		Factions: nod
@@ -331,10 +331,10 @@ SYRD:
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
-	ProductionBar@GDIShips:
-		ProductionType: Ships.GDI
-	ProductionBar@NodShips:
-		ProductionType: Ships.Nod
+	ProductionBar@GDINavy:
+		ProductionType: Navy.GDI
+	ProductionBar@NodNavy:
+		ProductionType: Navy.Nod
 	RepairsUnits:
 		HpPerStep: 1000
 		Interval: 14
@@ -347,25 +347,25 @@ SYRD:
 		SpawnOffset: -1024,1024,0
 		Facing: 160
 		ExitCell: 0,2
-		ProductionTypes: Ships.GDI, Ships.Nod
+		ProductionTypes: Navy.GDI, Navy.Nod
 	Exit@2:
 		RequiresCondition: !being-captured
 		SpawnOffset: 1024,1024,0
 		Facing: 224
 		ExitCell: 2,2
-		ProductionTypes: Ships.GDI, Ships.Nod
+		ProductionTypes: Navy.GDI, Navy.Nod
 	Exit@3:
 		RequiresCondition: !being-captured
 		SpawnOffset: -1024,-1024,0
 		Facing: 96
 		ExitCell: 0,0
-		ProductionTypes: Ships.GDI, Ships.Nod
+		ProductionTypes: Navy.GDI, Navy.Nod
 	Exit@4:
 		RequiresCondition: !being-captured
 		SpawnOffset: 1024,-1024,0
 		Facing: 32
 		ExitCell: 2,0
-		ProductionTypes: Ships.GDI, Ships.Nod
+		ProductionTypes: Navy.GDI, Navy.Nod
 	Power:
 		Amount: -40
 		RequiresCondition: !build-incomplete && !owner.is.neutral

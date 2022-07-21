@@ -88,6 +88,21 @@ CRATE:
 		Units: apc
 		ValidFactions: gdi
 		Prerequisites: techlevel.low
+	GiveUnitCrateAction@bggy:
+		SelectionShares: 6
+		Units: bggy
+		ValidFactions: nod
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@napc:
+		SelectionShares: 6
+		Units: napc
+		ValidFactions: nod
+		Prerequisites: techlevel.low
+	GiveUnitCrateAction@ltnk:
+		SelectionShares: 6
+		Units: ltnk
+		ValidFactions: nod
+		Prerequisites: techlevel.low
 	GiveUnitCrateAction@mtnk:
 		SelectionShares: 4
 		Units: mtnk
@@ -98,31 +113,26 @@ CRATE:
 		Units: htnk
 		ValidFactions: gdi
 		Prerequisites: techlevel.high
-	GiveUnitCrateAction@mlrs:
-		SelectionShares: 3
-		Units: msam
-		ValidFactions: gdi
-		Prerequisites: techlevel.high
-	GiveUnitCrateAction@bggy:
-		SelectionShares: 6
-		Units: bggy
-		ValidFactions: nod
-		Prerequisites: techlevel.low
-	GiveUnitCrateAction@ltnk:
-		SelectionShares: 6
-		Units: ltnk
-		ValidFactions: nod
-		Prerequisites: techlevel.low
 	GiveUnitCrateAction@ftnk:
 		SelectionShares: 4
 		Units: ftnk
 		ValidFactions: nod
 		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@stnk:
+		SelectionShares: 3
+		Units: stnk
+		ValidFactions: nod
+		Prerequisites: techlevel.high
 	GiveUnitCrateAction@arty:
 		SelectionShares: 5
 		Units: arty
 		ValidFactions: gdi, nod
 		Prerequisites: techlevel.medium
+	GiveUnitCrateAction@mlrs:
+		SelectionShares: 3
+		Units: msam
+		ValidFactions: gdi
+		Prerequisites: techlevel.high
 	GiveUnitCrateAction@ssm:
 		SelectionShares: 3
 		Units: mlrs
@@ -217,7 +227,6 @@ fact.colorpicker:
 	RenderSprites:
 		Image: fact
 		Palette: colorpicker
-
 
 CAMERA:
 	Interactable:
@@ -368,6 +377,7 @@ crate.nuke:
 		DisplayRadarPing: True
 		BeaconPoster: atomic
 		CameraRange: 10c0
+        CameraRemoveDelay: 50
 		ArrowSequence: arrow
 		ClockSequence: clock
 		CircleSequence: circles
@@ -431,7 +441,7 @@ SILOTIB:
 		Image: silo-infested
 	SeedsResource@Slow:
 		Interval: 87
-		ResourceType: Tiberium
+		ResourceType: RedTiberium
 		RequiresCondition: growthslow
 	WithIdleAnimation@Slow:
 		Interval: 87
@@ -440,7 +450,7 @@ SILOTIB:
 		Condition: growthslow
 	SeedsResource@Normal:
 		Interval: 75
-		ResourceType: Tiberium
+		ResourceType: RedTiberium
 		RequiresCondition: growthnormal
 	WithIdleAnimation@Normal:
 		Interval: 75
@@ -449,7 +459,7 @@ SILOTIB:
 		Condition: growthnormal
 	SeedsResource@Fast:
 		Interval: 63
-		ResourceType: Tiberium
+		ResourceType: RedTiberium
 		RequiresCondition: growthfast
 	WithIdleAnimation@Fast:
 		Interval: 63
