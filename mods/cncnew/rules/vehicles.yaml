@@ -143,6 +143,8 @@ HARV:
 		ValidRelationships: Ally
 	ExternalCondition@DOCKED:
 		Condition: docked
+		SourceCap: 1
+		TotalCap: 1
 	RejectsOrders:
 		RequiresCondition: docked
 	Targetable@DRIVERKILL:

@@ -131,25 +131,6 @@ FACT:
 		OwnerType: InternalName
 	AcceptsDeliveredCash:
 		ValidTypes: MoneyTransfer
-	ProvidesPrerequisite@allowNodplayer:
-		Prerequisite: is-nod-player
-		Factions: nod
-	ProvidesPrerequisite@allowGDIai:
-		Prerequisite: is-ai-gdi
-		Factions: gdi
-		RequiresCondition: is-ai-gdi
-	GrantConditionOnPrerequisite@allowGDIai:
-		Condition: is-ai-gdi
-		Prerequisites: aitoodumb
-	GrantConditionOnPrerequisite@allowedtobuildHqI:
-		Condition: can-build-hqI
-		Prerequisites: is-nod-player
-	GrantConditionOnPrerequisite@allowedtobuildHqII:
-		Condition: can-build-hqII
-		Prerequisites: is-ai-gdi
-	ProvidesPrerequisite@allowedtobuildHq:
-		Prerequisite: can-build-hq-finale
-		RequiresCondition: can-build-hqI || can-build-hqII
 	Targetable:
 		TargetTypes: Ground, C4, Structure, NodInfiltrateFACT
 	InfiltrateForSupportPower@STOLENTECH:
@@ -159,12 +140,45 @@ FACT:
 		AreaTypes: building, outpost
 	GpsRadarDot:
 		Sequence: Conyard
+    GrantConditionOnBotOwner@allowGDIai:
+        Condition: is-ai-gdi
+        Bots: normal
+    GrantConditionOnFaction@allowNod:
+        Condition: is-nod-player
+        Factions: nod
+        ResetOnOwnerChange: true
+	ProvidesPrerequisite@allowedtobuildHq:
+		Prerequisite: can-build-hq-finale
+		RequiresCondition: is-nod-player || is-ai-gdi
+        ResetOnOwnerChange: true    
+
     #   does the power actually function ?
     #   RevealsMapCA:
 	#	RevealGeneratedShroud: false
 	#	RequiresCondition: uplinkavailable
 	#	ValidRelationships: Ally
     #   nope, it doesnt, ok but why ??
+
+    #   the bugged original block causing ctd below
+	#   ProvidesPrerequisite@allowNodplayer:
+	#	Prerequisite: is-nod-player
+	#	Factions: nod
+	#   ProvidesPrerequisite@allowGDIai:
+	#	Prerequisite: is-ai-gdi
+	#	Factions: gdi
+	#	RequiresCondition: is-ai-gdi
+	#   GrantConditionOnPrerequisite@allowGDIai:
+	#	Condition: is-ai-gdi
+	#	Prerequisites: aitoodumb
+	#   GrantConditionOnPrerequisite@allowedtobuildHqI:
+	#	Condition: can-build-hqI
+    #	Prerequisites: is-nod-player
+	#   GrantConditionOnPrerequisite@allowedtobuildHqII:
+	#	Condition: can-build-hqII
+	#	Prerequisites: is-ai-gdi
+	#   ProvidesPrerequisite@allowedtobuildHq:
+	#	Prerequisite: can-build-hq-finale
+	#	RequiresCondition: can-build-hqI || can-build-hqII
 
 FACT.Husk:
 	Inherits: ^BuildingHusk
@@ -439,6 +453,8 @@ PROC:
 		OwnerType: InternalName
 	ExternalCondition@DOCKED:
 		Condition: dockinprocess
+		SourceCap: 1
+		TotalCap: 1
 	ProximityExternalCondition@DOCKED:
 		Condition: docked
 		Range: 1c0
@@ -653,20 +669,6 @@ PYLE:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltratePYLE
 		Proxy: stolentech.pyle
-	ProvidesPrerequisite@InfantryGDI:
-		Prerequisite: infantry.is.gdi
-		RequiresCondition: gdi.player
-	GrantConditionOnFaction@InfantryGDI:
-		Condition: gdi.player
-		Factions: gdi
-		ResetOnOwnerChange: True
-	ProvidesPrerequisite@InfantryNod:
-		Prerequisite: infantry.is.nod
-		RequiresCondition: nod.player
-	GrantConditionOnFaction@InfantryNod:
-		Condition: nod.player
-		Factions: nod
-		ResetOnOwnerChange: True
 
 PYLE.Husk:
 	Inherits: ^BuildingHusk
@@ -694,7 +696,7 @@ HAND:
 		Prerequisite: barracks
 	Buildable:
 		BuildPaletteOrder: 2
-		Prerequisites: fact, ~techlevel.low
+		Prerequisites: fact, ~techlevel.low, ~!global-squadenabled
 		Queue: Building.Nod
 		Description: Trains and Heals Infantry units.\nDecomissions Infantry for 1/4 of cost.\n Special: Free Guards\nEach Barracks comes with two free Rifle Infantry.
 	Building:
@@ -778,20 +780,6 @@ HAND:
 	InfiltrateForSupportPower@STOLENTECH:
 		Types: NodInfiltrateHAND
 		Proxy: stolentech.hand
-	ProvidesPrerequisite@InfantryGDI:
-		Prerequisite: infantry.is.gdi
-		RequiresCondition: gdi.player
-	GrantConditionOnFaction@InfantryGDI:
-		Condition: gdi.player
-		Factions: gdi
-		ResetOnOwnerChange: True
-	ProvidesPrerequisite@InfantryNod:
-		Prerequisite: infantry.is.nod
-		RequiresCondition: nod.player
-	GrantConditionOnFaction@InfantryNod:
-		Condition: nod.player
-		Factions: nod
-		ResetOnOwnerChange: True
 
 HAND.Husk:
 	Inherits: ^BuildingHusk
@@ -804,6 +792,23 @@ HAND.Husk:
 		Name: Hand of Nod (Destroyed)
 	RenderSprites:
 		Image: hand.husk
+
+#   WithProductionDoorOverlay: interferes with Squad production.
+#   making this clone a necessity.
+HAND.Squad:
+    Inherits: HAND
+    ProvidesPrerequisite@isclone:
+        Prerequisite: hand
+    -WithProductionDoorOverlay:
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: fact, ~techlevel.low, ~global-squadenabled
+    WithIdleOverlay@SquadReplacement:
+        RequiresCondition: !build-incomplete
+        Sequence: build-top-single
+    RenderSprites:
+        Image: hand
+    -MapEditorData:
 
 #   todo: implement train Infantry like TS Armory
 ARMY:

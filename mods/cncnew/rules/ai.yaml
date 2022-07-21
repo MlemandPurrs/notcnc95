@@ -11,7 +11,7 @@ Player:
 	HarvesterBotModuleCA@aiplayer:
 		RequiresCondition: enable-ai-player
 		HarvesterTypes: harv
-		RefineryTypes: proc
+		RefineryTypes: proc,proc.clone
 		HarvestersPerRefinery: 2
 		MaxHarvesters: 8
 	BuildingRepairBotModule@aiplayer:
@@ -182,11 +182,11 @@ Player:
 		ExcessPowerIncrement: 30
 		ExcessPowerIncreaseThreshold: 4
 		ConstructionYardTypes: fact
-		RefineryTypes: proc
+		RefineryTypes: proc,proc.clone
 		PowerTypes: nuke,nuk2
-		BarracksTypes: pyle,hand
+		BarracksTypes: pyle,hand,hand.squad
 		VehiclesFactoryTypes: weap,afld
-		ProductionTypes: pyle,hand,weap,afld
+		ProductionTypes: pyle,hand,hand.squad,weap,afld
 		AntiAirTypes: sam,cram
 		SiloTypes: silo
 		BuildingDelays:
@@ -203,8 +203,10 @@ Player:
 			airstrike.upgrade: 9000
 		BuildingLimits:
 			proc: 4
+            proc.clone: 4
 			pyle: 3
 			hand: 3
+            hand.squad: 3
 			hq: 1
 			weap: 3
 			afld: 3
@@ -224,8 +226,10 @@ Player:
 			cram: 4
 		BuildingFractions:
 			proc: 20
+            proc.clone: 20
 			pyle: 5
 			hand: 5
+            hand.squad: 5
 			hq: 4
 			weap: 9
 			afld: 9
@@ -250,7 +254,7 @@ Player:
 		SquadSize: 15
 		SquadSizeRandomBonus: 15
 		ExcludeFromSquadsTypes: harv, mcv, e6
-		ConstructionYardTypes: fact
+		ConstructionYardTypes: fact,hand,pyle,weap,afld,hpad,tech,tmpl
 		RushInterval: 400
 		MaxBaseRadius: 24
 		IdleScanRadius: 18
@@ -290,6 +294,7 @@ Player:
 			bike: 20
 			apc: 10
 			napc: 10
+            maag: 10
 			mtnk: 20
 			ltnk: 30
 			htnk: 50
@@ -298,13 +303,13 @@ Player:
 			arty: 60
 			msam: 40
 			mlrs: 20
-			mhq: 10
 			heli: 5
 			orca: 5
 			mh60: 5
 			rh66: 5
 			rmbo: 1
 			rmb2: 1
+			mhq: 1
 		UnitLimits:
 			#	harv: 12
 			e2: 10
@@ -326,7 +331,8 @@ Player:
 			mech: 3
 			apc: 3
 			napc: 3
+            maag: 3
 			hmmv: 4
 			bggy: 4
 			bike: 6
-			mhq: 2
+			mhq: 1

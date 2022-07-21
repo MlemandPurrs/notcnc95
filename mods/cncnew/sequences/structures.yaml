@@ -415,14 +415,13 @@ proc:
 	bib: bib2
 		UseTilesetExtension: true
 		Length: *
-	active: proc
-		Start: 6
-		Length: 6
+	active: proc-active
+		Length: 3
 		Tick: 130
 		Offset: 2,4
-	damaged-active: proc
-		Start: 36
-		Length: 6
+	damaged-active: proc-active
+		Start: 3
+		Length: 3
 		Tick: 130
 		Offset: 2,4
 	icon: procicon
@@ -465,14 +464,13 @@ nodproc:
 		UseTilesetExtension: true
 		TilesetOverrides:
 			INTERIOR: TEMPERAT
-	active: nodproc
-		Start: 6
-		Length: 6
+	active: proc-active
+		Length: 3
 		Tick: 130
 		Offset: 2,4
-	damaged-active: nodproc
-		Start: 36
-		Length: 6
+	damaged-active: proc-active
+		Start: 3
+		Length: 3
 		Tick: 130
 		Offset: 2,4
 	icon: procicon
@@ -631,7 +629,14 @@ hand:
 		Offset: 0,0
 	icon: handicon
 		Offset: 0,0
-		
+	build-top-single: handtop
+		Length: 1
+		ZOffset: -1024
+	damaged-build-top-single: handtop
+		Start: 4
+		Length: 1
+		ZOffset: -1024	
+
 hand.husk:
 	idle: hand
 		Start: 2

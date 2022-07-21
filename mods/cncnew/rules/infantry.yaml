@@ -292,7 +292,7 @@ VICE:
 		Damage: -100
 		DamageInterval: 4
 		DamageTypes: TiberiumDeath
-		Terrain: Tiberium, BlueTiberium
+		Terrain: Tiberium, BlueTiberium, RedTiberium
 	Voiced:
 		VoiceSet: DinoVoice
 	HitShape:
@@ -311,15 +311,15 @@ VICE:
 
 #   Experimental squad production
 
-E1.squad:
+E1.squad.gdi:
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
-		Name: Squad: Rifleman
+		Name: Squad: Soldier
 	Buildable:
-		Queue: Infantry.GDI, Infantry.Nod
+		Queue: Infantry.GDI
 		BuildPaletteOrder: 1
         Prerequisites: barracks, ~techlevel.low, ~global-squadenabled
 		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
@@ -330,22 +330,40 @@ E1.squad:
 		Image: production.infantry
 	Armor:
 		Type: None
-	ProduceActorPowerCA@1:
+	ProduceActorPowerCA:
 		Actors: e1, e1, e1, e1
 		Type: Infantry.GDI
 		OneShot: true
 		AutoFire: true
 		AllowMultiple: true
-        Prerequisites: infantry.is.gdi
-    ProduceActorPowerCA@2:
+
+E1.squad.nod:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Soldier
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 1
+        Prerequisites: barracks, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+        Icon: e1icon
+    Valued:
+		Cost: 200
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+    ProduceActorPowerCA:
         Actors: e1, e1, e1, e1
 		Type: Infantry.Nod
 		OneShot: true
 		AutoFire: true
 		AllowMultiple: true
-        Prerequisites: infantry.is.nod
 
-E3.squad:
+E3.squad.gdi:
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -353,28 +371,46 @@ E3.squad:
 	Tooltip:
 		Name: Squad: Rocket Soldier
 	Buildable:
-		Queue: Infantry.GDI, Infantry.Nod
+		Queue: Infantry.GDI
 		BuildPaletteOrder: 2
         Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
 		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
         Icon: e3icon
     Valued:
-		Cost: 350
+		Cost: 450
 	RenderSprites:
 		Image: production.infantry
 	Armor:
 		Type: None
-	ProduceActorPowerCA@1:
+	ProduceActorPowerCA:
 		Actors: e3, e3
 		Type: Infantry.GDI
 		OneShot: true
 		AutoFire: true
 		AllowMultiple: true
-        Prerequisites: infantry.is.gdi
-    ProduceActorPowerCA@2:
+
+E3.squad.nod:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Rocket Soldier
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 2
+        Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+        Icon: e3icon
+    Valued:
+		Cost: 450
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+    ProduceActorPowerCA:
         Actors: e3, e3
 		Type: Infantry.Nod
 		OneShot: true
 		AutoFire: true
 		AllowMultiple: true
-        Prerequisites: infantry.is.nod
