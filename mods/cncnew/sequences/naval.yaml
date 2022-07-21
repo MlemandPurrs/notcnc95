@@ -53,3 +53,15 @@ gbdark:
 		Facings: 32
 		UseClassicFacings: True
 	icon: boaticon
+
+engb:
+	Inherits: emp-overlay
+	idle: engb
+		Facings: 16
+	icon: engbicon
+
+mins:
+	idle:
+		Length: *
+		ZOffset: -512
+		Tick: 250

@@ -1,7 +1,7 @@
 Background@COLOR_CHOOSER:
 	Logic: ColorPickerLogic
 		PaletteColumns: 8
-		PalettePresetRows: 2
+		PalettePresetRows: 3
 		PaletteCustomRows: 1
 	Background: panel-black
 	Width: 311

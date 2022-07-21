@@ -139,13 +139,15 @@ e1:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
 	icon: e1icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 e2:
 	stand:
@@ -240,7 +242,6 @@ e2:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e2rot
 		Start: 16
 		Length: 4
@@ -341,7 +342,6 @@ e3:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e3rot
 		Start: 16
 		Length: 4
@@ -442,7 +442,6 @@ e4:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e4rot
 		Start: 16
 		Length: 4
@@ -571,7 +570,6 @@ e5:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e4rot
 		Start: 16
 		Length: 4
@@ -692,7 +690,6 @@ e6:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
@@ -797,13 +794,15 @@ rmbo:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
 	icon: rmboicon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 rmb2:
 	stand:
@@ -878,13 +877,15 @@ rmb2:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
 	icon: rmb2icon
+    garrison-muzzle: minigun
+		Length: 6
+		Facings: 16
 
 medi:
 	stand:
@@ -938,7 +939,6 @@ medi:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
@@ -1008,7 +1008,6 @@ terr:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
@@ -1022,8 +1021,6 @@ tecn:
 	stand:
 		Facings: 8
 	panic-stand:
-		Start: 8
-		Length: 6
 		Facings: 8
 	panic-run:
 		Start: 8
@@ -1075,75 +1072,14 @@ tecn:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
-
-mech:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
+    garrison-muzzle: minigun
 		Length: 6
-		Facings: 8
-		Tick: 100
-	repair:
-		Start: 56
-		Length: 58
-		Tick: 120
-	standup:
-		Start: 114
-		Length: 2
-		Facings: 8
-	idle:
-		Start: 178
-		Length: 14
-		Tick: 120
-	die1:
-		Start: 193
-		Length: 7
-	die2:
-		Start: 201
-		Length: 8
-	die3:
-		Start: 209
-		Length: 8
-	die4:
-		Start: 217
-		Length: 12
-	die5:
-		Start: 229
-		Length: 18
-	die6:
-		Start: 229
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	prone-stand:
-		Start: 130
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 130
-		Length: 4
-		Facings: 8
-		Tick: 100
-	icon: mechicon
+		Facings: 16
 
 snip:
 	Defaults:
@@ -1220,7 +1156,6 @@ snip:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		UseTilesetExtension: false
 		Start: 16
@@ -1229,35 +1164,10 @@ snip:
 		ZOffset: -511
 	icon: snipicon
 		UseTilesetExtension: false
-
-xo:
-    Inherits: emp-overlay
-	Defaults:
-		Offset: 0, 0
-	stand: xo
-		Facings: 8
-	move: xo
-		Start: 8
-		Length: 4
-		Facings: 8
-		Tick: 200
-	shoot: xo
-		Start: 40
-		Length: 2
-		Facings: 8
-		Tick: 40
-	hover: xo
-		Start: 56
-		Facings: 8
-		Length: 3
-	parachute: xo
-		Start: 56
-		Facings: 8
-		Length: 3
-	muzzle: minigun
+    garrison-muzzle: minigun
 		Length: 6
 		Facings: 16
-	icon: xoicon
+        UseTilesetExtension: false
 
 e22:
 	stand:
@@ -1343,241 +1253,12 @@ e22:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
 	icon: e22icon
-
-e12:
-	stand:
-		Facings: 8
-	stand2:
-		Start: 8
-		Facings: 8
-	run:
-		Start: 16
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 64
-		Length: 8
-		Facings: 8
-	prone-stand:
-		Start: 144
-		Stride: 4
-		Facings: 8
-	prone-stand2:
-		Start: 144
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 144
-		Length: 4
-		Facings: 8
-		Tick: 100
-	liedown:
-		Start: 128
-		Length: 2
-		Facings: 8
-	standup:
-		Start: 176
-		Length: 2
-		Facings: 8
-	prone-shoot:
-		Start: 192
-		Length: 8
-		Facings: 8
-	parachute:
-		Start: 377
-	idle1:
-		Start: 256
-		Length: 16
-		Tick: 120
-	idle2:
-		Start: 272
-		Length: 16
-		Tick: 120
-	die1:
-		Start: 288
-		Length: 8
-	die2:
-		Start: 296
-		Length: 8
-	die3:
-		Start: 304
-		Length: 8
-	die4:
-		Start: 312
-		Length: 12
-	die5:
-		Start: 324
-		Length: 18
-	die6:
-		Start: 324
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	icon: e12icon
-
-infl:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 56
-		Length: 4
-		Facings: 8
-	prone-stand:
-		Start: 104
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 104
-		Length: 4
-		Facings: 8
-		Tick: 100
-	standup:
-		Start: 136
-		Length: 2
-		Facings: 8
-	prone-shoot:
-		Start: 152
-		Length: 4
-		Facings: 8
-	idle1:
-		Start: 184
-		Length: 26
-		Tick: 120
-	idle2:
-		Start: 184
-		Length: 26
-		Tick: 120
-	die1:
-		Start: 210
-		Length: 8
-		Tick: 80
-	die2:
-		Start: 218
-		Length: 8
-		Tick: 80
-	die3:
-		Start: 226
-		Length: 8
-		Tick: 80
-	die4:
-		Start: 234
-		Length: 12
-		Tick: 80
-	die5:
-		Start: 246
-		Length: 18
-		Tick: 80
-	die6:
-		Start: 246
-		Length: 18
-		Tick: 80
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	icon: inflicon
-
-node7:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
-		Length: 6
-		Facings: 8
-		Tick: 80
-	shoot:
-		Start: 56
-		Length: 7
-		Facings: 8
-	idle1:
-		Start: 233
-		Length: 14
-		Tick: 120
-	idle2:
-		Start: 248
-		Length: 14
-		Tick: 120
-	die1:
-		Start: 262
-		Length: 8
-	die2:
-		Start: 270
-		Length: 8
-	die3:
-		Start: 278
-		Length: 8
-	die4:
-		Start: 286
-		Length: 12
-	die5:
-		Start: 298
-		Length: 18
-	die6:
-		Start: 298
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	prone-stand:
-		Start: 128
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 128
-		Length: 4
-		Facings: 8
-		Tick: 80
-	prone-shoot:
-		Start: 176
-		Length: 7
-		Facings: 8
-	icon: node7icon
 
 e23:
 	stand:
@@ -1663,496 +1344,9 @@ e23:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
 		Tick: 1600
 		ZOffset: -511
 	icon: e23icon
-
-node1:
-	stand:
-		Facings: 8
-	stand2:
-		Start: 8
-		Facings: 8
-	run:
-		Start: 16
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 64
-		Length: 8
-		Facings: 8
-	prone-stand:
-		Start: 144
-		Stride: 4
-		Facings: 8
-	prone-stand2:
-		Start: 144
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 144
-		Length: 4
-		Facings: 8
-		Tick: 100
-	liedown:
-		Start: 128
-		Length: 2
-		Facings: 8
-	standup:
-		Start: 176
-		Length: 2
-		Facings: 8
-	prone-shoot:
-		Start: 192
-		Length: 8
-		Facings: 8
-	parachute:
-		Start: 377
-	idle1:
-		Start: 256
-		Length: 16
-		Tick: 120
-	idle2:
-		Start: 272
-		Length: 16
-		Tick: 120
-	die1:
-		Start: 288
-		Length: 8
-	die2:
-		Start: 296
-		Length: 8
-	die3:
-		Start: 304
-		Length: 8
-	die4:
-		Start: 312
-		Length: 12
-	die5:
-		Start: 324
-		Length: 18
-	die6:
-		Start: 324
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	icon: e1icon
-
-node3:
-	stand:
-		Facings: 8
-	stand2:
-		Start: 8
-		Facings: 8
-	run:
-		Start: 16
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 64
-		Length: 9
-		Facings: 8
-	liedown:
-		Start: 136
-		Length: 2
-		Facings: 8
-	standup:
-		Start: 184
-		Length: 2
-		Facings: 8
-	prone-stand:
-		Start: 152
-		Stride: 4
-		Facings: 8
-	prone-stand2:
-		Start: 152
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 152
-		Length: 4
-		Facings: 8
-		Tick: 100
-	prone-shoot:
-		Start: 200
-		Length: 10
-		Facings: 8
-	idle1:
-		Start: 280
-		Length: 16
-		Tick: 120
-	idle2:
-		Start: 296
-		Length: 14
-		Tick: 120
-	die1:
-		Start: 311
-		Length: 9
-		Tick: 80
-	die2:
-		Start: 319
-		Length: 8
-		Tick: 80
-	die3:
-		Start: 327
-		Length: 8
-		Tick: 80
-	die4:
-		Start: 335
-		Length: 12
-		Tick: 80
-	die5:
-		Start: 347
-		Length: 18
-		Tick: 80
-	die6:
-		Start: 347
-		Length: 18
-		Tick: 80
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e3rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	icon: e3icon
-
-node4:
-	stand:
-		Facings: 8
-	stand2:
-		Start: 8
-		Facings: 8
-	run:
-		Start: 16
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 64
-		Length: 16
-		Facings: 8
-	liedown:
-		Start: 192
-		Length: 2
-		Facings: 8
-	standup:
-		Start: 240
-		Length: 2
-		Facings: 8
-	prone-stand:
-		Start: 208
-		Stride: 4
-		Facings: 8
-	prone-stand2:
-		Start: 208
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 208
-		Length: 4
-		Facings: 8
-		Tick: 100
-	prone-shoot:
-		Start: 256
-		Length: 16
-		Facings: 8
-	idle1:
-		Start: 384
-		Length: 16
-		Tick: 120
-	idle2:
-		Start: 400
-		Length: 16
-		Tick: 120
-	cheer:
-		Start: 588
-		Length: 3
-		Facings: 8
-		Tick: 120
-	die1:
-		Start: 509
-		Length: 9
-		Tick: 80
-	die2:
-		Start: 518
-		Length: 8
-		Tick: 80
-	die3:
-		Start: 526
-		Length: 8
-		Tick: 80
-	die4:
-		Start: 534
-		Length: 12
-		Tick: 80
-	die5:
-		Start: 546
-		Length: 18
-		Tick: 80
-	die6:
-		Start: 494
-		Length: 10
-		Tick: 80
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e4rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	muzzle:
-		Combine:
-			flame-n:
-				Length: *
-				Offset: 1,6
-			flame-nw:
-				Length: *
-				Offset: 8,7
-			flame-w:
-				Length: *
-				Offset: 8,2
-			flame-sw:
-				Length: *
-				Offset: 7,-2
-			flame-s:
-				Length: *
-				Offset: 1,-2
-			flame-se:
-				Length: *
-				Offset: -5,-2
-			flame-e:
-				Length: *
-				Offset: -7,2
-			flame-ne:
-				Length: *
-				Offset: -7,8
-		Facings: 8
-		Length: 13
-	icon: e4icon
-
-nodgnrl:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
-		Length: 6
-		Facings: 8
-		Tick: 100
-	shoot:
-		Start: 56
-		Length: 4
-		Facings: 8
-	prone-stand:
-		Start: 104
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 104
-		Length: 4
-		Facings: 8
-		Tick: 100
-	standup:
-		Start: 136
-		Length: 2
-		Facings: 8
-	prone-shoot:
-		Start: 152
-		Length: 4
-		Facings: 8
-	idle1:
-		Start: 184
-		Length: 26
-		Tick: 120
-	die1:
-		Start: 210
-		Length: 8
-	die2:
-		Start: 218
-		Length: 8
-	die3:
-		Start: 226
-		Length: 8
-	die4:
-		Start: 234
-		Length: 12
-	die5:
-		Start: 246
-		Length: 18
-	die6:
-		Start: 246
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	icon: rmboicon
-
-thf:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
-		Length: 6
-		Facings: 8
-		Tick: 100
-	idle:
-		Start: 120
-		Length: 19
-		Tick: 120
-	die1:
-		Start: 139
-		Length: 8
-	die2:
-		Start: 147
-		Length: 8
-	die3:
-		Start: 155
-		Length: 8
-	die4:
-		Start: 163
-		Length: 12
-	die5:
-		Start: 175
-		Length: 18
-	die6:
-		Start: 175
-		Length: 18
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	prone-stand:
-		Start: 72
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 72
-		Length: 4
-		Facings: 8
-		Tick: 80
-	icon: jackicon
-
-hack:
-	stand:
-		Facings: 8
-	run:
-		Start: 8
-		Length: 6
-		Facings: 8
-		Tick: 100
-	heal:
-		Start: 56
-		Length: 58
-		Tick: 120
-	standup:
-		Start: 114
-		Length: 2
-		Facings: 8
-	idle:
-		Start: 178
-		Length: 14
-		Tick: 120
-	die1:
-		Start: 193
-		Length: 7
-	die2:
-		Start: 201
-		Length: 8
-	die3:
-		Start: 209
-		Length: 8
-	die4:
-		Start: 217
-		Length: 12
-	die5:
-		Start: 229
-		Length: 18
-	die6:
-		Start: 193
-		Length: 7
-	die7: electro
-		Frames: 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-		Length: *
-		UseTilesetExtension: true
-		TilesetOverrides:
-			WINTER: TEMPERAT
-			SNOW: TEMPERAT
-			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
-	die-crushed: e1rot
-		Start: 16
-		Length: 4
-		Tick: 1600
-		ZOffset: -511
-	prone-stand:
-		Start: 130
-		Stride: 4
-		Facings: 8
-	prone-run:
-		Start: 130
-		Length: 4
-		Facings: 8
-		Tick: 100
-	make: hack
-		Start: 247
-		Length: 4
-		Tick: 100
-	hack: hack
-		Start: 250
-		Length: 9
-		Tick: 160
-	icon: hackicon

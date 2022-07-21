@@ -68,18 +68,10 @@ TRUK:
 	Buildable:
 		Prerequisites: ~disabled
 
-ICBM:
-	Buildable:
-		Prerequisites: ~disabled
-
-T55H:
-	Buildable:
-		Prerequisites: ~disabled
-
 TMPL:
 	-Production:
 	-ProductionQueue@Nod:
-	-ProductionBar@Nod:
+	-ProductionBar@TechNod:
 
 MSAM:
 	Inherits: MLRS

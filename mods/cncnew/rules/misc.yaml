@@ -99,10 +99,10 @@ CRATE:
 		ValidFactions: gdi
 		Prerequisites: techlevel.high
 	GiveUnitCrateAction@mlrs:
-		SelectionShares: 5
+		SelectionShares: 3
 		Units: msam
 		ValidFactions: gdi
-		Prerequisites: techlevel.medium
+		Prerequisites: techlevel.high
 	GiveUnitCrateAction@bggy:
 		SelectionShares: 6
 		Units: bggy
@@ -121,7 +121,7 @@ CRATE:
 	GiveUnitCrateAction@arty:
 		SelectionShares: 5
 		Units: arty
-		ValidFactions: nod
+		ValidFactions: gdi, nod
 		Prerequisites: techlevel.medium
 	GiveUnitCrateAction@ssm:
 		SelectionShares: 3
@@ -135,8 +135,6 @@ CRATE:
 		Units: vice
 		Owner: Creeps
 		SelectionShares: 10
-	#	GiveUnitCrateAction does not accept Sequence:
-	#	there is a Mine sequence for this cannot assign
 	GiveUnitCrateAction@minefield:
 		SelectionShares: 3
 		Units: minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon,minv.summon
@@ -171,27 +169,6 @@ MONEYCRATE:
 		UseCashTick: true
 	RenderSprites:
 		Image: wcrate
-
-MONEYCRATE.DROP:
-	Inherits: MONEYCRATE
-	-GiveCashCrateAction:
-	RenderSprites:
-		Image: wcrate
-	CashTrickler@Normal:
-		Interval: 13
-		Amount: 1000
-		RequiresCondition: !parachute && !supplylines-upgraded
-	CashTrickler@Upgraded:
-		Interval: 13
-		Amount: 2000
-		RequiresCondition: !parachute && supplylines-upgraded
-	KillsSelf:
-		Delay: 13
-		RemoveInstead: true
-		RequiresCondition: !parachute
-	GrantConditionOnPrerequisite@supplylines:
-		Condition: supplylines-upgraded
-		Prerequisites: supplylines.upgrade
 
 WCRATE:
 	Inherits: ^Crate
@@ -241,21 +218,22 @@ fact.colorpicker:
 		Image: fact
 		Palette: colorpicker
 
+
 CAMERA:
 	Interactable:
 	EditorOnlyTooltip:
 		Name: (reveals area to owner)
 	AlwaysVisible:
-	WithSpriteBody:
-	RenderSpritesEditorOnly:
-		Image: camera
-	BodyOrientation:
-		QuantizedFacings: 1
 	Immobile:
 		OccupiesSpace: false
 	RevealsShroud:
 		Range: 9c256
 		Type: CenterPosition
+	BodyOrientation:
+		QuantizedFacings: 1
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
 	MapEditorData:
 		Categories: System
 
@@ -486,3 +464,15 @@ camera.hacker:
 	KillsSelf:
 		RemoveInstead: true
 		Delay: 50
+
+unit.summoner:
+	Inherits@SYSTEM: ^SummonerDummy
+	RenderSprites:
+		Image: dummy
+
+MINV:
+	Inherits: ^Mine
+	RenderSprites:
+		Image: minv
+	Explodes:
+		Weapon: ATMine

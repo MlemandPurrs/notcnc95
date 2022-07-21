@@ -2,6 +2,9 @@ BOAT:
 	Inherits: ^Ship
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAll
+    -WithFacingSpriteBody:
+    -Mobile:
+    -MustBeDestroyed:
 	Valued:
 		Cost: 600
 	Tooltip:
@@ -36,18 +39,6 @@ BOAT:
 	AutoTarget:
 		AllowMovement: false
 	RejectsOrders:
-	GrantConditionOnDamageState@HEAVY:
-		Condition: heavy-damage
-		ValidDamageStates: Heavy
-	GrantConditionOnDamageState@CRITICAL:
-		Condition: critical-damage
-		ValidDamageStates: Critical
-	SpeedMultiplier@HEAVYDAMAGE:
-		RequiresCondition: heavy-damage
-		Modifier: 75
-	SpeedMultiplier@CRITICALDAMAGE:
-		RequiresCondition: critical-damage
-		Modifier: 50
 
 LST:
 	Inherits: ^Ship
@@ -58,14 +49,14 @@ LST:
 		Name: Landing Craft
 	Buildable:
 		Queue: Ships.GDI, Ships.Nod
-		Prerequisites: syrd, ~techlevel.low
+		Prerequisites: ~techlevel.low
 		BuildPaletteOrder: 1
 		Description: Transports ground units across most terrain.\n Slower on land.\n  Unarmed
 	Mobile:
 		Locomotor: hovercraft
 		InitialFacing: 0
 		TurnSpeed: 16
-		Speed: 142
+		Speed: 100
 		PauseOnCondition: notmobile
 	Health:
 		HP: 40000
@@ -75,7 +66,6 @@ LST:
 		Range: 7c0
 	-BodyOrientation:
 	ClassicFacingBodyOrientation:
-	WithFacingSpriteBody:
 	Selectable:
 		Bounds: 48,48
 	WithRoof:
@@ -88,24 +78,18 @@ LST:
 		PassengerFacing: 0
 		LoadingCondition: notmobile
 		LoadedCondition: loaded
-	RepairableNear:
-		RepairActors: syrd
 	Sellable:
-		SellSounds: cashturn.aud
-		Cursor: sell2
-		ShowTicks: false
 		RequiresCondition: ship.sellable && !loaded
-	ExternalCondition@Sellable:
-		Condition: ship.sellable
 
 GB:
 	Inherits: ^Ship
+	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Valued:
 		Cost: 750
 	Buildable:
 		Queue: Ships.GDI, Ships.Nod
-		Prerequisites: syrd, proc, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low
 		BuildPaletteOrder: 2
 		Description: Multi-role fire-support ship.\n  Strong vs Defenses, Tanks\n  Weak vs Aircraft
 	Tooltip:
@@ -115,7 +99,6 @@ GB:
 	Armor:
 		Type: Heavy
 	Mobile:
-		Locomotor: naval
 		TurnSpeed: 8
 		Speed: 56
 	RevealsShroud:
@@ -132,35 +115,97 @@ GB:
 	RenderRangeCircle:
 	Selectable:
 		DecorationBounds: 65,55
-	WithFacingSpriteBody:
-	GrantConditionOnDamageState@HEAVY:
-		Condition: heavy-damage
-		ValidDamageStates: Heavy
-	GrantConditionOnDamageState@CRITICAL:
-		Condition: critical-damage
-		ValidDamageStates: Critical
-	SpeedMultiplier@HEAVYDAMAGE:
-		RequiresCondition: heavy-damage
-		Modifier: 75
-	SpeedMultiplier@CRITICALDAMAGE:
-		RequiresCondition: critical-damage
-		Modifier: 50
-	CaptureManager:
-	Captures:
-		CaptureTypes: naval
-		CaptureDelay: 375
-		ConsumedByCapture: False
-		PlayerExperience: 0
 	RenderSprites:
 		Image: gb
 		FactionImages:
 			nod: gbdark
-	RepairableNear:
-		RepairActors: syrd
-	Sellable:
-		SellSounds: cashturn.aud
-		Cursor: sell2
-		ShowTicks: false
-		RequiresCondition: ship.sellable
-	ExternalCondition@Sellable:
-		Condition: ship.sellable
+
+ENGB:
+	Inherits: ^Ship
+	Buildable:
+		Queue: Ships.GDI, Ships.Nod
+		BuildPaletteOrder: 3
+		Prerequisites: proc, ~techlevel.low
+		Description: Externally captures Naval structures.\nCarries and Lays one Sea mine\nto destroy unwary Ships.\nCapable of detecting Sea Mines.\n  Unarmed
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Engineering Boat
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Health:
+		HP: 45000
+	Armor:
+		Type: Light
+	Mobile:
+		TurnSpeed: 36
+		Speed: 82
+	RevealsShroud:
+		Range: 4c0
+    CaptureManager:
+	Captures@CAPTURESNAVAL:
+		CaptureTypes: naval
+		PlayerExperience: 0
+		CaptureDelay: 100
+		ConsumedByCapture: false
+	Selectable:
+		Bounds: 24,24,0,0
+		DecorationBounds: 24,16,0,0
+	Minelayer:
+		Mine: MINS
+		TileUnknownName: build-valid
+		TerrainTypes: Water
+	Rearmable:
+		RearmActors:
+	MineImmune:
+	AmmoPool:
+		Armaments:
+		Ammo: 1
+		RearmSound: minelay1.aud
+        AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 175
+		Count: 1
+		Sound: minelay1.aud
+		RequiresCondition: replenishsmine && !ammo
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+	WithDecoration@minereplenish:
+		RequiresSelection: true
+		Image: pips
+		Sequence: tag-reload
+		Position: Top
+		Margin: 0, -6
+		RequiresCondition: replenishsmine && !ammo
+	ExternalCondition@MINEREPLENISH:
+		Condition: replenishsmine
+	DetectCloaked:
+		Range: 4c0
+		CloakTypes: Underwater
+	RenderDetectionCircle:
+	Voiced:
+		VoiceSet: EngineerVoice
+
+MINS:
+	Inherits: ^Mine
+	Tooltip:
+		Name: Sea Mine
+	Health:
+		HP: 50
+		NotifyAppliedDamage: false
+	Cloak:
+		CloakTypes: Underwater
+		InitialDelay: 0
+		CloakDelay: 75
+		CloakSound: subshow1.aud
+		UncloakSound: subshow1.aud
+		Palette: submerged
+		IsPlayerPalette: false
+	RenderSprites:
+		Image: mins
+	Targetable:
+		TargetTypes: Underwater
+	Explodes:
+		Weapon: ASMine

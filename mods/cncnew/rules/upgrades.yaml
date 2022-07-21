@@ -7,79 +7,35 @@
 	Interactable:
 	ScriptTriggers:
 	Buildable:
-		Queue: Aircraft.GDI, Aircraft.Nod
+		Queue: Upgrades.GDI, Upgrades.Nod
 		BuildLimit: 1
 		BuildDurationModifier: 100
 	ProvidesPrerequisite@upgradename:
 
-airstrike.unlock:
+#   Those are shared
+apbullets.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
-		Name: Unlock: Airstrike
+		Name: Upgrade: Armor-Piercing Bullets
 	Buildable:
 		BuildPaletteOrder: 1
-		Queue: Aircraft.GDI
-		Prerequisites: ~hq, ~techlevel.unrestricted, ~!airstrike.unlock
+		Queue: Upgrades.GDI, Upgrades.Nod
+		Prerequisites: ~infantryproduction, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows the usage of the 'Airstrike' support power.\n\n  Unlocks: Airstrike\n\n  + Burns buildings and infantry along a line.\n  - The Bomber is vulnerable to SAM sites.
+		Description: Increases the damage dealt by small caliber weapons.\n\n  Upgrades: Soldier, Jeep, Buggy, APC, Guard Tower\n  + Deals 20% increased damage
 	Valued:
 		Cost: 1000
 	RenderSprites:
-		Image: airstrike.unlock
-
-airstrike.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Airstrike
-	Buildable:
-		BuildPaletteOrder: 1
-		Queue: Aircraft.GDI
-		Prerequisites: ~airstrike.unlock, ~eye, ~bombard.strat, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: airstrike.upgrade
-
-towmissile.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: TOW Missile
-	Buildable:
-		BuildPaletteOrder: 5
-		Queue: Aircraft.Nod
-		Prerequisites: ~afld, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Adds a secondary TOW Launcher to Light Tank.\n\n  Upgrades: Light Tank\n  + Increases overall damage dealt
-	Valued:
-		Cost: 700
-	RenderSprites:
-		Image: towmissile.upgrade
-
-targetlaser.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Targeting Laser
-	Buildable:
-		BuildPaletteOrder: 5
-		Queue: Aircraft.GDI
-		Prerequisites: ~weap, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Adds a secondary laser designator to Main Battle Tank.\n\n  Upgrades: Main Battle Tank\n  + The laser designator increases damage dealt to the target Vehicle by 20%
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: targetlaser.upgrade
+		Image: apbullets.upgrade
 
 airradar.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Aerial Warning Radar
 	Buildable:
-		BuildPaletteOrder: 4
-		Queue: Aircraft.GDI, Aircraft.Nod
-		Prerequisites: ~hq, ~techlevel.unrestricted
+		BuildPaletteOrder: 7
+		Queue: Upgrades.GDI, Upgrades.Nod
+		Prerequisites: ~hq, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Enables to spot and ping incoming Airplanes.\n\n  Upgrades: Communications Center\n  + Reveals incoming enemy planes over a large distance
 	Valued:
@@ -87,650 +43,41 @@ airradar.upgrade:
 	RenderSprites:
 		Image: airradar.upgrade
 
-hellfire.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Apache Rocket Pods
-	Buildable:
-		BuildPaletteOrder: 6
-		Queue: Aircraft.Nod
-		Prerequisites: ~hpad, ~hq, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Adds Hellfire rocket pods to Apache.\n\n  Upgrades: Apache\n  + Performs better against Tanks\n  - Takes longer to resupply
-	Valued:
-		Cost: 900
-	RenderSprites:
-		Image: hellfire.upgrade
-
-c17speed.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Cargo Plane speed
-	Buildable:
-		BuildPaletteOrder: 7
-		Queue: Aircraft.Nod
-		Prerequisites: ~afld, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Accelerates the Cargo Plane for faster deliveries.\n\n  Upgrades: Cargo Plane\n  + Movement speed gets doubled
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: c17speed.upgrade
-
-apbullets.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Armor-Piercing Bullets
-	Buildable:
-		BuildPaletteOrder: 2
-		Queue: Aircraft.GDI, Aircraft.Nod
-		Prerequisites: ~barracks, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Increases the damage dealt by small caliber weapons.\n\n  Upgrades: Rifleman, Jeep, Buggy, Guard Tower\n  + Deals 20% increased damage
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: apbullets.upgrade
-
-comparmor.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Composite Armor
-	Buildable:
-		BuildPaletteOrder: 6
-		Queue: Aircraft.GDI
-		Prerequisites: ~fix, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Equips GDI Tanks with advanced armor plating.\n\n  Upgrades: Main Battle Tank, Mammoth Tank\n  + Increases Hitpoints of those Tanks by 20%
-	Valued:
-		Cost: 2200
-	RenderSprites:
-		Image: comparmor.upgrade
-
-mobilesam.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: MLRS Anti-Air
-	Buildable:
-		BuildPaletteOrder: 8
-		Queue: Aircraft.GDI
-		Prerequisites: ~hq, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows MLRS to shoot Helicopters when in 2-shot modus.\n\n  Upgrades: Multiple Launch Rocket System\n  + The unit doubles as Mobile SAM
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: mobilesam.upgrade
-
-#	failed to get this work using mainline
-#	will give it another shot now have CA
-#	artydualshot.upgrade:
-#	Inherits: ^Upgrade
-#	Tooltip:
-#	Name: Upgrade: Artillery Dual Shot
-#	Buildable:
-#	BuildPaletteOrder: 9
-#	Queue: Aircraft.Nod
-#	Prerequisites: ~hq, ~techlevel.unrestricted
-#	BuildDuration: 1500
-#	Description: The Artillery may randomly shoot a extra shell.\n\n  Upgrades: Artillery\n  + 10% chance to shoot a second artillery shell
-#	Valued:
-#	Cost: 1000
-#	RenderSprites:
-#	Image: artydualshot.upgrade
-
-#	trying 'normal' apc
-napcarmed.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Armed APC
-	Buildable:
-		BuildPaletteOrder: 10
-		Queue: Aircraft.Nod
-		#	Prerequisites: ~hand, ~afld, ~!napcmedic.upgrade, ~techlevel.unrestricted
-		Prerequisites: ~disabled
-		BuildDuration: 1500
-		Description: Arms Nod APCs with a machinegun turret.\n\n  Upgrades: Nod APC\n  + Gains Machinegun weapon.\n\n  Only one Nod APC upgrade may be chosen.
-	Valued:
-		Cost: 800
-	RenderSprites:
-		Image: napcarmed.upgrade
-
-#	trying 'normal' apc
-napcmedic.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Medical APC
-	Buildable:
-		BuildPaletteOrder: 11
-		Queue: Aircraft.Nod
-		#	Prerequisites: ~hand, ~afld, ~!napcarmed.upgrade, ~techlevel.unrestricted
-		Prerequisites: ~disabled
-		BuildDuration: 1500
-		Description: Outfits Nod APCs with healing modules.\n\n  Upgrades: Nod APC\n  + Allows adjacent Infantry to self-heal\n\n  Only one Nod APC upgrade may be chosen.
-	Valued:
-		Cost: 800
-	RenderSprites:
-		Image: napcmedic.upgrade
-
-#	Cargo is not conditional  qq
-#	mh60cargo.upgrade:
-#	Inherits: ^Upgrade
-#	Tooltip:
-#	Name: Upgrade: Black Hawk Cargo
-#	Buildable:
-#	BuildPaletteOrder: 11
-#	Queue: Aircraft.GDI
-#	Prerequisites: ~hpad, ~!mh60medic.upgrade, ~techlevel.unrestricted
-#	BuildDuration: 1500
-#	Description: Black Hawks are refitted to allow carrying Infantry.\n\n  Upgrades: Black Hawk\n  + May carry up to 5 Infantry\n  - Ammo gets reduced
-#	Valued:
-#	Cost: 1000
-#	RenderSprites:
-#	Image: mh60cargo.upgrade
-
-#	This was supposed to affect MBT too
-#	Need to edit its turret to have versions
-#	for MG and Laserbox+MG
-machineguns.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Machineguns
-	Buildable:
-		BuildPaletteOrder: 7
-		Queue: Aircraft.GDI
-		Prerequisites: ~weap, ~fix, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Mammoth Tanks are equipped with Machineguns\nto aid against Infantry.\n\n  Upgrades: Mammoth Tank\n  + Gains extra Machinegun weaponry
-	#	Description: Tanks are equipped with Machineguns to aid against Infantry.\n\n  Upgrades: Main Battle Tank, Mammoth Tank\n  + Gains extra Machinegun weaponry
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: machineguns.upgrade
-
-mh60medic.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Black Hawk Medic
-	Buildable:
-		BuildPaletteOrder: 12
-		Queue: Aircraft.GDI
-		Prerequisites: ~hpad, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Black Hawks are provided medical supplies to aid soldiers.\n\n  Upgrades: Black Hawk\n  + Heals surrounding Infantry when landed on ground
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: mh60medic.upgrade
-
-#   WIP
-uavmissile.upgrade:
-    Inherits: ^Upgrade
-    Tooltip:
-        Name: Upgrade: Recon UAV Missile
-    Buildable:
-        BuildPaletteOrder: 21
-        Queue: Aircraft.GDI
-        Prerequisites: ~hq, ~techlevel.unrestricted
-        BuildDuration: 1500
-        Description: Recon Drone gains limited Offensive capacity.\n\n  Upgrades: Recon Drone\n  + Fires one Missile at target
-    Valued:
-        Cost: 1000
-    RenderSprites:
-        Image: uavmissile.upgrade
-
-#	drone boosts units RoF
-bombard.strat:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Strategy: Bombardment
-	Buildable:
-		BuildPaletteOrder: 16
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!seek.strat, ~!hold.strat, ~techlevel.high
-		BuildDuration: 1
-		Description: Adapt an offensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone boosts unit rate of fire by 10%.\n\n  Modifies: GDI Arsenal\n  + Increases unit firepower by 10%\n  + Reduces cost of Helicopters by 10%\n  - Increases cost of Vehicle and Infantry by 10%\n\n  Enables:\n  + Airstrike upgrade\n  + Tank Veterancy upgrade\n\n  Only one Strategy may be chosen.
-	Valued:
-		Cost: 1500
-	RenderSprites:
-		Image: bombard.strat
-
-#	drone rapid refueling
-seek.strat:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Strategy: Seek & Destroy
-	Buildable:
-		BuildPaletteOrder: 17
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!bombard.strat, ~!hold.strat, ~techlevel.high
-        BuildDuration: 1
-		Description: Adapt an supportive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone refuels significantly faster.\n\n  Modifies: GDI Arsenal\n  + Increases unit weapon range by 10%.\n  + Reduces cost of Infantry by 10%\n  - Increases cost of Helicopter and Vehicles by 10%\n\n  Enables:\n  + Orca Veterancy upgrade\n\n  Only one Strategy may be chosen.
-	Valued:
-		Cost: 1500
-	RenderSprites:
-		Image: seek.strat
-
-#	drone increased radius
-hold.strat:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Strategy: Hold the Line
-	Buildable:
-		BuildPaletteOrder: 18
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!bombard.strat, ~!seek.strat, ~techlevel.high
-		BuildDuration: 1
-		Description: Adapt an defensive strategy.\n\n  Upgrades: Recon Drone\n  + Recon Drone gains expanded Detection radius.\n\n  Modifies: GDI Arsenal\n  + Increases unit armor by 10%.\n  + Reduces cost of Vehicles by 10%\n  - Increases cost of Infantry and Helicopters by 10%\n\n  Enables:\n  + Infantry Veterancy upgrade\n\n  Only one Strategy may be chosen.	
-	Valued:
-		Cost: 1500
-	RenderSprites:
-		Image: hold.strat
-
-t55h.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Scorpion Tank
-	Buildable:
-		BuildPaletteOrder: 14
-		Queue: Aircraft.Nod
-		Prerequisites: ~tmpl, ~nodbio, ~!nodctnk.unlock, ~!wtnk.unlock, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build the Scorpion Tank as super-unit.\n\n  Unlocks: Scorpion Tank\n\n  + Heavy tank with decent damage output\n  + Shoots Laser from Scorpion tail\n  - Immobilizes when shooting Laser\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: t55h.unlock
-
-wtnk.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Microwave Tank
-	Buildable:
-		BuildPaletteOrder: 15
-		Queue: Aircraft.Nod
-		Prerequisites: ~tmpl, ~nodbio, ~!nodctnk.unlock, ~!t55h.unlock, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build the Microwave Tank as super-unit.\n\n  Unlocks: Microwave Tank\n\n  + Kills enemy Vehicle crews, allowing a take-over.\n  + Disables enemy Defenses\n  - Damage output leaves much to be desired\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: wtnk.unlock
-
-nodctnk.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Chemical Tank
-	Buildable:
-		BuildPaletteOrder: 16
-		Queue: Aircraft.Nod
-		Prerequisites: ~tmpl, ~nodbio, ~!t55h.unlock, ~!wtnk.unlock, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build the Chemical Tank as super-unit.\n\n  Unlocks: Chemical Tank\n\n  + Very heavily armored Vehicle\n  + Weaponry can spawn Visceroids\n  - Slow movement speed\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: nodctnk.unlock
-
-rh66stealth.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Commanche Stealth
-	Buildable:
-		BuildPaletteOrder: 9
-		Queue: Aircraft.Nod
-		Prerequisites: ~hpad, ~tmpl, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Enables Commanche to utilize Cloaking while on Air.\n\n  Upgrades: Commanche\n  + Commanche gains active Cloaking technology
-	Valued:
-		Cost: 1200
-	RenderSprites:
-		Image: rh66stealth.upgrade
-
-ssmreload.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: SSM Reload
-	Buildable:
-		BuildPaletteOrder: 12
-		Queue: Aircraft.Nod
-		Prerequisites: ~nodbio, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Greatly accelerates the reloading rate of SSM Launcher.\n\n  Upgrades: SSM Launcher\n  + SSM Launcher reloads 40% faster
-	Valued:
-		Cost: 1200
-	RenderSprites:
-		Image: ssmreload.upgrade
-
-#	im not satisfied with the workarounds
-#	and the side-effects they are causing
-#	so this will have to wait...
-orcaammo.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Orca Ammo
-	Buildable:
-		BuildPaletteOrder: 13
-		Queue: Aircraft.GDI
-		#	Prerequisites: ~hpad, ~eye, ~techlevel.unrestricted
-		Prerequisites: ~disabled
-		BuildDuration: 1500
-		Description: Add two more rocket salvo to Orca.\n\n  Upgrades: Orca\n  + Orca gains +4 Ammo\n  - Rearming to full takes longer\n  Existing Orcas can be upgraded by landing on Helipad
-	Valued:
-		Cost: 1200
-	RenderSprites:
-		Image: orcaammo.upgrade
-
 carryall.unlock:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Unlock: Orca Carryall
 	Buildable:
-		BuildPaletteOrder: 19
-		Queue: Aircraft.GDI
-		Prerequisites: ~hpad, ~fix, ~upgc, ~techlevel.unrestricted
+		BuildPaletteOrder: 16
+		Queue: Upgrades.GDI, Upgrades.Nod
+		Prerequisites: ~hpad, ~fix, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows to build the Orca Carryall unit.\n\n  Unlocks: Orca Carryall\n  + VTOL Transport capable of carrying all Vehicles
+		Description: Allows to build the Carryall unit for production.\n\n  Unlocks: Carryall\n  + VTOL Transport capable of carrying all Vehicles
 	Valued:
 		Cost: 1500
 	RenderSprites:
 		Image: carryall.unlock
+		FactionImages:
+			gdi: carryall.unlock
+			nod: nod.carryall.unlock
 
-supplylines.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Supply Drop
-	Buildable:
-		BuildPaletteOrder: 20
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~eye, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Adds 1000$ resources to Supply Drop at Strategy Center.\n\n  Upgrades: Supply Drop\n  + Supply Drop delivers 1000$ more
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: supplylines.upgrade
-
-exosuit.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Exosuit Trooper
-	Buildable:
-		BuildPaletteOrder: 21
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~eye, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build Exosuit Trooper units.\n\n  Unlocks: Exosuit Trooper\n\n  + Equipped with Jetpacks can traverse over cliffs.\n  + Immune to Tiberium.
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: exosuit.unlock
-
-#	sort of incentive compensation for 
-#	keep training the now expensive stuff
-tank.veterancy:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Veterancy: Tank Crews
-	Buildable:
-		BuildPaletteOrder: 22
-		Queue: Aircraft.GDI
-		Prerequisites: ~weap, ~fix, ~upgc, ~bombard.strat, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build Veteran Main Battle Tanks.\n\n  Enables: Initial veterancy rank-up for MBT
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: tank.veterancy
-
-e1.veterancy:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Veterancy: Infantry
-	Buildable:
-		BuildPaletteOrder: 22
-		Queue: Aircraft.GDI
-		Prerequisites: ~pyle, ~upgc, ~hold.strat, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build Veteran Riflemen.\n\n  Enables: Initial veterancy rank-up for Rifleman
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: e1.veterancy
-
-orca.veterancy:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Veterancy: Orca Pilots
-	Buildable:
-		BuildPaletteOrder: 22
-		Queue: Aircraft.GDI
-		Prerequisites: ~hpad, ~hq, ~upgc, ~seek.strat, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows to build Veteran Orcas.\n\n  Enables: Initial veterancy rank-up for Orca
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: orca.veterancy
-
-#	unsure if this is needed
-powerplants.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Power Plants
-	Buildable:
-		BuildPaletteOrder: 23
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Develop more refined designs that generate more Power.\n\n  Upgrades: Power Plants\n  + Standard plant Generates 50 more Power\n  + Advanced plant Generates 100 more Power\n  Existing Powerplants will not be affected!
-	Valued:
-		Cost: 1500
-	RenderSprites:
-		Image: powerplants.upgrade
-
-#   needs a rework, disabling
-icbm.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Authorize: ICBM Launcher
-	Buildable:
-		BuildPaletteOrder: 24
-		Queue: Aircraft.GDI
-		#   Prerequisites: ~upgc, ~!msar.unlock, ~!pbat.unlock, ~techlevel.unrestricted
-        Prerequisites: ~disabled
-		BuildDuration: 0
-		Description: ICBM Launcher will be prepared for delivered as super-unit.\n\n  Unlocks: ICBM Launcher\n\n  + Devastating against everything across the range\n  - Very loooong reloading time\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 2500
-	RenderSprites:
-		Image: icbm.unlock
-
-#   also lame, disabling
-msar.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Authorize: Mobile Sensor Array
-	Buildable:
-		BuildPaletteOrder: 25
-		Queue: Aircraft.GDI
-		#   Prerequisites: ~upgc, ~!icbm.unlock, ~!pbat.unlock, ~techlevel.unrestricted
-		Prerequisites: ~disabled
-        BuildDuration: 0
-		Description: Mobile Sensor Array will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile Sensor Array\n\n  + Provides Vision in a large area when deployed\n  + Detects Stealth units in a large area when deployed\n  -  Drains power when deployed\n  -  Stealth detection pauses on lowpower\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 1800
-	RenderSprites:
-		Image: msar.unlock
-
-pbat.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Authorize: Mobile S.A.M.
-	Buildable:
-		BuildPaletteOrder: 26
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!disr.unlock, ~techlevel.unrestricted
-		BuildDuration: 0
-		Description: Mobile S.A.M. will be prepared for delivery as super-unit.\n\n  Unlocks: Mobile S.A.M.\n\n  + Powerful anti-air Defense\n  - Light armored for its size\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 1500
-	RenderSprites:
-		Image: pbat.unlock
-
-interceptors.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Interceptors
-	Buildable:
-		BuildPaletteOrder: 32
-		Queue: Aircraft.Nod
-		Prerequisites: ~hq, ~!interceptors.unlock, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Plane is vulnerable to SAM sites.
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: interceptors.unlock
-
-#	maybe this should be
-#	boosts arrival speed?
-interceptors.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Interceptors
-	Buildable:
-		BuildPaletteOrder: 32
-		Queue: Aircraft.Nod
-		Prerequisites: ~hq, ~interceptors.unlock, ~nodbio, ~techlevel.unrestricted
-		BuildDuration: 1500
-		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: interceptors.upgrade
-
-toxicshells.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Toxic Shells
-	Buildable:
-		BuildPaletteOrder: 34
-		Queue: Aircraft.Nod
-		Prerequisites: ~afld, ~fix, ~nodbio, ~stolentech.weap
-		BuildDuration: 1500
-		Description: 120mm Cannon shells deal more damage.\n\n  Upgrades: Medium Tank\n  + Increases damage\n  + Better against Infantry
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: toxicshells.upgrade
-
-training.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Special Training
-	Buildable:
-		BuildPaletteOrder: 33
-		Queue: Aircraft.Nod
-		Prerequisites: ~tmpl, ~stolentech.upgc
-		BuildDuration: 1500
-		Description: All combat units earn experience 50% faster.\n\n  Upgrades: Entire arsenal\n  + Accelerates the rate with which XP gets earned
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: training.upgrade
-
-nodairstrike.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Unlock: Stealth Airstrike
-	Buildable:
-		BuildPaletteOrder: 35
-		Queue: Aircraft.Nod
-		Prerequisites: ~hq, ~stolentech.tech
-		BuildDuration: 1500
-		Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: nodairstrike.unlock
-
-#	disabling, Stealth Plug is
-#	more interesting way of
-#	doing Invisibility on units
-#	harvstealth.upgrade:
-#	Inherits: ^Upgrade
-#	Tooltip:
-#	Name: Upgrade: Stealth Harvesters
-#	Buildable:
-#	BuildPaletteOrder: 36
-#	Queue: Aircraft.Nod
-#	Prerequisites: ~disabled
-#	BuildDuration: 1500
-#	Description: Harvesters are equipped with Stealth devices.\n\n  Upgrades: Harvester\n  + Remains cloaked outside of combat\n  - Cost of Harvester increases
-#	Valued:
-#	Cost: 1000
-#	RenderSprites:
-#	Image: harvstealth.upgrade
-
-cyborg.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Research: Cyborgs
-	Buildable:
-		BuildPaletteOrder: 40
-		Prerequisites: ~hand, ~tmpl, ~nodbio, ~!cyborg.upgrade, ~stolentech.tmpl
-		BuildDuration: 1500
-		Description: Basic infantry can be converted into\npowerful cyborg equivalents at Temple of Nod.\n\n  Enables: Cyborg Soldier from Rifleman\n  Enables: Cyborg Rocket Soldier from Rocket Soldier\n  Enables: Cyborg Flamethrower from Flamethrower\n  Enables: Cyborg Commando from Nod Commando\n\n  + Cyborgs are twice as durable\n  + Cyborgs heal when on Tiberium\n  - Cyborgs cannot be healed otherwise\n  - Cyborgs cost twice as much
-	Valued:
-		Cost: 2000
-	RenderSprites:
-		Image: cyborg.upgrade
-
-cyborgspeed.upgrade:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Upgrade: Improved Cyborg Speed
-	Buildable:
-		BuildPaletteOrder: 40
-		Prerequisites: ~hand, ~tmpl, ~nodbio, ~cyborg.upgrade
-		BuildDuration: 1500
-		Description: Improves cyborg movement speed.\n\n  Upgrades: All Cyborgs\n  + 20% faster movement
-	Valued:
-		Cost: 1000
-	RenderSprites:
-		Image: cyborgspeed.upgrade
+#   GDI Upgrades
 
 bouncynades.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Bouncing Grenades
 	Buildable:
-		BuildPaletteOrder: 8
-		Queue: Aircraft.GDI
-		Prerequisites: ~barracks, ~hq, ~techlevel.unrestricted
+		BuildPaletteOrder: 3
+		Queue: Upgrades.GDI
+		Prerequisites: ~pyle, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Makes Grenades delayed fuse so that they can bounce.\n\n  Upgrades: Grenadier\n  + Bouncing nades can be cleverly used to outrange\n  - The nades might miss more than every so often
+        Icon: bouncynades
 	Valued:
 		Cost: 500
 	RenderSprites:
-		Image: bouncynades.upgrade
-
-disr.unlock:
-	Inherits: ^Upgrade
-	Tooltip:
-		Name: Authorize: Disruptor
-	Buildable:
-		BuildPaletteOrder: 24
-		Queue: Aircraft.GDI
-		Prerequisites: ~upgc, ~!pbat.unlock, ~techlevel.unrestricted
-        #   Prerequisites: ~disabled
-		BuildDuration: 0
-		Description: Disruptor will be prepared for delivery as super-unit.\n\n  Unlocks: Disruptor\n\n  + Heavy tank with Sonic armament.\n  + Fires a continous Sonic beam that damages all within.\n  - Sonic weaponry does not determine friend or foe\n\n  Only one Super-unit may be chosen
-	Valued:
-		Cost: 2500
-	RenderSprites:
-		Image: disr.unlock
+		Image: gdiupgrades.combined
 
 towhumvee.upgrade:
 	Inherits: ^Upgrade
@@ -738,11 +85,222 @@ towhumvee.upgrade:
 		Name: Upgrade: TOW Missile
 	Buildable:
 		BuildPaletteOrder: 5
-		Queue: Aircraft.GDI
-		Prerequisites: ~weap, ~techlevel.unrestricted
+		Queue: Upgrades.GDI
+		Prerequisites: ~weap, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Adds a secondary TOW Launcher to Humvee.\n\n  Upgrades: Humvee\n  + Increases overall damage dealt
+		Description: Adds a secondary TOW Launcher to Humvee.\n\n  Upgrades: Humvee\n  + Increases overall damage dealt\n  - Adds 50$ to the cost of Humvee
+        Icon: towhumvee
 	Valued:
 		Cost: 700
 	RenderSprites:
-		Image: towhumvee.upgrade
+		Image: gdiupgrades.combined
+
+comparmor.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Composite Armor
+	Buildable:
+		BuildPaletteOrder: 8
+		Queue: Upgrades.GDI
+		Prerequisites: ~fix, ~tech, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Equips GDI Tanks with advanced armor plating.\n\n  Upgrades: Main Battle Tank and Mammoth Tank\n  + Increases Hitpoints of those Tanks by 20%
+        Icon: comparmor
+	Valued:
+		Cost: 2000
+	RenderSprites:
+		Image: gdiupgrades.combined
+
+targetlaser.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Targeting Laser
+	Buildable:
+		BuildPaletteOrder: 9
+		Queue: Upgrades.GDI
+		Prerequisites: ~weap, ~tech, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Adds a secondary laser designator to Main Battle Tank.\n\n  Upgrades: Main Battle Tank\n  + The laser designator increases damage dealt to the target Vehicle by 20%
+        Icon: targetlaser
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: gdiupgrades.combined
+
+uavmissile.upgrade:
+    Inherits: ^Upgrade
+    Tooltip:
+        Name: Upgrade: Recon UAV Missile
+    Buildable:
+        BuildPaletteOrder: 12
+        Queue: Upgrades.GDI
+        Prerequisites: ~hq, ~tech, ~techlevel.unrestricted
+        BuildDuration: 1500
+        Description: Recon Drone gains limited Offensive capacity.\n\n  Upgrades: Recon Drone\n  + Fires one Missile at target
+        Icon: uavmissile
+    Valued:
+        Cost: 1000
+    RenderSprites:
+        Image: gdiupgrades.combined
+
+mh60medic.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Black Hawk Medic
+	Buildable:
+		BuildPaletteOrder: 14
+		Queue: Upgrades.GDI
+		Prerequisites: ~hpad, ~tech, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Black Hawks are provided medical supplies to aid soldiers.\n\n  Upgrades: Black Hawk\n  + Heals surrounding Infantry when landed on ground
+        Icon: mh60medic
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: gdiupgrades.combined
+
+airstrike.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Airstrike
+	Buildable:
+		BuildPaletteOrder: 15
+		Queue: Upgrades.GDI
+		Prerequisites: ~proxy.airstrike.unlock, ~ctrl, ~tech, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
+        Icon: airstrike
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: gdiupgrades.combined
+
+#   Nod Upgrades
+
+explosivevest.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Hi-Explosive Vests
+	Buildable:
+		BuildPaletteOrder: 3
+		Queue: Upgrades.Nod
+		Prerequisites: ~proc, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Equips Fanatics with improved Explosives.\n\n  Upgrades: Fanatic\n  +  Doubles the damage dealt by Fanatics
+        Icon: explosivevest
+	Valued:
+		Cost: 500
+	RenderSprites:
+		Image: nodupgrades.combined
+
+towmissile.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: TOW Missile
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Upgrades.Nod
+		Prerequisites: ~afld, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Adds a secondary missile launcher to Light Tank.\n\n  Upgrades: Light Tank\n  + Increases overall damage dealt
+        Icon: towmissile
+	Valued:
+		Cost: 700
+	RenderSprites:
+		Image: nodupgrades.combined
+
+ssmreload.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: SSM Reload
+	Buildable:
+		BuildPaletteOrder: 11
+		Queue: Upgrades.Nod
+		Prerequisites: ~nbio, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Greatly accelerates the reloading rate of SSM Launcher.\n\n  Upgrades: SSM Launcher\n  + SSM Launcher reloads 40% faster
+        Icon: ssmreload
+	Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: nodupgrades.combined
+
+c17speed.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Cargo Plane speed
+	Buildable:
+		BuildPaletteOrder: 12
+		Queue: Upgrades.Nod
+		Prerequisites: ~afld, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Accelerates the Cargo Plane for faster deliveries.\n\n  Upgrades: Cargo Plane\n  + Movement speed gets a +80% increase
+        Icon: c17speed
+	Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: nodupgrades.combined
+
+hellfire.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Apache Rocket Pods
+	Buildable:
+		BuildPaletteOrder: 13
+		Queue: Upgrades.Nod
+		Prerequisites: ~hpad, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Adds Hellfire rocket pods to Apache.\n\n  Upgrades: Apache\n  + Performs better against Tanks\n  - Takes longer to resupply
+        Icon: hellfire
+	Valued:
+		Cost: 900
+	RenderSprites:
+		Image: nodupgrades.combined
+
+rh66stealth.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Commanche Stealth
+	Buildable:
+		BuildPaletteOrder: 14
+		Queue: Upgrades.Nod
+		Prerequisites: ~hpad, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Enables Commanche to utilize Cloaking while on Air.\n\n  Upgrades: Commanche\n  + Commanche gains active Cloaking technology
+        Icon: rh66stealth
+	Valued:
+		Cost: 1200
+	RenderSprites:
+		Image: nodupgrades.combined
+
+training.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: Special Training
+	Buildable:
+		BuildPaletteOrder: 15
+		Queue: Upgrades.Nod
+		Prerequisites: ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: All combat units earn experience 50% faster.\n\n  Upgrades: Entire arsenal\n  + Accelerates the rate with which Ranks gets earned
+        Icon: training
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: nodupgrades.combined
+
+interceptorsnod.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: F-22 Extra Fuel Pods
+	Buildable:
+		BuildPaletteOrder: 17
+		Queue: Upgrades.Nod
+		Prerequisites: ~proxy.interceptorsnod.unlock, ~ctrl, ~tmpl, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+        Icon: fuelpods
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: nodupgrades.combined

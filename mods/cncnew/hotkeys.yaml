@@ -17,3 +17,7 @@ ProductionTypeVehicle: Y
 ProductionTypeAircraft: U
 	Description: Aircraft Tab
 	Types: Production, Player
+
+ProductionTypeUpgrades: I
+	Description: Upgrades Tab
+	Types: Production, Player

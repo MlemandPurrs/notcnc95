@@ -1,140 +1,31 @@
-airstrike.unlock:
-	icon: airstrike1icon
-
-airstrike.upgrade:
-	icon: airstrike2icon
-
-towmissile.upgrade:
-	icon: mpodicon
+apbullets.upgrade:
+	icon: apbulletsicon
 
 airradar.upgrade:
 	icon: airradaricon
 
-hellfire.upgrade:
-	icon: hellfireicon
-	
-apbullets.upgrade:
-	icon: apbulletsicon
-
-comparmor.upgrade:
-	icon: comparmoricon
-
-c17speed.upgrade:
-	icon: c17icon
-
-mobilesam.upgrade:
-	icon: msamicon
-
-targetlaser.upgrade:
-	icon: targetlasericon
-
-artydualshot.upgrade:
-	icon: artyicon
-
-napcmedic.upgrade:
-	icon: napcmediicon
-
-napcarmed.upgrade:
-	icon: napcalticon
-
-#	mh60cargo.upgrade:
-#	icon: mh60icon
-
-mh60medic.upgrade:
-	icon: mh60mediicon
-
-machineguns.upgrade:
-	icon: mgupgradeicon
-
-bombard.strat:
-	icon: strat-bombicon
-
-seek.strat:
-	icon: strat-seekicon
-
-hold.strat:
-	icon: strat-holdicon
-
-wtnk.unlock:
-	icon: wtnkunlockicon
-
-t55h.unlock:
-	icon: t55hunlockicon
-	
-nodctnk.unlock:
-	icon: nodctnkunlockicon
-
-rh66stealth.upgrade:
-	icon: rh66stealthicon
-
-ssmreload.upgrade:
-	icon: ssmreloadicon
-
-orcaammo.upgrade:
-	icon: orcaicon
-  
 carryall.unlock:
-	icon: orcacaicon
+    icon: ocaricon
 
-supplylines.upgrade:
-	icon: dropzoneupicon
+nod.carryall.unlock:
+    icon: nv22icon
 
-exosuit.unlock:
-	icon: xoicon
+gdiupgrades.combined:
+    bouncynades: bouncynadesicon
+    towhumvee: towhumveeicon
+    comparmor: comparmoricon
+    targetlaser: targetlasericon
+    # orcaammo: orcaammoicon
+    mh60medic: mh60mediicon
+    uavmissile: uavicon
+    airstrike: airstrike2icon
 
-powerplants.upgrade:
-	icon: nukeicon
-
-tank.veterancy:
-	icon: mtnkveticon
-
-e1.veterancy:
-	icon: e1veticon
-	
-orca.veterancy:
-	icon: orcaveticon
-
-icbm.unlock:
-	icon: icbmunlockicon
-
-msar.unlock:
-	icon: msarunlockicon
-
-pbat.unlock:
-	icon: pbatunlockicon
-
-interceptors.unlock:
-	icon: cepticon
-
-interceptors.upgrade:
-	icon: f22upgradeicon
-
-toxicshells.upgrade:
-	icon: toxicshellsicon
-
-training.upgrade:
-	icon: trainingicon
-
-nodairstrike.unlock:
-	icon: sfigicon
-
-harvstealth.upgrade:
-	icon: nodharvstealthicon
-
-cyborg.upgrade:
-	icon: cyborgicon
-
-cyborgspeed.upgrade:
-	icon: cyborgspeedicon
-
-bouncynades.upgrade:
-	icon: bouncynadesicon
-
-disr.unlock:
-	icon: disrunlockicon
-
-towhumvee.upgrade:
-	icon: towhumveeicon
-
-uavmissile.upgrade:
-    icon: uavicon
+nodupgrades.combined:
+    explosivevest: vesticon
+    towmissile: mpodicon
+    ssmreload: ssmreloadicon
+    c17speed: c17icon
+    hellfire: hellfireicon
+    rh66stealth: rh66stealthicon
+    training: trainingicon
+    fuelpods: f22upgradeicon

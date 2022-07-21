@@ -17,6 +17,7 @@
 	ClassicFacingBodyOrientation:
 	QuantizeFacingsFromSequence:
 	RenderSprites:
+		PlayerPalette: overlayplayer
 
 ^1x1Shape:
 	HitShape:
@@ -166,6 +167,14 @@
 	HandicapDamageMultiplier:
 	HandicapProductionTimeMultiplier:
 
+^StoresResources:
+	StoresResources:
+	WithResourceStoragePipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 10
+
 ^Transport:
 	Cargo:
 	WithCargoPipsDecoration:
@@ -184,14 +193,6 @@
 			red: pip-red
 			green: pip-green
 
-^StoresResources:
-	StoresResources:
-	WithResourceStoragePipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		RequiresSelection: true
-		PipCount: 10
-
 ^SlowdownWhenDamaged:
 	SpeedMultiplier@HEAVYDAMAGE:
 		Modifier: 85
@@ -208,23 +209,21 @@
 	Inherits@slowdown: ^SlowdownWhenDamaged
 	Inherits@AIBoost: ^ProductionAIBoost
 	Inherits@SellUnit: ^SellableOnRepairPad
-	Inherits@GDIUpgrades: ^GDIUnitUpgrades
 	Inherits@bounty: ^GlobalBounty
 	Inherits@BOINK: ^BoinkSound
-	Inherits@MicroWave: ^AffectedByDriverKill
-	Inherits@Hijacker: ^VehicleHijackable
 	Inherits@FieldRepair: ^AffectedByFieldRepair
+    Inherits@LaserDesignator: ^LaserDesignatableTarget
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
 	Mobile:
 		Locomotor: wheeled
 		TurnSpeed: 20
-		PauseOnCondition: boarding || being-captured
+		PauseOnCondition: boarding
 	Selectable:
 		Bounds: 24,24
 	Targetable:
-		TargetTypes: Ground, Vehicle
+		TargetTypes: Ground, Unit, Vehicle
 	Targetable@REPAIR:
 		RequiresCondition: damaged
 		TargetTypes: Repair
@@ -261,15 +260,6 @@
 	MapEditorData:
 		Categories: Vehicle
 	EdibleByLeap:
-	DamageMultiplier@LaserDesignator:
-		Modifier: 120
-		RequiresCondition: laser-designated
-	ExternalCondition@LaserDesignator:
-		Condition: laser-designated
-		TotalCap: 1
-	WithColoredOverlay@LaserDesignator:
-		RequiresCondition: laser-designated
-		Palette: laserpaint
 	Carryable:
 		ReservedCondition: awaiting
 		CarriedCondition: oncarryall
@@ -281,8 +271,15 @@
 		Sequence: pip-carryall
 		Position: Top
 		RequiresCondition: awaiting
+	GrantConditionOnDamage@Laser:
+		Types: ObeliskLaser
+		Condition: laserflash
+		Duration: 4
+	WithColoredOverlay@laserflash:
+		RequiresCondition: laserflash
+		Palette: obelisklaserred
 
-^Tank:
+^TrackedVehicle:
 	Inherits: ^Vehicle
 	Inherits@SLOWCRUSH: ^SlowedByCrushing
 	Mobile:
@@ -299,21 +296,18 @@
 	Inherits@AIBoost: ^ProductionAIBoost
 	Inherits@SellUnit: ^SellableOnRepairPad
 	Inherits@slowdown: ^SlowdownWhenDamaged
-	Inherits@GDIUpgrades: ^GDIUnitUpgrades
 	Inherits@bounty: ^GlobalBounty
 	Inherits@BOINK: ^BoinkSound
-	Inherits@MicroWave: ^AffectedByDriverKillAir
-	Inherits@Hijacker: ^AirVehicleHijackable
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
 	AppearsOnRadar:
 		UseLocation: true
 	Targetable@GROUND:
-		TargetTypes: Ground, Vehicle
+		TargetTypes: Ground, Unit, Vehicle
 		RequiresCondition: !airborne
 	Targetable@AIRBORNE:
-		TargetTypes: Helicopter
+		TargetTypes: Helicopter, AirUnit
 		RequiresCondition: airborne
 	Targetable@REPAIR:
 		RequiresCondition: damaged && !airborne
@@ -333,12 +327,15 @@
 	Repairable:
 		RepairActors: hpad, fix
 	Aircraft:
+        #   this is annoying AF, disrespects manual force landing
+        #   no delay before return
+        #   IdleBehavior: ReturnToBase
 		AirborneCondition: airborne
 		CruisingCondition: cruising
 		CanHover: True
 		TakeOffOnResupply: true
 		VTOL: true
-		LandableTerrainTypes: Clear, Rough, Road, Beach, Tiberium, BlueTiberium
+		LandableTerrainTypes: Clear, Rough, Road, Beach, Tiberium, BlueTiberium, RedTiberium
 		Crushes: crate, infantry
 		CanSlide: True
 		TakeoffSounds: htoff1.aud
@@ -371,14 +368,14 @@
 
 ^InfantryTiberiumDamage:
 	DamagedByTerrain@TIBERIUM:
-		Terrain: Tiberium, BlueTiberium
+		Terrain: Tiberium, BlueTiberium, RedTiberium
 		Damage: 200
 		DamageInterval: 16
 		DamageTypes: TiberiumDeath
 		RequiresCondition: !hazmatsuits
 	GrantConditionOnTerrain@HAZMAT:
 		Condition: ontiberium
-		TerrainTypes: Tiberium, BlueTiberium
+		TerrainTypes: Tiberium, BlueTiberium, RedTiberium
 	GrantConditionOnPrerequisite@HAZMAT:
 		Condition: biolab
 		Prerequisites: bio
@@ -447,9 +444,9 @@
 	Health:
 		HP: 2500
 	Armor:
-		Type: None
+		Type: Infantry
 	RevealsShroud:
-		Range: 5c0
+		Range: 3c0
 	Mobile:
 		Speed: 56
 		AlwaysTurnInPlace: true
@@ -458,7 +455,7 @@
 		Bounds: 18,18,0,-6
 		DecorationBounds: 12,17,0,-6
 	Targetable:
-		TargetTypes: Ground, Infantry
+		TargetTypes: Ground, Unit, Infantry
 		RequiresCondition: !parachute
 	Targetable@HEAL:
 		RequiresCondition: !parachute && damaged
@@ -558,7 +555,6 @@
 ^Soldier:
 	Inherits: ^Infantry
 	Inherits@AI: ^ProductionAIBoost
-	Inherits@GDIUpgrades: ^GDIUnitUpgrades
 	MustBeDestroyed:
 	Tooltip:
 		GenericName: Soldier
@@ -589,12 +585,12 @@
 	RevealsShroud:
 		Range: 2c0
 	Passenger:
-		CustomPipType: gray
+		CustomPipType: pip-gray
 	ActorLostNotification:
 		Notification: CivilianKilled
 		NotifyAll: true
 	ScaredyCat:
-		AvoidTerrainTypes: Tiberium, BlueTiberium
+		AvoidTerrainTypes: Tiberium, BlueTiberium, RedTiberium
 	Crushable:
 		CrushSound: squish2.aud
 	Voiced:
@@ -602,7 +598,7 @@
 	Wanders:
 		MinMoveDelay: 150
 		MaxMoveDelay: 750
-		AvoidTerrainTypes: Tiberium, BlueTiberium
+		AvoidTerrainTypes: Tiberium, BlueTiberium, RedTiberium
 	MapEditorData:
 		Categories: Civilian infantry
 
@@ -625,11 +621,7 @@
 	Health:
 		HP: 100000
 	Armor:
-		Type: Wood
-	Buildable:
-		Queue: Biolab
-		BuildPaletteOrder: 50
-		Prerequisites: ~disabled
+		Type: Building
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -694,20 +686,45 @@
 	MapEditorData:
 		Categories: Aircraft
 
+^SlowdownWhenDamagedShip:
+	GrantConditionOnDamageState@HEAVY:
+		Condition: heavy-damage
+		ValidDamageStates: Heavy
+	GrantConditionOnDamageState@CRITICAL:
+		Condition: critical-damage
+		ValidDamageStates: Critical
+	SpeedMultiplier@HEAVYDAMAGE:
+		RequiresCondition: heavy-damage
+		Modifier: 75
+	SpeedMultiplier@CRITICALDAMAGE:
+		RequiresCondition: critical-damage
+		Modifier: 50
+
 ^Ship:
 	Inherits@1: ^ExistsInWorld
 	Inherits@3: ^SpriteActor
 	Inherits@selection: ^SelectableCombatUnit
 	Inherits@handicaps: ^PlayerHandicaps
+	Inherits@slowdown: ^SlowdownWhenDamagedShip 
+	Inherits@AIBoost: ^ProductionAIBoost
+	Inherits@SellUnit: ^SellableNearShipyard
+	Inherits@bounty: ^GlobalBounty
+	Inherits@FieldRepair: ^AffectedByFieldRepair
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
+	Mobile:
+		Locomotor: naval
+		TurnSpeed: 10
+	Selectable:
+		Bounds: 24,24
 	Targetable:
 		TargetTypes: Ground, Water, Ship
-	HiddenUnderFog:
 	ActorLostNotification:
+	HiddenUnderFog:
 	AttackMove:
 	WithDamageOverlay:
+	WithFacingSpriteBody:
 	Explodes:
 		Weapon: UnitExplodeShip
 		EmptyWeapon: UnitExplodeShip
@@ -715,11 +732,30 @@
 	Guardable:
 	Tooltip:
 		GenericName: Ship
+	MustBeDestroyed:
 	Voiced:
 		VoiceSet: VehicleVoice
 	HitShape:
 	MapEditorData:
 		Categories: Naval
+	RepairableNear:
+		RepairActors: syrd
+	DetectCloaked:
+		CloakTypes: Underwater
+		Range: 1c0
+	Targetable@REPAIR:
+		RequiresCondition: damaged
+		TargetTypes: Repair
+	GrantConditionOnDamage@Repair:
+		Types: Repair
+		Condition: repairflash
+		Duration: 3
+	WithColoredOverlay@repairflash:
+		RequiresCondition: repairflash
+		Palette: highlight
+	GrantConditionOnDamageState@DAMAGED:
+		Condition: damaged
+		ValidDamageStates: Light, Medium, Heavy, Critical
 
 ^Building:
 	Inherits@1: ^ExistsInWorld
@@ -733,7 +769,7 @@
 	Targetable:
 		TargetTypes: Ground, C4, Structure
 	Armor:
-		Type: Wood
+		Type: Building
 	Health:
 		HP: 40000
 	Building:
@@ -776,7 +812,7 @@
 	Health:
 		HP: 20000
 	Armor:
-		Type: Wood
+		Type: Building
 	WithIdleOverlay@Burns:
 		Image: fire
 		Sequence: 1
@@ -807,7 +843,6 @@
 	Inherits@LowPowerDamage: ^DamagedOnLowPower
 	Inherits@StructureAutoRepairs: ^BuildingAutoRepair
 	Inherits@AI: ^ProductionAIBoost
-	Inherits@HACKABLE: ^Hackable
 	Building:
 		RequiresBaseProvider: true
 		BuildSounds: constru2.aud, hvydoor1.aud
@@ -815,7 +850,7 @@
 		TerrainTypes: Clear,Road
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 4
+		Adjacent: 2
 	MustBeDestroyed:
 		RequiredForShortGame: true
 	RepairableBuilding:
@@ -839,7 +874,7 @@
 	Demolishable:
 		Condition: being-demolished
 	Sellable:
-		RequiresCondition: !build-incomplete && !being-demolished && !being-captured && !hacked
+		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 		SellSounds: cashturn.aud
 	CaptureManager:
 		BeingCapturedCondition: being-captured
@@ -857,6 +892,15 @@
 	EdibleByLeap:
 	Targetable:
 		TargetTypes: Ground, C4, Structure
+    #   The building hitshapes are interfering with this
+    #   the outer green circle needs to be turned into 
+    #   not interactable with by default, thus the inner
+    #   yellow shape defined and its predetermined points
+    #   will be used only for calculations of getting hit
+    #   the concrete wall doesnt have this issue only because
+    #   cleverly proportioned just right to not remain within
+    #   the outer green circle radius.
+	#   BlocksProjectiles:
 
 ^FakeBuilding:
 	Inherits: ^BaseBuilding
@@ -889,7 +933,7 @@
 		Categories: Civilian building
 	RenderSprites:
 		Palette: staticterrain
-
+ 
 ^CivBuildingHusk:
 	Inherits@1: ^SpriteActor
 	Interactable:
@@ -941,31 +985,35 @@
 	RenderSprites:
 		Palette:
 
-#	todo: reimplement this proper
-#	^TechBuildingHusk:
-#	Inherits: ^CivBuildingHusk
-#	Tooltip:
-#	GenericName: Tech Building (Destroyed)
-#	Targetable:
-#	TargetTypes: Ground, NoAutoTarget
-#	CaptureManager:
-#	BeingCapturedCondition: being-captured
-#	Capturable:
-#	Types: techbuilding-husk
-#	RequiresCondition: !awaitcooldown
-#	CapturableProgressBar:	
-#	RequiresCondition: being-captured
-#	CapturableProgressBlink:
-#	prevent instant restore
-#	GrantTimedCondition@Cooldown:
-#	Condition: awaitcooldown
-# 3 minute should suffice
-#	Duration: 4500
-#	this is not appearing
-#	TimedConditionBar@Cooldown:	
-#	Condition: awaitcooldown
-#	Color: ffffff
-#	SelectionDecorations:
+^TechBuildingHusk:
+	Inherits@1: ^SpriteActor
+	Inherits@shape: ^1x1Shape
+	Interactable:
+	AppearsOnRadar:
+	Health:
+		HP: 10000
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+	WithSpriteBody:
+	Targetable:
+		RequiresForceFire: true
+		TargetTypes: Ground, NoAutoTarget
+	Tooltip:
+		GenericName: Tech Building (Destroyed)
+		GenericStancePrefix: false
+		ShowOwnerRow: false
+	FrozenUnderFog:
+	ScriptTriggers:
+	MapEditorData:
+		Categories: Husk
+	CaptureManager:
+	Capturable:
+		Types: restore-tech
+		ValidRelationships: Enemy, Neutral, Ally
+    CapturableProgressBlink:
+	TransformOnCapture:
+		ForceHealthPercentage: 35
 
 ^CivField:
 	Inherits: ^CivBuilding
@@ -1017,7 +1065,7 @@
 		LineBuildSegmentPalette: placelinesegment
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 4
+		Adjacent: 2
 	Targetable:
 		TargetTypes: Ground, Wall
 	Crushable:
@@ -1054,7 +1102,7 @@
 	Health:
 		HP: 35000
 	Armor:
-		Type: Concrete
+		Type: Heavy
 	LineBuildNode:
 		Types: concrete, gate
 	WithGateSpriteBody:
@@ -1066,7 +1114,7 @@
 		TerrainTypes: Clear, Road
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 4
+		Adjacent: 2
 	MapEditorData:
 		Categories: Wall
 	Gate:
@@ -1126,6 +1174,10 @@
 		Categories: Tree
 	RequiresSpecificOwners:
 		ValidOwnerNames: Neutral
+	ProximityExternalCondition:
+        ValidRelationships: Ally, Neutral, Enemy
+		Condition: proximity.camouflage
+		Range: 1c826
 
 ^TreeHusk:
 	Inherits@1: ^SpriteActor
@@ -1198,6 +1250,10 @@
 		Categories: Decoration
 	RequiresSpecificOwners:
 		ValidOwnerNames: Neutral
+	ProximityExternalCondition:
+        ValidRelationships: Ally, Neutral, Enemy
+		Condition: proximity.camouflage
+		Range: 1c826
 
 ^CommonHuskDefaults:
 	Inherits@1: ^ClassicFacingSpriteActor
@@ -1205,7 +1261,7 @@
 	Health:
 		HP: 28000
 	Armor:
-		Type: Heavy
+		Type: None
 	HiddenUnderFog:
 		Type: CenterPosition
 		AlwaysVisibleRelationships: None
@@ -1217,7 +1273,7 @@
 ^Husk:
 	Inherits: ^CommonHuskDefaults
 	Husk:
-		AllowedTerrain: Clear, Rough, Road, Tiberium, BlueTiberium, Beach
+		AllowedTerrain: Clear, Rough, Road, Tiberium, BlueTiberium, RedTiberium, Beach
 	Targetable:
 		RequiresForceFire: true
 		TargetTypes: Ground, Husk
@@ -1243,11 +1299,6 @@
 		Step: -200
 		StartIfBelow: 101
 		Delay: 6
-
-^LightHusk:
-	Inherits: ^Husk
-	Health:
-		HP: 4000
 
 ^HelicopterHusk:
 	Inherits: ^CommonHuskDefaults
@@ -1326,7 +1377,7 @@
 		GenericName: Crate
 		ShowOwnerRow: false
 	Crate:
-		TerrainTypes: Clear, Rough, Road, Tiberium, BlueTiberium, Beach
+		TerrainTypes: Clear, Rough, Road, Tiberium, BlueTiberium, RedTiberium, Beach
 	RenderSprites:
 		Palette: effect
 		Image: crate
@@ -1442,7 +1493,7 @@
 		Condition: stopatmedium
 		ValidDamageStates: Heavy
 	ChangesHealth@LOWPOWERDMG:
-		Step: -140
+		Step: -150
 		Delay: 52
 		StartIfBelow: 101
 		DamageCooldown: 0
@@ -1485,6 +1536,16 @@
 	ExternalCondition@Sellable:
 		Condition: unit.sellable
 
+^SellableNearShipyard:
+	Sellable:
+		RefundPercent: 50
+		SellSounds: cashturn.aud
+		Cursor: sell-vehicle
+		ShowTicks: false
+		RequiresCondition: ship.sellable
+	ExternalCondition@Sellable:
+		Condition: ship.sellable
+
 ^Mine:
 	Inherits: ^SpriteActor
 	Interactable:
@@ -1505,8 +1566,8 @@
 		CloakTypes: GroundStealth
 		CloakSound:
 		UncloakSound:
-		Palette: cloakgreen
-		IsPlayerPalette: false
+		Palette: cloaktransparent
+		IsPlayerPalette: true
 		InitialDelay: 0
 	Tooltip:
 		Name: Mine
@@ -1534,103 +1595,6 @@
 	Targetable@CHEMWEAPON:
 		RequiresCondition: hitbychem
 		TargetTypes: HasPoison
-
-^GDIUnitUpgrades:
-	GrantConditionOnPrerequisite@HOLD:
-		Condition: hold
-		Prerequisites: hold.strat
-	DamageMultiplier@HOLD:
-		RequiresCondition: hold
-		Modifier: 90
-	WithDecoration@HOLD:
-		Image: pips
-		Sequence: pip-armor
-		Palette: effect
-		Position: BottomRight
-		Margin: 4, -2
-		ValidRelationships: Ally
-		RequiresCondition: hold
-		RequiresSelection: True
-		BlinkInterval: 64
-		BlinkPatterns:
-			hold : Off, On, On
-	GrantConditionOnPrerequisite@BOMBARD:
-		Condition: bombard
-		Prerequisites: bombard.strat
-	FirepowerMultiplier@BOMBARD:
-		RequiresCondition: bombard
-		Modifier: 110
-	WithDecoration@BOMBARD:
-		Image: pips
-		Sequence: pip-bombard
-		Palette: effect
-		Position: BottomRight
-		Margin: 4, -3
-		ValidRelationships: Ally
-		RequiresCondition: bombard
-		RequiresSelection: True
-		BlinkInterval: 64
-		BlinkPatterns:
-			bombard : Off, On, On
-	GrantConditionOnPrerequisite@SEEK:
-		Condition: seek
-		Prerequisites: seek.strat
-	RangeMultiplier@SEEK
-		Modifier: 110
-		RequiresCondition: seek
-	WithDecoration@SEEK:
-		Image: pips
-		Sequence: pip-seek
-		Palette: effect
-		Position: BottomRight
-		Margin: 4, -4
-		ValidRelationships: Ally
-		RequiresCondition: seek
-		RequiresSelection: True
-		BlinkInterval: 64
-		BlinkPatterns:
-			seek : Off, On, On
-
-^GDICostMultiplierVehicle:
-	ProductionCostMultiplier@BOMBARD:
-		Multiplier: 110
-		Prerequisites: bombard.strat
-	ProductionCostMultiplier@SEEK:
-		Multiplier: 110
-		Prerequisites: seek.strat
-	ProductionCostMultiplier@HOLD:
-		Multiplier: 90
-		Prerequisites: hold.strat
-	
-^GDICostMultiplierInfantry:
-	ProductionCostMultiplier@BOMBARD:
-		Multiplier: 110
-		Prerequisites: bombard.strat
-	ProductionCostMultiplier@SEEK:
-		Multiplier: 90
-		Prerequisites: seek.strat
-	ProductionCostMultiplier@HOLD:
-		Multiplier: 110
-		Prerequisites: hold.strat
-
-^GDICostMultiplierAircraft:
-	ProductionCostMultiplier@BOMBARD:
-		Multiplier: 90
-		Prerequisites: bombard.strat
-	ProductionCostMultiplier@SEEK:
-		Multiplier: 110
-		Prerequisites: seek.strat
-	ProductionCostMultiplier@HOLD:
-		Multiplier: 110
-		Prerequisites: hold.strat
-
-^GDIAffectedByDrone:
-	ExternalCondition@UAVBOOSTED:
-		Condition: uavboosted
-		TotalCap: 1
-	ReloadDelayMultiplier@UAVBOOSTED:
-		RequiresCondition: uavboosted
-		Modifier: 90
 
 ^GlobalBounty:
 	GrantConditionOnPrerequisite@GLOBALBOUNTY:
@@ -1698,7 +1662,7 @@
 	ExternalCondition@Invulnerability:
 		Condition: invulnerability-crate-collected
 	Targetable@DontEMPWhileInvuln:
-		TargetTypes: InvulNoEMP
+		TargetTypes: Invulnerable
 		RequiresCondition: invulnerability-crate-collected
 
 ^AcceptsEMPCrate:
@@ -1748,54 +1712,23 @@
 		Modifier: 138
 	HarvesterBalancer:
 		Condition: harv-balance
-
-^AffectedByDriverKill:
-	GrantConditionIfOwnerIsNeutral:
-		Condition: driver-dead
-	Targetable@DRIVERKILL:
-		TargetTypes: DriverKill
-		RequiresCondition: !driver-dead
-	ChangesHealth@DRIVER_DEAD:
-		PercentageStep: -1
-		Delay: 30
-		StartIfBelow: 101
-		DamageCooldown: 0
-		RequiresCondition: driver-dead
-	CaptureManager:
-		BeingCapturedCondition: being-captured
-	Capturable@DRIVER_DEAD:
-		Types: NoCrew
-		RequiresCondition: driver-dead
-		ValidRelationships: Neutral
-		CancelActivity: true
-
-^AffectedByDriverKillAir:
-	Inherits: ^AffectedByDriverKill
-	Targetable@DRIVERKILL:
-		RequiresCondition: !driver-dead && !airborne
-	Capturable@DRIVER_DEAD:
-		RequiresCondition: driver-dead && !airborne
-
-^AffectedBySensor:
-	ExternalCondition@SightBoost:
-		Condition: sightboosted
-	RevealsShroudMultiplier@SightBoost:
-		Modifier: 150
-		RequiresCondition: sightboosted
+        RequiresCondition: get-this-working
+    GrantCondition@HARVBALANCE:
+        Condition: get-this-working
 
 ^NodAffectedByTraining:
 	GainsExperienceMultiplier@NodExpBonus:
 		Modifier: 150
 		RequiresCondition: spectraining
-	GrantConditionOnPrerequisite@NodExpBonu:
+	GrantConditionOnPrerequisite@NodExpBonus:
 		Condition: spectraining
 		Prerequisites: training.upgrade
 
 ^AffectedByFieldRepair:
 	ChangesHealth@FieldRepair:
 		Step: 0
-		PercentageStep: 1
-		Delay: 6
+		PercentageStep: 2
+		Delay: 25
 		StartIfBelow: 101
 		DamageCooldown: 0
 		RequiresCondition: fieldrepair
@@ -1815,118 +1748,53 @@
 	ExternalCondition@FieldRepair:
 		Condition: fieldrepair
 
-^CyborgSoldier:
-	Inherits: ^Soldier
-	-Targetable@HEAL:
-	-GrantConditionOnDamageState@DAMAGED:
-	-DamagedByTerrain@TIBERIUM:
-	-GrantConditionOnPrerequisite@HAZMAT:
-	-GrantConditionOnPrerequisite@HAZMAT2:
-	-GrantCondition@HAZMAT:
-	-WithDecoration@HAZMAT:
-	-SpawnActorOnDeath@TIBERIUM:
-	-Targetable@IMMUNETOPOISON:
-	-ChangesHealth@HOSPITAL:
-	-GrantConditionOnPrerequisite@HOSPITAL:
-	-GrantConditionOnDamageState@HOSPITAL:
-	-GrantCondition@HOSPITAL:
-	-ExternalCondition@barracks:
-	-GrantCondition@BARRACKSHEALING:
-	-ChangesHealth@BARRACKSHEALING:
-	Targetable:
-		TargetTypes: Ground, Infantry, Cyborg
-		RequiresCondition: !parachute
-	ChangesHealth@TIBERIUMHEAL:
-		Step: 0
-		PercentageStep: 1
-		Delay: 15
-		StartIfBelow: 100
-		DamageCooldown: 150
-		RequiresCondition: ontiberium
-		DamageTypes: TiberiumDeath
-	WithDecoration@REDCROSS:
-		RequiresCondition: ontiberium
-	GrantConditionOnPrerequisite@CYBORGSPEED:
-		Condition: cyborgspeed-upgraded
-		Prerequisites: cyborgspeed.upgrade
-	SpeedMultiplier@CYBORGSPEED:
-		RequiresCondition: cyborgspeed-upgraded
+^SummonerDummy:
+	Inherits@1: ^ExistsInWorld
+	Inherits@4: ^SpriteActor
+	OwnerLostAction:
+		Action: Kill
+	Armor:
+		Type: None
+	HiddenUnderFog:
+		Type: GroundPosition
+	ProximityCaptor:
+		Types: Plane
+	Tooltip:
+		GenericName: You shouldnt be seeing this...
+	WithShadow:
+		Offset: 43, 128, 0
+		ZOffset: -129
+	WithFacingSpriteBody:
+	MustBeDestroyed:
+	Voiced:
+		VoiceSet: GenericVoice
+	HitShape:
+	ParaDrop:
+		DropRange: 0c512
+	Health:
+		HP: 1
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Cargo:
+		MaxWeight: 10
+	RejectsOrders:
+	Interactable:
+		Bounds: 1,1
+		DecorationBounds: 1,1
+	SelectionDecorations:
+
+^LaserDesignatableTarget:
+	DamageMultiplier@LaserDesignator:
 		Modifier: 120
-
-^Hackable:
-	MindControllable:
-		ControlledConditions:
-			hack: hacked
-		RevokingConditions:
-			hack: restoring
-	Targetable@HACKABLE:
-		TargetTypes: Hackable
-		RequiresCondition: !hacked
-	MindControllableProgressBar@HACKABLE:
-		Color: 1ce312
-		RequiresCondition: !hacked
-	WithDecoration@HACKED:
-		Image: hacked
-		Sequence: hacked
-		RequiresCondition: hacked && !restoring
-		Position: Center
-		Palette: effect
-		ValidRelationships: Ally, Neutral, Enemy
-	WithDecoration@RESTORING:
-		Image: hacked
-		Sequence: restoring
-		RequiresCondition: restoring
-		Position: Center
-		Palette: effect
-		ValidRelationships: Ally, Neutral, Enemy
-
-^HackableOverloadable:
-	Inherits: ^Hackable
-	WithDecoration@HACKED:
-		Sequence: overloading
-	ChangesHealth@HACKED:
-		Step: -2000
-		StartIfBelow: 101
-		Delay: 20
-		RequiresCondition: hacked && !restoring
-
-^VehicleHijackable:
-	Targetable@HIJACKED:
-		TargetTypes: GetVehicle
-	GrantConditionOnCapture@HIJACKED:
-		Condition: has-hijacker
-		CaptureTypes: GetVehicle
-	Capturable@HIJACKED:
-		Types: GetVehicle
-		CancelActivity: True
-		ValidRelationships: Enemy
-	WithDecoration@HIJACKED:
-		Image: pips
-		Margin: 0, 0
-		Sequence: pip-knife
-		Palette: effect
-		Position: Top
-		ValidRelationships: Ally, Enemy, Neutral
-		RequiresCondition: has-hijacker	
-	SpawnActorOnDeath@HIJACKED:
-		Actor: JACK
-		EffectiveOwnerFromOwner: true
-		RequiresCondition: has-hijacker
-	ProvidesPrerequisite@LIMITINGJACK:
-		Prerequisite: jack
-		RequiresCondition: has-hijacker
-
-^AirVehicleHijackable:
-	Inherits: ^VehicleHijackable
-	-SpawnActorOnDeath@HIJACKED:
-	Targetable@HIJACKED:
-		RequiresCondition: !airborne
-	Capturable@HIJACKED:
-		RequiresCondition: !airborne
-	EjectOnDeath@HIJACKED:
-		PilotActor: JACK
-		ChuteSound: chute1.aud
-		SuccessRate: 100
-		EjectInAir: true
-		EjectOnGround: true
-		RequiresCondition: has-hijacker
+		RequiresCondition: laser-designated
+	ExternalCondition@LaserDesignator:
+		Condition: laser-designated
+		TotalCap: 1
+	WithColoredOverlay@LaserDesignator:
+		RequiresCondition: laser-designated
+		Palette: laserpaint

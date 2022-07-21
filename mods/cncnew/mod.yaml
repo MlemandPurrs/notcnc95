@@ -1,6 +1,6 @@
 Metadata:
 	Title: Not CnC 95
-	Version: Capn Kanes Wrrrrath
+	Version: N3trunnerZ 4EvA
 	Website: https://www.openra.net
 	WebIcon32: https://www.openra.net/images/icons/cnc_32x32.png
 
@@ -34,12 +34,6 @@ Packages:
 	cncnew|bits/audio/sakura
 	cncnew|bits/audio/terroist
 	cncnew|bits/audio/chemtrooper
-	cncnew|bits/audio/nodsbh
-	cncnew|bits/audio/mendoza
-	cncnew|bits/audio/cyborg
-	cncnew|bits/audio/cyborgcommando
-	cncnew|bits/audio/thief
-	cncnew|bits/audio/hacker
 	cncnew|bits/temperate
 	cncnew|bits/jungle
 	cncnew|bits/desert
@@ -56,7 +50,6 @@ Packages:
 	cncnew|bits/scripts
 	cncnew|bits/flame32
 	cncnew|bits/chem32
-	cncnew|bits/caribic
 	cncnew|uibits
 
 MapFolders:
@@ -85,7 +78,6 @@ Rules:
 	cncnew|rules/civilian-desert.yaml
 	cncnew|rules/ships.yaml
 	cncnew|rules/aircraft.yaml
-	cncnew|rules/husks.yaml
 	cncnew|rules/upgrades.yaml
 
 Sequences:
@@ -106,7 +98,6 @@ TileSets:
 	cncnew|tilesets/snow.yaml
 	cncnew|tilesets/temperat.yaml
 	cncnew|tilesets/jungle.yaml
-	cncnew|tilesets/caribic.yaml
 
 Weapons:
 	cncnew|weapons/explosions.yaml
@@ -259,12 +250,11 @@ SpriteSequenceFormat: ClassicTilesetSpecificSpriteSequence
 		SNOW: .sno
 		DESERT: .des
 		JUNGLE: .jun
-		CARIBIC: .car
 
 ModelSequenceFormat: PlaceholderModelSequence
 
 AssetBrowser:
-	SupportedExtensions: .shp, .tem, .des, .sno, .jun, .car, .vqa
+	SupportedExtensions: .shp, .tem, .des, .sno, .jun, .vqa
 
 GameSpeeds:
 	slowest:

@@ -4,13 +4,16 @@
 		Damage: 4000
 		Versus:
 			None: 100
-			Kevlar: 100
-			Flak: 100
-			Wood: 100
-			Concrete: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
 			Light: 100
 			Medium: 100
 			Heavy: 100
+            Aircraft: 100
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: poof
@@ -20,40 +23,27 @@
 		SmudgeType: Crater
 		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
 
-^DamagingExplosionHE:
-	Inherits: ^DamagingExplosion
-	Warhead@1Dam: SpreadDamage
-		Versus:
-			None: 90
-			Kevlar: 90
-			Flak: 90
-			Wood: 75
-			Concrete: 75
-			Light: 60
-			Medium: 40
-			Heavy: 25
-
 FlametankExplode:
 	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Spread: 1c0
 		Damage: 11500
+		Versus:
+			None: 100
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: big_napalm
 		ImpactSounds: flamer2.aud
-	Warhead@3Smu: LeaveSmudge
-		SmudgeType: Scorch
-
-ChemTankExplode:
-	Inherits: ^DamagingExplosion
-	Warhead@1Dam: SpreadDamage
-		Spread: 1c512
-		Damage: 21500
-		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
-	Warhead@2Eff: CreateEffect
-		Explosions: big_chem
-		ImpactSounds: xplobig6.aud
 	Warhead@3Smu: LeaveSmudge
 		SmudgeType: Scorch
 
@@ -68,48 +58,48 @@ HeliExplode:
 		ImpactSounds: xplos.aud
 
 UnitExplode:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Damage: 5000
-		Versus:
-			Wood: 75
-			Concrete: 75
-			Medium: 25
-			Heavy: 25
 	Warhead@2Eff: CreateEffect
 		ImpactSounds: xplobig6.aud
 
 UnitExplodeShip:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Damage: 5000
-		Versus:
-			Wood: 75
-			Concrete: 75
 	Warhead@2Eff: CreateEffect
 		Explosions: building
 		ImpactSounds: xplobig6.aud
 
+UnitExplodeSubmarine:
+	Inherits: ^DamagingExplosion
+	-Warhead@3Smu:
+	Warhead@2Eff: CreateEffect
+		Explosions: big_splash
+		ImpactSounds: ssplash9.aud
+		ValidTargets: Ground, Water
+
 UnitExplodeSmall:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@2Eff: CreateEffect
 		Explosions: big_frag
 		ImpactSounds: xplobig4.aud
 
 UnitExplodeBig:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@2Eff: CreateEffect
 		Explosions: big_frag
 		ImpactSounds: xplobig6.aud
 
 UnitExplodeMech:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@2Eff: CreateEffect
 		Explosions: poof
 		ImpactSounds: xplosml2.aud
 
 UnitExplodeHarvEmpty:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@2Eff: CreateEffect
 		Explosions: building
 		ImpactSounds: xplos.aud
@@ -120,18 +110,24 @@ UnitExplodeStealthTank:
 		InvalidTargets: StealthTank
 
 GrenadierExplode:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
 		Damage: 1000
-		Versus:
-			Wood: 70
-			Concrete: 70
-			Light: 60
-			Medium: 40
-			Heavy: 20
 		AffectsParent: true
 		InvalidTargets: Grenadier
+		Versus:
+			None: 100
+            Infantry: 50
+			LightInf: 50
+			HeavyInf: 25
+			Light: 150
+			Medium: 125
+			Heavy: 100
+            Aircraft: 75
+            Structure: 100
+            Fortified: 150
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@2Eff: CreateEffect
 		ImpactSounds: xplosml2.aud
@@ -141,14 +137,13 @@ FanaticExplode:
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
 		Damage: 2500
-		Versus:
-			Wood: 70
-			Concrete: 70
-			Light: 90
-			Medium: 80
-			Heavy: 70
 		AffectsParent: true
 		InvalidTargets: Fanatic
+
+FanaticExplodeUpg:
+    Inherits: FanaticExplode
+    Warhead@1Dam: SpreadDamage
+		Damage: 5000
 
 BuildingExplode:
 	Warhead@1Eff: CreateEffect
@@ -165,15 +160,24 @@ BuildingExplode:
 		Footprint: xxx xxx xxx
 
 Napalm.Crate:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Spread: 170
 		Damage: 5000
 		Falloff: 1000, 368, 135, 50, 18, 7, 0
-		Versus:
-			Wood: 100
-			Concrete: 50
 		AffectsParent: true
+		Versus:
+			None: 100
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: med_napalm
@@ -187,16 +191,10 @@ Napalm.Crate:
 		Footprint: xxx xxx xxx
 
 TiberiumExplosion:
-	Inherits: ^DamagingExplosionHE
+	Inherits: ^DamagingExplosion
 	Warhead@1Dam: SpreadDamage
 		Spread: 9
 		Damage: 1000
-		Versus:
-			Wood: 70
-			Concrete: 70
-			Light: 30
-			Medium: 20
-			Heavy: 10
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_chem
@@ -210,10 +208,22 @@ ATMine:
 	ValidTargets: Ground
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
-		Damage: 40000
+		Damage: 50000
 		AffectsParent: true
 		ValidTargets: Ground
 		InvalidTargets: Mine
+		Versus:
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
+			Light: 100
+			Medium: 100
+			Heavy: 100
+            Aircraft: 100
+            Structure: 100
+            Fortified: 100
+            Wood: 100        
 		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: big_frag
@@ -223,3 +233,33 @@ ATMine:
 		SmudgeType: Crater
 		ValidTargets: Ground
 		InvalidTargets: Structure, Wall
+
+ASMine:
+    ValidTargets: Ship, Submarine, Underwater
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 10000
+		AffectsParent: true
+		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
+		ValidTargets: Ship, Submarine, Underwater
+        InvalidTargets: Mine
+		Versus:
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
+			Light: 100
+			Medium: 100
+			Heavy: 100
+            Aircraft: 100
+            Structure: 100
+            Fortified: 100
+            Wood: 100
+	Warhead@2Eff: CreateEffect
+		Explosions: big_frag
+		ImpactSounds: mineblo1.aud
+        ImpactActors: false
+	Warhead@4EffWater: CreateEffect
+		Explosions: big_frag
+		ImpactSounds: mineblo1.aud
+		ValidTargets: Underwater

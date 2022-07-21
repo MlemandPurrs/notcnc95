@@ -103,26 +103,33 @@ rh66:
 		Facings: 16
 	icon: rh66icon
 
-orcaca:
+ocar:
     Inherits: emp-overlay
-	idle: orcaca
+	idle: ocar
 		Facings: 32
 		UseClassicFacings: True
-	move: orcaca
+	move: ocar
 		Start: 32
 		Facings: 32
-	icon: orcacaicon
+	icon: ocaricon
 
-orcacapod:
+ocarpod:
     Inherits: emp-overlay
-	idle: orcacapod
+	idle: ocarpod
 		Facings: 32
 		UseClassicFacings: True
 		ZOffset: 256
-	move: orcacapod
+	move: ocarpod
 		Start: 32
 		Facings: 32
-	icon: orcacaicon
+	icon: ocaricon
+
+f18:
+	Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: f18icon
 
 f22:
 	Inherits: emp-overlay
@@ -131,22 +138,7 @@ f22:
 		UseClassicFacings: True
 	icon: f22icon
 
-nodhind:
-    Inherits: emp-overlay
-	idle:
-		Facings: 32
-		UseClassicFacings: True
-	rotor: lrotorlg
-		Length: 4
-	slow-rotor: lrotorlg
-		Start: 4
-		Length: 8
-	muzzle: minigun
-		Length: 6
-		Facings: 16
-	icon: nodhindicon
-
-nodv22:
+nv22:
 	Inherits: emp-overlay
 	idle:
 		Facings: 32
@@ -161,7 +153,7 @@ nodv22:
 	slow-rotor2: rrotor
 		Start: 4
 		Length: 8
-	icon: nodv22icon
+	icon: nv22icon
 
 sfig:
 	Inherits: emp-overlay

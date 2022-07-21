@@ -273,3 +273,10 @@ Cursors:
 		airdrop-minimap:
 			Start: 8
 			Length: 2
+	cursoremp.shp: cursor	
+		empstrike:
+			Start: 0
+			Length: 13
+		empstrike-minimap:
+			Start: 14
+			Length: 2

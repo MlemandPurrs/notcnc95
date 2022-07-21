@@ -3,7 +3,7 @@
 		GenericVisibility: Enemy
 		ShowOwnerRow: false
 
-^Tank:
+^TrackedVehicle:
 	Tooltip:
 		GenericVisibility: Enemy
 		ShowOwnerRow: false

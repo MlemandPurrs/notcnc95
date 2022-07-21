@@ -8,17 +8,17 @@ TERR:
 	Tooltip:
 		Name: Fanatic
 	Valued:
-		Cost: 175
+		Cost: 150
 	Health:
-		HP: 6000
+		HP: 5000
 	Armor:
-		Type: Flak
+		Type: HeavyInf
 	Mobile:
 		Speed: 71
 		Voice: Move
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: proc, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.Nod
 		Description: Suicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
 	Armament:
@@ -35,6 +35,16 @@ TERR:
 		EmptyWeapon: FanaticExplode
 		DamageSource: Killer
 		Chance: 100
+        RequiresCondition: !fanatic.upgraded
+	Explodes@Upgraded:
+		Weapon: FanaticExplodeUpg
+		EmptyWeapon: FanaticExplodeUpg
+		DamageSource: Killer
+		Chance: 100
+        RequiresCondition: fanatic.upgraded        
+	GrantConditionOnPrerequisite@HiExplosive:
+		Condition: fanatic.upgraded  
+		Prerequisites: explosivevest.upgrade
 	WithInfantryBody:
 		IdleSequences: stand
 		MoveSequence: walk
@@ -60,7 +70,7 @@ TERR:
 		RequiresCondition: triggered
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 43
+		Payload: 37
 		Type: InfantryRefund
 	Passenger:
 		Voice: Action
@@ -76,23 +86,23 @@ E4:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
-		Cost: 400
+		Cost: 300
 	Tooltip:
 		Name: Flamethrower
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 6
-		Prerequisites: hq, ~techlevel.medium
+		BuildPaletteOrder: 4
+		Prerequisites: hq, ~techlevel.medium, ~!global-squadenabled
 		Queue: Infantry.Nod
 		Description: Anti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
 	Mobile:
 		Speed: 56
 		PauseOnCondition: dont-move
 	Health:
-		HP: 9000
+		HP: 6000
 	Armor:
-		Type: Flak
+		Type: HeavyInf
 	Passenger:
 		CustomPipType: pip-yellow
 	AutoTarget:
@@ -109,7 +119,7 @@ E4:
 		DefaultAttackSequence: shoot
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 100
+		Payload: 75
 		Type: InfantryRefund
 	Targetable:
 		TargetTypes: Ground, Infantry, Flamer
@@ -118,9 +128,6 @@ E4:
 		RevokeDelay: 16
 		RevokeOnNewTarget: False
 		RevokeAll: True
-	Convertible:
-		SpawnActors: NODE4
-		Voice: Action
 
 RMB2:
 	Inherits: ^Soldier
@@ -128,16 +135,17 @@ RMB2:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
-		Cost: 1500
+		Cost: 1200
 	Tooltip:
 		Name: Nod Commando
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 8
-		Prerequisites: tmpl, ~techlevel.high, ~!global-mendoza, !nodhascommando
+		BuildPaletteOrder: 6
+		BuildLimit: 1
+		Prerequisites: tmpl, ~techlevel.high
 		Queue: Infantry.Nod
-		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Stealth\nRemains Invisible outside of Combat.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Stealth Suit\nCapable of turning Invisible when charged.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -146,12 +154,12 @@ RMB2:
 	Health:
 		HP: 15000
 	Armor:
-		Type: Kevlar
+		Type: Infantry
 	Passenger:
 		CustomPipType: pip-red
 		Voice: Move
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	AutoTarget:
 		ScanRadius: 8
 	Demolition:
@@ -176,9 +184,16 @@ RMB2:
 		VoiceSet: CommandoVoice
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 375
+		Payload: 300
 		Type: InfantryRefund
 		Voice: Move
+	GrantTimedConditionOnDeploy:
+		DeployedCondition: cloakison
+		CooldownTicks: 1250
+		DeployedTicks: 375
+		DeploySound: appear1.aud
+		ChargingColor: 8B008B
+		DischargingColor: FF00FF
 	Cloak:
 		CloakTypes: Stealth
 		InitialDelay: 90
@@ -189,6 +204,7 @@ RMB2:
 		Palette: cloak
 		IsPlayerPalette: false
 		UncloakOn: Attack, Unload, Demolish, Dock, Damage, Heal
+        RequiresCondition: cloakison
 		PauseOnCondition: cloak-force-disabled
 	GrantConditionOnDamageState@UNCLOAK:
 		Condition: cloak-force-disabled
@@ -209,325 +225,15 @@ RMB2:
 		Position: TopLeft
 		ValidRelationships: Ally
 		RequiresCondition: hidethatskull
-	Convertible:
-		SpawnActors: NODGNRL
-		Voice: Move
-	ProvidesPrerequisite@LIMITING:
-		Prerequisite: nodhascommando
-
-VICE:
-	Inherits@1: ^ExistsInWorld
-	Inherits@2: ^SpriteActor
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@selection: ^SelectableCombatUnit
-	Inherits@handicaps: ^PlayerHandicaps
-	Inherits@BOINK: ^BoinkSound
-	Huntable:
-	Health:
-		HP: 40000
-	Armor:
-		Type: Light
-	RevealsShroud:
-		Range: 6c0
-	Mobile:
-		Voice: Move
-		Speed: 71
-		Locomotor: critter
-	Selectable:
-		Bounds: 24,24
-	Targetable:
-		TargetTypes: Ground, Creep
-	AutoTarget:
-		ScanRadius: 5
-	AttackMove:
-		Voice: Attack
-	HiddenUnderFog:
-	Valued:
-		Cost: 1000
-	Tooltip:
-		Name: Visceroid
-	Armament:
-		Weapon: Chemspray
-		LocalOffset: 384,0,0
-		MuzzleSequence: muzzle
-	AttackFrontal:
-		Voice: Attack
-	BodyOrientation:
-		QuantizedFacings: 8
-	WithSpriteBody:
-	WithMuzzleOverlay:
-	Guard:
-		Voice: Move
-	Guardable:
-	DamagedByTerrain:
-		Damage: -100
-		DamageInterval: 4
-		DamageTypes: TiberiumDeath
-		Terrain: Tiberium, BlueTiberium
-	Voiced:
-		VoiceSet: DinoVoice
-	HitShape:
-		Type: Circle
-			Radius: 427
-	MapEditorData:
-		Categories: Critter
-	WithDeathAnimation:
-		UseDeathTypeSuffix: false
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	AttackWander:
-	EdibleByLeap:
-
-INFL:
-	Inherits: ^Soldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Buildable:
-		BuildPaletteOrder: 9
-		Prerequisites: tmpl, hq, ~techlevel.high
-		Queue: Infantry.Nod
-		Description: Infiltrates enemy Production and\nSupport structures to steal Technology.\nExact effect depends on the\nbuilding getting infiltrated.\n  Special ability: Stealth Suit\nCan use time limited Stealth.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
-	Valued:
-		Cost: 700
-	Tooltip:
-		Name: Infiltrator
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Mobile:
-		Voice: Move
-	RevealsShroud:
-		Range: 6c0
-	Passenger:
-		CustomPipType: pip-blue
-		Voice: Move
-	Infiltrates:
-		Types: NodInfiltrate
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-	AutoTarget:
-		InitialStance: HoldFire
-		InitialStanceAI: HoldFire
-		ScanRadius: 5
-	Armament:
-		Weapon: PortaLaser
-		LocalOffset: 427,0,341
-	AttackMove:
-		Voice: Move
-	Voiced:
-		VoiceSet: SBHVoice
-	GrantTimedConditionOnDeploy:
-		DeployedCondition: cloakison
-		CooldownTicks: 1250
-		DeployedTicks: 375
-		DeploySound: appear1.aud
-		ChargingColor: 8B008B
-		DischargingColor: FF00FF
-	Cloak:
-		CloakTypes: Stealth
-		InitialDelay: 0
-		CloakDelay: 90
-		CloakSound: trans1.aud
-		UncloakSound: trans1.aud
-		UncloakOn: Attack, Unload, Infiltrate, Demolish, Damage, Heal
-		Palette: cloak
-		IsPlayerPalette: false
-		RequiresCondition: cloakison
-		PauseOnCondition: cloak-force-disabled
-	GrantConditionOnDamageState@UNCLOAK:
-		Condition: cloak-force-disabled
-		ValidDamageStates: Critical
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 175
-		Type: InfantryRefund
-	ExternalCondition@PRODUCED:
-		Condition: produced
-	VoiceAnnouncement:
-		RequiresCondition: produced
-		Voice: Build
-		ValidRelationships: Ally 
-	AnnounceOnKill:
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-		IdleSequences: idle1,idle2
-		StandSequences: stand
-	#	this long chain will exist because
-	#	InfiltrateFor cannot be conditioned
-	#	i would like to allow INFL to attack
-	#	after the Infiltration has got done
-    #   as there is no point to multiple
-	Infiltrates@FACT:
-		Types: NodInfiltrateFACT
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !fact-infiltrated
-	GrantConditionOnPrerequisite@FACT:
-		Condition: fact-infiltrated
-		Prerequisites: stolentech.fact		
-	Infiltrates@PYLE:
-		Types: NodInfiltratePYLE
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !pyle-infiltrated
-	GrantConditionOnPrerequisite@PYLE:
-		Condition: pyle-infiltrated
-		Prerequisites: stolentech.pyle
-	Infiltrates@HAND:
-		Types: NodInfiltrateHAND
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !hand-infiltrated
-	GrantConditionOnPrerequisite@HAND:
-		Condition: hand-infiltrated
-		Prerequisites: stolentech.hand
-	Infiltrates@WEAP:
-		Types: NodInfiltrateWEAP
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !weap-infiltrated
-	GrantConditionOnPrerequisite@WEAP:
-		Condition: weap-infiltrated
-		Prerequisites: stolentech.weap
-	Infiltrates@AFLD:
-		Types: NodInfiltrateAFLD
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !afld-infiltrated
-	GrantConditionOnPrerequisite@AFLD:
-		Condition: afld-infiltrated
-		Prerequisites: stolentech.afld
-	Infiltrates@HPAD:
-		Types: NodInfiltrateHPAD
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !hpad-infiltrated
-	GrantConditionOnPrerequisite@HPAD:
-		Condition: hpad-infiltrated
-		Prerequisites: stolentech.hpad
-	Infiltrates@HQ:
-		Types: NodInfiltrateHQ
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !hq-infiltrated
-	GrantConditionOnPrerequisite@HQ:
-		Condition: hq-infiltrated
-		Prerequisites: stolentech.hq
-	Infiltrates@TECH:
-		Types: NodInfiltrateTECH
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !tech-infiltrated
-	GrantConditionOnPrerequisite@TECH:
-		Condition: tech-infiltrated
-		Prerequisites: stolentech.tech
-	Infiltrates@UPGC:
-		Types: NodInfiltrateUPGC
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !upgc-infiltrated
-	GrantConditionOnPrerequisite@UPGC:
-		Condition: upgc-infiltrated
-		Prerequisites: stolentech.upgc
-	Infiltrates@TMPL:
-		Types: NodInfiltrateTMPL
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !tmpl-infiltrated
-	GrantConditionOnPrerequisite@TMPL:
-		Condition: tmpl-infiltrated
-		Prerequisites: stolentech.tmpl
-	Infiltrates@BIO:
-		Types: NodInfiltrateBIO
-		Notification: NewOptions
-		PlayerExperience: 0
-		Voice: Enter
-		RequiresCondition: !bio-infiltrated
-	GrantConditionOnPrerequisite@BIO:
-		Condition: bio-infiltrated
-		Prerequisites: stolentech.bio
-	Infiltrates@FAKETMPL:
-		Types: NodInfiltrateFAKE
-		Notification: NodStructureDestroyed
-		PlayerExperience: 0
-		Voice: Enter
-
-NODE7:
-	Inherits: ^Soldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Buildable:
-		BuildPaletteOrder: 8
-		BuildLimit: 1
-		Prerequisites: tmpl, ~techlevel.high, ~global-mendoza
-		Queue: Infantry.Nod
-		Description: Elite commando infantry. Armed with\ndual pistols and C4.\nMaximum 1 can be trained.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles, Aircraft\n  Special Ability: Destroy Building with C4
-	Valued:
-		Cost: 1200
-	Tooltip:
-		Name: Nod Commando
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Health:
-		HP: 15000
-	Armor:
-		Type: Kevlar
-	Passenger:
-		CustomPipType: pip-red
-		Voice: Move
-	RevealsShroud:
-		Range: 6c0
-	AutoTarget:
-		ScanRadius: 8
-	Mobile:
-		Speed: 71
-		Voice: Move
-	Guard:
-		Voice: Move
-	Demolition:
-		DetonationDelay: 45
-		Voice: Demolish
-	Armament@PRIMARY:
-		Weapon: Colt45
-		LocalOffset: 0,0,0, 0,0,0
-	Armament@SECONDARY:
-		Weapon: Colt45
-		LocalOffset: 0,0,0, 0,0,0
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-		StandSequences: stand
-	ExternalCondition@PRODUCED:
-		Condition: produced
-	VoiceAnnouncement:
-		RequiresCondition: produced
-		Voice: Build
-	AnnounceOnKill:
-	Voiced:
-		VoiceSet: MendozaVoice
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 375
-		Type: InfantryRefund
-		Voice: Move
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Sniper
+		MuzzleSequence: garrison-muzzle
 
 E5:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	-DamagedByTerrain@TIBERIUM:
 	-GrantConditionOnTerrain@HAZMAT:
@@ -537,14 +243,14 @@ E5:
 	-WithDecoration@HAZMAT:
 	-Targetable@IMMUNETOPOISON:
 	Valued:
-		Cost: 600
+		Cost: 475
 	Tooltip:
 		Name: Chemical Trooper
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 7
-		Prerequisites: nodbio, ~techlevel.high
+		Prerequisites: nbio, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.Nod
 		Description: Advanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
 	Mobile:
@@ -553,7 +259,9 @@ E5:
 		PauseOnCondition: dont-move
 		Voice: Move
 	Health:
-		HP: 9000
+		HP: 8000
+	Armor:
+		Type: LightInf
 	Passenger:
 		CustomPipType: pip-red
 		Voice: Move
@@ -573,7 +281,7 @@ E5:
 		DefaultAttackSequence: shoot
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 200
+		Payload: 118
 		Type: InfantryRefund
 	Targetable:
 		TargetTypes: Ground, Infantry, Chem
@@ -609,21 +317,21 @@ E23:
 	-WithDecoration@HAZMAT:
 	-Targetable@IMMUNETOPOISON:
 	Buildable:
-		BuildPaletteOrder: 10
-		Prerequisites: nodbio, hq, ~techlevel.high
+		BuildPaletteOrder: 8
+		Prerequisites: nbio, hq, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.Nod
-		Description: Infantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+		Description: Infantry armed with a Mortar gun.\nImmune to Tiberium.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
 	Valued:
-		Cost: 600
+		Cost: 500
 	Mobile:
 		Speed: 42
 		Locomotor: chem
 	Tooltip:
 		Name: Chemical Mortar
 	Health:
-		HP: 5500
+		HP: 4500
 	Armor:
-		Type: Flak
+		Type: LightInf
 	Armament:
 		Weapon: ToxicMortarShell
 		LocalOffset: 200,0,10
@@ -640,372 +348,113 @@ E23:
 		CustomPipType: pip-red
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 150
+		Payload: 125
 		Type: InfantryRefund
 	RevealsShroud:
 		Range: 5c0
 
-NODE1:
-	Inherits: ^CyborgSoldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-    Valued:
-		Cost: 200
-	Tooltip:
-		Name: Cyborg Soldier
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 1
-		Prerequisites: ~cyborg.production
-		Queue: Cyborg
-		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
-	Mobile:
-		Speed: 56
-		Voice: Move
-	Health:
-		HP: 10000
-	Armor:
-		Type: Kevlar
-	Passenger:
-		CustomPipType: pip-red
-		Voice: Move
-	AutoTarget:
-		ScanRadius: 4
-	Armament:
-		Weapon: Machinegun
-	AttackFrontal:
-		Voice: Attack
-	AttackMove:
-		Voice: Move
-	Guard:
-		Voice: Move
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 50
-		Type: CyborgRefund
-	FirepowerMultiplier@APBullets:
-		Modifier: 120
-		RequiresCondition: apbullets-upgraded
-	GrantConditionOnPrerequisite@APBullets:
-		Condition: apbullets-upgraded
-		Prerequisites: apbullets.upgrade
-	WithInfantryBody:
-		IdleSequences: idle1,idle2
-		DefaultAttackSequence: shoot
-	Voiced:
-		VoiceSet: CyborgVoice
+#   Experimental squad production
 
-NODE3:
-	Inherits: ^CyborgSoldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 600
+TERR.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
 	Tooltip:
-		Name: Cyborg Rocket Soldier
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
+		Name: Squad: Fanatic
 	Buildable:
-		BuildPaletteOrder: 2
-		Prerequisites: ~cyborg.production
-		Queue: Cyborg
-		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
-	Mobile:
-		Speed: 42
-		Voice: Move
-	Health:
-		HP: 7000
-	Armor:
-		Type: Flak
-	Passenger:
-		CustomPipType: pip-green
-		Voice: Move
-	AutoTarget:
-		ScanRadius: 6
-	Armament:
-		Weapon: Rockets
-		LocalOffset: 256,43,341
-		FireDelay: 5
-	AttackFrontal:
-		Voice: Attack
-	AttackMove:
-		Voice: Move
-	Guard:
-		Voice: Move
-	TakeCover:
-		ProneOffset: 180,0,-200
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 150
-		Type: CyborgRefund
-	Voiced:
-		VoiceSet: CyborgVoice
-
-NODE4:
-	Inherits: ^CyborgSoldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 800
-	Tooltip:
-		Name: Cyborg Flamethrower
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
+		Queue: Infantry.Nod
 		BuildPaletteOrder: 3
-		Prerequisites: ~cyborg.production
-		Queue: Cyborg
-		Description: Anti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
-	Mobile:
-		Speed: 56
-		PauseOnCondition: dont-move
-		Voice: Move
-	Health:
-		HP: 18000
-	Armor:
-		Type: Flak
-	Passenger:
-		CustomPipType: pip-yellow
-		Voice: Move
-	AutoTarget:
-		ScanRadius: 4
-	Armament:
-		Weapon: Flamethrower
-		LocalOffset: 341,0,256
-		FireDelay: 3
-		MuzzleSequence: muzzle
-	AttackFrontal:
-		Voice: Attack
-	AttackMove:
-		Voice: Move
-	Guard:
-		Voice: Move
-	TakeCover:
-		ProneOffset: 190,0,-198
-	WithMuzzleOverlay:
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 200
-		Type: CyborgRefund
-	Targetable:
-		TargetTypes: Ground, Infantry, Flamer
-	GrantConditionOnAttack:
-		Condition: dont-move
-		RevokeDelay: 16
-		RevokeOnNewTarget: False
-		RevokeAll: True
-	Voiced:
-		VoiceSet: CyborgVoice
-
-NODGNRL:
-	Inherits: ^CyborgSoldier
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	Valued:
-		Cost: 3000
-	Tooltip:
-		Name: Cyborg Commando
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Buildable:
-		BuildPaletteOrder: 4
-		Prerequisites: ~cyborg.production
-		Queue: Cyborg
-		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
-	Mobile:
-		Speed: 71
-		Voice: Move
-	Guard:
-		Voice: Move
-	Health:
-		HP: 30000
-	Armor:
-		Type: Kevlar
-	Passenger:
-		CustomPipType: pip-red
-		Voice: Move
-	RevealsShroud:
-		Range: 6c0
-	AutoTarget:
-		ScanRadius: 8
-	Demolition:
-		DetonationDelay: 45
-		Voice: Demolish
-	Armament:
-		Weapon: FireballLauncher
-		LocalOffset: 500,0,300
-	AttackFrontal:
-		Voice: Attack
-	AttackMove:
-		Voice: Attack
-	Guard:
-		Voice: Move
-	WithInfantryBody:
-		DefaultAttackSequence: shoot
-		StandSequences: stand
-		IdleSequences: idle1
-	ExternalCondition@PRODUCED:
-		Condition: produced
-	VoiceAnnouncement:
-		RequiresCondition: produced
-		Voice: Build
-	AnnounceOnKill:
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 750
-		Type: CyborgRefund
-		Voice: Move
-	WithDecoration@COMMANDOSKULL:
-		Image: pips
-		Sequence: pip-skull
-		Palette: effect
-		Position: TopLeft
-		ValidRelationships: Ally, Enemy, Neutral
-	Voiced:
-		VoiceSet: CyborgCommandoVoice
-	ProvidesPrerequisite@LIMITING:
-		Prerequisite: nodhascommando
-
-#	todo: find a way to
-#	enforce 50% HP on
-#	emerging from Veh.
-#
-#	Eject from MCV on
-#	unpacking Conyard
-#
-JACK:
-	Inherits: ^Soldier
-	Buildable:
-		BuildPaletteOrder: 11
-		BuildLimit: 1
-		Prerequisites: tmpl, fix, ~stolentech.pyle
-		Queue: Infantry.Nod
-		Description: Hijacks enemy vehicles.\nMaximum 1 can be trained.\n  Unarmed
-	Valued:
-		Cost: 1000
-	Tooltip:
-		Name: Hijacker
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Health:
-		HP: 5000
-	RevealsShroud:
-		Range: 5c0
-	Passenger:
-		CustomPipType: pip-blue
-	Voiced:
-		VoiceSet: ThiefVoice
-	-TakeCover:
-	WithInfantryBody:
-		IdleSequences: idle
-		StandSequences: stand
-	Mobile:
-		Speed: 71
-	CaptureManager:
-	Captures@Vehicle:
-		CaptureTypes: GetVehicle, NoCrew
-		PlayerExperience: 0
-	-AttackFrontal:
+        Prerequisites: proc, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\nsuicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
+        Icon: terricon
+    Valued:
+		Cost: 525
 	RenderSprites:
-		Image: thf
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 250
-		Type: InfantryRefund
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: terr, terr, terr, terr
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
 
-HACK:
-	Inherits: ^Soldier
-	Buildable:
-		BuildPaletteOrder: 12
-		BuildLimit: 1
-		Prerequisites: tmpl, hq, ~stolentech.hand
-		Queue: Infantry.Nod
-		Description: Takes remote control of enemy Buildings.\nMaximum 1 can be trained.\n  Unarmed
-	Valued:
-		Cost: 1000
+E4.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
 	Tooltip:
-		Name: Hacker
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Health:
-		HP: 5000
-	Mobile:
-		Speed: 56
-		Voice: Move
-		PauseOnCondition: !undeployed
-		RequireForceMoveCondition: !undeployed
-	RevealsShroud:
-		Range: 5c0
-	Passenger:
-		CustomPipType: pip-blue
-		Voice: Move
-	Armament@PRIMARY:
-		Weapon: PrepareHack
-		PauseOnCondition: deployed
-	Armament@PRIMARYDEPLOYED:
-		Weapon: Hack
-		RequiresCondition: deployed
-	AttackFrontal:
-		Voice: Action
-		FacingTolerance: 512
-		TargetFrozenActors: true
-	WithInfantryBody:
-		IdleSequences: idle
-		StandSequences: stand
-		RequiresCondition: undeployed
-	WithSpriteBody@DEPLOYED:
-		Name: deployed
-		Sequence: hack
-		RequiresCondition: !undeployed
-	WithMakeAnimation:
-		BodyNames: deployed
-	Voiced:
-		VoiceSet: HackerVoice
-	GrantConditionOnDeploy@HACK:
-		DeployedCondition: deployed
-		UndeployedCondition: undeployed
-		UndeployOnMove: true
-		UndeployOnPickup: true
-	DeployOnAttack:
-		RequiresCondition: undeployed
-	MindController:
-		ArmamentNames: primary
-		Capacity: 1
-		TicksToControl: 200
-		TicksToRevoke: 200
-		TicksToRevokeOnDeath: 150
-		RequiresCondition: deployed
-		InitSounds: hacker-init.aud
-		InitSoundControllerOnly: true
-		ControlSounds: hacker-hacked.aud
-		ControllingCondition: hacked-in
-	WithDecoration@HACKEDIN:
-		Image: hacking
-		Sequence: hacking
-		RequiresCondition: hacked-in
-		Position: BottomRight
-		Palette: effect
-		ValidRelationships: Ally, Neutral, Enemy
-	WithMindControlArc@HACK:
-		Color: 1ce312
-		Transparency: 65
-		Angle: 60
-		Width: 86
-	AutoTarget:
-		InitialStance: HoldFire
-		InitialStanceAI: AttackAnything
-	RenderRangeCircle:
-		Color: 00cc00
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 250
-		Type: InfantryRefund
+		Name: Squad: Flamethrower
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 4
+		Prerequisites: hq, ~techlevel.medium, ~global-squadenabled
+		Description: Deploys a pair of\nanti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
+        Icon: e4icon
+    Valued:
+		Cost: 600
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e4, e4
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E5.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Chemical Trooper
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 7
+		Prerequisites: nbio, ~techlevel.high, ~global-squadenabled
+		Description: Deploys a pair of\nadvanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
+        Icon: e5icon
+    Valued:
+		Cost: 900
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e5, e5
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E23.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Chemical Mortar
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 8
+		Prerequisites: nbio, hq, ~techlevel.high, ~global-squadenabled
+		Description: Deploys a pair of\ninfantry armed with a Mortar gun.\nImmune to Tiberium.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+        Icon: e23icon
+    Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e23, e23
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true

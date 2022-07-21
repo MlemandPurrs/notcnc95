@@ -435,9 +435,12 @@ production-icons:
 		vehicle: 819, 68, 16, 16
 		vehicle-disabled: 819, 85, 16, 16
 		vehicle-alert: 819, 102, 16, 16
-		aircraft: 836, 68, 16, 16
-		aircraft-disabled: 836, 85, 16, 16
-		aircraft-alert: 836, 102, 16, 16
+        aircraft: 1006, 68, 16, 16
+        aircraft-disabled: 1006, 85, 16, 16 
+        aircraft-alert: 1006, 102, 16, 16
+		upgrades: 836, 68, 16, 16
+		upgrades-disabled: 836, 85, 16, 16
+		upgrades-alert: 836, 102, 16, 16
 
 order-icons:
 	Inherits: ^Chrome

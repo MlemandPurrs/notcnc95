@@ -235,3 +235,24 @@ HackerVoice:
 		Poisoned: hacker-die1, hacker-die2
 		Boink: boink
 	DisableVariants: Die, Burned, Zapped, Poisoned, Boink
+
+GunnerVoice:
+	DefaultVariant: .aud
+	Voices:
+		Select: gunnerapologies, gunnerplenty4all, gunneroneliners, gunnergoodtimes
+		Move: gunnerherewego, gunnernotbad, gunnerallyouhave, gunnergoodenough
+		Action: gunnertraining, gunnersorted, gunnernoammo
+		Attack: gunnertakesomeofthis, gunnerabitmuch, gunnergoingdown
+		Die: gunnerimhit
+		Poisoned: gunnerabitmuch
+		Burned: gunnernotthatfunny
+		Zapped: gunnernotthatfunny
+		Build: gunnersnappylines
+		Kill: gunnerdoubt, gunnertoasty, gunnerdestructive
+		Boink: boink
+    DisableVariants: Die, Burned, Zapped, Poisoned, Boink
+
+SatelliteScanVoice:
+	Voices:
+		Build: bspyon
+		Die: bspyoff

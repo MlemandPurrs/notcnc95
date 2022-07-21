@@ -25,7 +25,7 @@
 	RenderSprites:
 		PlayerPalette: player-units
 
-^Tank:
+^TrackedVehicle:
 	RenderSprites:
 		PlayerPalette: player-units
 

@@ -2,8 +2,6 @@ E2:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 175
 	Tooltip:
@@ -12,15 +10,15 @@ E2:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: proc, ~techlevel.low
+		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Fast infantry armed with grenades.\nGrenades will bounce incase of missing.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+		Description: Fast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
 	Mobile:
 		Speed: 71
 	Health:
 		HP: 5000
 	Armor:
-		Type: Flak
+		Type: HeavyInf
 	Passenger:
 		CustomPipType: pip-green
 	AutoTarget:
@@ -52,30 +50,30 @@ E2:
 	GrantConditionOnPrerequisite@BouncingNades:
 		Condition: bouncynades-upgraded
 		Prerequisites: bouncynades.upgrade
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Grenade
 
 MEDI:
 	Inherits: ^Soldier
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
+	Inherits@selection: ^SelectableSupportUnit
 	Buildable:
-		BuildPaletteOrder: 6
+		BuildPaletteOrder: 4
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Infantry.GDI
 		Description: Heals nearby infantry.\nSelf-heals slowly out of combat.\n  Unarmed
 	Tooltip:
 		Name: Medic
 	Valued:
-		Cost: 350
+		Cost: 400
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:
 		HP: 6000
 	Armor:
-		Type: Kevlar
+		Type: Infantry
 	Mobile:
 		Speed: 49
-	RevealsShroud:
-		Range: 3c0
 	Armament:
 		Weapon: Heal
 		Cursor: heal
@@ -108,8 +106,6 @@ SNIP:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	-MustBeDestroyed:
 	Valued:
 		Cost: 900
@@ -118,20 +114,20 @@ SNIP:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 9
-		Prerequisites: eye, ~techlevel.high
+		BuildPaletteOrder: 7
+		Prerequisites: eye, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Marksman infantry with an Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+		Description: Marksman infantry with an Sniper rifle.\n  Special ability: Camouflage\nCloaks self when near Vegetation or Rocks.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
 	Health:
-		HP: 5000
+		HP: 4500
 	Armor:
-		Type: Kevlar
+		Type: LightInf
 	Mobile:
 		Speed: 42
 	Passenger:
 		CustomPipType: pip-red
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	AutoTarget:
 		InitialStance: Defend
 		InitialStanceAI: ReturnFire
@@ -139,22 +135,6 @@ SNIP:
 		ValidTargets: Infantry
 	Armament@PRIMARY:
 		Weapon: Sniper
-		PauseOnCondition: !ammo
-	AmmoPool:
-		Armaments: primary
-		Ammo: 5
-		AmmoCondition: ammo
-	ReloadAmmoPool:
-		Delay: 125
-		Count: 5
-		RequiresCondition: !ammo
-	WithDecoration@ammoreplenish:
-		RequiresSelection: false
-		Image: pips
-		Sequence: tag-reload-small
-		Position: Top
-		Margin: 0, 4
-		RequiresCondition: !ammo
 	AttackFrontal:
 	WithInfantryBody:
 		DefaultAttackSequence: shoot
@@ -167,34 +147,35 @@ SNIP:
 		Type: InfantryRefund
 	Cloak:
 		CloakTypes: Stealth
-		InitialDelay: 120
-		CloakDelay: 120
-		UncloakOn: Attack, Unload, Demolish, Move
-		Palette: cloakgreen
-		IsPlayerPalette: false
+		InitialDelay: 90
+		CloakDelay: 90
+		UncloakOn: Unload, Demolish, Dock, Damage, Heal
+		Palette: cloaktransparent
+		IsPlayerPalette: true
 		PauseOnCondition: cloak-force-disabled
-		RequiresCondition: !harambe
+		RequiresCondition: proximity.camouflage
 	GrantConditionOnDamageState@UNCLOAK:
 		Condition: cloak-force-disabled
 		ValidDamageStates: Critical
-	GrantConditionOnMovement:
-		Condition: harambe
-		ValidMovementTypes: None
+	ExternalCondition@Camouflage:
+		Condition: proximity.camouflage
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Sniper
+		MuzzleSequence: garrison-muzzle
 
 RMBO:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
-		Cost: 1500
+		Cost: 1000
 	Tooltip:
 		Name: Commando
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 8
+		BuildPaletteOrder: 6
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Infantry.GDI
@@ -208,19 +189,19 @@ RMBO:
 	Health:
 		HP: 15000
 	Armor:
-		Type: Kevlar
+		Type: Infantry
 	Passenger:
 		CustomPipType: pip-red
 		Voice: Move
 	RevealsShroud:
-		Range: 6c0
+		Range: 5c0
 	AutoTarget:
 		ScanRadius: 8
 	Demolition:
 		DetonationDelay: 45
 		Voice: Demolish
 	Armament:
-		Weapon: HighV
+		Weapon: MiniGun
 	AttackFrontal:
 		Voice: Attack
 	AttackMove:
@@ -235,7 +216,7 @@ RMBO:
 		VoiceSet: CommandoVoice
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 375
+		Payload: 250
 		Type: InfantryRefund
 		Voice: Move
 	GrantConditionOnTerrain@Cliffs:
@@ -265,102 +246,10 @@ RMBO:
 		Palette: effect
 		Position: TopLeft
 		ValidRelationships: Ally, Enemy, Neutral
-
-XO:
-	Inherits: ^Vehicle
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@GAINSEXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCrates
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	-Carryable:
-	-WithDecoration@CARRYALL:
-	-WithFacingSpriteBody:
-	-Targetable@HIJACKED:
-	-GrantConditionOnCapture@HIJACKED:
-	-Capturable@HIJACKED:
-	-WithDecoration@HIJACKED:
-	-SpawnActorOnDeath@HIJACKED:
-	-ProvidesPrerequisite@LIMITINGJACK:
-	CaptureManager:
-		-BeingCapturedCondition:
-	QuantizeFacingsFromSequence:
-		Sequence: stand
-	Valued:
-		Cost: 500
-	Tooltip:
-		Name: Exosuit Trooper
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Health:
-		HP: 22000
-	Armor:
-		Type: Light
-	Buildable:
-		BuildPaletteOrder: 10
-		Prerequisites: tech, ~exosuit.unlock, ~techlevel.high
-		Queue: Infantry.GDI
-		Description: Power armored Infantry unit.\n  Cannot be crushed.\n  Immune to Tiberium.\n  Special ability: Jet Packs\nCan scale Cliffs as it was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles, Aircraft
-	Mobile:
-		Locomotor: powerfoot
-		TurnSpeed: 40
-		Speed: 49
-		Voice: Move
-		PauseOnCondition: emp-crate-collected
-	Guard:
-		Voice: Move
-	Passenger:
-		CustomPipType: pip-red
-		Weight: 2
-		Voice: Move
-	RevealsShroud:
-		Range: 4c0
-	Voiced:
-		VoiceSet: MoebiusVoice
-	WithInfantryBody:
-		RequiresCondition: !isjetpacking
-		StandSequences: stand
-		DefaultAttackSequence: shoot
-		MoveSequence: move
-	WithInfantryBody@flying:
-		RequiresCondition: isjetpacking
-		StandSequences: hover
-		DefaultAttackSequence: shoot
-		MoveSequence: hover
-	Armament:
-		Weapon: APCGun
-		LocalOffset: 400,-220,180, 400,220,180
-		MuzzleSequence: muzzle
-		PauseOnCondition: emp-crate-collected || isjetpacking
-	AttackFrontal:
-		Voice: Action
-		PauseOnCondition: emp-crate-collected || isjetpacking
-	AttackMove:
-		Voice: Action
-	WithMuzzleOverlay:
-	Parachutable:
-		FallRate: 130
-		KilledOnImpassableTerrain: true
-		GroundImpactSound: squish2.aud
-		WaterImpactSound: splash9.aud
-		WaterCorpseSequence: sml_splash
-		ParachutingCondition: parachute
-	GrantConditionOnTerrain@Cliffs:
-		TerrainTypes: Cliff
-		Condition: isjetpacking
-	WithShadow:
-		RequiresCondition: isjetpacking
-	Targetable:
-		TargetTypes: Ground, Infantry, Chem
-	Cloak:
-		PauseOnCondition: cloak-force-disabled || emp-crate-collected
-	Targetable@REPAIR:
-		RequiresCondition: damaged && !isjetpacking && !parachute
-		TargetTypes: Repair
-	DetectCloaked:
-		Range: 1c0
-	MapEditorData:
-		Categories: Infantry
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: MiniGun
+		MuzzleSequence: garrison-muzzle
 
 #	'Advanced' Grenadier
 #	hence E22
@@ -368,23 +257,21 @@ E22:
 	Inherits: ^Soldier
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Buildable:
-		BuildPaletteOrder: 11
-		Prerequisites: ~disabled
+		BuildPaletteOrder: 8
+		Prerequisites: tech, hq, ~techlevel.medium, ~!global-squadenabled
 		Queue: Infantry.GDI
 		Description: Infantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
 	Valued:
-		Cost: 600
+		Cost: 500
 	Mobile:
 		Speed: 42
 	Tooltip:
 		Name: Mortar Soldier
 	Health:
-		HP: 5500
+		HP: 4500
 	Armor:
-		Type: Flak
+		Type: HeavyInf
 	Armament:
 		Weapon: MortarShell
 		LocalOffset: 200,0,10
@@ -401,51 +288,87 @@ E22:
 		CustomPipType: pip-red
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 150
+		Payload: 125
 		Type: InfantryRefund
 	RevealsShroud:
 		Range: 5c0
 
-#	'Advanced' Rifleman
-E12:
-	Inherits: ^Soldier
-	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	Valued:
-		Cost: 400
+#   Experimental squad production
+
+E2.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
 	Tooltip:
-		Name: Machine Gunner
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
+		Name: Squad: Grenadier
 	Buildable:
-		BuildPaletteOrder: 12
-		Prerequisites: ~disabled
 		Queue: Infantry.GDI
-		Description: Infantry equipped with Machine Gun.\n  Strong vs Infantry\n  Weak vs Vehicles, Defenses
-	Mobile:
-		Speed: 56
-	Health:
-		HP: 6000
+		BuildPaletteOrder: 3
+        Prerequisites: proc, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\nfast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+        Icon: e2icon
+    Valued:
+		Cost: 225
+	RenderSprites:
+		Image: production.infantry
 	Armor:
-		Type: Kevlar
-	AutoTarget:
-		ScanRadius: 4
-	Armament:
-		Weapon: MachineGun
-	AttackFrontal:
-	WithInfantryBody:
-		IdleSequences: idle1,idle2
-		DefaultAttackSequence: shoot
-	Passenger:
-		CustomPipType: pip-red
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 100
-		Type: InfantryRefund
-	FirepowerMultiplier@APBullets:
-		Modifier: 120
-		RequiresCondition: apbullets-upgraded
-	GrantConditionOnPrerequisite@APBullets:
-		Condition: apbullets-upgraded
-		Prerequisites: apbullets.upgrade
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e2, e2, e2, e2
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+SNIP.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Sniper
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 7
+        Prerequisites: eye, ~techlevel.high, ~global-squadenabled
+		Description: Deploys a pair of\nmarksman infantry with Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+        Icon: snipicon
+    Valued:
+		Cost: 1500
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: snip, snip
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E22.squad:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Mortar Soldier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 8
+        Prerequisites: tech, ~techlevel.medium, ~global-squadenabled
+		Description: Deploys a pair of\ninfantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+        Icon: e22icon
+    Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e22, e22
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true

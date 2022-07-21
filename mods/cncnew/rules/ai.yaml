@@ -11,7 +11,7 @@ Player:
 	HarvesterBotModuleCA@aiplayer:
 		RequiresCondition: enable-ai-player
 		HarvesterTypes: harv
-		RefineryTypes: proc
+		RefineryTypes: proc,proc.clone
 		HarvestersPerRefinery: 2
 		MaxHarvesters: 8
 	BuildingRepairBotModule@aiplayer:
@@ -25,7 +25,7 @@ Player:
 	CaptureManagerBotModule@engineer:
 		RequiresCondition: enable-ai-player
 		CapturingActorTypes: e6
-		CapturableActorTypes: fact,hq,fix,hq.gdi,eye,bio,hosp,nodbio
+		CapturableActorTypes: fact,hq,fix,hq.gdi,eye,bio,hosp,nbio
 		CheckCaptureTargetsForVisibility: false
 		MaximumCaptureTargetOptions: 15
 	CaptureManagerBotModule@mechanic:
@@ -175,20 +175,20 @@ Player:
 					CheckRadius: 8c0
 	BaseBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
-		BuildingQueues: Building.Nod, Building.GDI, Aircraft.Nod, Aircraft.GDI
+		BuildingQueues: Building.Nod, Building.GDI
 		DefenseQueues: Defence.Nod, Defence.GDI
 		MinimumExcessPower: 30
 		MaximumExcessPower: 150
 		ExcessPowerIncrement: 30
 		ExcessPowerIncreaseThreshold: 4
 		ConstructionYardTypes: fact
-		RefineryTypes: proc
+		RefineryTypes: proc,proc.clone
 		PowerTypes: nuke,nuk2
-		BarracksTypes: pyle,hand
+		BarracksTypes: pyle,hand,hand.squad
 		VehiclesFactoryTypes: weap,afld
-		ProductionTypes: pyle,hand,weap,afld
+		ProductionTypes: pyle,hand,hand.squad,weap,afld
 		AntiAirTypes: sam,cram
-		SiloTypes: silo
+		SiloTypes: silo,silo.clone
 		BuildingDelays:
 			hq: 4500
 			sam: 4500
@@ -196,46 +196,25 @@ Player:
 			hpad: 4500
 			tech: 6375
 			tmpl: 6375
-			upgc: 8000
 			eye: 8000
-			nodbio: 8000
-			airstrike.unlock: 9000
-			airstrike.upgrade: 9000
-			towmissile.upgrade: 9000
-			targetlaser.upgrade: 9000
-			airradar.upgrade: 9000
-			hellfire.upgrade: 9000
-			c17speed.upgrade: 9000
-			apbullets.upgrade: 9000
-			comparmor.upgrade: 9000
-			machineguns.upgrade: 9000
-			bombard.strat: 9000
-			seek.strat: 9000
-			hold.strat: 9000
-			t55h.unlock: 9000
-			wtnk.unlock: 9000
-			rh66stealth.upgrade: 9000
-			ssmreload.upgrade: 9000
-			supplylines.upgrade: 9000
-			exosuit.unlock: 9000
-			tank.veterancy: 9000
-			e1.veterancy: 9000
-			orca.veterancy: 9000
+			nbio: 8000
 		BuildingLimits:
 			proc: 4
+            proc.clone: 4
 			pyle: 3
 			hand: 3
+            hand.squad: 3
 			hq: 1
 			weap: 3
 			afld: 3
 			hpad: 4
 			fix: 1
-			silo: 1
+			silo: 2
+            silo.clone: 2
 			tech: 1
-			upgc: 1
 			tmpl: 1
 			eye: 1
-			nodbio: 1
+			nbio: 1
 			obli: 7
 			atwr: 5
 			gun: 9
@@ -244,8 +223,10 @@ Player:
 			cram: 4
 		BuildingFractions:
 			proc: 20
+            proc.clone: 20
 			pyle: 5
 			hand: 5
+            hand.squad: 5
 			hq: 4
 			weap: 9
 			afld: 9
@@ -256,41 +237,22 @@ Player:
 			sam: 7
 			cram: 5
 			eye: 1
-			nodbio: 1
+			nbio: 1
 			tmpl: 1
 			tech: 1
-			upgc: 1
 			fix: 1
 			hpad: 2
-			airstrike.unlock: 1
-			airstrike.upgrade: 1
-			towmissile.upgrade: 1
-			targetlaser.upgrade: 1
-			airradar.upgrade: 1
-			hellfire.upgrade: 1
-			c17speed.upgrade: 1
-			apbullets.upgrade: 1
-			comparmor.upgrade: 1
-			machineguns.upgrade: 1
-			bombard.strat: 1
-			seek.strat: 1
-			hold.strat: 1
-			t55h.unlock: 1
-			wtnk.unlock: 1
-			rh66stealth.upgrade: 1
-			ssmreload.upgrade: 1
-			supplylines.upgrade: 1
-			exosuit.unlock: 1
-			tank.veterancy: 1
-			e1.veterancy: 1
-			orca.veterancy: 1
 	SquadManagerBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		MinimumAttackForceDelay: 25
 		SquadSize: 15
 		SquadSizeRandomBonus: 15
 		ExcludeFromSquadsTypes: harv, mcv, e6
-		ConstructionYardTypes: fact
+        #   reg. 'mersenne twister' crash, root of cause is below
+        #   wat happenz is in the unlikely case there are no Construction Yards remaining on board
+        #   ai component that orders a squad to attack goes bonkers as there is no other fallback
+		ConstructionYardTypes: fact,hand,pyle,weap,afld,hpad,tech,tmpl
+        #   so expanded the list to falsely include any building of importance, less likely to ctd
 		RushInterval: 400
 		MaxBaseRadius: 24
 		IdleScanRadius: 18
@@ -298,26 +260,35 @@ Player:
 	UnitBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		UnitBuilderInterval: 25
-		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI
+		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI, Aircraft.GDI, Aircraft.Nod
 		UnitDelays:
 			mcv: 12000
 		UnitsToBuild:
 			e1: 65
+            e1.squad: 65
 			e2: 25
+            e2.squad: 25
 			terr: 25
+            terr.squad: 25
 			e3: 40
+            e3.squad: 40
 			medi: 5
-			mech: 5
 			e4: 15
+            e4.squad: 15
 			e5: 15
+            e5.squad: 15
 			snip: 15
-			mort: 15
-			#	harv: 10
+            snip.squad: 15
+            e22: 15
+            e22.squad: 15
+            e23: 15
+            e23.squad: 15
 			jeep: 20
 			bggy: 20
 			bike: 20
 			apc: 10
-			btr: 10
+			napc: 10
+            maag: 10
 			mtnk: 20
 			ltnk: 30
 			htnk: 50
@@ -326,26 +297,40 @@ Player:
 			arty: 60
 			msam: 40
 			mlrs: 20
-			mhq: 10
-			heli: 5
+			heli.ai: 5
 			orca: 5
 			mh60: 5
 			rh66: 5
 			rmbo: 1
 			rmb2: 1
+			mhq: 1
+            mnly: 1
 		UnitLimits:
-			#	harv: 12
 			e2: 10
+            e2.squad: 3
 			e4: 5
+            e4.squad: 2
 			e5: 5
+            e5.squad: 2
 			e6: 3
+            e22: 2
+            e22.squad: 1
+            e23: 2
+            e23.squad: 1
+            snip: 3
+            snip.squad: 2
 			rmbo: 1
 			rmb2: 1
 			medi: 3
-			mech: 3
 			apc: 3
-			btr: 3
+			napc: 3
+            maag: 3
 			hmmv: 4
 			bggy: 4
 			bike: 6
-			mhq: 2
+            mnly: 1
+			mhq: 1
+            orca: 5
+            heli.ai: 5
+            mh60.ai: 2    
+            rh66: 2

@@ -17,17 +17,20 @@
 		RangeLimit: 7c204
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
-		Damage: 2500
+		Damage: 3000
 		ValidTargets: Ground, Helicopter
 		Versus:
-			None: 30
-			Kevlar: 30
-			Flak: 20
-			Wood: 115
-			Concrete: 65
-			Light: 140
-			Medium: 120
-			Heavy: 100
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 100
+			Medium: 125
+			Heavy: 125
+            Aircraft: 150
+            Structure: 150
+            Fortified: 125
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Crater
@@ -62,84 +65,46 @@ Dragon:
 		RangeLimit: 12c0
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter, Airplane
-		Versus:
-			None: 150
-			Light: 100
-			Medium: 125
-			Heavy: 150
 	Warhead@4EffAir: CreateEffect
 		Explosions: small_poof
 		ImpactSounds: xplos.aud
 		ImpactActors: true
 		ValidTargets: Helicopter, Airplane
 
+#   Rocket Soldier's Bazooka
 Rockets:
 	Inherits: ^MissileWeapon
+	Range: 4c512
+	Projectile: Missile
+        RangeLimit: 5c204
 
+#   Humvee's Rocket Pod
+JeepRockets:
+	Inherits: ^MissileWeapon
+	Range: 4c768
+	ReloadDelay: 300
+
+#   Recon Bike's Rockets
 BikeRockets:
 	Inherits: ^MissileWeapon
+    Range: 4c512
 	ReloadDelay: 60
 	Burst: 2
 	BurstDelays: 10
 	Projectile: Missile
 		HorizontalRateOfTurn: 40
 		Speed: 213
-	Warhead@1Dam: SpreadDamage
-		Versus:
-			Wood: 90
-			Concrete: 75
-			Light: 125
-			Medium: 125
-			Heavy: 125
 	Warhead@5EffWater: CreateEffect
 		ImpactSounds: ssplash2.aud
 
+#   Light Tank's Rocket Pod
 TankRockets:
 	Inherits: ^MissileWeapon
 	Range: 4c768
 	ReloadDelay: 300
 
-JeepRockets:
-	Inherits: ^MissileWeapon
-	Range: 4c768
-	ReloadDelay: 300
-
-OrcaAGMissiles:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 12
-	Range: 4c768
-	MinRange: 1c256
-	ValidTargets: Ground, Water
-	Projectile: Missile
-		Arm: 1
-		HorizontalRateOfTurn: 80
-		Speed: 256
-		RangeLimit: 6c0
-	Warhead@1Dam: SpreadDamage
-		ValidTargets: Ground
-		Versus:
-			Wood: 110
-			Concrete: 95
-			Light: 110
-			Medium: 90
-			Heavy: 85
-	Warhead@5EffWater: CreateEffect
-		ImpactSounds: ssplash2.aud
-
-OrcaAAMissiles:
-	Inherits: OrcaAGMissiles
-	ValidTargets: Helicopter
-	Projectile: Missile
-		Arm: 0
-		Speed: 298
-	Warhead@1Dam: SpreadDamage
-		ValidTargets: Helicopter
-		Versus:
-			Light: 85
-			Medium: 85
-	-Warhead@2Smu:
-
-MammothMissiles:
+#   Mammoth Tank's rocket pods
+MammothTusk:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 45
 	Range: 4c768
@@ -152,16 +117,7 @@ MammothMissiles:
 		RangeLimit: 6c0
 	Warhead@1Dam: SpreadDamage
 		Spread: 298
-		Damage: 5000
-		Versus:
-			None: 45
-			Kevlar: 45
-			Flak: 35
-			Wood: 65
-			Concrete: 50
-			Light: 90
-			Medium: 45
-			Heavy: 45
+		Damage: 7500
 	Warhead@3Eff: CreateEffect
 		Explosions: small_poof
 		ImpactSounds: xplobig4.aud
@@ -170,10 +126,33 @@ MammothMissiles:
 	Warhead@5EffWater: CreateEffect
 		ImpactSounds: ssplash2.aud
 
+#   Stealth Tank rockets
+StnkRockets:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 70
+	Range: 4c768
+	Report: rocket1.aud
+	ValidTargets: Ground, Water
+	Burst: 2
+	BurstDelays: 10
+	Projectile: Missile
+		Inaccuracy: 213
+		HorizontalRateOfTurn: 40
+		Speed: 213
+		RangeLimit: 5c409
+	Warhead@1Dam: SpreadDamage
+		Damage: 6000
+
+StnkRockets.AA:
+	Inherits: StnkRockets
+	MinRange: 2c512
+	ValidTargets: Helicopter
+
+#   MLRS Rocket artillery
 227mm:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 120
-	Range: 11c0
+	Range: 9c0
 	MinRange: 3c0
 	Burst: 6
 	BurstDelays: 4
@@ -194,176 +173,26 @@ MammothMissiles:
 	Warhead@1Dam: SpreadDamage
 		Spread: 683
 		ValidTargets: Ground
+		Damage: 6000
 		Versus:
-			None: 25
-			Kevlar: 25
-			Flak: 15
-			Wood: 60
-			Concrete: 50
-			Light: 100
-			Medium: 75
-			Heavy: 50
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 	Warhead@3Eff: CreateEffect
 		Explosions: med_frag
 		ImpactSounds: xplobig4.aud
 	Warhead@5EffWater: CreateEffect
 		ImpactSounds: ssplash1.aud
 
-227mm.2shot:
-	Inherits: 227mm
-	ReloadDelay: 45
-	Burst: 2
-
-227mm.2shot.AA:
-	Inherits: 227mm.2shot
-	TargetActorCenter: false
-	ValidTargets: Helicopter	
-	Warhead@1Dam: SpreadDamage
-		ValidTargets: Helicopter
-
-227mm.stnk:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 70
-	Range: 7c0
-	Report: rocket1.aud
-	ValidTargets: Ground, Water
-	Burst: 2
-	BurstDelays: 10
-	Projectile: Missile
-		Inaccuracy: 213
-		HorizontalRateOfTurn: 40
-		Speed: 213
-		RangeLimit: 8c409
-	Warhead@1Dam: SpreadDamage
-		Damage: 6000
-		Versus:
-			None: 25
-			Kevlar: 25
-			Flak: 15
-			Wood: 75
-			Concrete: 50
-			Light: 100
-			Medium: 80
-			Heavy: 80
-
-227mm.stnkAA:
-	Inherits: 227mm.stnk
-	MinRange: 2c512
-	ValidTargets: Helicopter
-
-BoatMissile:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 35
-	Range: 8c0
-	Burst: 2
-	BurstDelays: 10
-	Report: rocket2.aud
-	Projectile: Missile
-		Inaccuracy: 426
-		HorizontalRateOfTurn: 20
-		Speed: 170
-		RangeLimit: 9c614
-	Warhead@1Dam: SpreadDamage
-		Spread: 256
-		Damage: 6000
-		Versus:
-			None: 90
-			Wood: 75
-			Concrete: 50
-			Light: 50
-			Medium: 25
-			Heavy: 25
-		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
-	Warhead@3Eff: CreateEffect
-		Explosions: small_poof
-		ImpactSounds: xplobig4.aud
-	Warhead@4EffAir: CreateEffect
-		Explosions: small_building
-	Warhead@5EffWater: CreateEffect
-		ImpactSounds: ssplash2.aud
-
-TowerMissile:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 15
-	Range: 7c0
-	Report: rocket2.aud
-	ValidTargets: Ground, Water
-	Projectile: Missile
-		HorizontalRateOfTurn: 80
-		Speed: 298
-		RangeLimit: 8c409
-	Warhead@1Dam: SpreadDamage
-		Spread: 483
-		ValidTargets: Ground
-		Versus:
-			None: 50
-			Kevlar: 50
-			Flak: 40
-			Wood: 25
-			Concrete: 25
-			Light: 100
-			Medium: 100
-			Heavy: 100
-		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
-	Warhead@3Eff: CreateEffect
-		Explosions: med_frag
-	Warhead@5EffWater: CreateEffect
-		ImpactSounds: ssplash2.aud
-
-TowerAAMissile:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 15
-	Range: 8c0
-	Report: rocket2.aud
-	ValidTargets: Helicopter, Airplane
-	Projectile: Missile
-		Image: MISSILE
-		HorizontalRateOfTurn: 80
-		Speed: 426
-		RangeLimit: 9c614
-		Inaccuracy: 0
-	Warhead@1Dam: SpreadDamage
-		Spread: 682
-		ValidTargets: Helicopter, Airplane
-		Versus:
-			Light: 140
-			Medium: 140
-			Heavy: 140
-	-Warhead@2Smu:
-	Warhead@4EffAir: CreateEffect
-		Explosions: small_building
-		ValidTargets: Helicopter, Airplane
-
-Patriot:
-	Inherits: ^MissileWeapon
-	ReloadDelay: 25
-	Range: 9c0
-	MinRange: 1c0
-	Report: rocket2.aud
-	ValidTargets: Helicopter, Airplane
-	Projectile: Missile
-		Image: MISSILE
-		HorizontalRateOfTurn: 80
-		Speed: 300
-		RangeLimit: 10c819
-		Inaccuracy: 0
-	Warhead@1Dam: SpreadDamage
-		Spread: 682
-		Damage: 5000
-		ValidTargets: Helicopter, Airplane
-		Versus:
-			None: 20
-			Kevlar: 30
-			Flak: 10
-			Wood: 85
-			Light: 100
-			Medium: 75
-			Heavy: 50
-	-Warhead@2Smu:
-	Warhead@4EffAir: CreateEffect
-		Explosions: poof
-		ValidTargets: Helicopter, Airplane
-
+#   SSM Launcher Missile
 HonestJohn:
 	ReloadDelay: 130
 	Burst: 2
@@ -385,14 +214,17 @@ HonestJohn:
 		Damage: 4500
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Versus:
-			None: 120
-			Kevlar: 120
-			Flak: 110
-			Wood: 90
-			Concrete: 85
-			Light: 80
-			Medium: 65
-			Heavy: 50
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Dam: SpreadDamage
 		Spread: 512
@@ -400,14 +232,17 @@ HonestJohn:
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 3
 		Versus:
-			None: 120
-			Kevlar: 120
-			Flak: 110
-			Wood: 90
-			Concrete: 85
-			Light: 80
-			Medium: 60
-			Heavy: 40
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@3Dam: SpreadDamage
 		Spread: 512
@@ -415,14 +250,17 @@ HonestJohn:
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 6
 		Versus:
-			None: 120
-			Kevlar: 120
-			Flak: 110
-			Wood: 90
-			Concrete: 85
-			Light: 80
-			Medium: 60
-			Heavy: 40
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@4Dam: SpreadDamage
 		Spread: 512
@@ -430,14 +268,17 @@ HonestJohn:
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 9
 		Versus:
-			None: 120
-			Kevlar: 120
-			Flak: 110
-			Wood: 90
-			Concrete: 85
-			Light: 80
-			Medium: 60
-			Heavy: 40
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -449,58 +290,76 @@ HonestJohn:
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
 
+#   Orca Rockets
+OrcaAGMissiles:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 12
+	Range: 5c768
+	MinRange: 1c256
+	ValidTargets: Ground, Water
+	Projectile: Missile
+		Arm: 0
+		HorizontalRateOfTurn: 80
+		Speed: 298
+		RangeLimit: 7c512
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Ground
+	Warhead@5EffWater: CreateEffect
+		ImpactSounds: ssplash2.aud
+
+OrcaAAMissiles:
+	Inherits: OrcaAGMissiles
+	ValidTargets: Helicopter
+	Projectile: Missile
+		Arm: 0
+		Speed: 298
+        RangeLimit: 7c512
+		CloseEnough: 0c600
+	Warhead@1Dam: SpreadDamage
+		ValidTargets: Helicopter
+	-Warhead@2Smu:
+
+#   Apache Rocket pods
 HellfireAG:
 	Inherits: ^MissileWeapon
 	ValidTargets: Ground, Water
 	ReloadDelay: 30
-	Range: 4c0
-	MinRange: 0c768
+	Range: 5c768
+	MinRange: 1c256
 	Burst: 2
 	BurstDelays: 7
 	Report: rocket1.aud
 	Projectile: Missile
-		Speed: 256
+		Speed: 298
 		HorizontalRateOfTurn: 40
-		RangeLimit: 8c512
+		RangeLimit: 7c512
 	Warhead@1Dam: SpreadDamage
 		Damage: 6000
-		Versus:
-			None: 30
-			Kevlar: 30
-			Flak: 20
-			Wood: 90
-			Concrete: 80
-			Light: 90
-			Medium: 100
-			Heavy: 100
 
 HellfireAA:
 	Inherits: HellfireAG
 	ValidTargets: Helicopter
 	ReloadDelay: 30
-	MinRange: 1c256
-	Range: 4c0
+	Range: 5c768
 	Burst: 2
 	BurstDelays: 10
 	Projectile: Missile
-		Speed: 492
+		Speed: 298
 		Inaccuracy: 128
-		HorizontalRateOfTurn: 100
-		RangeLimit: 7c0
+		HorizontalRateOfTurn: 80
+		RangeLimit: 7c512
 		CloseEnough: 0c600
 	Warhead@1Dam: SpreadDamage
-		Damage: 4000
 		ValidTargets: Helicopter
-		Versus:
-			Light: 75
-			Medium: 75
 	Warhead@3Eff: CreateEffect
 		Explosions: med_explosion_air
 
+#   Comanche Rockets
 rah66AG:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 10
 	MinRange: 0c768
+	Range: 5c768
 	Burst: 2
 	BurstDelays: 2
 	ValidTargets: Ground, Water
@@ -513,15 +372,6 @@ rah66AG:
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
 		Damage: 3500
-		Versus:
-			None: 100
-			Kevlar: 100
-			Flak: 90
-			Wood: 120
-			Concrete: 105
-			Light: 65
-			Medium: 70
-			Heavy: 80
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -530,13 +380,7 @@ rah66AG:
 		ImpactSounds: xplos.aud
 		ValidTargets: Ground
 
-HindRockets:
-	Inherits: Rockets
-	ReloadDelay: 8
-	Report: rockbos3.aud
-	Burst: 2
-	BurstDelays: 7
-
+#   UAV's Missile
 UAVMissile:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 240
@@ -558,14 +402,6 @@ UAVMissile:
 		Damage: 4500
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		ValidTargets: Ground, Water, Trees
-		Versus:
-			None: 90
-            Kevlar: 90
-            Flak: 90
-			Wood: 75
-			Light: 70
-            Medium: 55
-			Heavy: 40
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath, Incendiary
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -576,3 +412,82 @@ UAVMissile:
 		Explosions: large_splash
 		ImpactSounds: ssplash3.aud
 		ValidTargets: Water
+
+#   AGT Rockets
+TowerMissile:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 15
+	Range: 7c0
+	Report: rocket2.aud
+	ValidTargets: Ground, Water
+	Projectile: Missile
+		HorizontalRateOfTurn: 80
+		Speed: 298
+		RangeLimit: 8c409
+	Warhead@1Dam: SpreadDamage
+		Spread: 483
+		ValidTargets: Ground
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: med_frag
+	Warhead@5EffWater: CreateEffect
+		ImpactSounds: ssplash2.aud
+
+TowerAAMissile:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 15
+	Range: 7c0
+	Report: rocket2.aud
+	ValidTargets: Helicopter, Airplane
+	Projectile: Missile
+		Image: MISSILE
+		HorizontalRateOfTurn: 80
+		Speed: 426
+		RangeLimit: 9c614
+		Inaccuracy: 0
+	Warhead@1Dam: SpreadDamage
+		Spread: 682
+		ValidTargets: Helicopter, Airplane
+	-Warhead@2Smu:
+	Warhead@4EffAir: CreateEffect
+		Explosions: small_building
+		ImpactSounds: xplos.aud
+		ImpactActors: true
+		ValidTargets: Helicopter, Airplane
+
+#   Gunboat Rockets
+BoatMissile:
+	Inherits: ^MissileWeapon
+	ReloadDelay: 35
+	Range: 8c0
+	Burst: 2
+	BurstDelays: 10
+	Report: rocket2.aud
+	Projectile: Missile
+		Inaccuracy: 426
+		HorizontalRateOfTurn: 20
+		Speed: 170
+		RangeLimit: 9c614
+	Warhead@1Dam: SpreadDamage
+		Spread: 256
+		Damage: 6000
+		Versus:
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 50
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: small_poof
+		ImpactSounds: xplobig4.aud
+	Warhead@4EffAir: CreateEffect
+		Explosions: small_building
+	Warhead@5EffWater: CreateEffect
+		ImpactSounds: ssplash2.aud

@@ -2,18 +2,15 @@ E1:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	Inherits@ExpBoost: ^NodAffectedByTraining
     Valued:
 		Cost: 100
 	Tooltip:
-		Name: Rifleman
+		Name: Soldier
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 1
-		Prerequisites: barracks, ~techlevel.low
+		Prerequisites: infantryproduction, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI, Infantry.Nod
 		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
 	Mobile:
@@ -21,11 +18,11 @@ E1:
 	Health:
 		HP: 5000
 	Armor:
-		Type: Kevlar
+		Type: LightInf
 	Passenger:
 		CustomPipType: pip-green
 	AutoTarget:
-		ScanRadius: 4
+		ScanRadius: 3
 	Armament:
 		Weapon: M16
 	WithInfantryBody:
@@ -41,12 +38,10 @@ E1:
 	GrantConditionOnPrerequisite@APBullets:
 		Condition: apbullets-upgraded
 		Prerequisites: apbullets.upgrade
-	ProducibleWithLevel:
-		InitialLevels: 1
-		Prerequisites: e1.veterancy
-	Convertible:
-		SpawnActors: NODE1
-		Voice: Action
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: M16
+		MuzzleSequence: garrison-muzzle
 
 E1R1:
 	Inherits: E1
@@ -64,8 +59,6 @@ E3:
 	Inherits: ^Soldier
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Valued:
 		Cost: 300
@@ -75,15 +68,15 @@ E3:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
-		Prerequisites: vehicleproduction, ~techlevel.low
+		Prerequisites: vehicleproduction, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI, Infantry.Nod
-		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Description: Anti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
 	Mobile:
 		Speed: 42
 	Health:
 		HP: 4500
 	Armor:
-		Type: Flak
+		Type: HeavyInf
 	Passenger:
 		CustomPipType: pip-green
 	AutoTarget:
@@ -100,9 +93,9 @@ E3:
 		Cursor: enter-reverse-yellow
 		Payload: 75
 		Type: InfantryRefund
-	Convertible:
-		SpawnActors: NODE3
-		Voice: Action
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Rockets
 
 E3R1:
 	Inherits: E3
@@ -119,8 +112,6 @@ E3R1:
 E6:
 	Inherits: ^Soldier
 	Inherits@selection: ^SelectableSupportUnit
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -128,14 +119,16 @@ E6:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 4
+		BuildPaletteOrder: 5
 		Prerequisites: proc, ~techlevel.low
 		Queue: Infantry.GDI, Infantry.Nod
-		Description: Captures Enemy and Neutral structures\nCan repair destroyed Bridges.\n  Unarmed
+		Description: Captures Enemy structures and Tech buildings.\nCan repair destroyed Bridges and Tech buildings.\n  Unarmed
 	Mobile:
 		Speed: 48
 	Health:
-		HP: 3000
+		HP: 3500
+	Armor:
+		Type: Infantry
 	Passenger:
 		CustomPipType: pip-yellow
 	EngineerRepair:
@@ -151,70 +144,15 @@ E6:
 		CaptureTypes: building-sabotage, building-tech
 		PlayerExperience: 0
 		RequiresCondition: !multiengineer
-	Captures@CAPTURESPLAYERSINGLE:
-		CaptureTypes: building-sabotage, building-tech
+	Captures@RESTORESTECH:
+		CaptureTypes: restore-tech
 		PlayerExperience: 0
-		RequiresCondition: !multiengineer	
 	GrantConditionOnPrerequisite@MULTIENGINEER:
 		Condition: multiengineer
 		Prerequisites: global-multiengineer
 	Voiced:
 		VoiceSet: EngineerVoice
 	-AttackFrontal:
-
-MECH:
-	Inherits: ^Soldier
-	Inherits@CostMultiplierInfantry: ^GDICostMultiplierInfantry
-	Inherits@DroneBoost: ^GDIAffectedByDrone
-	Buildable:
-		BuildPaletteOrder: 5
-		Prerequisites: fix, ~techlevel.medium
-		Queue: Infantry.GDI, Infantry.Nod
-		Description: Repairs nearby Vehicles and restores\nhusks to working condition by capturing them.\nCan capture driverless Vehicles.\n  Unarmed
-	Valued:
-		Cost: 475
-	Tooltip:
-		Name: Mechanic
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Health:
-		HP: 6000
-	Mobile:
-		Speed: 49
-		Voice: Move
-	RevealsShroud:
-		Range: 3c0
-	Passenger:
-		CustomPipType: pip-blue
-		Voice: Move
-	Armament:
-		Weapon: Repair
-		Cursor: repair
-		OutsideRangeCursor: repair
-		TargetRelationships: Ally
-		ForceTargetRelationships: None
-	AttackFrontal:
-		Voice: Action
-	CaptureManager:
-	Captures@VehicleHusk:
-		CaptureTypes: husk
-		PlayerExperience: 0
-	Captures@VehicleNoCrew:
-		CaptureTypes: NoCrew
-		PlayerExperience: 0
-	WithInfantryBody:
-		IdleSequences: idle
-		DefaultAttackSequence: repair
-		StandSequences: stand
-	Voiced:
-		VoiceSet: MechanicVoice
-	AutoTarget:
-	AutoTargetPriority@DEFAULT:
-		ValidTargets: Vehicle
-	DeliversCash:
-		Cursor: enter-reverse-yellow
-		Payload: 118
-		Type: InfantryRefund
 
 TECN:
 	Inherits@1: ^CivInfantry
@@ -228,7 +166,183 @@ TECN:
 		Image: TECN
 	DeliversCash:
 		Cursor: enter-reverse-yellow
-		Payload: 25
+		Payload: 10
 		Type: InfantryRefund
 	Voiced:
 		VoiceSet: CivilianMaleVoice
+	Armament@GARRISONED:
+		Name: garrisoned
+		Weapon: Pistol
+		MuzzleSequence: garrison-muzzle
+    ActorLostNotification:
+        Notification: UnitLost
+        NotifyAll: false
+
+VICE:
+	Inherits@1: ^ExistsInWorld
+	Inherits@2: ^SpriteActor
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@selection: ^SelectableCombatUnit
+	Inherits@handicaps: ^PlayerHandicaps
+	Inherits@BOINK: ^BoinkSound
+	Huntable:
+	Health:
+		HP: 40000
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+	Mobile:
+		Voice: Move
+		Speed: 71
+		Locomotor: critter
+	Selectable:
+		Bounds: 24,24
+	Targetable:
+		TargetTypes: Ground, Creep
+	AutoTarget:
+		ScanRadius: 5
+	AttackMove:
+		Voice: Attack
+	HiddenUnderFog:
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Visceroid
+	Armament:
+		Weapon: Chemspray
+		LocalOffset: 384,0,0
+		MuzzleSequence: muzzle
+	AttackFrontal:
+		Voice: Attack
+	BodyOrientation:
+		QuantizedFacings: 8
+	WithSpriteBody:
+	WithMuzzleOverlay:
+	Guard:
+		Voice: Move
+	Guardable:
+	DamagedByTerrain:
+		Damage: -100
+		DamageInterval: 4
+		DamageTypes: TiberiumDeath
+		Terrain: Tiberium, BlueTiberium, RedTiberium
+	Voiced:
+		VoiceSet: DinoVoice
+	HitShape:
+		Type: Circle
+			Radius: 427
+	MapEditorData:
+		Categories: Critter
+	WithDeathAnimation:
+		UseDeathTypeSuffix: false
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	AttackWander:
+	EdibleByLeap:
+
+#   Experimental squad production
+
+E1.squad.gdi:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Soldier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 1
+        Prerequisites: infantryproduction, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+        Icon: e1icon
+    Valued:
+		Cost: 200
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e1, e1, e1, e1
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E1.squad.nod:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Soldier
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 1
+        Prerequisites: infantryproduction, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+        Icon: e1icon
+    Valued:
+		Cost: 200
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+    ProduceActorPowerCA:
+        Actors: e1, e1, e1, e1
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E3.squad.gdi:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Rocket Soldier
+	Buildable:
+		Queue: Infantry.GDI
+		BuildPaletteOrder: 2
+        Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+        Icon: e3icon
+    Valued:
+		Cost: 450
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+	ProduceActorPowerCA:
+		Actors: e3, e3
+		Type: Infantry.GDI
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true
+
+E3.squad.nod:
+	AlwaysVisible:
+	Interactable:
+	ScriptTriggers:
+	ProvidesPrerequisite@squadname:
+	Tooltip:
+		Name: Squad: Rocket Soldier
+	Buildable:
+		Queue: Infantry.Nod
+		BuildPaletteOrder: 2
+        Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
+		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+        Icon: e3icon
+    Valued:
+		Cost: 450
+	RenderSprites:
+		Image: production.infantry
+	Armor:
+		Type: None
+    ProduceActorPowerCA:
+        Actors: e3, e3
+		Type: Infantry.Nod
+		OneShot: true
+		AutoFire: true
+		AllowMultiple: true

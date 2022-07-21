@@ -2,7 +2,6 @@ MCV:
 	Inherits: ^Vehicle
 	Inherits@selection: ^SelectableSupportUnit
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
-	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	TransferTimedExternalConditionOnTransform:
 		Condition: invulnerability
 	Valued:
@@ -10,7 +9,7 @@ MCV:
 	Tooltip:
 		Name: Mobile Construction Vehicle
 	Buildable:
-		BuildPaletteOrder: 10
+		BuildPaletteOrder: 11
 		Prerequisites: hq, fix, ~techlevel.medium
 		Queue: Vehicle.GDI, Vehicle.Nod
 		Description: Deploys into another Construction Yard.\n  Unarmed
@@ -19,13 +18,13 @@ MCV:
 	Mobile:
 		Speed: 71
 		Locomotor: heavywheeled
-		PauseOnCondition: boarding || being-captured
+		PauseOnCondition: boarding
 	Health:
-		HP: 210000
+		HP: 90000
 	Armor:
 		Type: Heavy
 	RevealsShroud:
-		Range: 8c0
+		Range: 6c0
 	Transforms:
 		IntoActor: fact
 		Offset: -1,-1
@@ -46,24 +45,23 @@ MCV:
 		Image: mcv
 		FactionImages:
 			nod: nodmcv
-	Targetable@DRIVERKILL:
-		TargetTypes: DriverKillImmune
-		RequiresCondition: !driver-dead
-	-GrantConditionOnPrerequisite@BOMBARD:
-	-FirepowerMultiplier@BOMBARD:
-	-WithDecoration@BOMBARD:
-	-GrantConditionOnPrerequisite@SEEK:
-	-RangeMultiplier@SEEK:
-	-WithDecoration@SEEK:
 	Carryable:
 		-CarriedCondition:
 
+MCV.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mobile Construction Vehicle (Destroyed)
+	TransformOnCapture:
+		IntoActor: mcv
+	RenderSprites:
+		Image: mcv.destroyed
+
 HARV:
-	Inherits: ^Tank
+	Inherits: ^TrackedVehicle
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@selection: ^SelectableEconomicUnit
 	Inherits@HARVBALANCE: ^HarvesterBalancer
-	Inherits@CostMultiplierVehicle: ^GDICostMultiplierVehicle
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -77,7 +75,7 @@ HARV:
 	Selectable:
 		DecorationBounds: 36,36
 	Harvester:
-		Resources: Tiberium, BlueTiberium
+		Resources: Tiberium, BlueTiberium, RedTiberium
 		Capacity: 20
 		BaleLoadDelay: 12
 		BaleUnloadDelay: 6
@@ -87,9 +85,9 @@ HARV:
 		EmptyCondition: no-tiberium
 	Mobile:
 		Speed: 85
-		PauseOnCondition: boarding || emp-crate-collected || being-captured
+		PauseOnCondition: boarding || emp-crate-collected
 	Health:
-		HP: 62500
+		HP: 60000
 	Armor:
 		Type: Medium
 	RevealsShroud:
@@ -117,6 +115,7 @@ HARV:
 		ResourceSequences:
 			Tiberium: pip-green
 			BlueTiberium: pip-blue
+            RedTiberium: pip-red
 	Passenger:
 		CustomPipType: pip-blue
 	RenderSprites:
@@ -129,22 +128,15 @@ HARV:
 		ValidRelationships: Ally
 	ExternalCondition@DOCKED:
 		Condition: docked
+		SourceCap: 1
+		TotalCap: 1        
 	RejectsOrders:
 		RequiresCondition: docked
-	Targetable@DRIVERKILL:
-		TargetTypes: DriverKillImmune
-		RequiresCondition: !driver-dead
 	Carryable:
 		RequiresCondition: !docked && !onrefinerybib
 	#	this is to prevent a teleporting bug
 	ExternalCondition@OnRefineryBib:
 		Condition: onrefinerybib
-	-GrantConditionOnPrerequisite@BOMBARD:
-	-FirepowerMultiplier@BOMBARD:
-	-WithDecoration@BOMBARD:
-	-GrantConditionOnPrerequisite@SEEK:
-	-RangeMultiplier@SEEK:
-	-WithDecoration@SEEK:
 	#	ok, this works
 	#	now to make it work for one
 	#	at a time and then only for
@@ -163,6 +155,15 @@ HARV:
 		ValidRelationships: Ally
 		RequiresCondition: animateref && !emp-crate-collected && !docked
 
+HARV.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Harvester (Destroyed)
+	TransformOnCapture:
+		IntoActor: harv
+	RenderSprites:
+		Image: harv.destroyed
+
 TRUK:
 	Inherits: ^Vehicle
 	Inherits@selection: ^SelectableSupportUnit
@@ -171,7 +172,7 @@ TRUK:
 	Inherits@EMP: ^AcceptsEMPCrate
 	Buildable:
 		Queue: Vehicle.GDI, Vehicle.Nod
-		BuildPaletteOrder: 11
+		BuildPaletteOrder: 12
 		Prerequisites: proc, ~techlevel.low
 		Description: Transports cash to other players.\nDrops a Money crate on death.\n  Unarmed
 	Valued:
@@ -184,7 +185,7 @@ TRUK:
 		Type: Light
 	Mobile:
 		Speed: 128
-		PauseOnCondition: boarding || emp-crate-collected || being-captured
+		PauseOnCondition: boarding || emp-crate-collected
 	RevealsShroud:
 		Range: 4c0
 	DeliversCash:
@@ -195,11 +196,130 @@ TRUK:
 		Actor: moneycrate
 	Passenger:
 		CustomPipType: pip-blue
-	-GrantConditionOnPrerequisite@BOMBARD:
-	-FirepowerMultiplier@BOMBARD:
-	-WithDecoration@BOMBARD:
-	-GrantConditionOnPrerequisite@SEEK:
-	-RangeMultiplier@SEEK:
-	-WithDecoration@SEEK:
 	Carryable:
 		-CarriedCondition:
+
+TRUK.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Supply Truck (Destroyed)
+	TransformOnCapture:
+		IntoActor: truk
+	RenderSprites:
+		Image: truk.destroyed
+
+MHQ:
+	Inherits: ^Vehicle
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Mobile HQ
+	Health:
+		HP: 11000
+	Armor:
+		Type: Medium
+	Mobile:
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding
+	RevealsShroud:
+		Range: 8c0
+	WithIdleOverlay@SPINNER:
+		Sequence: spinner
+		Offset: -256,0,256
+	DetectCloaked:
+		CloakTypes: GroundStealth, Stealth, AirStealth
+		Range: 4c768
+		RequiresCondition: !emp-crate-collected
+	RenderDetectionCircle:
+	Buildable:
+		BuildPaletteOrder: 10
+		BuildLimit: 1
+		Prerequisites: anytier3, ~techlevel.high
+		Queue: Vehicle.GDI, Vehicle.Nod
+		Description: Mobile base of operations, providing Vision and\ndetects Stealth units nearby.\n  Armed with basic gun.\n  Maximum one can be built.
+	Turreted:
+		TurnSpeed: 8
+		Offset: 246,-60,112
+	Armament:
+		Weapon: M16
+		MuzzleSequence: muzzle
+		LocalOffset: 128,0,43
+		PauseOnCondition: emp-crate-collected
+	AttackFrontal:
+		PauseOnCondition: emp-crate-collected
+	WithSpriteTurret:
+	WithMuzzleOverlay:
+
+MHQ.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Mobile HQ (Destroyed)
+	TransformOnCapture:
+		IntoActor: mhq
+	RenderSprites:
+		Image: mhq.destroyed
+
+ARTY:
+	Inherits: ^TrackedVehicle
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@Crates: ^AcceptsAllCrates
+	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
+	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 700
+	Tooltip:
+		Name: Artillery
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Vehicle.GDI, Vehicle.Nod
+		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
+	Mobile:
+		TurnSpeed: 16
+		Speed: 85
+		PauseOnCondition: emp-crate-collected || boarding
+	Health:
+		HP: 12500
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 6c0
+	Armament:
+		Weapon: ArtilleryShell
+		LocalOffset: 624,0,208
+		MuzzleSequence: muzzle
+	AttackFrontal:
+		TargetFrozenActors: True
+		ForceFireIgnoresActors: True
+		PauseOnCondition: emp-crate-collected
+	WithMuzzleOverlay:
+	AutoTarget:
+		InitialStanceAI: Defend
+	SpawnActorOnDeath:
+		Actor: ARTY.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+	Explodes:
+		Weapon: ArtilleryShell
+		EmptyWeapon: UnitExplode
+		LoadedChance: 75
+	Passenger:
+		CustomPipType: pip-yellow
+	RenderRangeCircle:
+	ReloadArmamentsBar:
+		Armaments: primary
+		Color: FFFF00
+
+ARTY.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Artillery (Destroyed)
+	TransformOnCapture:
+		IntoActor: arty
+	RenderSprites:
+		Image: arty.destroyed

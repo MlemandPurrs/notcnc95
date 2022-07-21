@@ -95,6 +95,16 @@ missile:
 		Facings: 32
 		ZOffset: 1023
 
+torpedo:
+	idle: missile
+		Facings: 32
+		ZOffset: -1023
+
+bubbles:
+	idle:
+		Length: *
+		Tick: 220
+
 patriot:
 	idle:
 		Facings: 32
@@ -135,6 +145,12 @@ explosion:
 	corpse: squish
 		ZOffset: -512
 		Tick: 1600
+	pulse_explosion: pulsefx2
+		BlendMode: Additive
+		Tick: 80
+	pulse_explosion_small: pulsefx1
+		BlendMode: Alpha
+		Tick: 80
 
 rank:
 	Defaults:
@@ -179,7 +195,7 @@ beacon:
 		Offset: 0,-42
 	ceptbcon: ceptbcon
 		Offset: 0,-42
-
+        
 select:
 	repair:
 		Start: 2
@@ -275,8 +291,9 @@ waypoint:
 		Length: *
 
 camera:
-	idle:
+	idle: camera
 		Length: *
+	icon: blankicon
 
 clock:
 	idle: hclock
@@ -325,6 +342,10 @@ pips:
 		Offset: 0, -6
 	pip-knife: pip-knife
 		Offset 0, -11
+	pip-disguise: pip-disguise
+		Length: *
+		Tick: 300
+		Offset: 0, -6
 
 overlay:
 	Defaults: trans.icn
@@ -355,19 +376,14 @@ icon:
 	airstrike: a10icon
 	ioncannon: ionicon
 	abomb: atomicon
-	abombfake: atomfakeicon
 	radarscan: scanicon
 	uav: uavicon
-	icbm: icbmicon
-	msar: msaricon
-	pbat: nodmsamicon
 	pinficon: pinficon
-	zoneicon: dropzoneicon
-	cepticon: cepticon
-	fieldrepair: frepicon
-	slthplug: slthplugicon
+	cepticon: nodcepticon
+    gdicepticon: gdicepticon
 	sfigicon: sfigicon
-    disr: disricon
+	fieldrepair: frepicon
+    blank: blankicon
 
 moveflsh:
 	idle:
@@ -411,6 +427,8 @@ resources:
 shroud:
 	Defaults:
 		Length: 12
+	shroud: shadow
+		Length: *
 	typea: shadow
 	typeb: shadow
 		Start: 12
@@ -537,11 +555,6 @@ paradirection:
 		y: 5
 		Offset: -15, -15, 0
 
-icbmmiss:
-	idle:
-		Facings: 32
-		ZOffset: 1023
-
 sonarbox:
 	scanping:
 		Length: *
@@ -583,6 +596,15 @@ parach:
 parach-shadow:
 	idle:
 		Length: *
+
+parachl:
+	Defaults:
+		ZOffset: 1024
+	open: parachl
+		Length: 5
+	idle: parachl
+		Start: 5
+		Length: 11
 
 veteranoverlay:
 	veteran:
@@ -636,27 +658,67 @@ fb4:
 		Length: *
 		ZOffset: 1023
 
-hacked:
-	hacked: hacked
-		ZOffset: 2047
-		Length: 2
-		Tick: 500
-	overloading: hacked
-		ZOffset: 2047
-		Length: 4
-		Tick: 500
-	restoring: hacked
-		ZOffset: 2047
-		Start: 4
-		Length: 2
-		Tick: 250
-
-hacking:
-	hacking: hacking
-		ZOffset: 2047
-		Length: *
-		Tick: 80
-		Offset: 1, -9
-
 empty:
 	idle: empty
+
+dummy.airstrikers:
+	idle: blank32
+		Facings: 32
+	airstrike: a10icon
+    airstrikeII: airstrike2icon
+    interceptorgdi: gdicepticon
+    interceptorgdiupg: f22upgradeicon
+    interceptornod: nodcepticon
+    interceptornodupg: f22upgradeicon
+    airstrikenod: sfigicon
+
+production.infantry:
+	e1icon: e1icon
+    e2icon: e2icon
+    e3icon: e3icon
+    e4icon: e4icon
+    e5icon: e5icon
+    e22icon: e22icon
+    e23icon: e23icon
+    snipicon: snipicon
+    terricon: terricon
+
+gpsdot:
+    Infantry:
+        Start: 0
+    HeavyInfantry:
+        Start: 1
+    LightVehicle:
+        Start: 2
+    Vehicle:
+        Start: 3
+    HeavyVehicle:
+        Start: 4
+    Harvester:
+        Start: 5
+    Constructor:
+        Start: 6
+    Conyard:
+        Start: 7
+    Building:
+        Start: 8
+    TechBuilding:
+        Start: 9
+    IncomeBuilding:
+        Start: 10
+    Communications:
+        Start: 11
+    NavalBuilding:
+        Start: 12
+    Ship:
+        Start: 13
+    Submarine:
+        Start: 14
+    Helicopter:
+        Start: 15
+    Airplane:
+        Start: 16
+    CargoPlane:
+        Start: 17
+    Aliencraft:
+        Start: 18

@@ -52,7 +52,6 @@ c1:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4
@@ -132,7 +131,6 @@ moebius:
 			WINTER: TEMPERAT
 			SNOW: TEMPERAT
 			JUNGLE: TEMPERAT
-			CARIBIC: TEMPERAT
 	die-crushed: e1rot
 		Start: 16
 		Length: 4

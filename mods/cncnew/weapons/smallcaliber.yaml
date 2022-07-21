@@ -1,8 +1,84 @@
+^SmallCaliberWeapon:
+	ReloadDelay: 25
+    Range: 2c0
+    InvalidTargets: Wall
+	Projectile: Bullet
+		Speed: 1c682
+	Warhead@1Dam: SpreadDamage
+		Spread: 128
+		Damage: 1500
+        InvalidTargets: Wall
+		Versus:
+			None: 100
+            Infantry: 200
+			LightInf: 150
+			HeavyInf: 200
+			Light: 100
+			Medium: 50
+			Heavy: 25
+            Aircraft: 100
+            Structure: 25
+            Fortified: 75
+		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+        ImpactActors: false
+		Inaccuracy: 171
+        ValidTargets: Ground, Air
+
+#   differs in piff type, burst count and death type caused on Infantry
+^MachinegunWeapon:
+    Inherits: ^SmallCaliberWeapon
+	Burst: 5
+    Warhead@1Dam: SpreadDamage
+        Damage: 3000
+        DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
+	Warhead@2Eff: CreateEffect
+		Explosions: piffs
+        Inaccuracy: 213
+
+#   differs in targets allowed
+^BoltactionWeapon:
+    Inherits: ^SmallCaliberWeapon
+    Range: 4c0
+	ValidTargets: Ground, Infantry
+    InvalidTargets: Vehicle, Structure, Wall, Husk, Creep
+    Warhead@1Dam: SpreadDamage
+        Damage: 6000
+        ValidTargets: Infantry
+
+#   Technician's Pistole
+Pistol:
+	Inherits: ^SmallCaliberWeapon
+	ReloadDelay: 7
+	Range: 2c0
+	Report: gun18.aud
+	Warhead@1Dam: SpreadDamage
+		Damage: 1000
+	Warhead@2Eff: CreateEffect
+		Inaccuracy: 128
+
+#   Soldier's Rifle
+M16:
+	Inherits: ^SmallCaliberWeapon
+	Range: 3c0
+    Report: mgun2.aud
+	Warhead@2Eff2: CreateEffect
+		Delay: 2
+		Explosions: piff
+		Inaccuracy: 171
+	Warhead@2Eff3: CreateEffect
+		Delay: 4
+		Explosions: piff
+		Inaccuracy: 171
+
+#   Commando's Sniper rifle
 Sniper:
+    Inherits: ^BoltactionWeapon
 	Report: ramgun2.aud
 	ValidTargets: Ground, Infantry
 	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Creep
-	ReloadDelay: 40
+	ReloadDelay: 60
 	Range: 8c0
 	Projectile: Bullet
 		Speed: 5c682
@@ -16,38 +92,54 @@ Sniper:
 		ImpactActors: false
 		ValidTargets: Ground, Water, Helicopter
 
-^HeavyMG:
-	ReloadDelay: 25
-	Range: 6c0
-	Report: gun8.aud
-	Projectile: Bullet
-		Speed: 1c682
-	Warhead@1Dam: SpreadDamage
-		Spread: 683
-		Damage: 3000
-		Versus:
-			None: 100
-			Kevlar: 90
-			Flak: 110
-			Wood: 50
-			Concrete: 25
-			Light: 70
-			Medium: 50
-			Heavy: 30
-		DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
+#   The common Machinegun
+MachineGun:
+	Inherits: ^MachinegunWeapon
+    ReloadDelay: 25
+	Range: 4c0
+	Report: mgun11.aud
+    Warhead@1Dam: SpreadDamage
+        Damage: 1500
 	Warhead@2Eff: CreateEffect
-		Explosions: piffs
-		ImpactActors: false
-		ValidTargets: Ground, Water, Helicopter
+		Inaccuracy: 213
 
-HighV:
-	Inherits: ^HeavyMG
+#   MachineGun for Jeep and Buggy
+MachineGunLight:
+    Inherits: MachineGun
+    ReloadDelay: 20
+    Burst: 0
+
+#   MachineGun for Orca
+MachineGunHeli:
+    Inherits: MachineGun
+    Burst: 0
+    Range: 5c768
+	MinRange: 0c768
+    Report: mgun2.aud
+    ReloadDelay: 25
+
+#   Guard Tower's elevated Chaingun
+TowerVulcan:
+	Inherits: ^MachinegunWeapon
+    Burst: 0
+	Range: 5c0
+    Report: gun8.aud
 	Projectile: Bullet
 		Speed: 1c682
         Blockable: false
 
+#   Commando's Chaingun
+MiniGun:
+    Inherits: ^MachinegunWeapon
+    Burst: 0
+	Range: 4c0
+    Report: gun8.aud
+	Projectile: Bullet
+		Speed: 1c682
+
+#   A-10's nose gun
 Vulcan:
-	Inherits: ^HeavyMG
+	Inherits: ^MachinegunWeapon
 	Range: 8c0
 	Burst: 9
 	BurstDelays: 2
@@ -58,133 +150,52 @@ Vulcan:
 	Warhead@1Dam: SpreadDamage
 		Spread: 426
 		Damage: 10000
-		Versus:
-			None: 90
-			Kevlar: 80
-			Flak: 100
-			Wood: 15
-			Light: 35
-			Medium: 35
-			Heavy: 35
 
+#   Apache's Chaingun
 HeliAGGun:
-	Inherits: ^HeavyMG
+	Inherits: ^MachinegunWeapon
 	ReloadDelay: 20
 	Burst: 2
 	BurstDelays: 0
-	Range: 4c0
+	Range: 5c768
 	MinRange: 0c768
 	Report: gun5.aud
 	Projectile: Bullet
 		Blockable: false
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
-		Damage: 2000
-		Versus:
-			Wood: 75
-			Light: 75
-			Medium: 50
-			Heavy: 25
-		DamageTypes: Prone80Percent, TriggerProne, RippedApartDeath
+		Damage: 2500
 
 HeliAAGun:
 	Inherits: HeliAGGun
 	ValidTargets: Helicopter
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter
-		Versus:
-			Light: 50
-			Medium: 50
 
-^LightMG:
-	Inherits: ^HeavyMG
-	ReloadDelay: 20
-	Range: 4c0
-	InvalidTargets: Wall
-	Report: mgun2.aud
-	Warhead@1Dam: SpreadDamage
-		Spread: 128
-		Damage: 1000
-		InvalidTargets: Wall
-		Versus:
-			None: 150
-			Kevlar: 140
-			Flak: 160
-			Wood: 30
-			Concrete: 30
-			Light: 40
-			Medium: 20
-			Heavy: 10
-		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
-	Warhead@2Eff: CreateEffect
-		Explosions: piff
-		Inaccuracy: 171
-
-Pistol:
-	Inherits: ^LightMG
-	ReloadDelay: 7
-	Range: 3c0
-	Report: gun18.aud
-	Warhead@1Dam: SpreadDamage
-		Damage: 100
-		Versus:
-			None: 100
-			Kevlar: 90
-			Flak: 110
-	Warhead@2Eff: CreateEffect
-		Inaccuracy: 128
-
-M16:
-	Inherits: ^LightMG
-	Warhead@2Eff2: CreateEffect
-		Delay: 2
-		Explosions: piff
-		Inaccuracy: 171
-	Warhead@2Eff3: CreateEffect
-		Delay: 4
-		Explosions: piff
-		Inaccuracy: 171
-
-MachineGun:
-	Inherits: ^LightMG
-	Burst: 5
-	Report: mgun11.aud
-	Warhead@1Dam: SpreadDamage
-		Versus:
-			Wood: 10
-			Light: 70
-
-	Warhead@2Eff: CreateEffect
-		Inaccuracy: 213
-
-MachineGunH:
-	Inherits: MachineGun
-	Range: 4c768
-	Warhead@1Dam: SpreadDamage
-		Versus:
-			Light: 80
-			Medium: 30
-			Heavy: 20
-
+#   Mobile Anti-Air Gun
 APCGun:
-	ReloadDelay: 9
-	Range: 5c0
+	ReloadDelay: 11
+	Range: 6c512
 	Report: gun20.aud
 	Burst: 2
+    BurstDelays: 0
 	Projectile: Bullet
 		Speed: 900
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
 		Damage: 2000
 		Versus:
-			None: 30
-			Kevlar: 30
-			Flak: 20
-			Wood: 60
-			Concrete: 30
-			Light: 75
-			Medium: 50
-			Heavy: 25
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
+			Light: 200
+			Medium: 150
+			Heavy: 125
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag
@@ -192,33 +203,29 @@ APCGun:
 
 APCGun.AA:
 	Inherits: APCGun
-	Range: 7c0
+	Range: 6c512
 	ValidTargets: Helicopter
 	Projectile: Bullet
 		Speed: 2c0
 		Blockable: false
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter
-		Versus:
-			Light: 125
-			Medium: 125
 	Warhead@2Eff: CreateEffect
 		Explosions: small_poof
 
+#   Used by the Black Hawk for some reason
 ChainGun:
-	Inherits: ^HeavyMG
+	Inherits: ^MachinegunWeapon
+    Report: gun13.aud
 	ReloadDelay: 12
-	Range: 5c0
+	Range: 6c512
 	MinRange: 0c768
 	Projectile: InstantHit
 		Blockable: false
-	Warhead@1Dam: SpreadDamage
-		Versus:
-			None: 150
 
 ChainGun.AA:
 	Inherits: ChainGun
-	Range: 5c0
+	Range: 6c512
 	ValidTargets: Helicopter
 	MinRange: 1c256
 	Projectile: InstantHit
@@ -231,70 +238,16 @@ ChainGun.AA:
 		ValidTargets: Helicopter
 		ImpactActors: false
 
-Gatt.0:
-	ReloadDelay: 20
-	Range: 8c0
-	MinRange: 1c0
-	Report: gun5.aud
-	ValidTargets: Helicopter, Airplane
-	Projectile: Bullet
-		Speed: 3c340
-		Blockable: false
-	Warhead@1Dam: SpreadDamage
-		Spread: 213
-		Damage: 1000
-		ValidTargets: Helicopter, Airplane
-		Versus:
-			Light: 15
-			Medium: 30
-			Heavy: 45
-		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
-	Warhead@2Eff: CreateEffect
-		Explosions: small_building
-		ValidTargets: Helicopter, Airplane
-
-Gatt.1:
-	Inherits: Gatt.0
-	ReloadDelay: 5
-	Report: gun5.aud, gun8.aud, gun5.aud
-	Warhead@1Dam: SpreadDamage
-		Damage: 2000
-		Versus:
-			Light: 15
-			Medium: 30
-			Heavy: 45
-
-Gatt.2:
-	Inherits: Gatt.1
-	Report: gun8.aud, gun5.aud
-	ReloadDelay: 5
-	Warhead@1Dam: SpreadDamage
-		Damage: 2200
-		Versus:
-			Light: 15
-			Medium: 30
-			Heavy: 45
-
-Gatt.3:
-	Inherits: Gatt.2
-	Report: gun5.aud, gun8.aud
-	ReloadDelay: 5
-	Warhead@1Dam: SpreadDamage
-		Damage: 2400
-		Versus:
-			Light: 15
-			Medium: 30
-			Heavy: 45
-
+#   used by the CRAM
 AAVulcan:
-	Inherits: ^HeavyMG
-	Range: 8c0
+	Inherits: ^MachinegunWeapon
+	Range: 6c0
 	MinRange: 1c0
 	ReloadDelay: 4
-	Report: gun5.aud
+	Report: minigun.aud
 	ValidTargets: Helicopter, Airplane
-	Burst: 2
-	BurstDelays: 0
+	#   Burst: 2
+	#   BurstDelays: 0
 	Projectile: Bullet
 		Speed: 5c682
 		Inaccuracy: 1c0
@@ -302,32 +255,3 @@ AAVulcan:
 		ValidTargets: Helicopter, Airplane
 		Spread: 426
 		Damage: 800
-		Versus:
-			Light: 100
-			Medium: 65
-			Heavy: 35
-
-HindChainGun:
-	Inherits: ChainGun
-	Range: 6c0
-	Report: gun5.aud
-
-Colt45:
-	ReloadDelay: 16
-	Range: 5c0
-	Report: colt45.aud
-	BurstDelays: 2
-	Burst: 10
-	ValidTargets: Ground, Infantry
-	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Mine
-	Projectile: Bullet
-		Speed: 1c682
-	Warhead@1Dam: SpreadDamage
-		Spread: 42
-		Damage: 5000
-		ValidTargets: Infantry
-		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
-	Warhead@2Eff: CreateEffect
-		Explosions: piff
-		ImpactActors: false
-		ValidTargets: Ground, Water

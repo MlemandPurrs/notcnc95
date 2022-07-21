@@ -628,7 +628,7 @@ Actors:
 	Actor198: brik
 		Owner: Nod
 		Location: 83,91
-	biolab: nodbio
+	biolab: nbio
 		Owner: Nod
 		Location: 79,92
 	Actor200: sam
@@ -2684,16 +2684,6 @@ Actors:
 		SubCell: 3
 		Location: 87,72
 		Facing: 212
-	Actor743: t55h
-		Owner: Nod
-		Location: 64,68
-		Facing: 267
-	Actor744: wtnk
-		Faction: Random
-		Location: 84,85
-		Owner: Nod
-		Facing: 170
-		TurretFacing: 73
 	Actor745: terr
 		Faction: Random
 		SubCell: 3
@@ -2784,11 +2774,6 @@ Actors:
 		SubCell: 3
 		Location: 64,67
 		Facing: 876
-		Owner: Nod
-	Actor761: nodctnk
-		Faction: Random
-		Location: 75,74
-		Facing: 543
 		Owner: Nod
 	Actor762: e5
 		Faction: Random

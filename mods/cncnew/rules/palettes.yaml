@@ -24,11 +24,6 @@
 		Tileset: JUNGLE
 		Filename: jungle.pal
 		ShadowIndex: 4
-	PaletteFromFile@terrain-caribic:
-		Name: terrain
-		Tileset: CARIBIC
-		Filename: caribic.pal
-		ShadowIndex: 4
 	PaletteFromFile@staticterrain-desert:
 		Name: staticterrain
 		Tileset: DESERT
@@ -53,11 +48,6 @@
 		Name: staticterrain
 		Tileset: JUNGLE
 		Filename: jungle.pal
-		ShadowIndex: 4
-	PaletteFromFile@staticterrain-caribic:
-		Name: staticterrain
-		Tileset: CARIBIC
-		Filename: caribic.pal
 		ShadowIndex: 4
 	PaletteFromFile@chrome:
 		Name: chrome
@@ -181,19 +171,25 @@
 		G: 0
 		B: 0
 		A: 140
-	PaletteFromPlayerPaletteWithAlpha@cloakgreen:
-		BaseName: cloakgreen
+	PaletteFromPlayerPaletteWithAlpha@cloaktransparent:
+		BaseName: cloaktransparent
 		BasePalette: overlayplayer
 		Alpha: 0.55
-	PaletteFromRGBA@cloakgreen:
-		Name: cloakgreen
-		R: 0
-		G: 90
-		B: 0
-		A: 140
 	CloakPaletteEffect:
 	FixedColorPalette@RedLaser:
 		Base: terrain
 		Name: redlaser
 		Color: ff0000
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
+	PaletteFromRGBA@submerged:
+		Name: submerged
+		R: 0
+		G: 0
+		B: 0
+		A: 140
+	PaletteFromRGBA@obelisklaserred:
+		Name: obelisklaserred
+		R: 128
+		G: 16
+		B: 0
+		A: 140

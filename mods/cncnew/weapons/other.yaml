@@ -12,14 +12,17 @@
 		ValidTargets: Ground, Water, Trees
 		InvalidTargets: Wall, Flamer
 		Versus:
-			None: 110
-			Kevlar: 110
-			Flak: 100
-			Wood: 100
-			Concrete: 25
-			Light: 100
-			Medium: 50
-			Heavy: 25
+			None: 100
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -51,14 +54,6 @@ BigFlamer:
 	Warhead@1Dam: SpreadDamage
 		Spread: 400
 		Damage: 10000
-		Versus:
-			None: 80
-			Kevlar: 80
-			Flak: 70
-			Wood: 75
-			Light: 75
-			Medium: 45
-			Heavy: 20
 
 Chemspray:
 	Inherits: ^FlameWeapon
@@ -69,13 +64,17 @@ Chemspray:
 		Damage: 8000
 		InvalidTargets: Chem
 		Versus:
-			None: 70
-			Kevlar: 70
-			Flak: 70
-			Wood: 35
-			Light: 75
-			Medium: 75
-			Heavy: 75
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
+			Light: 100
+			Medium: 100
+			Heavy: 100
+            Aircraft: 25
+            Structure: 50
+            Fortified: 50
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
 	-Warhead@Flames:
 	Warhead@Chem: GrantExternalCondition
@@ -92,11 +91,8 @@ BigChemspray:
 	Burst: 2
 	BurstDelays: 25
 	Warhead@1Dam: SpreadDamage
-		#	Spawns Visceroids so
 		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
 		Damage: 20000
-	#	^ no Infantry will survive that damage
-	-Warhead@Chem:
 
 Napalm:
 	Inherits: ^FlameWeapon
@@ -112,16 +108,11 @@ Napalm:
 		Spread: 341
 		Damage: 3000
 		Falloff: 1000, 368, 135, 50, 18, 7, 0
-		Versus:
-			Wood: 35
-			Concrete: 70
-			Medium: 90
-			Heavy: 80
 	Warhead@3Eff: CreateEffect
 		Explosions: med_napalm
 
 ^Laser:
-	ReloadDelay: 40
+	ReloadDelay: 45
 	Range: 7c512
 	Report: obelray1.aud
 	Projectile: LaserZap
@@ -130,10 +121,20 @@ Napalm:
 		ZOffset: 2047
 	Warhead@1Dam: SpreadDamage
 		Spread: 42
-		Damage: 36000
+		Damage: 20000
 		Versus:
-			Wood: 50
-		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+			None: 100
+            Infantry: 150
+			LightInf: 150
+			HeavyInf: 150
+			Light: 150
+			Medium: 125
+			Heavy: 75
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath, ObeliskLaser
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
 		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
@@ -174,13 +175,17 @@ LaserTankFiringFXSound:
 		Spread: 213
 		Damage: 18000
 		Versus:
-			None: 90
-			Kevlar: 90
-			Flak: 90
-			Wood: 10
+			None: 100
+            Infantry: 100
+			LightInf: 100
+			HeavyInf: 100
 			Light: 30
 			Medium: 20
 			Heavy: 10
+            Aircraft: 50
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, RippedApartDeath
 
 Tail:
@@ -216,25 +221,25 @@ Demolish:
 
 KamikazeTargeting:
 	ReloadDelay: 1
-	ValidTargets: Vehicle, Infantry, Creep
-    InvalidTargets: Wall, Structure
+	ValidTargets: Vehicle, Infantry, Creep, Structure
+    InvalidTargets: Wall
 	Range: 1c768
 	TargetActorCenter: true
 	Projectile: InstantHit
 	Warhead@1Dam: TargetDamage
 		Damage: 0
-		ValidTargets: Vehicle, Infantry, Creep
-        InvalidTargets: Wall, Structure
+		ValidTargets: Vehicle, Infantry, Creep, Structure
+        InvalidTargets: Wall
 
 KamikazeTargetingStructure:
 	ReloadDelay: 1
-	ValidTargets: Wall, Structure
+	ValidTargets: Wall
 	Range: 1c768
 	TargetActorCenter: false
 	Projectile: InstantHit
 	Warhead@1Dam: TargetDamage
 		Damage: 0
-		ValidTargets: Wall, Structure
+		ValidTargets: Wall
 
 Heal:
 	ReloadDelay: 70
@@ -291,282 +296,3 @@ BurnFX:
 		Image: fire
 		Inaccuracy: 171
 		Explosions: 1, 2, 3, 4
-
-MicrowaveZap:
-	ValidTargets: Ground, Water
-	InvalidTargets: Helicopter, Airplane
-	TargetActorCenter: true
-	ReloadDelay: 210
-	Range: 7c0
-	Report: corefir1.aud
-	Projectile: Railgun
-		Duration: 5
-		Blockable: true
-		DamageActorsInLine: false
-		BeamColor: FFFFFFFF
-		BeamWidth: 0c0
-		HelixThickness: 0c32
-		HelixRadius: 0c16
-		HelixAngleDeltaPerTick: 64
-		QuantizationCount: 64
-		HitAnim: sparks_overlay
-		ZOffset: 2046
-	Warhead@1Dam: SpreadDamage
-		InvalidTargets: Helicopter, Airplane
-		Spread: 512
-		Damage: 17500
-		DamageTypes: Prone50Percent, TriggerProne, FireDeath
-		Versus:
-			None: 20
-			Kevlar: 20
-			Flak: 20
-			Wood: 10
-			Concrete: 40
-			Light: 100
-			Medium: 80
-			Heavy: 60
-	Warhead@changeowner: ChangeOwnerToNeutral
-		ValidTargets: DriverKill
-		InvalidTargets: Infantry, Ship, Structure, Wall, Husk, Helicopter, Airplane, DriverKillImmune
-		ValidRelationships: Ally, Enemy, Neutral
-		Range: 0c511
-	Warhead@emp: GrantExternalCondition
-		Range: 0c511
-		Duration: 200
-		Condition: mwavdisable
-		ValidTargets: Defense
-
-MicrowaveZapSound:
-	Inherits: MicrowaveZap
-	Report: coreup1.aud
-	Projectile: InstantHit
-	-Warhead@changeowner:
-	-Warhead@emp:
-	Warhead@1Dam: SpreadDamage
-		Damage: 1
-		Versus:
-			None: 0
-			Kevlar: 0
-			Flak: 0
-			Wood: 0
-			Concrete: 0
-			Light: 0
-			Medium: 0
-			Heavy: 0
-
-TurretLaser:
-	Inherits: ^Laser
-	ReloadDelay: 30
-	Range: 6c0
-	Report: lastur1.aud
-	Projectile: LaserZap
-		Width: 45
-		Duration: 5
-		SecondaryBeamWidth: 65
-		SecondaryBeamColor: FF000030
-		Blockable: true
-	Warhead@1Dam: SpreadDamage
-		Damage: 5500
-		Versus:
-			Wood: 75
-			Concrete: 50
-			Heavy: 30
-
-ParaBomb:
-	ReloadDelay: 8
-	Range: 3c0
-	Report: chute1.aud
-	ValidTargets: Ground, Water
-	Projectile: GravityBomb
-		Image: PARABOMB
-		OpenSequence: open
-		Velocity: 0, 0, -40
-		Acceleration: 0, 0, 0
-		Shadow: False
-	Warhead@1Dam: SpreadDamage
-		Spread: 768
-		Damage: 30000
-		ValidTargets: Ground, Water
-		Versus:
-			None: 30
-			Kevlar: 30
-			Flak: 30
-			Wood: 30
-			Concrete: 30
-			Light: 75
-			Medium: 50
-			Heavy: 30
-		DamageTypes: Prone50Percent, TriggerProne, ExplosionDeath
-	Warhead@2Smu: LeaveSmudge
-		SmudgeType: Crater
-		ValidTargets: Ground, Infantry
-	Warhead@3Eff: CreateEffect
-		Explosions: poof
-		ImpactSounds: xplosml2.aud
-		ValidTargets: Ground, Water, Trees
-	Warhead@4Eff: CreateEffect
-		Explosions: sml_splash
-		ImpactSounds: ssplash3.aud
-		ValidTargets: Water
-
-PortaLaser:
-	Inherits: ^Laser
-	ReloadDelay: 38
-	Range: 3c768
-	Burst: 3
-	BurstDelays: 4
-	-Report:
-	StartBurstReport: lasgun.aud
-	Projectile: LaserZap
-		Width: 30
-		Duration: 3
-		SecondaryBeamWidth: 50
-		SecondaryBeamColor: FF000030
-		Blockable: true
-		Inaccuracy: 0c256
-	Warhead@1Dam: SpreadDamage
-		Damage: 1500
-		Versus:
-			None: 150
-			Kevlar: 150
-			Flak: 150
-			Wood: 75
-			Concrete: 100
-			Light: 100
-			Medium: 90
-			Heavy: 90
-
-FireballLauncher:
-	Inherits: ^FlameWeapon
-	ReloadDelay: 65
-	Range: 5c0
-	MinRange: 1c513
-	Projectile: Bullet
-		Speed: 250
-		TrailImage: fb2
-		Image: FB1
-		Blockable: false
-	Warhead@1Dam: SpreadDamage
-		InvalidTargets: Flamer
-		Damage: 15000
-		Versus:
-			None: 90
-			Kevlar: 90
-			Flak: 80
-			Light: 50
-			Medium: 25
-			Heavy: 25
-			Wood: 50
-			Concrete: 25
-	Warhead@3Eff: CreateEffect
-		Explosions: med_napalm
-		ImpactSounds: firebl3.aud
-		ImpactActors: false
-
-Hack:
-	Range: 12c0
-	ReloadDelay: 50
-	ValidTargets: Hackable
-	TargetActorCenter: true
-	Report: hacker-pulse.aud
-	Projectile: ArcLaserZap
-		Color: 1ce31270
-		Angle: 60
-		Width: 86
-		Duration: 20
-		HitAnim: empty
-	Warhead@1Dam: TargetDamage
-		ValidRelationships: Enemy, Neutral
-	Warhead@CAMERA: SpawnActor
-		Actors: camera.hacker
-		Range: 1
-		ValidRelationships: Neutral, Enemy
-
-PrepareHack:
-	Inherits: Hack
-	-Report:
-	-Projectile:
-	Projectile: InstantHit
-
-SonicZap:
-	ReloadDelay: 120
-	Range: 6c768
-	TargetActorCenter: true
-	InvalidTargets: Air
-	Report: sonic4.aud
-	Projectile: AreaBeam
-		Speed: 0c428
-		Duration: 65
-		DamageInterval: 3
-		Width: 390
-		Shape: Flat
-		ZOffset: 1023
-		BeyondTargetRange: 0c256
-		Blockable: true
-		TrackTarget: true
-		Color: 00c3ff25
-	Warhead@1Dam: SpreadDamage
-		Range: 0, 32
-		Falloff: 100, 100
-		Damage: 550
-		AffectsParent: false
-		ValidRelationships: Neutral, Enemy
-		ValidTargets: Ground, Water
-		Versus:
-			Heavy: 80
-			Concrete: 150
-			Wood: 200
-		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
-	Warhead@2Dam: SpreadDamage
-		Range: 0, 32
-		Falloff: 50, 50
-		Damage: 225
-		InvalidTargets: Disruptor, Air
-		AffectsParent: false
-		ValidRelationships: Ally
-		Versus:
-			Heavy: 80
-			Concrete: 150
-			Wood: 200
-		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
-
-SonicZapVisual:
-	ReloadDelay: 120
-	Range: 6c768
-	TargetActorCenter: true
-	InvalidTargets: Air
-	Projectile: AreaBeam
-		Speed: 0c428
-		Duration: 65
-		DamageInterval: 3
-		Width: 180
-		Shape: Flat
-		ZOffset: 1023
-		BeyondTargetRange: 0c256
-		Blockable: true
-		TrackTarget: true
-		Color: 00fffb35
-	Warhead@1Dam: SpreadDamage
-		Range: 0, 32
-		Falloff: 100, 100
-		Damage: 100
-		AffectsParent: false
-		ValidRelationships: Neutral, Enemy
-		ValidTargets: Ground, Water
-		Versus:
-			Heavy: 80
-			Concrete: 150
-			Wood: 200
-		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
-	Warhead@2Dam: SpreadDamage
-		Range: 0, 32
-		Falloff: 50, 50
-		Damage: 50
-		InvalidTargets: Disruptor, Air
-		AffectsParent: false
-		ValidRelationships: Ally
-		Versus:
-			Heavy: 80
-			Concrete: 150
-			Wood: 200
-		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath

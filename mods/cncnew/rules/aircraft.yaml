@@ -10,7 +10,7 @@ C17:
 		AddToAssetsValue: false
 	Aircraft:
 		TurnSpeed: 20
-		Speed: 236
+		Speed: 259
 		LandingSounds: vc130diva.aud, vc130divb.aud
 		Repulsable: False
 		MaximumPitch: 36
@@ -25,14 +25,6 @@ C17:
 		ChuteSound: chute1.aud
 	DamageMultiplier@INVULNERABLE:
 		Modifier: 0
-	GrantConditionOnPrerequisite@GLOBALC17STEALTH:
-		Condition: global-C17-stealth
-		Prerequisites: global-C17-stealth
-	Cloak:
-		CloakTypes: AirStealth
-		InitialDelay: 0
-		CloakDelay: 0
-		RequiresCondition: global-C17-stealth
 	Contrail@1:
 		Offset: -261,-650,0
 		TrailLength: 8
@@ -58,7 +50,7 @@ C17:
 		Condition: c17speed-upgraded
 		Prerequisites: c17speed.upgrade
 	SpeedMultiplier@C17Speed:
-		Modifier: 200
+		Modifier: 180
 		RequiresCondition: c17speed-upgraded
 
 A10:
@@ -67,13 +59,13 @@ A10:
 	Interactable:
 	HitShape:
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
-		Type: Heavy
+		Type: Aircraft
 	Tooltip:
 		Name: A-10 Warthog
 	Valued:
-		Cost: 1600
+		Cost: 2000
 	UpdatesPlayerStatistics:
 		AddToAssetsValue: false
 	Aircraft:
@@ -144,6 +136,78 @@ A10.Husk:
 	RenderSprites:
 		Image: a10
 
+#	simplest would be to make this a Nod Airstrike
+SFIG:
+	Inherits: ^Plane
+	-ActorLostNotification:
+	Interactable:
+	HitShape:
+	Health:
+		HP: 12500
+	Armor:
+		Type: Aircraft
+	Tooltip:
+		Name: Stealth Bomber
+	Valued:
+		Cost: 1600
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+		Repulsable: False
+		AirborneCondition: airborne
+	AttackBomber:
+		Armaments: bombs
+	Armament@BOMBS:
+		Name: bombs
+		Weapon: Napalm
+		LocalOffset: 300,0,-43
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	SpawnActorOnDeath:
+		Actor: SFIG.Husk
+	RevealsShroud@AirRadar:
+		ValidRelationships: Enemy
+		Range: 3c512
+		Type: CenterPosition
+		RevealGeneratedShroud: false
+		RequiresCondition: in-airwarning-radius
+	AnnounceOnSeen@AirRadar:
+		PingRadar: true
+		Notification: EnemyPlanesApproaching
+	ExternalCondition@AirRadar:
+		Condition: in-airwarning-radius
+	Cloak:
+		CloakTypes: AirStealth
+		InitialDelay: 0
+		CloakDelay: 90
+		CloakSound: trans1.aud
+		UncloakSound: trans1.aud
+		Palette: cloak
+		IsPlayerPalette: false
+		UncloakOn: Attack, Damage
+		PauseOnCondition: cloak-force-disabled || !airborne
+	GrantConditionOnDamageState@UNCLOAK:
+		Condition: cloak-force-disabled
+		ValidDamageStates: Critical
+	-MapEditorData:
+
+SFIG.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Stealth Fighter
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+	SmokeTrailWhenDamaged:
+		Offset: -853,0,171
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: sfig
+
 UAV:
 	Inherits: ^Plane
 	-ActorLostNotification:
@@ -151,9 +215,9 @@ UAV:
 	Tooltip:
 		Name: Recon Drone
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
-		Type: Heavy
+		Type: Aircraft
 	Aircraft:
 		CruiseAltitude: 2560
 		TurnSpeed: 7
@@ -166,32 +230,20 @@ UAV:
 	SmokeTrailWhenDamaged:
 		Offset: -1c43,0,0
 		Interval: 2
-	DetectCloaked@DetectionI:
+	DetectCloaked:
 		Range: 7c536
 		CloakTypes: GroundStealth, Stealth, AirStealth
-		RequiresCondition: !uavrange-upgraded
-	DetectCloaked@DetectionII:
-		Range: 11c304
-		CloakTypes: GroundStealth, Stealth, AirStealth
-		RequiresCondition: uavrange-upgraded
 	#	this doesnt appear, boo...
 	#	RenderDetectionCircle:
 	#	appears more opaque than DetectionCircle
 	#	idk how to fix that
-	WithRangeCircle@DetectionImitationI:
+	WithRangeCircle@DetectionImitation:
 		Range: 7c536
 		Color: 32cd32
 		BorderColor: 000000
 		Visible: Always
-		RequiresCondition: !uavrange-upgraded
-	WithRangeCircle@DetectionImitationII:
-		Range: 11c304
-		Color: 32cd32
-		BorderColor: 000000
-		Visible: Always
-		RequiresCondition: uavrange-upgraded
 	RevealsShroud:
-		Range: 15c768
+		Range: 10c768
 		Type: CenterPosition
 	RejectsOrders:
 	Interactable:
@@ -212,22 +264,6 @@ UAV:
 		UsePlayerColor: false
 	SpawnActorOnDeath:
 		Actor: UAV.Husk
-	GrantConditionOnPrerequisite@UAVBoostBombardment:
-		Condition: uavutility-upgraded
-		Prerequisites: bombard.strat
-	ProximityExternalCondition@UAVBoostBombardment:
-		Range: 15c0
-		ValidRelationships: Ally
-		Condition: uavboosted
-		RequiresCondition: uavutility-upgraded
-	GrantConditionOnPrerequisite@UAVBoostHoldtheLine:
-		Condition: uavrange-upgraded
-		Prerequisites: hold.strat
-	WithRangeCircle@UAVBoostHoldtheLine:
-		Range: 15c0
-		Color: ff8c00
-		RequiresCondition: uavrange-upgraded
-		Visible: always
 	Armament:
         Weapon: UAVMissile
 		LocalOffset: 432,0,0
@@ -264,6 +300,99 @@ UAV.Husk:
 	RenderSprites:
 		Image: uav
 
+F18:
+	Inherits: ^Plane
+	Inherits@AUTOTARGET: ^AutoTargetAir
+	-ActorLostNotification:
+	Interactable:
+	HitShape:
+	Health:
+		HP: 12500
+	Armor:
+		Type: Aircraft
+	Tooltip:
+		Name: F-18 Hornet
+	Valued:
+		Cost: 1600
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
+	Aircraft:
+		TurnSpeed: 16
+		IdleTurnSpeed: 8
+		Speed: 343
+		Repulsable: False
+		AirborneCondition: airborne
+	AttackBomberCA:
+		FacingTolerance: 40
+	AttackAircraft:
+		PersistentTargeting: false
+		OpportunityFire: True
+	Armament:
+		Weapon: Dragon
+		LocalOffset: 0,-256,-43, 0,256,-43
+		PauseOnCondition: !ammo
+	AmmoPool:
+		Ammo: 10
+		AmmoCondition: ammo
+	ReloadAmmoPool:
+		Delay: 250
+		Count: 2
+		ResetOnFire: true
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+	SpawnActorOnDeath:
+		Actor: F18.Husk
+	RevealsShroud@AirRadar:
+		ValidRelationships: Enemy
+		Range: 3c512
+		Type: CenterPosition
+		RevealGeneratedShroud: false
+		RequiresCondition: in-airwarning-radius
+	AnnounceOnSeen@AirRadar:
+		PingRadar: true
+		Notification: EnemyPlanesApproaching
+	ExternalCondition@AirRadar:
+		Condition: in-airwarning-radius
+	AutoTarget:
+		InitialStance: HoldFire
+		InitialStanceAI: AttackAnything
+	-MapEditorData:
+
+F18.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: F-18 Hornet
+	Aircraft:
+		TurnSpeed: 16
+		Speed: 343
+	Contrail@1:
+		Offset: -640,171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -640,-171,0
+		TrailLength: 8
+		TrailWidth: 32
+		UsePlayerColor: false
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: f22
+
 F22:
 	Inherits: ^Plane
 	Inherits@AUTOTARGET: ^AutoTargetAir
@@ -271,9 +400,9 @@ F22:
 	Interactable:
 	HitShape:
 	Health:
-		HP: 22500
+		HP: 12500
 	Armor:
-		Type: Heavy
+		Type: Aircraft
 	Tooltip:
 		Name: F-22 Raptor
 	Valued:
@@ -363,29 +492,29 @@ TRAN:
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
 	Inherits@EMP: ^AcceptsEMPCrate
-	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
 	Valued:
-		Cost: 750
+		Cost: 1000
 	Tooltip:
 		Name: Chinook
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 13
+		BuildPaletteOrder: 1
 		Prerequisites: hpad, ~techlevel.medium
-		Queue: Vehicle.GDI, Vehicle.Nod
+		Queue: Aircraft.GDI, Aircraft.Nod
 		Description: Fast Infantry Transport Helicopter.\n  Unarmed
 	Aircraft:
+        #   IdleBehavior: Land
 		TurnSpeed: 20
 		Speed: 150
 		AltitudeVelocity: 0c100
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Health:
-		HP: 9000
+		HP: 10000
 	Armor:
-		Type: Light
+		Type: Aircraft
 	RevealsShroud:
-		Range: 10c0
+		Range: 7c0
 		Type: GroundPosition
 	WithIdleOverlay@ROTOR1AIR:
 		Offset: 597,0,85
@@ -408,16 +537,22 @@ TRAN:
 		MaxWeight: 10
 		AfterUnloadDelay: 40
 		LoadedCondition: loaded
+		PassengerConditions:
+			rmbo: commandoinside
+            rmb2: commandoinside
 	Sellable:
 		RequiresCondition: unit.sellable && !loaded
 	SpawnActorOnDeath:
 		Actor: TRAN.Husk
 	Selectable:
 		DecorationBounds: 41,41
-	Targetable@HIJACKED:
-		RequiresCondition: !airborne && !loaded
-	Capturable@HIJACKED:
-		RequiresCondition: !airborne && !loaded
+	WithDecoration@COMMANDOSKULL:
+		Image: pips
+		Sequence: pip-skull
+		Palette: effect
+		Position: TopLeft
+		ValidRelationships: Ally
+		RequiresCondition: commandoinside
 
 TRAN.Husk:
 	Inherits: ^HelicopterHusk
@@ -443,8 +578,6 @@ ORCA:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
-	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	Valued:
 		Cost: 1200
 	Tooltip:
@@ -452,22 +585,22 @@ ORCA:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 14
-		Prerequisites: hpad, hq, ~!orcaammo.upgrade, ~techlevel.medium
-		Queue: Vehicle.GDI
+		BuildPaletteOrder: 2
+		Prerequisites: hpad, hq, ~techlevel.medium
+		Queue: Aircraft.GDI
 		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
 	Aircraft:
 		TurnSpeed: 28
 		Speed: 186
 		TakeoffSounds: orcaup1.aud
 		LandingSounds: orcadwn1.aud
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Health:
-		HP: 9000
+		HP: 22500
 	Armor:
-		Type: Medium
+		Type: Aircraft
 	RevealsShroud:
-		Range: 10c0
+		Range: 7c0
 		Type: GroundPosition
 	Armament@PRIMARY:
 		Weapon: OrcaAGMissiles
@@ -479,7 +612,7 @@ ORCA:
 		PauseOnCondition: !ammo
 	Armament@TERTIARY:
 		Name: tertiary
-		Weapon: MachineGunH
+		Weapon: MachineGunHeli
 		MuzzleSequence: muzzle
 		LocalOffset: 427,0,-213
 		PauseOnCondition: !ammo
@@ -492,7 +625,8 @@ ORCA:
 		OpportunityFire: false
 		PersistentTargeting: false
 		AttackType: Hover
-	AmmoPool:
+	AmmoPool@1:
+        Name: primary
 		Armaments: primary, secondary
 		Ammo: 6
 		ReloadDelay: 100
@@ -503,28 +637,16 @@ ORCA:
 	WithMoveAnimation:
 		MoveSequence: move
 	Rearmable:
+        AmmoPools: primary
 		RearmActors: hpad
 	Selectable:
 		DecorationBounds: 30,24
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
+        PipCount: 3
+        AmmoPools: primary
 		RequiresSelection: true
-	#	!airborne is there for because
-	#	Aircraft freezes if Transformed mid-flight
-	TransformOnCondition@OrcaAmmoUpgrade:
-		IntoActor: ORCA.Upgraded.NoAmmo
-		RequiresCondition: orcaammo-upgraded && !airborne && onhelipad
-	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
-		Condition: orcaammo-upgraded
-		Prerequisites: orcaammo.upgrade
-	ExternalCondition@OnHelipad:
-		Condition: onhelipad
-	#	this whole jazz can be avoided simply by 
-	#	making AmmoPool into a conditional trait
-	ProducibleWithLevel:
-		InitialLevels: 1
-		Prerequisites: orca.veterancy
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -536,33 +658,6 @@ ORCA.Husk:
 	RevealsShroud:
 		Range: 10c0
 		Type: GroundPosition
-	RenderSprites:
-		Image: orca
-
-ORCA.Upgraded:
-	Inherits: ORCA
-	Buildable:
-		Prerequisites: hpad, hq, ~orcaammo.upgrade, ~techlevel.medium
-	AmmoPool:
-		Ammo: 10
-	RenderSprites:
-		Image: orca
-	-TransformOnCondition@OrcaAmmoUpgrade:
-	-GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
-	-ExternalCondition@OnHelipad:
-	-MapEditorData:
-
-#	to prevent instant full ammo on transform
-ORCA.Upgraded.NoAmmo:
-	Inherits: ORCA.Upgraded
-	-Buildable:
-	#	and affected by the ceases 
-	#	rearming on transform bug
-	#	for aircraft, na großartig
-	Aircraft:
-		TakeOffOnCreation: false
-	AmmoPool:
-		InitialAmmo: 0
 	RenderSprites:
 		Image: orca
 
@@ -579,20 +674,20 @@ HELI:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 14
-		Prerequisites: hpad, hq, ~techlevel.medium
-		Queue: Vehicle.Nod
+		BuildPaletteOrder: 2
+		Prerequisites: hpad, hq, ~techlevel.medium, ~!aitoodumb
+		Queue: Aircraft.Nod
 		Description: Helicopter Gunship with Chainguns.\nCan be upgraded to become better against Tanks.\n  Strong vs Infantry, Light Vehicles, Aircraft\n  Weak vs Tanks, Anti-Air
 	Aircraft:
 		TurnSpeed: 28
 		Speed: 180
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Health:
-		HP: 12500
+		HP: 22500
 	Armor:
-		Type: Medium
+		Type: Aircraft
 	RevealsShroud:
-		Range: 10c0
+		Range: 7c0
 		Type: GroundPosition
 	Armament@PRIMARY:
 		Name: primary
@@ -689,21 +784,35 @@ HELI.Husk:
 	RenderSprites:
 		Image: heli
 
+HELI.ai:
+    Inherits: HELI
+    -Armament@TERTIARY:
+    -Armament@QUARTENARY:
+    -AmmoPool@1:
+    -WithAmmoPipsDecoration@1:
+    -GrantConditionOnPrerequisite@hellfirepods:
+    AttackAircraft:
+        Armaments: primary, secondary
+    Rearmable:
+        AmmoPools: ammogun
+    Buildable:
+        Prerequisites: hpad, hq, ~techlevel.medium, ~aitoodumb
+    RenderSprites:
+        Image: heli
+
 MH60:
 	Inherits: ^Helicopter
 	Inherits@AUTOTARGET: ^AutoTargetGround
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
-	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
-	Inherits@DroneBoost: ^GDIAffectedByDrone
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
 	Buildable:
-		BuildPaletteOrder: 15
-		Prerequisites: hpad, tech, ~techlevel.high
-		Queue: Vehicle.GDI
-		Description: Slow moving Helicopter gunship\narmed with dual chainguns.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Light armor\n  Weak vs Tanks, Aircraft
+		BuildPaletteOrder: 3
+		Prerequisites: hpad, tech, ~techlevel.high, ~!aitoodumb
+		Queue: Aircraft.GDI
+		Description: Slow moving Helicopter gunship armed with chainguns.\nCan reload anywhere while on the Ground.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Light armor\n  Weak vs Tanks, Aircraft
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -714,64 +823,54 @@ MH60:
 	Selectable:
 		DecorationBounds: 38,32
 	Health:
-		HP: 12500
+		HP: 35000
 	Armor:
-		Type: Medium
+		Type: Aircraft
 	AppearsOnRadar:
 		ValidRelationships: Ally
 	RevealsShroud:
-		MinRange: 5c0
 		Range: 7c0
 		Type: GroundPosition
-		RevealGeneratedShroud: False
-	RevealsShroud@GAPGEN:
-		Range: 5c0
-		Type: GroundPosition
 	Aircraft:
+        #   IdleBehavior: Land
 		TurnSpeed: 14
-		Speed: 112
-		PauseOnCondition: emp-crate-collected || being-captured
+		Speed: 131
+		PauseOnCondition: emp-crate-collected
 	AttackAircraft:
-		Armaments: primary, secondary, tertiary, quartenary
+		Armaments: primary, secondary
 		FacingTolerance: 20
 		PersistentTargeting: false
 		AttackType: Hover
 	Armament@PRIMARY:
 		Name: primary
-		Weapon: ChainGun
+		Weapon: HeliAGGun
 		LocalOffset: 85,-213,-85, 85,213,-85
 		MuzzleSequence: muzzle
 		PauseOnCondition: !ammo || emp-crate-collected
 	Armament@SECONDARY:
 		Name: secondary
-		Weapon: ChainGun
-		LocalOffset: 85,213,-85, 85,-213,-85
-		MuzzleSequence: muzzle
-		PauseOnCondition: !ammo || emp-crate-collected
-	Armament@TERTIARY:
-		Name: tertiary
-		Weapon: ChainGun.AA
+		Weapon: HeliAAGun
 		LocalOffset: 85,-213,-85, 85,213,-85
 		MuzzleSequence: muzzle
 		PauseOnCondition: !ammo || emp-crate-collected
-	Armament@QUARTENARY:
-		Name: quartenary
-		Weapon: ChainGun.AA
-		LocalOffset: 85,213,-85, 85,-213,-85
-		MuzzleSequence: muzzle
-		PauseOnCondition: !ammo || emp-crate-collected
 	AmmoPool:
-		Armaments: primary, secondary, tertiary, quartenary
-		Ammo: 24
-		ReloadDelay: 15
+		Armaments: primary, secondary
+		Ammo: 18
+		ReloadDelay: 40
 		AmmoCondition: ammo
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
-		PipCount: 6
+		PipCount: 9
+        FullSequence: pip-yellow
 		RequiresSelection: true
-	Rearmable:
-		RearmActors: hpad
+	ReloadAmmoPoolCA:
+        AmmoPool: primary
+		Delay: 40
+		Count: 2
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+        RequiresCondition: !airborne
 	WithMuzzleOverlay:
 	WithIdleOverlay@ROTORAIR:
 		Sequence: rotor
@@ -814,6 +913,17 @@ MH60.Husk:
 	RenderSprites:
 		Image: MH60
 
+MH60.ai:
+    Inherits: MH60
+    Aircraft: 
+        IdleBehavior: None
+    ReloadAmmoPoolCA:
+        -RequiresCondition: !airborne
+    Buildable:
+        Prerequisites: hpad, tech, ~techlevel.high, ~aitoodumb
+    RenderSprites:
+        Image: mh60
+
 RH66:
 	Inherits: ^Helicopter
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -821,26 +931,22 @@ RH66:
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
 	Inherits@ExpBoost: ^NodAffectedByTraining
 	Buildable:
-		BuildPaletteOrder: 15
+		BuildPaletteOrder: 3
 		Prerequisites: hpad, tmpl, ~techlevel.high
-		Queue: Vehicle.Nod
+		Queue: Aircraft.Nod
 		Description: Attack helicopter that can be upgraded\nto gain Stealth capability.\nDoesnt appear on enemy Radar.\nCannot attack Air units.\n  Strong vs Buildings, clustered Infantry.\n  Weak vs Anti-Air, Detection
 	Valued:
-		Cost: 1800
+		Cost: 1500
 	Tooltip:
 		Name: Comanche
 	AppearsOnRadar:
 		ValidRelationships: Ally
 	Health:
-		HP: 18000
+		HP: 15000
 	Armor:
-		Type: Light
+		Type: Aircraft
 	RevealsShroud:
-		Range: 6c0
-		Type: GroundPosition
-		RevealGeneratedShroud: False
-	RevealsShroud@GAPGEN:
-		Range: 5c0
+		Range: 7c0
 		Type: GroundPosition
 	Armament@PRIMARY:
 		Weapon: M16
@@ -873,7 +979,7 @@ RH66:
 		TurnSpeed: 16
 		Speed: 150
 		Voice: Move
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Guard:
 		Voice: Move
 	DeathSounds@SAKURA:
@@ -948,9 +1054,8 @@ RH66.Husk:
 OCAR:
 	Inherits: ^Helicopter
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
-	Inherits@CostMultiplierAircraft: ^GDICostMultiplierAircraft
 	RenderSprites:
-		Image: orcaca
+		Image: ocar
 	Valued:
 		Cost: 1200
 	Tooltip:
@@ -958,22 +1063,22 @@ OCAR:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 18
+		BuildPaletteOrder: 4
 		Prerequisites: ~hpad, ~fix, ~carryall.unlock, ~techlevel.high
-		Queue: Vehicle.GDI
+		Queue: Aircraft.GDI
 		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
 	Aircraft:
 		CruiseAltitude: 2048
 		AltitudeVelocity: 0c100
 		IdealSeparation: 0c768
 		TurnSpeed: 20
-		Speed: 236
+		Speed: 150
 		TakeoffSounds: dropup1.aud
 		LandingSounds: dropdwn1.aud
 		Repulsable: True
 		IdleTurnSpeed: 4
 		Voice: Move
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Carryall:
 		BeforeLoadDelay: 10
 		BeforeUnloadDelay: 15
@@ -993,11 +1098,11 @@ OCAR:
 	#	Modifier: 60
 	#	RequiresCondition: carrying && heavy
 	Health:
-		HP: 30000
+		HP: 10000
 	Armor:
-		Type: Medium
+		Type: Aircraft
 	RevealsShroud:
-		Range: 10c0
+		Range: 7c0
 		Type: GroundPosition
 	SpawnActorOnDeath:
 		Actor: OCAR.Husk
@@ -1034,16 +1139,6 @@ OCAR:
 		Color: FFFFFF80
 	Sellable:
 		RequiresCondition: unit.sellable && !carrying
-	-GrantConditionOnPrerequisite@BOMBARD:
-	-FirepowerMultiplier@BOMBARD:
-	-WithDecoration@BOMBARD:
-	-GrantConditionOnPrerequisite@SEEK:
-	-RangeMultiplier@SEEK:
-	-WithDecoration@SEEK:
-	Targetable@HIJACKED:
-		RequiresCondition: !airborne && !carrying
-	Capturable@HIJACKED:
-		RequiresCondition: !airborne && !carrying
 
 OCAR.Husk:
 	Inherits: ^PlaneHusk
@@ -1059,23 +1154,12 @@ OCAR.Husk:
 		Range: 10c0
 		Type: GroundPosition
 	RenderSprites:
-		Image: orcaca
+		Image: ocar
 		PlayerPalette: overlayplayer
 
 OCAR.Reinforce:
 	Inherits: OCAR
-	-Targetable@HIJACKED:
-	-GrantConditionOnCapture@HIJACKED:
-	-Capturable@HIJACKED:
-	-WithDecoration@HIJACKED:
-	-ProvidesPrerequisite@LIMITINGJACK:
-	-EjectOnDeath@HIJACKED:
 	-Buildable:
-	-CaptureManager:
-	-GrantConditionIfOwnerIsNeutral:
-	-Targetable@DRIVERKILL:
-	-ChangesHealth@DRIVER_DEAD:
-	-Capturable@DRIVER_DEAD:
     -Sellable:
     -ExternalCondition@Sellable:
     -ProximityExternalCondition:
@@ -1084,6 +1168,7 @@ OCAR.Reinforce:
 		DropRange: 30c0
 	Aircraft:
 		IdleBehavior: LeaveMap
+        Speed: 236
 		Repulsable: False
 		PauseOnCondition: emp-crate-collected
 	-Selectable:
@@ -1094,125 +1179,18 @@ OCAR.Reinforce:
 OCAR.Pod:
 	Inherits: OCAR.Reinforce
 	RenderSprites:
-		Image: orcacapod
+		Image: ocarpod
 	Aircraft:
 	WithMoveAnimation:
 		MoveSequence: move
 	Cargo:
 		MaxWeight: 10
 
-NODHIND:
-	Inherits: ^Helicopter
-	Inherits@AUTOTARGET: ^AutoTargetGround
-	Inherits@EXPERIENCE: ^GainsExperience
-	Inherits@Crates: ^AcceptsAllCratesExceptCloak
-	Inherits@ExpBoost: ^NodAffectedByTraining
-	AutoTarget:
-		InitialStance: HoldFire
-		InitialStanceAI: HoldFire
-	Buildable:
-		BuildPaletteOrder: 16
-		Prerequisites: ~disabled
-		Queue: Vehicle.Nod
-		Description: Slow helicopter gunship armed with dual chainguns\nand anti-ground rockets.\nCannot attack Air units.\n  Strong vs Infantry, Tanks\n  Weak vs fast Units, Aircraft
-	Tooltip:
-		Name: Hind Gunship
-	Valued:
-		Cost: 1500
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
-	Selectable:
-		DecorationBounds: 38,32
-	Health:
-		HP: 25000
-	RevealsShroud:
-		Range: 10c0
-		Type: GroundPosition
-	Aircraft:
-		TurnSpeed: 16
-		Speed: 130
-		InitialFacing: 192
-		PauseOnCondition: emp-crate-collected || being-captured
-	AttackAircraft:
-		Armaments: primary, secondary
-		FacingTolerance: 60
-		PersistentTargeting: false
-		AttackType: Hover
-		OpportunityFire: true
-	Armament@PRIMARY:
-		Name: primary
-		Weapon: HindChainGun
-		LocalOffset: 580,0,-210
-		MuzzleSequence: muzzle
-		PauseOnCondition: !ammo
-	Armament@SECONDARY:
-		Name: secondary
-		Weapon: HindRockets
-		LocalOffset: 85,-213,-85, 85,213,-85
-		PauseOnCondition: !ammorock
-	WithMuzzleOverlay:
-	AmmoPool@GUNS:
-		Name: ammogun
-		Armaments: primary
-		Ammo: 8
-		ReloadDelay: 9
-		AmmoCondition: ammo
-	AmmoPool@ROCKETS:
-		Name: ammorock
-		Armaments: secondary
-		Ammo: 12
-		ReloadDelay: 9
-		AmmoCondition: ammorock
-	WithAmmoPipsDecoration@1:
-		Position: BottomLeft
-		Margin: 4, 6
-		PipCount: 4
-		RequiresSelection: false
-		AmmoPools: ammogun
-	WithAmmoPipsDecoration@2:
-		Position: BottomLeft
-		Margin: 4, 3
-		FullSequence: pip-red
-		PipCount: 6
-		RequiresSelection: false
-		AmmoPools: ammorock
-	Rearmable:
-		RearmActors: hpad
-		AmmoPools: ammogun, ammorock
-	WithIdleOverlay@ROTORAIR:
-		Sequence: rotor
-		RequiresCondition: airborne
-	WithIdleOverlay@ROTORGROUND:
-		Sequence: slow-rotor
-		RequiresCondition: !airborne
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-	SpawnActorOnDeath:
-		Actor: NODHIND.Husk
-
-NODHIND.Husk:
-	Inherits: ^HelicopterHusk
-	Tooltip:
-		Name: Hind Gunship
-	Aircraft:
-		TurnSpeed: 16
-		Speed: 112
-	WithIdleOverlay:
-		Sequence: rotor
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		MinDamage: Undamaged
-	RevealsShroud:
-		Range: 10c0
-		Type: GroundPosition
-	RenderSprites:
-		Image: nodhind
-
-NODV22:
+NV22:
 	Inherits: ^Helicopter
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
 	RenderSprites:
-		Image: nodv22
+		Image: nv22
 	Valued:
 		Cost: 1200
 	Tooltip:
@@ -1220,22 +1198,22 @@ NODV22:
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
-		BuildPaletteOrder: 16
-		Prerequisites: hpad, fix, ~stolentech.hpad
-		Queue: Vehicle.Nod
+		BuildPaletteOrder: 4
+		Prerequisites: hpad, fix, ~carryall.unlock, ~techlevel.high
+		Queue: Aircraft.Nod
 		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
 	Aircraft:
 		CruiseAltitude: 2048
 		AltitudeVelocity: 0c100
 		IdealSeparation: 0c768
 		TurnSpeed: 20
-		Speed: 236
+		Speed: 150
 		TakeoffSounds: dropup1.aud
 		LandingSounds: dropdwn1.aud
 		Repulsable: True
 		IdleTurnSpeed: 4
 		Voice: Move
-		PauseOnCondition: emp-crate-collected || being-captured
+		PauseOnCondition: emp-crate-collected
 	Carryall:
 		BeforeLoadDelay: 10
 		BeforeUnloadDelay: 15
@@ -1249,14 +1227,14 @@ NODV22:
 		Modifier: 80
 		RequiresCondition: carrying
 	Health:
-		HP: 30000
+		HP: 10000
 	Armor:
-		Type: Medium
+		Type: Aircraft
 	RevealsShroud:
-		Range: 10c0
+		Range: 7c0
 		Type: GroundPosition
 	SpawnActorOnDeath:
-		Actor: NODV22.Husk
+		Actor: NV22.Husk
 	SmokeTrailWhenDamaged:
 		Offset: -427,0,0
 		Interval: 2
@@ -1294,18 +1272,8 @@ NODV22:
 		RequiresCondition: !airborne
 	Sellable:
 		RequiresCondition: unit.sellable && !carrying
-	-GrantConditionOnPrerequisite@BOMBARD:
-	-FirepowerMultiplier@BOMBARD:
-	-WithDecoration@BOMBARD:
-	-GrantConditionOnPrerequisite@SEEK:
-	-RangeMultiplier@SEEK:
-	-WithDecoration@SEEK:
-	Targetable@HIJACKED:
-		RequiresCondition: !airborne && !carrying
-	Capturable@HIJACKED:
-		RequiresCondition: !airborne && !carrying
 
-NODV22.Husk:
+NV22.Husk:
 	Inherits: ^PlaneHusk
 	Tooltip:
 		Name: Nod Carryall
@@ -1325,23 +1293,12 @@ NODV22.Husk:
 		Range: 10c0
 		Type: GroundPosition
 	RenderSprites:
-		Image: nodv22
+		Image: nv22
 		PlayerPalette: overlayplayer
 
-NODV22.Reinforce:
-	Inherits: NODV22
+NV22.Reinforce:
+	Inherits: NV22
 	-Buildable:
-	-Targetable@HIJACKED:
-	-GrantConditionOnCapture@HIJACKED:
-	-Capturable@HIJACKED:
-	-WithDecoration@HIJACKED:
-	-ProvidesPrerequisite@LIMITINGJACK:
-	-EjectOnDeath@HIJACKED:
-	-CaptureManager:
-	-GrantConditionIfOwnerIsNeutral:
-	-Targetable@DRIVERKILL:
-	-ChangesHealth@DRIVER_DEAD:
-	-Capturable@DRIVER_DEAD:
     -Sellable:
     -ExternalCondition@Sellable:
     -ProximityExternalCondition:
@@ -1350,6 +1307,7 @@ NODV22.Reinforce:
 		DropRange: 30c0
 	Aircraft:
 		IdleBehavior: LeaveMap
+        Speed: 236
 		Repulsable: False
 		PauseOnCondition: emp-crate-collected
 	-Selectable:
@@ -1357,74 +1315,118 @@ NODV22.Reinforce:
 	RejectsOrders:
 	Interactable:
 
-#	simplest would be to make this a Nod Airstrike
-SFIG:
-	Inherits: ^Plane
-	-ActorLostNotification:
-	Interactable:
-	HitShape:
-	Health:
-		HP: 22500
-	Armor:
-		Type: Heavy
+#   this whole jazz is necessary as to because
+#   ProductionFromMapEdge cant work with ^Upgrade
+airstrike.unlock:
+    Inherits: unit.summoner
 	Tooltip:
-		Name: Stealth Bomber
+		Name: Unlock: Airstrike
+	Buildable:
+		BuildPaletteOrder: 6
+		Queue: Aircraft.GDI
+		Prerequisites: ctrl, ~hq, ~tech, ~techlevel.unrestricted, ~!proxy.airstrike.unlock
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Airstrike' support power.\n\n  Unlocks: Airstrike\n\n  + Burns buildings and infantry along a line.\n  - The Bomber is vulnerable to SAM sites.
+        Icon: airstrike
 	Valued:
 		Cost: 1600
-	UpdatesPlayerStatistics:
-		AddToAssetsValue: false
-	Aircraft:
-		TurnSpeed: 16
-		Speed: 343
-		Repulsable: False
-		AirborneCondition: airborne
-	AttackBomber:
-		Armaments: bombs
-	Armament@BOMBS:
-		Name: bombs
-		Weapon: Napalm
-		LocalOffset: 300,0,-43
-	Targetable@AIRBORNE:
-		TargetTypes: Airplane
-		RequiresCondition: airborne
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
 	SpawnActorOnDeath:
-		Actor: SFIG.Husk
-	RevealsShroud@AirRadar:
-		ValidRelationships: Enemy
-		Range: 3c512
-		Type: CenterPosition
-		RevealGeneratedShroud: false
-		RequiresCondition: in-airwarning-radius
-	AnnounceOnSeen@AirRadar:
-		PingRadar: true
-		Notification: EnemyPlanesApproaching
-	ExternalCondition@AirRadar:
-		Condition: in-airwarning-radius
-	Cloak:
-		CloakTypes: AirStealth
-		InitialDelay: 0
-		CloakDelay: 90
-		CloakSound: trans1.aud
-		UncloakSound: trans1.aud
-		Palette: cloak
-		IsPlayerPalette: false
-		UncloakOn: Attack, Damage
-		PauseOnCondition: cloak-force-disabled || !airborne
-	GrantConditionOnDamageState@UNCLOAK:
-		Condition: cloak-force-disabled
-		ValidDamageStates: Critical
-	-MapEditorData:
+		Actor: proxy.airstrike.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
 
-SFIG.Husk:
-	Inherits: ^PlaneHusk
+proxy.airstrike.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+interceptorsgdi.unlock:
+    Inherits: unit.summoner
 	Tooltip:
-		Name: Stealth Fighter
-	Aircraft:
-		TurnSpeed: 16
-		Speed: 343
-	SmokeTrailWhenDamaged:
-		Offset: -853,0,171
-		Interval: 2
-		MinDamage: Undamaged
-	RenderSprites:
-		Image: sfig
+		Name: Unlock: F-18 Interceptors
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Aircraft.GDI
+		Prerequisites: ctrl, ~hq, ~tech, ~!proxy.interceptorsgdi.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+        Icon: interceptorgdi
+	Valued:
+		Cost: 1200
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.interceptorsgdi.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.interceptorsgdi.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+#   Nod Support Powers
+
+interceptorsnod.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: F-22 Interceptors
+	Buildable:
+		BuildPaletteOrder: 5
+		Queue: Aircraft.Nod
+		Prerequisites: ctrl, ~hq, ~tmpl, ~!proxy.interceptorsnod.unlock, ~techlevel.unrestricted
+		BuildDuration: 1500
+		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+        Icon: interceptornod
+	Valued:
+		Cost: 1200
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.interceptorsnod.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.interceptorsnod.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
+
+nodairstrike.unlock:
+    Inherits: unit.summoner
+	Tooltip:
+		Name: Unlock: Stealth Airstrike
+	Buildable:
+		BuildPaletteOrder: 6
+		Queue: Aircraft.Nod
+		Prerequisites: ctrl, ~hq, ~tmpl, ~techlevel.unrestricted, ~!proxy.nodairstrike.unlock
+		BuildDuration: 1500
+        Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
+        Icon: airstrikenod
+	Valued:
+		Cost: 1800
+    GrantTimedCondition:
+        Condition: tiktaktiktakboom
+        Duration: 2
+	SpawnActorOnDeath:
+		Actor: proxy.nodairstrike.unlock
+		RequiresCondition: !tiktaktiktakboom
+	KillsSelf:
+		RequiresCondition: !tiktaktiktakboom
+    RenderSprites:
+        Image: dummy.airstrikers
+
+proxy.nodairstrike.unlock:
+	AlwaysVisible:
+	ProvidesPrerequisite@proxyname:
