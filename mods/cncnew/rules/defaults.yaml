@@ -621,7 +621,7 @@
 	Health:
 		HP: 100000
 	Armor:
-		Type: Building
+		Type: Structure
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -769,7 +769,7 @@
 	Targetable:
 		TargetTypes: Ground, C4, Structure
 	Armor:
-		Type: Building
+		Type: Structure
 	Health:
 		HP: 40000
 	Building:
@@ -812,7 +812,7 @@
 	Health:
 		HP: 20000
 	Armor:
-		Type: Building
+		Type: Structure
 	WithIdleOverlay@Burns:
 		Image: fire
 		Sequence: 1

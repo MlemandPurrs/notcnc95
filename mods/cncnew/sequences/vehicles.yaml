@@ -135,8 +135,9 @@ ltnk:
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
-	muzzle: gunfire2
-		Length: *
+	muzzle: cannmuzz
+		Length: 2
+		Facings: 16
 	icon: ltnkicon
 
 ltnk.destroyed:
@@ -194,8 +195,9 @@ htnk:
 		Start: 32
 		Facings: 32
 		UseClassicFacings: True
-	muzzle: gunfire2
-		Length: *
+	muzzle: cannmuzz
+		Length: 2
+		Facings: 16
 	muzzle-mg: minigun
 		Length: 6
 		Facings: 16

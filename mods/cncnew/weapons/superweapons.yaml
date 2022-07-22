@@ -1,9 +1,10 @@
+#   Nuclear deals 50% more against Defenses, everything else gets full damage.
 Atomic:
 	ValidTargets: Ground, Water, Airplane, Helicopter, Trees
 	Report: nukemisl.aud
 	Warhead@1Dam_impact: SpreadDamage
 		Spread: 1c0
-		Damage: 15000
+		Damage: 10000
 		Falloff: 1000, 368, 135, 50, 18, 7, 0
 		ValidTargets: Ground, Airplane, Helicopter, Trees
 		AffectsParent: True
@@ -26,7 +27,7 @@ Atomic:
 		ImpactActors: false
 	Warhead@3Dam_areanukea: SpreadDamage
 		Spread: 2c512
-		Damage: 11000
+		Damage: 7500
 		Falloff: 1000, 700, 500, 300, 150, 50, 0
 		Delay: 3
 		ValidTargets: Ground, Airplane, Helicopter
@@ -86,7 +87,7 @@ Atomic:
 		Delay: 6
 	Warhead@10Dam_areanukec: SpreadDamage
 		Spread: 5c0
-		Damage: 2000
+		Damage: 2500
 		Falloff: 1000, 368, 135, 50, 18, 7, 0
 		Delay: 9
 		ValidTargets: Ground, Airplane, Helicopter, Trees
@@ -124,61 +125,25 @@ Atomic:
 		Dimensions: 3,3
 		Footprint: xxx xxx xxx
 
-AtomicFake:
-	ValidTargets: Ground, Water, Airplane, Helicopter, Trees
-	Report: nukemisl.aud
-	Warhead@1Dam_impact: SpreadDamage
-		Spread: 1c0
-		Damage: 1
-		Falloff: 1000, 368, 135, 50, 18, 7, 0
-		ValidTargets: Ground, Airplane, Helicopter, Trees
-		Versus:
-			None: 0
-            Infantry: 0
-			LightInf: 0
-			HeavyInf: 0
-			Light: 0
-			Medium: 0
-			Heavy: 0
-            Aircraft: 0
-            Structure: 0
-            Fortified: 0
-            Wood: 0
-		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
-	Warhead@2Eff_impact: CreateEffect
-		Explosions: nuke_explosion
-		ImpactSounds: nukexplo.aud
-		ImpactActors: false
-	Warhead@5Smu_areanukea: LeaveSmudge
-		SmudgeType: Scorch
-		InvalidTargets: Vehicle, Structure, Wall
-		Size: 1
-		Delay: 3
-	Warhead@21Shake: ShakeScreen
-		Duration: 20
-		Intensity: 1
-		Multiplier: 1,1
-	Warhead@14FlashEffect: FlashPaletteEffect
-		Duration: 20
-
+#   The Ion Cannon is good against Structures and Tanks
 IonCannon:
 	ValidTargets: Ground, Water, Airplane, Helicopter, Trees
 	Warhead@1Dam_impact: SpreadDamage
 		Range: 0, 1c1, 2c1, 2c512
-		Damage: 10000
+		Damage: 7000
 		Falloff: 1000, 1000, 250, 100
 		ValidTargets: Ground, Airplane, Helicopter, Trees
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 100
+            Infantry: 25
+			LightInf: 25
+			HeavyInf: 25
 			Light: 100
-			Medium: 100
-			Heavy: 100
-            Aircraft: 100
-            Structure: 100
-            Fortified: 100
+			Medium: 150
+			Heavy: 200
+            Aircraft: 150
+            Structure: 200
+            Fortified: 150
             Wood: 100
 		AffectsParent: True
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
@@ -199,6 +164,28 @@ IonCannon:
 		Size: 2,1
 		Delay: 6
 
+#   for Crate version, with extra explosion attached and delays to compensate
+IonCannon.crate:
+    Inherits: IonCannon
+    Warhead@1Dam_impact: SpreadDamage
+        Delay: 7
+    Warhead@2Smu_impact: LeaveSmudge
+        Delay: 7
+    Warhead@3Smu_area: LeaveSmudge
+        Delay: 10
+    Warhead@4Res_area2: DestroyResource
+        Delay: 12
+    Warhead@5Smu_area2: LeaveSmudge
+        Delay: 12
+	Warhead@6: CreateEffect
+		Delay: 0
+		ImpactSounds: ion1.aud
+		ValidTargets: Ground, Air, Water
+        Explosions: idle
+        Image: ionsfx
+        ImpactActors: false
+
+#   used by the surprise Nuke crate
 MiniNuke:
 	ValidTargets: Ground, Trees, Water, Underwater, Airplane, Helicopter
 	Warhead@1Dam_impact: SpreadDamage
@@ -330,9 +317,3 @@ MiniNuke:
 		RandomClusterCount: 6
 		Dimensions: 3,3
 		Footprint: xxx xxx xxx
-	#	Warhead@18Radio: CreateTintedCells
-	#	Spread: 1c0
-	#	Level: 350
-	#	Falloff: 100, 75, 52, 37, 24, 15, 2
-	#	MaxLevel: 750
-	#	LayerName: radioactivity.strong

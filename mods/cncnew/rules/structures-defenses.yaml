@@ -261,7 +261,7 @@ OBLI.Husk:
 	Interactable:
 		Bounds: 24,24
 	Tooltip:
-		Name: Obelisk (Destroyed)
+		Name: Obelisk of Light (Destroyed)
 	RenderSprites:
 		Image: obli.husk
 

@@ -1,16 +1,4 @@
-#   understanding my custom Armor types:
-#   1. None ; this is the default fallback if nothing else present
-#   2. Infantry ; Normal, plain Infantry.
-#   3. LightInf ; Infantry that is resistant to bullets 
-#   4. HeavyInf ; Infantry that is resistant to cannons
-#   5. Light ; Found on fast moving Vehicles
-#   6. Medium ; Inbetween Light and Heavy
-#   7. Heavy ; Found on Tanks
-#   8. Aircraft ; All Aircraft have this
-#   9. Structure ; All Base buildings
-#   10. Fortified ; Found on Defenses
-#   11. Wood ; used by Trees
-
+#   Cannons are good against Defenses and Light vehicles, bad versus Infantry
 ^BallisticWeapon:
 	ReloadDelay: 40
 	Range: 4c768
@@ -49,44 +37,91 @@
 		ValidTargets: Water
 		InvalidTargets: Ground
 
+#   Light Tank's gun
 70mm:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 30
+    Range: 4c768
 	Report: tnkfire3.aud
 	Projectile: Bullet
 		Speed: 853
 	Warhead@1Dam: SpreadDamage
 		Damage: 2500
 
-105mmDual:
-	Inherits: ^BallisticWeapon
-	ReloadDelay: 70
-	Burst: 2
-	BurstDelays: 10
-	Range: 5c768
-	Report: tnkfire3.aud
-
+#   Medium Tank's gun
 120mm:
 	Inherits: ^BallisticWeapon
-	Report: tnkfire4.aud
+	ReloadDelay: 40
+    Range: 4c768
+    Report: tnkfire4.aud
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
 	Warhead@4EffWater: CreateEffect
 		ImpactSounds: ssplash2.aud
 
+#   Mammoth Tank's guns
 120mmDual:
 	Inherits: ^BallisticWeapon
-	Range: 5c768
+	ReloadDelay: 60
+    Range: 5c768
+    Report: tnkfire4.aud
 	Burst: 2
 	BurstDelays: 8
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
 
+#   Gun Turret's weapon
 TurretGun:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 30
 	Range: 6c768
 	Projectile: Bullet
 		Speed: 853
+	Warhead@1Dam: SpreadDamage
+		Damage: 4000
 	Warhead@4EffWater: CreateEffect
 		ImpactSounds: ssplash2.aud
 
+#   Grenadier's bomb
+Grenade:
+	Inherits: ^BallisticWeapon
+	ReloadDelay: 50
+	Range: 3c256
+	Report: toss1.aud
+	Projectile: Bullet
+		Speed: 140
+		Blockable: false
+		LaunchAngle: 62
+		Inaccuracy: 813
+		Image: BOMB
+	Warhead@1Dam: SpreadDamage
+		Spread: 341
+		Damage: 4000
+		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
+	Warhead@3Eff: CreateEffect
+		Explosions: small_poof
+
+#   ditto, with Tiberian Sun style bouncyness applied
+Grenade.Bouncy:
+    Inherits: Grenade
+	Projectile: Bullet
+		Speed: 140
+		Blockable: false
+		LaunchAngle: 62
+		Inaccuracy: 813
+		Image: BOMB
+		BounceCount: 1
+		BounceRangeModifier: 50
+		ValidBounceBlockerRelationships: Ally, Neutral, Enemy    
+
+#   unused, was on Nod APC before decided to symmetrify instead
+GrenadeLauncher:
+    Inherits: Grenade
+    Range: 4c512
+    Report: grenlaun.aud
+
+#   Artillery 'damage type' deals overally good damage
+#   Artillery gun
 ArtilleryShell:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 65
@@ -114,7 +149,7 @@ ArtilleryShell:
             Aircraft: 150
             Structure: 50
             Fortified: 75
-            Wood: 100
+            Wood: 125
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 	Warhead@3Eff: CreateEffect
 		Explosions: poof
@@ -123,41 +158,7 @@ ArtilleryShell:
 		Explosions: big_splash
 		ImpactSounds: ssplash1.aud
 
-Grenade:
-	Inherits: ^BallisticWeapon
-	ReloadDelay: 50
-	Range: 3c256
-	Report: toss1.aud
-	Projectile: Bullet
-		Speed: 140
-		Blockable: false
-		LaunchAngle: 62
-		Inaccuracy: 813
-		Image: BOMB
-	Warhead@1Dam: SpreadDamage
-		Spread: 341
-		Damage: 4000
-		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
-	Warhead@3Eff: CreateEffect
-		Explosions: small_poof
-
-Grenade.Bouncy:
-    Inherits: Grenade
-	Projectile: Bullet
-		Speed: 140
-		Blockable: false
-		LaunchAngle: 62
-		Inaccuracy: 813
-		Image: BOMB
-		BounceCount: 1
-		BounceRangeModifier: 50
-		ValidBounceBlockerRelationships: Ally, Neutral, Enemy    
-
-GrenadeLauncher:
-    Inherits: Grenade
-    Range: 4c512
-    Report: grenlaun.aud
-
+#   Mortar Gun, uses Artillery damage type
 MortarShell:
 	Inherits: ^BallisticWeapon
 	ReloadDelay: 70
@@ -185,9 +186,10 @@ MortarShell:
             Aircraft: 150
             Structure: 50
             Fortified: 75
-            Wood: 100
+            Wood: 125
 		DamageTypes: Prone50Percent, TriggerProne, SmallExplosionDeath
 
+#   like regular Mortar, with poison mechanic added
 ToxicMortarShell:
 	Inherits: MortarShell
 	Warhead@2Smu: LeaveSmudge

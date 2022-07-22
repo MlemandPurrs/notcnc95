@@ -9,7 +9,7 @@ FACT:
 	Selectable:
 		Bounds: 72,48
 	Valued:
-		Cost: 3500
+		Cost: 3000
 	Tooltip:
 		Name: Construction Yard
 	Building:
@@ -17,7 +17,7 @@ FACT:
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 90000
+		HP: 200000
 	Armor:
 		Type: Heavy
 	RevealsShroud:
@@ -184,11 +184,11 @@ NUKE:
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 40000
+		HP: 60000
 	Armor:
 		Type: Structure
 	RevealsShroud:
-		Range: 2c0
+		Range: 3c0
 	WithBuildingBib:
 	Power:
 		Amount: 100
@@ -246,11 +246,11 @@ NUK2:
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	RevealsShroud:
-		Range: 2c0
+		Range: 3c0
 	WithBuildingBib:
 	Power:
 		Amount: 200
@@ -307,7 +307,7 @@ PROC:
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 70000
+		HP: 115000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -433,7 +433,7 @@ SILO:
 		Footprint: xx
 		Dimensions: 2,1
 	Health:
-		HP: 30000
+		HP: 45000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -527,7 +527,7 @@ PYLE:
 		Dimensions: 2,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -623,7 +623,7 @@ HAND:
 		Dimensions: 2,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -719,6 +719,8 @@ HAND.Squad:
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: fact, ~techlevel.low, ~global-squadenabled
+	ProvidesPrerequisite@COPY:
+		Prerequisite: hand
     WithIdleOverlay@SquadReplacement:
         RequiresCondition: !build-incomplete
         Sequence: build-top-single
@@ -753,7 +755,7 @@ WEAP:
 		Bounds: 72,48
 		DecorationBounds: 72,64,0,-16
 	Health:
-		HP: 80000
+		HP: 120000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -842,7 +844,7 @@ AFLD:
 		Dimensions: 4,3
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 100000
+		HP: 150000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -953,7 +955,7 @@ FIX:
 		Bounds: 64,34,0,3
 		DecorationBounds: 72,48
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -1044,7 +1046,7 @@ HPAD:
 		Footprint: xx xx
 		Dimensions: 2,2
 	Health:
-		HP: 40000
+		HP: 60000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -1160,14 +1162,14 @@ CTRL:
 	Valued:
 		Cost: 900
 	Tooltip:
-		Name: Aeroplane Control Dome
+		Name: Airforce Control Dome
 	Building:
 		Footprint: xx xx
 		Dimensions: 2, 2
         LocalCenterOffset: 0,-512,0
 	ProvidesPrerequisite@buildingname:
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -1181,6 +1183,7 @@ CTRL:
 	SpawnActorOnDeath:
 		Actor: ctrl.husk
 		OwnerType: InternalName
+        EffectiveOwnerFromOwner: true
 	AirstrikePower@AirstrikeA10:
 		OrderName: AirStrikeA10
 		PauseOnCondition: lowpower
@@ -1335,7 +1338,7 @@ CTRL.Husk:
 		Dimensions: 2,2
         LocalCenterOffset: 0,-512,0
 	Tooltip:
-		Name: Aeroplane Control Dome (Destroyed)
+		Name: Airforce Control Dome (Destroyed)
     RenderSprites:
         Image: adom.husk
 
@@ -1366,7 +1369,7 @@ HQ:
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Health:
-		HP: 100000
+		HP: 150000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -1530,6 +1533,8 @@ HQ.GDI:
 			eyeupgrade: eyeupgrade
 		Requirements:
 			eyeupgrade: !eyeupgrade && !build-incomplete
+		EditorOptions:
+			eyeupgrade: Advanced Sattelite Uplink
 	Power@BASE:
 		Amount: -50
 		RequiresCondition: !eyeupgrade
@@ -1609,7 +1614,7 @@ EYE:
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Health:
-		HP: 100000
+		HP: 150000
 	Armor:
 		Type: Structure
 	RevealsShroud:
@@ -1756,9 +1761,6 @@ TMPL:
 	Inherits: ^BaseBuilding
 	Inherits@IDISABLE: ^DisabledOverlay
 	Inherits@shape: ^3x2Shape
-	-Capturable:
-	-CaptureNotification:
-	-CaptureManager:
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 0,-896,0, 0,896,0, 840,0,0, -706,0,0, -706,-768,0, -706,640,0
@@ -1846,8 +1848,6 @@ TMPL:
 		ProductionType: Upgrades.Nod
         Color: 5050FC
 	Exit:
-	Sellable:
-		RequiresCondition: !build-incomplete && !being-demolished
 	ProvidesPrerequisite:
 		Prerequisite: anytier3
 
@@ -1877,7 +1877,7 @@ NBIO:
 		Footprint: xx xx
 		Dimensions: 2,2
 	Health:
-		HP: 60000
+		HP: 90000
 	Armor:
 		Type: Structure
 	Buildable:

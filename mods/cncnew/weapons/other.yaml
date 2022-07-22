@@ -33,6 +33,7 @@
 		Dimensions: 3,3
 		Footprint: xxx xxx xxx
 
+#   E4's weapon
 Flamethrower:
 	Inherits: ^FlameWeapon
 	Range: 2c256
@@ -43,6 +44,7 @@ Flamethrower:
 		Dimensions: 1,1
 		Footprint: x
 
+#   FTNK's weapon
 BigFlamer:
 	Inherits: ^FlameWeapon
 	ReloadDelay: 65
@@ -55,6 +57,7 @@ BigFlamer:
 		Spread: 400
 		Damage: 10000
 
+#   Chemicals deal 50% less towards Structures but dont excel against anything either.
 Chemspray:
 	Inherits: ^FlameWeapon
 	ReloadDelay: 65
@@ -84,16 +87,7 @@ Chemspray:
 		ValidTargets: Infantry
 		InvalidTargets: Chem, HasPoison, PoisonImmune
 
-BigChemspray:
-	Inherits: Chemspray
-	Range: 1c768
-	ReloadDelay: 75
-	Burst: 2
-	BurstDelays: 25
-	Warhead@1Dam: SpreadDamage
-		DamageTypes: Prone50Percent, TriggerProne, TiberiumDeath
-		Damage: 20000
-
+#   Bomb used by Airstrikes
 Napalm:
 	Inherits: ^FlameWeapon
 	ReloadDelay: 4
@@ -111,7 +105,8 @@ Napalm:
 	Warhead@3Eff: CreateEffect
 		Explosions: med_napalm
 
-^Laser:
+#   Laser is good against everything except Structures, Defenses and deals less against Tanks
+ObeliskLaser:
 	ReloadDelay: 45
 	Range: 7c512
 	Report: obelray1.aud
@@ -139,32 +134,7 @@ Napalm:
 		SmudgeType: Scorch
 		InvalidTargets: Vehicle, Structure, Wall, Husk, Trees, Creep
 
-ObeliskLaser:
-	Inherits: ^Laser
-
-LaserTank:
-	Inherits: ^Laser
-	ReloadDelay: 101
-	Projectile: LaserZap
-
-LaserTankFiringFX:
-	ReloadDelay: 101
-	Range: 7c512
-	Projectile: InstantHit
-	Warhead@1Dam: SpreadDamage
-		Damage: 0
-
-LaserTankFiringFXSound:
-	ReloadDelay: 101
-	Range: 7c512
-	StartBurstReport: obelpowr.aud
-	Report: obelpowr.aud
-	BurstDelays: 40
-	Burst: 2
-	Projectile: InstantHit
-	Warhead@1Dam: SpreadDamage
-		Damage: 0
-
+#   Dinosaur attacks
 ^DinoWeapon:
 	ReloadDelay: 30
 	Range: 1c0
@@ -206,6 +176,7 @@ Claw:
 	Warhead@1Dam: SpreadDamage
 		Damage: 6000
 
+#   this exists, so i suppose its used by something...
 Demolish:
 	Warhead@1Dam: SpreadDamage
 		DamageTypes: DefaultDeath
@@ -219,6 +190,7 @@ Demolish:
 		Dimensions: 3,3
 		Footprint: xxx xxx xxx
 
+#   Targeting help for TERR
 KamikazeTargeting:
 	ReloadDelay: 1
 	ValidTargets: Vehicle, Infantry, Creep, Structure
@@ -241,6 +213,7 @@ KamikazeTargetingStructure:
 		Damage: 0
 		ValidTargets: Wall
 
+#   Medic's healing
 Heal:
 	ReloadDelay: 70
 	Range: 2c0
@@ -255,6 +228,7 @@ Heal:
 		ValidTargets: Heal
 		DebugOverlayColor: 00FF00
 
+#   Mechanic's repairing
 Repair:
 	Inherits: Heal
 	Report: fixit1.aud
@@ -264,6 +238,7 @@ Repair:
 		DamageTypes: Repair
 		ValidTargets: Repair
 
+#   Medium Tank's laser designator
 LockOnLaser:
 	ReloadDelay: 1
 	Range: 4c768
@@ -284,6 +259,7 @@ LockOnLaser:
 		Duration: 8
 		Condition: laser-designated
 
+#   scatter FX for flames on the ground
 BurnFX:
 	ValidTargets: Ground, Trees
 	InvalidTargets: Helicopter, Airplane, Water

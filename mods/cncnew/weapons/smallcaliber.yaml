@@ -19,6 +19,7 @@
             Aircraft: 100
             Structure: 25
             Fortified: 75
+            Wood: 50
 		DamageTypes: Prone50Percent, TriggerProne, BulletDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: piff
@@ -132,7 +133,7 @@ TowerVulcan:
 MiniGun:
     Inherits: ^MachinegunWeapon
     Burst: 0
-	Range: 4c0
+	Range: 5c0
     Report: gun8.aud
 	Projectile: Bullet
 		Speed: 1c682
@@ -166,15 +167,17 @@ HeliAGGun:
 		Spread: 128
 		Damage: 2500
 
+#   ditto, against Air
 HeliAAGun:
 	Inherits: HeliAGGun
 	ValidTargets: Helicopter
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter
 
+#   this one uses Artillery damage type
 #   Mobile Anti-Air Gun
 APCGun:
-	ReloadDelay: 11
+	ReloadDelay: 12
 	Range: 6c512
 	Report: gun20.aud
 	Burst: 2
@@ -195,12 +198,13 @@ APCGun:
             Aircraft: 150
             Structure: 50
             Fortified: 75
-            Wood: 100
+            Wood: 125
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag
 		ValidTargets: Ground, Water, Helicopter
 
+#   ditto, vs Air
 APCGun.AA:
 	Inherits: APCGun
 	Range: 6c512
@@ -213,31 +217,6 @@ APCGun.AA:
 	Warhead@2Eff: CreateEffect
 		Explosions: small_poof
 
-#   Used by the Black Hawk for some reason
-ChainGun:
-	Inherits: ^MachinegunWeapon
-    Report: gun13.aud
-	ReloadDelay: 12
-	Range: 6c512
-	MinRange: 0c768
-	Projectile: InstantHit
-		Blockable: false
-
-ChainGun.AA:
-	Inherits: ChainGun
-	Range: 6c512
-	ValidTargets: Helicopter
-	MinRange: 1c256
-	Projectile: InstantHit
-		Blockable: false
-		Inaccuracy: 0c768
-	Warhead@1Dam: SpreadDamage
-		ValidTargets: Helicopter
-		Damage: 1200
-	Warhead@2Eff: CreateEffect
-		ValidTargets: Helicopter
-		ImpactActors: false
-
 #   used by the CRAM
 AAVulcan:
 	Inherits: ^MachinegunWeapon
@@ -246,8 +225,6 @@ AAVulcan:
 	ReloadDelay: 4
 	Report: minigun.aud
 	ValidTargets: Helicopter, Airplane
-	#   Burst: 2
-	#   BurstDelays: 0
 	Projectile: Bullet
 		Speed: 5c682
 		Inaccuracy: 1c0

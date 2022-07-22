@@ -1,3 +1,4 @@
+#   Rockets are good against Aircraft, Heavy Vehicle and Base buildings
 ^MissileWeapon:
 	ReloadDelay: 50
 	Range: 6c0
@@ -143,11 +144,13 @@ StnkRockets:
 	Warhead@1Dam: SpreadDamage
 		Damage: 6000
 
+#   ditto, against Air
 StnkRockets.AA:
 	Inherits: StnkRockets
 	MinRange: 2c512
 	ValidTargets: Helicopter
 
+#   this one uses Artillery damage type
 #   MLRS Rocket artillery
 227mm:
 	Inherits: ^MissileWeapon
@@ -173,7 +176,7 @@ StnkRockets.AA:
 	Warhead@1Dam: SpreadDamage
 		Spread: 683
 		ValidTargets: Ground
-		Damage: 6000
+		Damage: 3750
 		Versus:
 			None: 100
             Infantry: 100
@@ -185,13 +188,14 @@ StnkRockets.AA:
             Aircraft: 150
             Structure: 50
             Fortified: 75
-            Wood: 100
+            Wood: 120
 	Warhead@3Eff: CreateEffect
 		Explosions: med_frag
 		ImpactSounds: xplobig4.aud
 	Warhead@5EffWater: CreateEffect
 		ImpactSounds: ssplash1.aud
 
+#   this one uses Flame damage type
 #   SSM Launcher Missile
 HonestJohn:
 	ReloadDelay: 130
@@ -215,15 +219,15 @@ HonestJohn:
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
             Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Dam: SpreadDamage
@@ -233,15 +237,15 @@ HonestJohn:
 		Delay: 3
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
             Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@3Dam: SpreadDamage
@@ -251,15 +255,15 @@ HonestJohn:
 		Delay: 6
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
             Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@4Dam: SpreadDamage
@@ -269,15 +273,15 @@ HonestJohn:
 		Delay: 9
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
             Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Smu: LeaveSmudge
@@ -459,7 +463,7 @@ TowerAAMissile:
 BoatMissile:
 	Inherits: ^MissileWeapon
 	ReloadDelay: 35
-	Range: 8c0
+	Range: 7c0
 	Burst: 2
 	BurstDelays: 10
 	Report: rocket2.aud

@@ -16,7 +16,7 @@ E2:
 	Mobile:
 		Speed: 71
 	Health:
-		HP: 5000
+		HP: 6250
 	Armor:
 		Type: HeavyInf
 	Passenger:
@@ -65,11 +65,11 @@ MEDI:
 	Tooltip:
 		Name: Medic
 	Valued:
-		Cost: 400
+		Cost: 350
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:
-		HP: 6000
+		HP: 7500
 	Armor:
 		Type: Infantry
 	Mobile:
@@ -119,7 +119,7 @@ SNIP:
 		Queue: Infantry.GDI
 		Description: Marksman infantry with an Sniper rifle.\n  Special ability: Camouflage\nCloaks self when near Vegetation or Rocks.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
 	Health:
-		HP: 4500
+		HP: 5625
 	Armor:
 		Type: LightInf
 	Mobile:
@@ -179,7 +179,7 @@ RMBO:
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Infantry.GDI
-		Description: Elite infantry unit, with Machinegun.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Mountaineering\nCan climb Cliffs and traverse Rocky terrain as if was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Description: Elite infantry unit, with Machinegun.\nUses C4 against Buildings to instant-blow up them.\n  Maximum 1 can be trained.\n  Special ability: Mountaineering\nCan climb Cliffs and traverse Rocky terrain as if was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -269,7 +269,7 @@ E22:
 	Tooltip:
 		Name: Mortar Soldier
 	Health:
-		HP: 4500
+		HP: 5625
 	Armor:
 		Type: HeavyInf
 	Armament:

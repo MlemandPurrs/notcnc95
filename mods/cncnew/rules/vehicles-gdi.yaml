@@ -29,7 +29,7 @@ JEEP:
 		Offset: 0,0,156
 	Armament@PRIMARY:
 		Weapon: MachineGunLight
-		LocalOffset: 171,0,85
+		LocalOffset: 85,0,85
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
 	Armament@SECONDARY:
@@ -299,7 +299,6 @@ MTNK:
 		LocalOffset: 256,96,120
 		RequiresCondition: targetlaser-upgraded
 		PauseOnCondition: emp-crate-collected
-	#	PauseOnCondition: emp-crate-collected
 	AttackTurreted:
 		Armaments: primary, secondary
 		PauseOnCondition: emp-crate-collected

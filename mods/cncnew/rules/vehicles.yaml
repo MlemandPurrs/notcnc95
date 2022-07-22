@@ -20,7 +20,7 @@ MCV:
 		Locomotor: heavywheeled
 		PauseOnCondition: boarding
 	Health:
-		HP: 90000
+		HP: 200000
 	Armor:
 		Type: Heavy
 	RevealsShroud:
@@ -75,6 +75,7 @@ HARV:
 	Selectable:
 		DecorationBounds: 36,36
 	Harvester:
+        DeliveryBuildings: proc, proc.clone
 		Resources: Tiberium, BlueTiberium, RedTiberium
 		Capacity: 20
 		BaleLoadDelay: 12
@@ -117,7 +118,7 @@ HARV:
 			BlueTiberium: pip-blue
             RedTiberium: pip-red
 	Passenger:
-		CustomPipType: pip-blue
+		CustomPipType: pip-gray
 	RenderSprites:
 		Image: harv
 		FactionImages:
@@ -217,9 +218,9 @@ MHQ:
 	Tooltip:
 		Name: Mobile HQ
 	Health:
-		HP: 11000
+		HP: 15000
 	Armor:
-		Type: Medium
+		Type: Heavy
 	Mobile:
 		Speed: 85
 		PauseOnCondition: emp-crate-collected || boarding
@@ -238,7 +239,7 @@ MHQ:
 		BuildLimit: 1
 		Prerequisites: anytier3, ~techlevel.high
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description: Mobile base of operations, providing Vision and\ndetects Stealth units nearby.\n  Armed with basic gun.\n  Maximum one can be built.
+		Description: Mobile base of operations, providing Vision and\ndetects Stealth units nearby.\n  Jams enemy Radar over distance.\n  Armed with basic gun.\n  Maximum one can be built.
 	Turreted:
 		TurnSpeed: 8
 		Offset: 246,-60,112
@@ -251,6 +252,14 @@ MHQ:
 		PauseOnCondition: emp-crate-collected
 	WithSpriteTurret:
 	WithMuzzleOverlay:
+	ProximityExternalCondition@JAMMER:
+		Range: 16c0
+		ValidRelationships: Enemy, Neutral
+		Condition: jammed
+	WithRangeCircle@JAMMER:
+		Type: jammer
+		Range: 16c0
+		Color: E49430
 
 MHQ.Husk:
 	Inherits: ^Husk

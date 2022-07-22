@@ -16,7 +16,7 @@ E1:
 	Mobile:
 		Speed: 56
 	Health:
-		HP: 5000
+		HP: 6250
 	Armor:
 		Type: LightInf
 	Passenger:
@@ -74,7 +74,7 @@ E3:
 	Mobile:
 		Speed: 42
 	Health:
-		HP: 4500
+		HP: 5625
 	Armor:
 		Type: HeavyInf
 	Passenger:
@@ -126,7 +126,7 @@ E6:
 	Mobile:
 		Speed: 48
 	Health:
-		HP: 3500
+		HP: 4375
 	Armor:
 		Type: Infantry
 	Passenger:
@@ -159,6 +159,8 @@ TECN:
 	Inherits@2: ^ArmedCivilian
 	Tooltip:
 		Name: Technician
+	Health:
+		HP: 5000
 	Passenger:
 		Weight: 1
 		CustomPipType: pip-blue
@@ -184,7 +186,6 @@ VICE:
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@selection: ^SelectableCombatUnit
 	Inherits@handicaps: ^PlayerHandicaps
-	Inherits@BOINK: ^BoinkSound
 	Huntable:
 	Health:
 		HP: 40000

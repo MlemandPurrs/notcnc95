@@ -46,7 +46,7 @@ airradar.upgrade:
 carryall.unlock:
 	Inherits: ^Upgrade
 	Tooltip:
-		Name: Unlock: Orca Carryall
+		Name: Unlock: Carryall
 	Buildable:
 		BuildPaletteOrder: 16
 		Queue: Upgrades.GDI, Upgrades.Nod
@@ -168,7 +168,7 @@ airstrike.upgrade:
 		Queue: Upgrades.GDI
 		Prerequisites: ~proxy.airstrike.unlock, ~ctrl, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A10 Bomber Planes\n  - Takes longer to recharge
+		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A-10 Bomber Planes\n  - Takes longer to recharge
         Icon: airstrike
 	Valued:
 		Cost: 1500
@@ -234,7 +234,7 @@ c17speed.upgrade:
 		Queue: Upgrades.Nod
 		Prerequisites: ~afld, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Accelerates the Cargo Plane for faster deliveries.\n\n  Upgrades: Cargo Plane\n  + Movement speed gets a +80% increase
+		Description: Accelerates the Cargo Plane for faster deliveries.\n\n  Upgrades: Cargo Plane\n  + Movement speed gets a +70% increase
         Icon: c17speed
 	Valued:
 		Cost: 1500

@@ -15,7 +15,7 @@ CRATE:
 		SelectionShares: 1
 		Sequence: reveal-map
 	ExplodeCrateAction@fire:
-		Weapon: Napalm.Crate
+		Weapon: CrateNapalm
 		SelectionShares: 5
 	GiveMcvCrateAction:
 		SelectionShares: 0
@@ -155,13 +155,11 @@ CRATE:
 		SelectionShares: 1
 		TimeDelay: 7500
 		Sequence: nuke
-	#	i had managed to do get this working once
-	#	just where was it and how i did...
-	#	SupportPowerCrateAction@ion:
-	#	Proxy: crate.ion
-	#	SelectionShares: 1
-	#	TimeDelay: 7500
-	#	Sequence: gridmap
+	SupportPowerCrateAction@ion:
+		Proxy: crate.ion
+		SelectionShares: 1
+		TimeDelay: 7500
+		Sequence: gridmap
 	SupportPowerCrateAction@airstrike:
 		Proxy: crate.airstrike
 		SelectionShares: 1
@@ -383,27 +381,30 @@ crate.nuke:
 		CircleSequence: circles
 		SupportPowerPaletteOrder: 1
 		OneShot: true
+        AllowMultiple: true
 
-#	Crashes pointing to Line 88 in IonCannonPower.cs
-#	crate.ion:
-#	AlwaysVisible:
-#	IonCannonPower@IonCannonOneShot:	
-#	OrderName: IonCannonOneShot
-#	Icon: ioncannon
-#	ChargeInterval: 0
-#	Description: Ion Cannon
-#	LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
-#	OnFireSound: ion1.aud
-#	Cursor: ioncannon
-#	SelectTargetSpeechNotification: SelectTarget 
-#	DisplayRadarPing: True
-#	SupportPowerPaletteOrder: 1
-#	DisplayTimerRelationships: Ally, Neutral, Enemy
-#	Effect: ionsfx
-#	EffectSequence: idle
-#	EffectPalette: effect
-#	Weapon: IonCannon
-#	CameraActor: camera.small
+crate.ion:
+	AlwaysVisible:
+	DetonateWeaponPower@IonCannonOneShot:	
+        OrderName: IonCannonOneShot
+        Icon: ioncannon
+        ChargeInterval: 0
+        Description: Ion Cannon (Single Use)
+        LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+        #   LaunchSound: ion1.aud
+        Cursor: ioncannon
+        SelectTargetSpeechNotification: SelectTarget 
+        DisplayRadarPing: True
+        SupportPowerPaletteOrder: 1
+        DisplayTimerRelationships: Ally, Neutral, Enemy
+        Weapon: IonCannon.crate
+        ActivationDelay: 7
+        Sequence: 
+        PaletteEffectType: effect
+        CameraActor: camera.small
+        CameraRemoveDelay: 25
+		OneShot: true
+        AllowMultiple: true
 
 crate.airstrike:
 	AlwaysVisible:
@@ -428,6 +429,7 @@ crate.airstrike:
 		SupportPowerPaletteOrder: 2
 		ChargeInterval: 0
 		OneShot: true
+        AllowMultiple: true
 
 SILOTIB:
 	Inherits: ^TibTree

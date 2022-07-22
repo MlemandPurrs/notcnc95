@@ -1,0 +1,40 @@
+#   understanding my custom Armor types:
+#   1. None ; this is the default fallback if nothing else present
+#   2. Infantry ; Normal, plain Infantry.
+#   3. LightInf ; Infantry that is resistant to bullets 
+#   4. HeavyInf ; Infantry that is resistant to cannons and rockets
+#   5. Light ; Found on fast moving Vehicles
+#   6. Medium ; Inbetween Light and Heavy
+#   7. Heavy ; Found on Tanks
+#   8. Aircraft ; All Aircraft have this
+#   9. Structure ; All Base buildings
+#   10. Fortified ; Found on Defenses
+#   11. Wood ; used by Trees
+#	- - - - - - - - - - - - - - - - - - - damage taken by each Armor type versus each Damage type - - - - - - - - - - - - - - - - - - - -	
+#	Armor Type | vs Bullet | vs Cannon | vs Artillery | vs Rocket | vs Flame | vs Chemical | vs Nuclear | vs Ion | vs Laser | vs Explosion
+#	None       | 100       | 100       | 100          | 100       | 100      | 100         | 100        | 100    | 100      | 100
+#	Infantry   | 200       |  50       | 100          | 100       | 200      | 100         | 100        |  25    | 150      | 100
+#	LightInf   | 150       |  50       | 100          | 100       | 200      | 100         | 100        |  25    | 150      | 100
+#	HeavyInf   | 200       |  25       | 100          |  50       | 200      | 100         | 100        |  25    | 150      | 100
+#	Light      | 100       | 150       | 200          | 100       | 125      | 100         | 100        | 100    | 150      | 100
+#	Medium     |  50       | 125       | 150          | 125       |  75      | 100         | 100        | 150    | 125      | 100
+#	Heavy      |  25       | 100       | 125          | 125       |  50      | 100         | 100        | 200    |  75      | 100
+#	Aircraft   | 100       |  75       | 150          | 150       |  25      |  25         | 100        | 150    | 150      | 100
+#	Structure  |  25       | 100       |  50          | 150       | 100      |  50         | 100        | 200    |  50      | 100
+#	Fortified  |  75       | 150       |  75          | 125       | 100      |  50         | 150        | 150    |  75      | 100
+#	Wood       |  50       | 100       | 125          | 100       | 100      | 100         | 150        | 100    | 100      | 100
+#	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#	Those versus values have been taken from 'Forged Battalion', except Explosion which is simply set to deal the damage set for it.
+#	also Wood i have set to be used only on Trees anymore.
+#
+#	Listing of each Unit per Armor type, as i have set up them in this mod.
+#	Infantry: Engineer, Medic, Commando, Nod Commando, Technician
+#	LightInf: Soldier, Sniper, Chem Trooper, Chem Mortar
+#	HeavyInf: Rocket Soldier, Grenadier, Fanatic, Flamethrower, Mortar Soldier
+#	Light: Jeep, Buggy, Recon Bike, Artillery, MLRS, SSM Launcher, Stealth Tank, Supply Truck, Visceroid
+#	Medium: APC, Nod APC, Mobile AA Gun, Minelayer, Light Tank, Harvester
+#	Heavy: MCV, MBT, Mammoth Tank, Flame Tank, Mobile HQ
+#	Aircraft: All Helicopter and Airplanes without exception.
+#	Structure: All Base buildings, except Construction Yard which remains Heavy to be consistent with its undeployed MCV form.
+#	Fortified: All Defense buildings.
+#	Wood: Any tree will have it.

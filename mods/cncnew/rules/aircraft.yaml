@@ -50,7 +50,7 @@ C17:
 		Condition: c17speed-upgraded
 		Prerequisites: c17speed.upgrade
 	SpeedMultiplier@C17Speed:
-		Modifier: 180
+		Modifier: 170
 		RequiresCondition: c17speed-upgraded
 
 A10:
@@ -796,9 +796,18 @@ HELI.ai:
     Rearmable:
         AmmoPools: ammogun
     Buildable:
-        Prerequisites: hpad, hq, ~techlevel.medium, ~aitoodumb
+        Prerequisites: hpad, hq, ~techlevel.medium, ~aitoodumb, ~!hellfire.upgrade
     RenderSprites:
         Image: heli
+    -MapEditorData:
+
+HELI.ai.upgraded:
+    Inherits: HELI
+    Buildable:
+        Prerequisites: hpad, hq, ~techlevel.medium, ~aitoodumb, ~hellfire.upgrade
+    RenderSprites:
+        Image: heli
+    -MapEditorData:
 
 MH60:
 	Inherits: ^Helicopter
@@ -923,6 +932,7 @@ MH60.ai:
         Prerequisites: hpad, tech, ~techlevel.high, ~aitoodumb
     RenderSprites:
         Image: mh60
+    -MapEditorData:
 
 RH66:
 	Inherits: ^Helicopter

@@ -10,7 +10,7 @@ TERR:
 	Valued:
 		Cost: 150
 	Health:
-		HP: 5000
+		HP: 6250
 	Armor:
 		Type: HeavyInf
 	Mobile:
@@ -100,7 +100,7 @@ E4:
 		Speed: 56
 		PauseOnCondition: dont-move
 	Health:
-		HP: 6000
+		HP: 7500
 	Armor:
 		Type: HeavyInf
 	Passenger:
@@ -145,7 +145,7 @@ RMB2:
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Infantry.Nod
-		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\nMaximum 1 can be trained.\n  Special ability: Stealth Suit\nCapable of turning Invisible when charged.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\n  Maximum 1 can be trained.\n  Special ability: Stealth Suit\nCapable of turning Invisible when charged.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -259,7 +259,7 @@ E5:
 		PauseOnCondition: dont-move
 		Voice: Move
 	Health:
-		HP: 8000
+		HP: 10000
 	Armor:
 		Type: LightInf
 	Passenger:
@@ -329,7 +329,7 @@ E23:
 	Tooltip:
 		Name: Chemical Mortar
 	Health:
-		HP: 4500
+		HP: 5625
 	Armor:
 		Type: LightInf
 	Armament:

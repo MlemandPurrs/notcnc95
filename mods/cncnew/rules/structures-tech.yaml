@@ -205,7 +205,7 @@ TECHSILO:
 		ValidPowerStates: Low, Critical
 	UpdatesDerrickCount:
 	Health:
-		HP: 80000
+		HP: 70000
 	Explodes:
 		Weapon: TiberiumExplosion
 		EmptyWeapon: TiberiumExplosion
@@ -299,7 +299,7 @@ SYRD:
 		Description: Capture to produce Ships.
 		ValidRelationships: Neutral, Enemy
 	Health:
-		HP: 120000
+		HP: 300000
 	Armor:
 		Type: Wood
 	RevealsShroud:
@@ -472,7 +472,7 @@ WIND:
 		Dimensions: 1,2
 		LocalCenterOffset: 0,-512,0
 	Health:
-		HP: 80000
+		HP: 40000
 	Tooltip:
 		Name: Wind Plant
 	TooltipDescription@ally:
