@@ -850,7 +850,7 @@
 		TerrainTypes: Clear,Road
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 2
+		Adjacent: 3
 	MustBeDestroyed:
 		RequiredForShortGame: true
 	RepairableBuilding:
@@ -1065,7 +1065,7 @@
 		LineBuildSegmentPalette: placelinesegment
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 2
+		Adjacent: 3
 	Targetable:
 		TargetTypes: Ground, Wall
 	Crushable:
@@ -1114,7 +1114,7 @@
 		TerrainTypes: Clear, Road
 	RequiresBuildableArea:
 		AreaTypes: building
-		Adjacent: 2
+		Adjacent: 3
 	MapEditorData:
 		Categories: Wall
 	Gate:
@@ -1561,7 +1561,7 @@
 		HP: 10000
 		NotifyAppliedDamage: false
 	Armor:
-		Type: Light
+		Type: None
 	Cloak:
 		CloakTypes: GroundStealth
 		CloakSound:

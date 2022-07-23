@@ -12,6 +12,8 @@ FACT:
 		Cost: 3000
 	Tooltip:
 		Name: Construction Yard
+    TooltipExtras:
+        Strengths:  Allows to build Structures and Defenses
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -172,6 +174,8 @@ NUKE:
 		Cost: 350
 	Tooltip:
 		Name: Power Plant
+    TooltipExtras:
+        Attributes:  Power amount scales with damage
 	ProvidesPrerequisite:
 		Prerequisite: anypower
 	Buildable:
@@ -234,13 +238,17 @@ NUK2:
 		Cost: 700
 	Tooltip:
 		Name: Advanced Power Plant
+    #   actually, its not.. so idk why it keeps saying so
+    TooltipExtras:
+        Strengths:  Cheaper than keep building the standard Power Plant
+        Attributes:  Power amount scales with damage
 	ProvidesPrerequisite:
 		Prerequisite: anypower
 	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Provides more power, cheaper than keep\nbuilding the standard Power Plant.
+		Description: Generates double the amount of a standard Power Plant.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -297,11 +305,14 @@ PROC:
 		Cost: 1500
 	Tooltip:
 		Name: Tiberium Refinery
+    TooltipExtras:
+        Strengths:  Allows you to procure Resources
+        Attributes:  Free Harvester\nEach Refinery comes with one free Harvester
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: fact, ~techlevel.low
 		Queue: Building.GDI, Building.Nod
-		Description: Processes raw Tiberium\ninto useable resources.\n Special: Free Harvester\nEach Refinery comes with one free Harvester.
+		Description:  Processes raw Tiberium into useable resources.
 	Building:
 		Footprint: xxx x+x ===
 		Dimensions: 3,3
@@ -424,11 +435,13 @@ SILO:
 		Cost: 300
 	Tooltip:
 		Name: Tiberium Silo
+    TooltipExtras:
+        Attributes:  Periodic Income\nThe stored resources get converted into Cash,\ngenerating income aslong not low on power.
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: proc, ~techlevel.low
 		Queue: Building.GDI, Building.Nod
-		Description: Stores processed Tiberium.\n  Special: Periodic Income\nThe stored resources are gradually converted into Cash,\ngenerating income aslong not low on power.
+		Description:  Stores processed Tiberium.
 	Building:
 		Footprint: xx
 		Dimensions: 2,1
@@ -515,13 +528,17 @@ PYLE:
 		Cost: 500
 	Tooltip:
 		Name: Barracks
+    TooltipExtras:
+        Strengths:  Allows to train Infantry units
+        Weaknesses:  Decomissions Infantry for 1/4 of cost
+        Attributes:  Free Guards\nEach Barracks comes with two free Soldiers
 	ProvidesPrerequisite:
 		Prerequisite: infantryproduction
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: fact, ~techlevel.low
 		Queue: Building.GDI
-		Description: Trains and Heals Infantry units.\nDecomissions Infantry for 1/4 of cost.\n Special: Free Guards\nEach Barracks comes with two free Soldiers.
+		Description:  Trains and Heals Infantry units.
 	Building:
 		Footprint: xx xx ==
 		Dimensions: 2,3
@@ -611,13 +628,17 @@ HAND:
 		Cost: 500
 	Tooltip:
 		Name: Hand of Nod
+    TooltipExtras:
+        Strengths:  Allows to train Infantry units
+        Weaknesses:  Decomissions Infantry for 1/4 of cost
+        Attributes:  Free Guards\nEach Hand of Nod comes with two free Soldiers
 	ProvidesPrerequisite:
 		Prerequisite: infantryproduction
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: fact, ~techlevel.low, ~!global-squadenabled
 		Queue: Building.Nod
-		Description: Trains and Heals Infantry units.\nDecomissions Infantry for 1/4 of cost.\n Special: Free Guards\nEach Hand of Nod comes with two free Soldiers.
+		Description:  Trains and Heals Infantry units.
 	Building:
 		Footprint: xx xx ==
 		Dimensions: 2,3
@@ -740,6 +761,8 @@ WEAP:
 		Cost: 2000
 	Tooltip:
 		Name: War Factory
+    TooltipExtras:
+        Strengths:  Allows to produce Vehicles
 	ProvidesPrerequisite:
 		Prerequisite: vehicleproduction
 	Buildable:
@@ -832,13 +855,17 @@ AFLD:
 		Cost: 2000
 	Tooltip:
 		Name: Airstrip
+    TooltipExtras:
+        Strengths:  Allows to produce Vehicles
+        Upgrades:  Can be upgraded for Faster deliveries
+        Specialabilities:  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n(requires Communications Center)
 	ProvidesPrerequisite:
 		Prerequisite: vehicleproduction
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: anypower, ~techlevel.low
 		Queue: Building.Nod
-		Description: Provides a dropzone for\nVehicle reinforcements.\n  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n  (requires Communications Center)
+		Description:  Provides a dropzone for Vehicle reinforcements.
 	Building:
 		Footprint: XXX+ xxx+ ====
 		Dimensions: 4,3
@@ -943,11 +970,20 @@ FIX:
 		Cost: 800
 	Tooltip:
 		Name: Service Depot
+    TooltipExtras@1:
+        Strengths:  Repairs Vehicles and Aircraft for credits
+        Weaknesses:  Vehicle and Aircraft can be sold here for half value\n(their value scaling with health)
+        RequiresCondition: ~!fieldrepairs-enabled
+    TooltipExtras@2:
+        Strengths:  Repairs Vehicles and Aircraft for credits
+        Weaknesses:  Vehicle and Aircraft can be sold here for half value\n(their value scaling with health)
+        Specialabilities:  Special Ability: Field Repairs\nAffected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration
+        RequiresCondition: ~fieldrepairs-enabled
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: vehicleproduction, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Repairs Vehicles and Aircraft for credits.\nVehicle and Aircraft can\nbe sold here for half value.\n (their value scaling with health)
+		Description:  Repair facility for fixing Vehicles at a price.
 	Building:
 		Footprint: =+= +++ =+=
 		Dimensions: 3,3
@@ -1007,7 +1043,10 @@ FIX:
 		Cursor: repair
 		Sequence: none
 		SupportPowerPaletteOrder: 6
-	GrantConditionOnPowerState@LOWPOWER:
+    GrantConditionOnPrerequisite@FieldRepairs:
+        Condition: fieldrepairs-enabled
+        Prerequisites: global-fieldrepairs
+    GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
 	SupportPowerChargeBar:
@@ -1037,11 +1076,13 @@ HPAD:
 		Cost: 300
 	Tooltip:
 		Name: Helipad
+    TooltipExtras:
+        Strengths:  Allows to produce Aircraft
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Builds, Resupplies and Repairs Helicopters.
+		Description:  Builds, Resupplies and Repairs Helicopters.
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -1101,7 +1142,7 @@ HPAD:
 		Range: 1c0
 	ProductionQueue@GDI:
 		Type: Aircraft.GDI
-		DisplayOrder: 7
+		DisplayOrder: 4
 		Factions: gdi
 		Group: Aircraft
 		LowPowerModifier: 150
@@ -1113,7 +1154,7 @@ HPAD:
 		CancelledAudio: Cancelled
 	ProductionQueue@Nod:
 		Type: Aircraft.Nod
-		DisplayOrder: 7
+		DisplayOrder: 4
 		Factions: nod
 		Group: Aircraft
 		LowPowerModifier: 150
@@ -1123,11 +1164,11 @@ HPAD:
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
-	ProductionBar@GDI:
-		ProductionType: Aircraft.GDI
+    ProductionBar@GDI:
+        ProductionType: Aircraft.GDI
         Color: 5050FC
-	ProductionBar@Nod:
-		ProductionType: Aircraft.Nod
+    ProductionBar@Nod:
+        ProductionType: Aircraft.Nod
         Color: 5050FC
 	ProductionFromMapEdge:
 		Produces: Aircraft.GDI, Aircraft.Nod
@@ -1153,16 +1194,19 @@ CTRL:
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 768,-512,0, 768,512,0, -281,-512,0, -630,512,0
-	Buildable:
-		BuildPaletteOrder: 6
-		Prerequisites: hpad, anytier3, ~techlevel.high
-		Queue: Building.GDI, Building.Nod
-        Description: Coordinates and recharges aerial operations,\nallowing purchase of Airforce Support powers.\n  Requires Power to operate.
-		BuildLimit: 1
 	Valued:
 		Cost: 900
 	Tooltip:
 		Name: Airforce Control Dome
+    TooltipExtras:
+        Strengths:  Allows purchasing of Airforce support powers
+        Weaknesses:  Requires Power to operate
+ 	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hpad, anytier3, ~techlevel.high
+		Queue: Building.GDI, Building.Nod
+        Description:  Coordinates and recharges aerial operations.
+		BuildLimit: 1
 	Building:
 		Footprint: xx xx
 		Dimensions: 2, 2
@@ -1354,11 +1398,17 @@ HQ:
 		Cost: 1200
 	Tooltip:
 		Name: Communications Center
+    TooltipExtras:
+        Strengths:  Unlocks Artillery, Recon Bike and Flamethrower
+        Weaknesses:  Requires Power to operate
+        Attributes:  Detects nearby Stealth units
+        Upgrades:  Can be upgraded to detect Airplanes in advance
+        Specialabilities:  Special Ability: Radar Scan\nReveals an area of the map\nand cloaked enemy units there.
 	Buildable:
 		BuildPaletteOrder: 9
 		Prerequisites: proc, anypower, ~can-build-hq-finale, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
-		Description: Provides an overview of the battlefield.\nUnlocks Artillery, Recon Bike and Flamethrower.\nDetects cloaked units nearby.\n  Special Ability: Radar Scan\nReveals an area of the map\nand cloaked enemy units there.
+		Description:  Provides an overview of the battlefield.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1453,6 +1503,7 @@ HQ.Husk:
 HQ.GDI:
 	Inherits: HQ
 	-Tooltip:
+    -TooltipExtras:
 	-Power:
 	-SpawnActorOnDeath:
 	-RenderSprites:
@@ -1463,13 +1514,19 @@ HQ.GDI:
 		BuildPaletteOrder: 9
 		Prerequisites: proc, anypower, ~!can-build-hq-finale, ~techlevel.medium
 		Queue: Building.GDI
-		Description: Provides an overview of the battlefield.\nUnlocks Medic, Mobile AA Gun and Artillery.\nDetects cloaked units nearby.\n  Special Ability: Recon Drone\nAn UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		Description:  Provides an overview of the battlefield.
 	Tooltip@BASE:
 		Name: Communications Center
 		RequiresCondition: !eyeupgrade
 	Tooltip@UPGRADED:
 		Name: Advanced Communications Center
 		RequiresCondition: eyeupgrade
+    TooltipExtras:
+        Strengths:  Unlocks Medic, Mobile AA Gun and Artillery.
+        Weaknesses:  Requires Power to operate
+        Attributes:  Detects nearby Stealth units
+        Upgrades:  Can be upgraded to detect Airplanes in advance
+        Specialabilities:  Special Ability: Recon Drone\nAn UAV reveals a strip of the map\nand cloaked enemy units within sight.
 	ProvidesPrerequisite@LIMITING:
 		Prerequisite: eye.plug
 		RequiresCondition: eyeupgrade
@@ -1544,7 +1601,6 @@ HQ.GDI:
 	SpawnActorOnDeath@BASE:
 		Actor: hq.gdi.husk
         EffectiveOwnerFromOwner: true
-
 	#	RequiresCondition: !eyeupgrade
 	#   SpawnActorOnDeath@UPGRADED:
 	#	Actor: eye.husk
@@ -1573,12 +1629,15 @@ EYE.Plug:
 		Cost: 1800
 	Tooltip:
 		Name: Advanced Sattelite Uplink
+    TooltipExtras:
+        Strengths:  Unlocks Sniper, Mortar, Support Minelayer and MLRS
+        Specialabilities:  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area
 	Buildable:
 		BuildPaletteOrder: 12
 		Prerequisites: hq, tech, !eye.plug, ~!aitoodumb, ~techlevel.high
 		Queue: Building.GDI
 		BuildLimit: 1
-		Description: Adds an Sattelite Uplink to Communications Center.\nUnlocks Sniper, Mortar, Support Minelayer and MLRS.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
+		Description: Adds an Sattelite Uplink to Communications Center.\n  Maximum one can be built.
 	Plug:
 		Type: eyeupgrade
 	#	this is to show will use extra -50 power when applied on the tooltip
@@ -1597,13 +1656,17 @@ EYE:
 		Cost: 1800
 	Tooltip:
 		Name: Advanced Communications Center
+    TooltipExtras:
+        Strengths:  Unlocks Sniper, Mortar, Support Minelayer and MLRS
+        Specialabilities:  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area
 	ProvidesPrerequisite@copy:
 		Prerequisite: hq
 	Buildable:
 		BuildPaletteOrder: 12
 		Prerequisites: tech, ~aitoodumb, ~techlevel.high
 		Queue: Building.GDI
-		Description: Provides Radar and Ion Cannon support power.\nUnlocks Sniper, Mortar, Support Minelayer and MLRS.\n  Maximum one can be built.\n  Special Ability: Ion Cannon Strike\nApplies instant damage to an small area.
+		BuildLimit: 1
+		Description: Provides Radar and Sattelite Uplink.\n  Maximum one can be built.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1693,11 +1756,14 @@ TECH:
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.GDI
-		Description: Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and Advanced Sattelite Uplink.\n  Maximum one can be built.\n  Researches GDI Technologies.
+		Description:  GDI Facility for research and development.\n  Maximum one can be built.
 	Valued:
 		Cost: 2000
 	Tooltip:
 		Name: Technology Center
+    TooltipExtras:
+        Strengths:  Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and Advanced Sattelite Uplink.
+        Attributes:  Researches GDI Technologies
 	Health:
 		HP: 200000
 	Armor:
@@ -1724,7 +1790,7 @@ TECH:
 		PauseOnCondition: build-incomplete
 	ProductionQueue@TechGDI:
 		Type: Upgrades.GDI
-		DisplayOrder: 4
+		DisplayOrder: 6
 		Factions: gdi
 		Group: Upgrades
 		LowPowerModifier: 150
@@ -1768,12 +1834,16 @@ TMPL:
 		Cost: 3000
 	Tooltip:
 		Name: Temple of Nod
+    TooltipExtras:
+        Strengths:  Unlocks production of Stealth Tank, Commanche, Nod Commando,\nObelisk of Light and Nod Research Laboratory
+        Attributes:  Researches Nod Technologies
+        Specialabilities:  Special Ability: Nuclear Strike\nLaunches a devastating atomic bomb at target location.\n(requires Nod Research Laboratory)
 	Buildable:
 		BuildPaletteOrder: 11
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.Nod
-		Description: Unlocks production of Stealth Tank, Commanche, Nod Commando,\nObelisk of Light and Nod Research Laboratory\n  Maximum one can be built.\n  Researches Nod Technologies.\n  Special Ability: Nuclear Strike\nLaunches a devastating atomic bomb at target location.\n  (requires Nod Research Laboratory)
+		Description:  The centre of Nod command and research computing.\n  Maximum one can be built.
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -1834,7 +1904,7 @@ TMPL:
 		PauseOnCondition: build-incomplete
 	ProductionQueue@TechNod:
 		Type: Upgrades.Nod
-		DisplayOrder: 4
+		DisplayOrder: 6
 		Factions: nod
 		Group: Upgrades
 		LowPowerModifier: 150
@@ -1885,9 +1955,13 @@ NBIO:
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Building.Nod
-		Description: Enables production of SSM Launcher,\nChemical Trooper and Chemical Mortar.\nEnables Nuclear Strike at Temple of Nod.\n  Maximum one can be built.\n  Requires Power to operate.
+		Description:  Vital research facility of the Nod.\n  Maximum one can be built.
 	Tooltip:
 		Name: Nod Research Laboratory
+    TooltipExtras:
+        Strengths:  Enables production of SSM Launcher,\nChemical Trooper and Chemical Mortar.
+        Weaknesses:  Requires Power to operate.
+        Attributes:  Enables Nuclear Strike at Temple of Nod.
 	Valued:
 		Cost: 1000
 	ProvidesPrerequisite@buildingname:

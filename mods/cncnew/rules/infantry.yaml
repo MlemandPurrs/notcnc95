@@ -6,13 +6,18 @@ E1:
 		Cost: 100
 	Tooltip:
 		Name: Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Ground units
+        Attributes:  Can be upgraded with Armor-Piercing Bullets
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: infantryproduction, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI, Infantry.Nod
-		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+		Description:  General-purpose infantry.
 	Mobile:
 		Speed: 56
 	Health:
@@ -64,13 +69,17 @@ E3:
 		Cost: 300
 	Tooltip:
 		Name: Rocket Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Tanks, Aircraft
+        Weaknesses:  Weak vs Infantry, Light Vehicles
+        Canattack:  Can attack Ground and Air units
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: vehicleproduction, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI, Infantry.Nod
-		Description: Anti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Description:  Anti-tank infantry.
 	Mobile:
 		Speed: 42
 	Health:
@@ -116,13 +125,18 @@ E6:
 		Cost: 500
 	Tooltip:
 		Name: Engineer
+    TooltipExtras:
+        Strengths:  Captures Enemy structures and Tech buildings
+        Weaknesses:  Weak vs Infantry, Light Vehicles
+        Canattack:  Unarmed
+        Attributes:  Can repair destroyed Bridges and Tech buildings
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: proc, ~techlevel.low
 		Queue: Infantry.GDI, Infantry.Nod
-		Description: Captures Enemy structures and Tech buildings.\nCan repair destroyed Bridges and Tech buildings.\n  Unarmed
+		Description:  Utility infantry.
 	Mobile:
 		Speed: 48
 	Health:
@@ -251,11 +265,16 @@ E1.squad.gdi:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
 	Buildable:
 		Queue: Infantry.GDI
 		BuildPaletteOrder: 1
         Prerequisites: infantryproduction, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+		Description:  Deploys a squad of four\ngeneral-purpose infantry.
         Icon: e1icon
     Valued:
 		Cost: 200
@@ -277,11 +296,16 @@ E1.squad.nod:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 1
         Prerequisites: infantryproduction, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a squad of four\ngeneral-purpose infantry.\n  Strong vs Infantry\n  Weak vs everything Else
+		Description:  Deploys a squad of four\ngeneral-purpose infantry.
         Icon: e1icon
     Valued:
 		Cost: 200
@@ -303,11 +327,15 @@ E3.squad.gdi:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Rocket Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Tanks, Aircraft
+        Weaknesses:  Weak vs Infantry, Light Vehicles
+        Canattack:  Can attack Air and Ground units
 	Buildable:
 		Queue: Infantry.GDI
 		BuildPaletteOrder: 2
         Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Description:  Deploys a pair of\nAnti-tank infantry.
         Icon: e3icon
     Valued:
 		Cost: 450
@@ -329,11 +357,15 @@ E3.squad.nod:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Rocket Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Tanks, Aircraft
+        Weaknesses:  Weak vs Infantry, Light Vehicles
+        Canattack:  Can attack Air and Ground units
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 2
         Prerequisites: vehicleproduction, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a pair of\nAnti-tank infantry.\n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Description: Deploys a pair of\nAnti-tank infantry.\n  Can attack Aircraft
         Icon: e3icon
     Valued:
 		Cost: 450

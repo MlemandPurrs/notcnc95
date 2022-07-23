@@ -7,13 +7,18 @@ JEEP:
 		Cost: 400
 	Tooltip:
 		Name: Humvee
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with TOW Missile\nCan be upgraded with Armor-Piercing Bullets
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: weap, ~techlevel.low
 		Queue: Vehicle.GDI
-		Description: Light scout vehicle.\n  Strong vs Infantry\n  Weak vs Tanks
+		Description:  Light scout vehicle.
 	Mobile:
 		TurnSpeed: 40
 		Speed: 156
@@ -104,13 +109,19 @@ APC:
 		Cost: 500
 	Tooltip:
 		Name: Armored Personnel Carrier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses\nNeeds to turn to Attack
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Armor-Piercing Ammo
+        Attributes:  Carries up to 5 Infantry into battle
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: pyle, ~techlevel.low
 		Queue: Vehicle.GDI
-		Description: Armored infantry transport.\n  Strong vs Infantry\n  Weak vs Armor
+		Description:  Armored infantry transport.
 	Mobile:
 		TurnSpeed: 20
 		Speed: 132
@@ -180,13 +191,17 @@ MAAG:
 		Cost: 700
 	Tooltip:
 		Name: Mobile Anti-Air Gun
+    TooltipExtras:
+        Strengths:  Strong vs Light Vehicles, Aircraft
+        Weaknesses:  Weak vs Infantry, Tanks
+        Canattack:  Can attack Air and Ground units
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 7
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Vehicle.GDI
-		Description: Mobile Anti-Air Gun.\nCan attack Aircraft.\n  Strong vs Vehicles\n  Weak vs Infantry
+		Description:  Mobile Anti-Air Gun.
         Icon: maagicon
 	Mobile:
 		TurnSpeed: 20
@@ -213,7 +228,7 @@ MAAG:
 		ReloadingCondition: reload-ground
 	Armament@SECONDARY:
 		Name: secondary
-		Weapon: APCGun.AA
+		Weapon: APCGunAA
 		Recoil: 48
 		RecoilRecovery: 18
 		LocalOffset: 175,100,299, 175,-100,299
@@ -267,13 +282,18 @@ MTNK:
 		Cost: 800
 	Tooltip:
 		Name: Main Battle Tank
+    TooltipExtras:
+        Strengths:  Strong vs Tanks, Vehicles
+        Weaknesses:  Weak vs Infantry, Aircraft
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Composite Armor\nCan be upgraded with Laser Designator
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: fix, ~!comparmor.upgrade, ~techlevel.medium
 		Queue: Vehicle.GDI
-		Description: Main Battle Tank.\n  Strong vs Tanks, Vehicles\n  Weak vs Infantry
+		Description: Main Battle Tank.
 	Mobile:
 		Speed: 85
 		PauseOnCondition: emp-crate-collected || boarding
@@ -328,9 +348,8 @@ MTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
-	ProducibleWithLevel:
-		InitialLevels: 1
-		Prerequisites: tank.veterancy
+    UpgradeableTo:
+        Actors: MTNK.Upgraded
 
 MTNK.Husk:
 	Inherits: ^Husk
@@ -366,13 +385,19 @@ HTNK:
 		Cost: 1800
 	Tooltip:
 		Name: Mammoth Tank
+    TooltipExtras:
+        Strengths:  Strong vs Everything\nCan crush Concrete Walls
+        Weaknesses:  Weak vs Superweapons
+        Canattack:  Can attack Air and Ground units
+        Upgrades:  Can be upgraded with Composite Armor
+        Attributes:  Self-repairs slowly out of combat
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: tech, fix, ~!comparmor.upgrade, ~techlevel.high
 		Queue: Vehicle.GDI
-		Description: Heavily armored GDI Tank.\nCan crush Concrete Walls.\nCan attack Helicopters.\n  Strong vs Everything
+		Description:  Heavily armored GDI Tank.
 	Mobile:
 		Locomotor: heavytracked
 		Speed: 56
@@ -433,6 +458,8 @@ HTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
+    UpgradeableTo:
+        Actors: HTNK.Upgraded
 
 HTNK.Husk:
 	Inherits: ^Husk
@@ -468,13 +495,18 @@ MSAM:
 		Cost: 900
 	Tooltip:
 		Name: Multiple Launch Rocket System
+    TooltipExtras:
+        Strengths:  Strong vs all Ground units
+        Weaknesses:  Weak vs Aircraft, Infantry\nWeak amount of Hitpoints
+        Canattack:  Can attack Ground units
+        Attributes:  Attacks frontally, requiring to turn towards target
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 9
 		Prerequisites: eye, ~techlevel.high
 		Queue: Vehicle.GDI
-		Description: Rocket artillery firing in volleys.\n  Strong vs all Ground units.
+		Description:  Rocket artillery firing in volleys.
 	Mobile:
 		Speed: 85
 		TurnSpeed: 16
@@ -554,17 +586,22 @@ MNLY:
 	Inherits@Speed: ^AcceptsSpeedCrate
 	Inherits@Invuln: ^AcceptsInvulnerabilityCrate
 	Inherits@EMP: ^AcceptsEMPCrate
-	Buildable:
-		BuildPaletteOrder: 8
-		Prerequisites: eye, fix, ~techlevel.high
-		Queue: Vehicle.GDI
-		Description: Repairs nearby friendly Vehicles.\nCarries and lays up to 5 Land Mines.\nCan detect Land Mines.\n  Unarmed
 	Valued:
 		Cost: 800
 	Tooltip:
 		Name: Mechanic Minelayer
+    TooltipExtras:
+        Strengths:  Repairs nearby friendly Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Unarmed
+        Attributes:  Carries and lays up to 5 Land Mines\nDetects Land Mines in sight-radius
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 8
+		Prerequisites: eye, fix, ~techlevel.high
+		Queue: Vehicle.GDI
+		Description:  Support vehicle providing field mechanic duties
 	Health:
 		HP: 30000
 	Armor:

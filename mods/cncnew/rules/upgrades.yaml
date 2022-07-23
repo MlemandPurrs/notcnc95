@@ -143,6 +143,22 @@ uavmissile.upgrade:
     RenderSprites:
         Image: gdiupgrades.combined
 
+orcaammo.upgrade:
+    Inherits: ^Upgrade
+    Tooltip:
+        Name: Upgrade: Orca Ammo
+    Buildable:
+        BuildPaletteOrder: 13
+        Queue: Upgrades.GDI
+        Prerequisites: ~hpad, ~hq, ~tech, ~techlevel.unrestricted
+        BuildDuration: 1500
+        Description: Orcas are fitted with extended missile racks.\n\n  Upgrades: Orca\n  + Gains +2 Ammo
+        Icon: orcaammo
+    Valued:
+        Cost: 1000
+    RenderSprites:
+        Image: gdiupgrades.combined
+
 mh60medic.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:

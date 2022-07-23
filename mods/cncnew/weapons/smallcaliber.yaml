@@ -1,13 +1,13 @@
 ^SmallCaliberWeapon:
 	ReloadDelay: 25
     Range: 2c0
-    InvalidTargets: Wall
+    InvalidTargets: Wall, Trees
 	Projectile: Bullet
 		Speed: 1c682
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
 		Damage: 1500
-        InvalidTargets: Wall
+        InvalidTargets: Wall, Trees
 		Versus:
 			None: 100
             Infantry: 200
@@ -43,7 +43,7 @@
     Inherits: ^SmallCaliberWeapon
     Range: 4c0
 	ValidTargets: Ground, Infantry
-    InvalidTargets: Vehicle, Structure, Wall, Husk, Creep
+    InvalidTargets: Vehicle, Structure, Wall, Trees, Husk, Creep
     Warhead@1Dam: SpreadDamage
         Damage: 6000
         ValidTargets: Infantry
@@ -78,7 +78,7 @@ Sniper:
     Inherits: ^BoltactionWeapon
 	Report: ramgun2.aud
 	ValidTargets: Ground, Infantry
-	InvalidTargets: Vehicle, Water, Structure, Wall, Husk, Creep
+	InvalidTargets: Vehicle, Water, Structure, Wall, Trees, Husk, Creep
 	ReloadDelay: 60
 	Range: 8c0
 	Projectile: Bullet
@@ -182,12 +182,14 @@ APCGun:
 	Report: gun20.aud
 	Burst: 2
     BurstDelays: 0
+    InvalidTargets: Wall, Trees
 	Projectile: Bullet
 		Speed: 900
 	Warhead@1Dam: SpreadDamage
 		Spread: 128
 		Damage: 2000
-		Versus:
+		InvalidTargets: Wall, Trees
+        Versus:
 			None: 100
             Infantry: 100
 			LightInf: 100
@@ -202,10 +204,11 @@ APCGun:
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag
+        ImpactActors: false
 		ValidTargets: Ground, Water, Helicopter
 
 #   ditto, vs Air
-APCGun.AA:
+APCGunAA:
 	Inherits: APCGun
 	Range: 6c512
 	ValidTargets: Helicopter
@@ -216,6 +219,7 @@ APCGun.AA:
 		ValidTargets: Helicopter
 	Warhead@2Eff: CreateEffect
 		Explosions: small_poof
+        ImpactActors: true
 
 #   used by the CRAM
 AAVulcan:

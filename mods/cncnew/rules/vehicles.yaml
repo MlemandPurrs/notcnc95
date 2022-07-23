@@ -8,11 +8,15 @@ MCV:
 		Cost: 3000
 	Tooltip:
 		Name: Mobile Construction Vehicle
+    TooltipExtras:
+        Strengths:  Allows to expand into another Base
+        Canattack:  Unarmed
+        Attributes:  Deploys into another Construction Yard
 	Buildable:
 		BuildPaletteOrder: 11
 		Prerequisites: hq, fix, ~techlevel.medium
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description: Deploys into another Construction Yard.\n  Unarmed
+		Description:  Deploys into another Construction Yard.
 	Selectable:
 		DecorationBounds: 36,36
 	Mobile:
@@ -67,11 +71,14 @@ HARV:
 	Tooltip:
 		Name: Harvester
 		GenericName: Harvester
+    TooltipExtras:
+        Strengths:  Collects resources for income
+        Canattack:  Unarmed
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: proc, ~techlevel.low
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description: Collects Tiberium for processing.\n  Unarmed
+		Description:  Collects Tiberium for processing.
 	Selectable:
 		DecorationBounds: 36,36
 	Harvester:
@@ -175,11 +182,15 @@ TRUK:
 		Queue: Vehicle.GDI, Vehicle.Nod
 		BuildPaletteOrder: 12
 		Prerequisites: proc, ~techlevel.low
-		Description: Transports cash to other players.\nDrops a Money crate on death.\n  Unarmed
+		Description:  Transports cash to other players.
 	Valued:
 		Cost: 1000
 	Tooltip:
 		Name: Supply Truck
+    TooltipExtras:
+        Strengths:  Can deliver to allied Construction Yard
+        Canattack:  Unarmed
+        Attributes:  Drops a Money crate worth 1000$ on death
 	Health:
 		HP: 11000
 	Armor:
@@ -217,6 +228,11 @@ MHQ:
 		Cost: 600
 	Tooltip:
 		Name: Mobile HQ
+    TooltipExtras:
+        Strengths:  Strong vs Infantry\nGood Vision radius
+        Weaknesses:  Weak vs Tanks
+        Canattack: Can attack Ground units
+        Attributes:  Detects nearby Stealth units\nJams enemy Radar over distance.
 	Health:
 		HP: 15000
 	Armor:
@@ -239,7 +255,7 @@ MHQ:
 		BuildLimit: 1
 		Prerequisites: anytier3, ~techlevel.high
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description: Mobile base of operations, providing Vision and\ndetects Stealth units nearby.\n  Jams enemy Radar over distance.\n  Armed with basic gun.\n  Maximum one can be built.
+		Description:  Mobile base of operations, armed with basic gun.\n  Maximum one can be built.
 	Turreted:
 		TurnSpeed: 8
 		Offset: 246,-60,112
@@ -280,13 +296,18 @@ ARTY:
 		Cost: 700
 	Tooltip:
 		Name: Artillery
+    TooltipExtras:
+        Strengths:  Strong vs Vehicles and Buildings
+        Weaknesses:  Weak vs Infantry and Aircraft\nWeak amount of Hitpoints
+        Canattack:  Can attack Ground units
+        Attributes:  Attacks frontally, requiring to turn towards target
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 6
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description: Long-range artillery.\n  Strong vs Infantry, Vehicles and Buildings
+		Description:  Long-range artillery.
 	Mobile:
 		TurnSpeed: 16
 		Speed: 85

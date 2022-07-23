@@ -47,11 +47,15 @@ LST:
 		Cost: 500
 	Tooltip:
 		Name: Landing Craft
+    TooltipExtras:
+        Strengths:  Can carry up to 5 Infantry or 1 Vehicle
+        Canattack:  Unarmed
+        Attributes:  Amphibian unit that moves slower on Land
 	Buildable:
 		Queue: Navy.GDI, Navy.Nod
 		Prerequisites: ~techlevel.low
 		BuildPaletteOrder: 1
-		Description: Transports ground units across most terrain.\n Slower on land.\n  Unarmed
+		Description: Transports ground units across most terrain.
 	Mobile:
 		Locomotor: hovercraft
 		InitialFacing: 0
@@ -91,9 +95,13 @@ GB:
 		Queue: Navy.GDI, Navy.Nod
 		Prerequisites: proc, ~techlevel.low
 		BuildPaletteOrder: 2
-		Description: Multi-role fire-support ship.\n  Strong vs Defenses, Tanks\n  Weak vs Aircraft
+		Description: Multi-role fire-support ship.
 	Tooltip:
 		Name: Gunboat
+    TooltipExtras:
+        Strengths:  Strong vs Defenses, Tanks
+        Weaknesses:  Weak vs Aircraft, Sea Mines
+        Canattack:  Can attack Ground units
 	Health:
 		HP: 70000
 	Armor:
@@ -126,11 +134,16 @@ ENGB:
 		Queue: Navy.GDI, Navy.Nod
 		BuildPaletteOrder: 3
 		Prerequisites: proc, ~techlevel.low
-		Description: Externally captures Naval structures.\nCarries and Lays one Sea mine\nto destroy unwary Ships.\nCapable of detecting Sea Mines.\n  Unarmed
+		Description: Nautical support vessel.
 	Valued:
 		Cost: 500
 	Tooltip:
 		Name: Engineering Boat
+    TooltipExtras:
+        Strengths:  Captures Naval structures
+        Weaknesses:  Weak vs Ships, Defenses
+        Canattack:  Unarmed
+        Attributes:  Carries and lays one Sea Mine\nDetects Sea Mines in sight-radius
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Health:

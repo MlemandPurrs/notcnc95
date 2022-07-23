@@ -7,11 +7,16 @@ GTWR:
 		Cost: 500
 	Tooltip:
 		Name: Guard Tower
+    TooltipExtras:
+        Strengths:  Strong vs Infantry\nCapable of firing over Walls
+        Weaknesses:  Weak vs Tanks
+        Canattack:  Can attack Ground units
+        Attributes:  Detects nearby Stealth units
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: infantryproduction, ~techlevel.low
 		Queue: Defence.GDI, Defence.Nod
-		Description: Basic Anti-Infantry base defense.\n  Strong vs Infantry\n  Weak vs Tanks
+		Description:  Basic Anti-Infantry base defense.
 	Building:
 	Health:
 		HP: 40000
@@ -75,11 +80,16 @@ GUN:
 		Cost: 500
 	Tooltip:
 		Name: Gun Turret
+    TooltipExtras:
+        Strengths:  Strong vs Tanks
+        Weaknesses:  Weak vs Infantry
+        Canattack:  Can attack Ground units
+        Attributes:  Detects nearby Stealth units
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: vehicleproduction, ~techlevel.low
 		Queue: Defence.GDI, Defence.Nod
-		Description: Basic Anti-Tank base defense.\n  Strong vs Tanks\n  Weak vs Infantry
+		Description:  Basic Anti-Tank base defense.
 	Building:
 	Health:
 		HP: 40000
@@ -142,11 +152,16 @@ ATWR:
 		Cost: 1000
 	Tooltip:
 		Name: Advanced Guard Tower
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Aircraft\nCapable of firing over Walls
+        Weaknesses:  Weak vs Tanks\nRequires Power to operate
+        Canattack:  Can attack Air and Ground units 
+        Attributes:  Detects nearby Stealth units
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: tech, ~techlevel.high
 		Queue: Defence.GDI
-		Description: All-purpose defensive structure.\n  Strong vs Aircraft, Infantry\n  Weak vs Tanks
+		Description:  All-purpose defensive structure.
 	Selectable:
 		Bounds: 24,24
 		DecorationBounds: 22,48,0,-12
@@ -211,11 +226,16 @@ OBLI:
 		Cost: 1500
 	Tooltip:
 		Name: Obelisk of Light
+    TooltipExtras:
+        Strengths:  Strong vs all Ground units\nOne-shot kills most Ground units
+        Weaknesses:  Weak vs Tanks\nRequires Power to operate
+        Canattack:  Can attack Ground units
+        Attributes:  Detects nearby Stealth units
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Defence.Nod
-		Description: Advanced base defense.\nRequires power to operate.\n  Strong vs all Ground units\n  Cannot target Aircraft
+		Description:  Advanced base defense.
 	Selectable:
 		Bounds: 24,24
 		DecorationBounds: 22,44,0,-10
@@ -271,15 +291,20 @@ CRAM:
 	Inherits@AUTOTARGET: ^AutoTargetAir
 	-BodyOrientation:
 	-RenderDetectionCircle:
-	Buildable:
-		BuildPaletteOrder: 6
-		Prerequisites: hq, ~techlevel.medium
-		Queue: Defence.GDI
-		Description: Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
 	Valued:
 		Cost: 600
 	Tooltip:
 		Name: Anti-Air Gun
+    TooltipExtras:
+        Strengths:  Strong vs Aircraft
+        Weaknesses:  Cannot attack Ground units
+        Canattack:  Can attack Aircraft only
+        Attributes:  Detects nearby Stealth aircraft\nCan attack approaching Airplanes
+	Buildable:
+		BuildPaletteOrder: 6
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Defence.GDI
+		Description:  Anti-Aircraft base defense.
 	Selectable:
 		Bounds: 24,24
 		DecorationBounds: 24,32,0,-4
@@ -380,11 +405,16 @@ SAM:
 		Cost: 750
 	Tooltip:
 		Name: SAM Site
+    TooltipExtras:
+        Strengths:  Strong vs Aircraft
+        Weaknesses:  Cannot attack Ground units
+        Canattack:  Can attack Aircraft only
+        Attributes:  Detects nearby Stealth aircraft\nCan attack approaching Airplanes
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Defence.Nod
-		Description: Cloaked Anti-Aircraft base defense.\nDetects cloaked Air units nearby.\n  May attack Airplanes\n  Strong vs Aircraft\n  Cannot target Ground units.
+		Description:  Cloaked Anti-Aircraft base defense.
 	Building:
 		Footprint: xx
 		Dimensions: 2,1
@@ -487,11 +517,14 @@ SBAG:
 		Value: 0
 	Tooltip:
 		Name: Sandbag Barrier
+    TooltipExtras:
+        Strengths:  Stops Infantry and Light Vehicles
+        Weaknesses:  Can be crushed by Tracked Vehicles
 	Buildable:
 		BuildPaletteOrder: 7
 		Prerequisites: fact, ~techlevel.low
 		Queue: Defence.GDI, Defence.Nod
-		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.
+		Description: Simple and cheap barrier.
 	Armor:
 		Type: Light
 	LineBuild:
@@ -511,11 +544,14 @@ CYCL:
 		Value: 0
 	Tooltip:
 		Name: Chain Link Barrier
+    TooltipExtras:
+        Strengths:  Stops Infantry and Light Vehicles
+        Weaknesses:  Can be crushed by Tracked Vehicles
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: proc, ~techlevel.medium
 		Queue: Defence.GDI, Defence.Nod
-		Description: Stops infantry and light vehicles.\nCan be crushed by tanks.\nCan be built further than other Walls.
+		Description: Easy to extend Barrier.
 	Armor:
 		Type: Medium
 	LineBuild:
@@ -534,11 +570,14 @@ BRIK:
 		Value: 0
 	Tooltip:
 		Name: Concrete Barrier
+    TooltipExtras:
+        Strengths:  Stops Infantry and all Vehicles\nBlocks all projectiles that are not arced
+        Weaknesses:  Can be crushed by Mammoth Tanks
 	Buildable:
 		BuildPaletteOrder: 9
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
-		Description: Stops Infantry and Vehicles.\nCan be crushed by Mammoth Tanks.\nBlocks most projectiles.
+		Description: Durable and solid walls.
 	Health:
 		HP: 25000
 	Armor:
@@ -571,7 +610,7 @@ HGAT:
 		BuildPaletteOrder: 11
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
-		Description: Places an horizontal gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
+		Description: Places an horizontal gate.
 	Valued:
 		Cost: 250
 	Demolishable:
@@ -586,6 +625,9 @@ HGAT:
 		Connections: -1,0, 1,0
 	Tooltip:
 		Name: Gate - (horizontal)
+    TooltipExtras:
+        Strengths:  Blocks enemy access into your base
+        Attributes:  The gate automatically opens for friendly units
 	RevealsShroud:
 		Range: 1c0
 	RenderSprites:
@@ -611,7 +653,7 @@ VGAT:
 		BuildPaletteOrder: 12
 		Prerequisites: hq, ~techlevel.high
 		Queue: Defence.GDI, Defence.Nod
-		Description: Places an vertical gate.\nThe gate automatically opens for friendly units.\nBlocks enemy access into your base.
+		Description: Places an vertical gate.
 	Valued:
 		Cost: 250
 	Demolishable:
@@ -626,6 +668,9 @@ VGAT:
 		Connections: 0,-1, 0,1
 	Tooltip:
 		Name: Gate I (vertical)
+    TooltipExtras:
+        Strengths:  Blocks enemy access into your base
+        Attributes:  The gate automatically opens for friendly units
 	RevealsShroud:
 		Range: 1c0
 	GrantConditionOnPowerState@LOWPOWER:

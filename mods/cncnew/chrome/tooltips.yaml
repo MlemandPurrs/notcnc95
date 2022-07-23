@@ -179,7 +179,7 @@ Background@WORLD_TOOLTIP_FACTIONSUFFIX:
 			Font: Bold
 
 Background@PRODUCTION_TOOLTIP:
-	Logic: ProductionTooltipLogic
+	Logic: ProductionTooltipLogicCA
 	Background: panel-black
 	Width: 200
 	Height: 65
@@ -207,6 +207,48 @@ Background@PRODUCTION_TOOLTIP:
 			Height: 5
 			Font: TinyBold
 			VAlign: Top
+        Label@STRENGTHS:
+			X: 7
+            Y: 29
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: 33DD33
+		Label@WEAKNESSES:
+			X: 7
+			Y: 30
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: EE5555
+		Label@CANATTACK:
+			X: 7
+			Y: 31
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: E49430
+		Label@UPGRADES:
+			X: 7
+			Y: 32
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: FFFF00
+		Label@ATTRIBUTES:
+			X: 7
+			Y: 33
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: FFFF00
+		Label@SPECIALABILITIES:
+			X: 7
+			Y: 34
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: A8704C
 		Image@COST_ICON:
 			X: 3
 			Y: 5
@@ -239,9 +281,20 @@ Background@PRODUCTION_TOOLTIP:
 			Y: 40
 			Height: 23
 			Font: Bold
+        Image@ARMORTYPE_ICON:
+			X: 3
+            Y: 7
+			Width: 16
+			Height: 16
+			ImageCollection: sidebar-bits
+			ImageName: production-tooltip-armor
+		Label@ARMORTYPE:
+			Y: 42
+			Height: 16
+			Font: Bold
 
 Background@PRODUCTION_TOOLTIP_FACTIONSUFFIX:
-	Logic: ProductionTooltipLogic, AddFactionSuffixLogic
+	Logic: ProductionTooltipLogicCA, AddFactionSuffixLogic
 	Background: panel-black
 	Width: 200
 	Height: 65
@@ -269,6 +322,48 @@ Background@PRODUCTION_TOOLTIP_FACTIONSUFFIX:
 			Height: 5
 			Font: TinyBold
 			VAlign: Top
+        Label@STRENGTHS:
+			X: 7
+            Y: 29
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: 33DD33
+		Label@WEAKNESSES:
+			X: 7
+			Y: 30
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: EE5555
+		Label@CANATTACK:
+			X: 7
+			Y: 31
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: E49430
+		Label@UPGRADES:
+			X: 7
+			Y: 32
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: FFFF00
+		Label@ATTRIBUTES:
+			X: 7
+			Y: 33
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: FFFF00
+		Label@SPECIALABILITIES:
+			X: 7
+			Y: 34
+			Height: 2
+			Font: TinyBold
+			VAlign: Top
+			TextColor: A8704C
 		Image@COST_ICON:
 			Y: 5
 			Width: 16
@@ -299,6 +394,17 @@ Background@PRODUCTION_TOOLTIP_FACTIONSUFFIX:
 		Label@POWER:
 			Y: 40
 			Height: 23
+			Font: Bold
+		Image@ARMORTYPE_ICON:
+			X: 3
+            Y: 7
+			Width: 16
+			Height: 16
+			ImageCollection: sidebar-bits
+			ImageName: production-tooltip-armor
+		Label@ARMORTYPE:
+			Y: 42
+			Height: 16
 			Font: Bold
 
 Background@SUPPORT_POWER_TOOLTIP:

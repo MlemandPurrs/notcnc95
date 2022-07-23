@@ -496,13 +496,16 @@ TRAN:
 		Cost: 1000
 	Tooltip:
 		Name: Chinook
+    TooltipExtras:
+        Canattack:  Unarmed
+        Attributes:  Carries up to 10 Infantry into battle
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: hpad, ~techlevel.medium
 		Queue: Aircraft.GDI, Aircraft.Nod
-		Description: Fast Infantry Transport Helicopter.\n  Unarmed
+		Description:  Fast Infantry Transport Helicopter.
 	Aircraft:
         #   IdleBehavior: Land
 		TurnSpeed: 20
@@ -582,13 +585,19 @@ ORCA:
 		Cost: 1200
 	Tooltip:
 		Name: Orca
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Tanks
+        Weaknesses:  Weak vs Infantry, Anti-Air
+        Canattack:  Can attack Ground and Air units
+        Attributes:  Has Machinegun as Extra weaponry
+        Upgrades:  Can be upgraded to have +2 Ammo
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
-		Prerequisites: hpad, hq, ~techlevel.medium
+		Prerequisites: hpad, hq, ~techlevel.medium, ~!orcaammo.upgrade
 		Queue: Aircraft.GDI
-		Description: Helicopter Gunship with Missiles.\nHas Machinegun as Extra weaponry.\n  Strong vs Buildings, Tanks\n  Weak vs Infantry
+		Description:  VTOL Gunship with Missiles.
 	Aircraft:
 		TurnSpeed: 28
 		Speed: 186
@@ -647,6 +656,14 @@ ORCA:
         PipCount: 3
         AmmoPools: primary
 		RequiresSelection: true
+	TransformOnCondition@OrcaAmmoUpgrade:
+		IntoActor: orca.upgraded
+		RequiresCondition: orcaammo-upgraded
+	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
+		Condition: orcaammo-upgraded
+		Prerequisites: orcaammo.upgrade
+    UpgradeableTo:
+        Actors: orca.upgraded
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -661,6 +678,91 @@ ORCA.Husk:
 	RenderSprites:
 		Image: orca
 
+ORCA.upgraded:
+	Inherits: ^Helicopter
+	Inherits@EXPERIENCE: ^GainsExperience
+	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
+	Inherits@Crates: ^AcceptsAllCratesExceptCloak
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Orca
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Tanks
+        Weaknesses:  Weak vs Infantry, Anti-Air
+        Canattack:  Can attack Ground and Air units
+        Attributes:  Has Machinegun as Extra weaponry
+        Upgrades:  Can be upgraded to have +2 Ammo
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 2
+		Prerequisites: hpad, hq, ~techlevel.medium, ~orcaammo.upgrade
+		Queue: Aircraft.GDI
+		Description:  VTOL Gunship with Missiles.
+	Aircraft:
+		TurnSpeed: 28
+		Speed: 186
+		TakeoffSounds: orcaup1.aud
+		LandingSounds: orcadwn1.aud
+		PauseOnCondition: emp-crate-collected
+	Health:
+		HP: 22500
+	Armor:
+		Type: Aircraft
+	RevealsShroud:
+		Range: 7c0
+		Type: GroundPosition
+	Armament@PRIMARY:
+		Weapon: OrcaAGMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@SECONDARY:
+		Weapon: OrcaAAMissiles
+		LocalOffset: 427,-171,-213, 427,171,-213
+		PauseOnCondition: !ammo
+	Armament@TERTIARY:
+		Name: tertiary
+		Weapon: MachineGunHeli
+		MuzzleSequence: muzzle
+		LocalOffset: 427,0,-213
+		PauseOnCondition: !ammo
+	WithMuzzleOverlay:
+	AutoTarget:
+		ScanRadius: 5
+	AttackAircraft:
+		Armaments: primary, secondary, tertiary
+		FacingTolerance: 80
+		OpportunityFire: false
+		PersistentTargeting: false
+		AttackType: Hover
+	AmmoPool@1:
+        Name: primary
+		Armaments: primary, secondary
+		Ammo: 10
+        InitialAmmo: 6
+		ReloadDelay: 100
+		ReloadCount: 2
+		AmmoCondition: ammo
+	SpawnActorOnDeath:
+		Actor: ORCA.Husk
+	WithMoveAnimation:
+		MoveSequence: move
+	Rearmable:
+        AmmoPools: primary
+		RearmActors: hpad
+	Selectable:
+		DecorationBounds: 30,24
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+        PipCount: 5
+        AmmoPools: primary
+		RequiresSelection: true
+	RenderSprites:
+		Image: orca
+	-MapEditorData:
+
 HELI:
 	Inherits: ^Helicopter
 	Inherits@EXPERIENCE: ^GainsExperience
@@ -671,13 +773,18 @@ HELI:
 		Cost: 1200
 	Tooltip:
 		Name: Apache
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Anti-Air
+        Canattack:  Can attack Ground and Air units
+        Upgrades:  Can be upgraded with Rocket Pods
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: hpad, hq, ~techlevel.medium, ~!aitoodumb
 		Queue: Aircraft.Nod
-		Description: Helicopter Gunship with Chainguns.\nCan be upgraded to become better against Tanks.\n  Strong vs Infantry, Light Vehicles, Aircraft\n  Weak vs Tanks, Anti-Air
+		Description:  Helicopter Gunship with Chainguns.
 	Aircraft:
 		TurnSpeed: 28
 		Speed: 180
@@ -790,7 +897,6 @@ HELI.ai:
     -Armament@QUARTENARY:
     -AmmoPool@1:
     -WithAmmoPipsDecoration@1:
-    -GrantConditionOnPrerequisite@hellfirepods:
     AttackAircraft:
         Armaments: primary, secondary
     Rearmable:
@@ -799,6 +905,11 @@ HELI.ai:
         Prerequisites: hpad, hq, ~techlevel.medium, ~aitoodumb, ~!hellfire.upgrade
     RenderSprites:
         Image: heli
+	TransformOnCondition@hellfirepods:
+		IntoActor: heli.ai.upgraded
+		RequiresCondition: hellfire-upgraded
+    UpgradeableTo:
+        Actors: heli.ai.upgraded
     -MapEditorData:
 
 HELI.ai.upgraded:
@@ -817,17 +928,23 @@ MH60:
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: HoldFire
-	Buildable:
-		BuildPaletteOrder: 3
-		Prerequisites: hpad, tech, ~techlevel.high, ~!aitoodumb
-		Queue: Aircraft.GDI
-		Description: Slow moving Helicopter gunship armed with chainguns.\nCan reload anywhere while on the Ground.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry, Light armor\n  Weak vs Tanks, Aircraft
 	Valued:
 		Cost: 1500
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Anti-Air
+        Canattack:  Can attack Ground and Air units
+        Attributes:  Can reload ammo anywhere while on the Ground\nDoes not appear on enemy Radar
+        Upgrades:  Can be upgraded to provide Healing while on the Ground
 	Tooltip:
 		Name: Black Hawk
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: hpad, tech, ~techlevel.high, ~!aitoodumb
+		Queue: Aircraft.GDI
+		Description:  Slow moving Helicopter gunship armed with chainguns.
 	SelectionDecorations:
 	Selectable:
 		DecorationBounds: 38,32
@@ -940,15 +1057,23 @@ RH66:
 	Inherits@AUTOTARGET: ^AutoTargetGround
 	Inherits@Crates: ^AcceptsAllCratesExceptCloak
 	Inherits@ExpBoost: ^NodAffectedByTraining
-	Buildable:
-		BuildPaletteOrder: 3
-		Prerequisites: hpad, tmpl, ~techlevel.high
-		Queue: Aircraft.Nod
-		Description: Attack helicopter that can be upgraded\nto gain Stealth capability.\nDoesnt appear on enemy Radar.\nCannot attack Air units.\n  Strong vs Buildings, clustered Infantry.\n  Weak vs Anti-Air, Detection
 	Valued:
 		Cost: 1500
 	Tooltip:
 		Name: Comanche
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Tanks, Anti-Air
+        Canattack:  Can attack Ground units
+        Attributes:  Does not appear on enemy Radar
+        Upgrades:  Can be upgraded to gain Stealth capability
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: hpad, tmpl, ~techlevel.high
+		Queue: Aircraft.Nod
+		Description:  Fast and nimble Attack helicopter.
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
 	AppearsOnRadar:
 		ValidRelationships: Ally
 	Health:
@@ -1069,14 +1194,16 @@ OCAR:
 	Valued:
 		Cost: 1200
 	Tooltip:
-		Name: Orca Carryall
+		Name: Carryall
+    TooltipExtras:
+        Canattack:  Unarmed
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: ~hpad, ~fix, ~carryall.unlock, ~techlevel.high
 		Queue: Aircraft.GDI
-		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
+		Description: Fast VTOL Vehicle Transporter.
 	Aircraft:
 		CruiseAltitude: 2048
 		AltitudeVelocity: 0c100
@@ -1101,9 +1228,6 @@ OCAR:
 	SpeedMultiplier@carrying:
 		Modifier: 80
 		RequiresCondition: carrying
-	#	Carryall trait cant give itself
-	#	condition per Passenger unlike 
-	#	Transport trait can it seems.
 	#	SpeedMultiplier@carryingheavy:
 	#	Modifier: 60
 	#	RequiresCondition: carrying && heavy
@@ -1153,7 +1277,7 @@ OCAR:
 OCAR.Husk:
 	Inherits: ^PlaneHusk
 	Tooltip:
-		Name: Orca Carryall
+		Name: Carryall
 	Aircraft:
 		TurnSpeed: 4
 		Speed: 46
@@ -1205,13 +1329,15 @@ NV22:
 		Cost: 1200
 	Tooltip:
 		Name: Nod Carryall
+    TooltipExtras:
+        Canattack:  Unarmed
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: hpad, fix, ~carryall.unlock, ~techlevel.high
 		Queue: Aircraft.Nod
-		Description: Fast VTOL Vehicle Transporter.\n  Unarmed
+		Description: Fast VTOL Vehicle Transporter.
 	Aircraft:
 		CruiseAltitude: 2048
 		AltitudeVelocity: 0c100

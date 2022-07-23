@@ -5,10 +5,23 @@ TERR:
 	-ActorLostNotification:
 	Voiced:
 		VoiceSet: FanaticVoice
-	Tooltip:
-		Name: Fanatic
 	Valued:
 		Cost: 150
+	Tooltip:
+		Name: Fanatic
+    TooltipExtras:
+        Strengths:  Strong vs Vehicles, Infantry
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Always explodes on Death
+        Upgrades:  Can be upgraded with Hi-Explosive Vests
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 3
+		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
+		Queue: Infantry.Nod
+		Description:  Suicide bomber Infantry.
 	Health:
 		HP: 6250
 	Armor:
@@ -16,11 +29,6 @@ TERR:
 	Mobile:
 		Speed: 71
 		Voice: Move
-	Buildable:
-		BuildPaletteOrder: 3
-		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
-		Queue: Infantry.Nod
-		Description: Suicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
 	Armament:
 		Weapon: KamikazeTargeting
     Armament@Other:
@@ -54,8 +62,6 @@ TERR:
 	WithInfantryBody@RUN:
 		MoveSequence: run
 		RequiresCondition: run
-	RenderSprites:
-		Image: terr
 	GrantConditionWhileAiming:
 		Condition: run
 	SpeedMultiplier:
@@ -79,6 +85,8 @@ TERR:
 		Voice: Action
 	Targetable:
 		TargetTypes: Ground, Infantry, Fanatic
+	RenderSprites:
+		Image: terr
 
 E4:
 	Inherits: ^Soldier
@@ -89,13 +97,18 @@ E4:
 		Cost: 300
 	Tooltip:
 		Name: Flamethrower
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings\nHigh hitpoints for a Infantry
+        Weaknesses:  Weak vs Tanks\nClose-ranged Attacker
+        Canattack:  Can attack Ground units
+        Attributes:  Immune to Flame weaponry
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: hq, ~techlevel.medium, ~!global-squadenabled
 		Queue: Infantry.Nod
-		Description: Anti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
+		Description:  Anti-infantry unit.
 	Mobile:
 		Speed: 56
 		PauseOnCondition: dont-move
@@ -138,6 +151,12 @@ RMB2:
 		Cost: 1200
 	Tooltip:
 		Name: Nod Commando
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Uses C4 against Buildings to instant-blow up them.
+        Specialabilities:  Special ability: Stealth Suit\nCapable of turning Invisible when charged
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -145,7 +164,7 @@ RMB2:
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Infantry.Nod
-		Description: Elite infantry unit, with silenced Sniper.\nUses C4 against Buildings to instant-blow up them.\n  Maximum 1 can be trained.\n  Special ability: Stealth Suit\nCapable of turning Invisible when charged.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Description:  Elite infantry unit, with silenced Sniper.\n  Maximum 1 can be trained.
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -246,13 +265,19 @@ E5:
 		Cost: 475
 	Tooltip:
 		Name: Chemical Trooper
+    TooltipExtras:
+        Strengths:  Strong vs Infantry\nHigh hitpoints for a Infantry
+        Weaknesses:  Weak vs anything Else\nClose ranged attacker
+        Canattack:  Can attack Ground units
+        Attributes:  Immune to Tiberium
+        Specialabilities:  Weapon poisons enemy Infantry
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 7
 		Prerequisites: nbio, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.Nod
-		Description: Advanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
+		Description: Advanced general-purpose Infantry.
 	Mobile:
 		Speed: 56
 		Locomotor: chem
@@ -316,22 +341,36 @@ E23:
 	-GrantCondition@HAZMAT:
 	-WithDecoration@HAZMAT:
 	-Targetable@IMMUNETOPOISON:
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Chemical Mortar
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Immune to Tiberium\nMay explode on death 50% chance
+        Specialabilities:  Weapon poisons enemy Infantry
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: nbio, hq, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.Nod
-		Description: Infantry armed with a Mortar gun.\nImmune to Tiberium.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
-	Valued:
-		Cost: 500
+		Description:  Infantry armed with a Mortar gun.
 	Mobile:
 		Speed: 42
 		Locomotor: chem
-	Tooltip:
-		Name: Chemical Mortar
 	Health:
 		HP: 5625
 	Armor:
 		Type: LightInf
+	Passenger:
+		CustomPipType: pip-red
+	RevealsShroud:
+		Range: 5c0
+	AutoTarget:
+		ScanRadius: 8
 	Armament:
 		Weapon: ToxicMortarShell
 		LocalOffset: 200,0,10
@@ -350,8 +389,8 @@ E23:
 		Cursor: enter-reverse-yellow
 		Payload: 125
 		Type: InfantryRefund
-	RevealsShroud:
-		Range: 5c0
+	Targetable:
+		TargetTypes: Ground, Infantry, Grenadier
 
 #   Experimental squad production
 
@@ -362,11 +401,17 @@ TERR.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Fanatic
+    TooltipExtras:
+        Strengths:  Strong vs Vehicles, Infantry
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Always explodes on Death
+        Upgrades:  Can be upgraded with Hi-Explosive Vests
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 3
         Prerequisites: proc, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a squad of four\nsuicide bomber Infantry.\nAlways explodes on Death.\n  Strong versus Light Vehicles, Infantry\n  Weak vs everything else
+		Description:  Deploys a squad of four\nsuicide bomber Infantry.\n  Always explodes on Death.
         Icon: terricon
     Valued:
 		Cost: 525
@@ -388,11 +433,16 @@ E4.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Flamethrower
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings\nHigh hitpoints for a Infantry
+        Weaknesses:  Weak vs Tanks\nClose-ranged Attacker
+        Canattack:  Can attack Ground units
+        Attributes:  Immune to Flame weaponry
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 4
 		Prerequisites: hq, ~techlevel.medium, ~global-squadenabled
-		Description: Deploys a pair of\nanti-infantry unit.\nImmune to Flame weaponry.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks
+		Description:  Deploys a pair of\nanti-infantry unit.
         Icon: e4icon
     Valued:
 		Cost: 600
@@ -414,11 +464,17 @@ E5.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Chemical Trooper
+    TooltipExtras:
+        Strengths:  Strong vs Infantry\nHigh hitpoints for a Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack: Can attack Ground units
+        Attributes:  Immune to Tiberium
+        Specialabilities:  Weapon poisons enemy Infantry
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 7
 		Prerequisites: nbio, ~techlevel.high, ~global-squadenabled
-		Description: Deploys a pair of\nadvanced general-purpose Infantry.\nImmune to Tiberium.\n  Strong vs all Ground units
+		Description:  Deploys a pair of\nadvanced general-purpose Infantry.
         Icon: e5icon
     Valued:
 		Cost: 900
@@ -440,11 +496,17 @@ E23.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Chemical Mortar
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Immune to Tiberium\nMay explode on death 50% chance
+        Specialabilities:  Weapon poisons enemy Infantry
 	Buildable:
 		Queue: Infantry.Nod
 		BuildPaletteOrder: 8
 		Prerequisites: nbio, hq, ~techlevel.high, ~global-squadenabled
-		Description: Deploys a pair of\ninfantry armed with a Mortar gun.\nImmune to Tiberium.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+		Description: Deploys a pair of\ninfantry armed with a Mortar gun.
         Icon: e23icon
     Valued:
 		Cost: 1000

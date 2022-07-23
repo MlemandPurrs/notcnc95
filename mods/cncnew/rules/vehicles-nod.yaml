@@ -8,13 +8,19 @@ BGGY:
 		Cost: 350
 	Tooltip:
 		Name: Nod Buggy
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
+        Attributes:  Does not appear on enemy Radar
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 2
 		Prerequisites: afld, ~techlevel.low
 		Queue: Vehicle.Nod
-		Description: Fast scout and anti-infantry vehicle.\nDoesnt appear on enemy Radar.\n  Strong vs Infantry\n  Weak vs Tanks
+		Description:  Fast anti-infantry vehicle.
 	Mobile:
 		TurnSpeed: 40
 		Speed: 170
@@ -72,13 +78,18 @@ BIKE:
 		Cost: 500
 	Tooltip:
 		Name: Recon Bike
+    TooltipExtras:
+        Strengths:  Strong vs Medium Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Air and Ground units
+        Attributes:  Detects nearby Stealth units
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 7
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Vehicle.Nod
-		Description: Fast scout vehicle, armed with\nrocket pods.\nCan detect Stealth units.\nCan attack Aircraft.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+		Description:  Fast scout vehicle.
 	Mobile:
 		TurnSpeed: 40
 		Speed: 184
@@ -126,13 +137,23 @@ NAPC:
 	Inherits@Crates: ^AcceptsAllCrates
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@ExpBoost: ^NodAffectedByTraining
+	Valued:
+		Cost: 450
+	Tooltip:
+		Name: Nod APC
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Light Vehicles
+        Weaknesses:  Weak vs Tanks, Defenses
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
+        Attributes:  Carries up to 5 Infantry into battle
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: hand, ~techlevel.low
 		Queue: Vehicle.Nod
-		Description: Fast infantry transport.\nCan transport up to 5 Infantry.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Defenses
-	Valued:
-		Cost: 450
+		Description:  Fast infantry transport.
 	Health:
 		HP: 18000
 	Mobile:
@@ -141,10 +162,6 @@ NAPC:
 		PauseOnCondition: notmobile || emp-crate-collected || boarding
 	Armor:
 		Type: Medium
-	Tooltip:
-		Name: Nod APC
-	UpdatesPlayerStatistics:
-		AddToArmyValue: true
 	RevealsShroud:
 		Range: 5c0
 	Cargo:
@@ -161,7 +178,6 @@ NAPC:
 		CustomPipType: pip-green
 	Armament:
 		Weapon: MachineGun
-        #   Weapon: GrenadeLauncher
 		LocalOffset: 250,0,100
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
@@ -212,13 +228,18 @@ LTNK:
 		Cost: 600
 	Tooltip:
 		Name: Light Tank
+    TooltipExtras:
+        Strengths:  Strong vs Vehicles, Tanks
+        Weaknesses:  Weak vs Infantry, Defenses
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded with TOW Missile
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 4
 		Prerequisites: proc, ~techlevel.low
 		Queue: Vehicle.Nod
-		Description: Fast, light tank.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+		Description: Fast, light tank.
 	Mobile:
 		TurnSpeed: 28
 		Speed: 110
@@ -306,13 +327,17 @@ FTNK:
 		Cost: 800
 	Tooltip:
 		Name: Flame Tank
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings\nGood amount of Hitpoints
+        Weaknesses:  Weak vs Tanks, Rockets\nClose-ranged Attacker
+        Canattack:  Can attack Ground units
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 5
 		Prerequisites: fix, ~techlevel.medium
 		Queue: Vehicle.Nod
-		Description: Heavily armored flame-throwing vehicle.\n  Strong vs Infantry, Buildings and Vehicles\n  Weak vs Tanks
+		Description: Heavily armored flame-throwing vehicle.
 	Mobile:
 		TurnSpeed: 28
 		Speed: 99
@@ -366,13 +391,19 @@ MLRS:
 		Cost: 1500
 	Tooltip:
 		Name: SSM Launcher
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Defenses
+        Weaknesses:  Weak vs Aircraft, Infantry\n  Weak amount of Hitpoints
+        Canattack:  Can attack Ground units
+        Upgrades:  Can be upgraded for faster reloading
+        Attributes:  Attacks frontally, requiring to turn towards target
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 9
 		Prerequisites: nbio, ~techlevel.high
 		Queue: Vehicle.Nod
-		Description: Surface to Surface Missile launcher.\nCannot attack Air units.\n  Strong vs Buildings\n  Weak vs Aircraft
+		Description:  Surface to Surface Missile launcher.
 	Mobile:
 		Speed: 99
 		TurnSpeed: 28
@@ -463,13 +494,18 @@ STNK:
 		Cost: 900
 	Tooltip:
 		Name: Stealth Tank
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Aircraft
+        Weaknesses:  Weak vs Infantry, Defenses\nVery weak amount of Hitpoints
+        Canattack:  Can attack Air and Ground units
+        Specialabilities:  Special ability: Cloaking Mantle\nRemains Stealthed outside of combat\nCan be detected by Infantry and Defenses
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Vehicle.Nod
-		Description: Long-range missile tank that can cloak.\nCan attack Aircraft.\n  Special ability: Cloaking Mantle\nRemains Stealthed outside of combat. Can be spotted by Infantry\nand detected by Defense structures.\n  Strong vs Vehicles, Tanks\n  Weak vs Infantry
+		Description:  Medium-range missile tank that can cloak.
 	Mobile:
 		Locomotor: heavywheeled
 		TurnSpeed: 40

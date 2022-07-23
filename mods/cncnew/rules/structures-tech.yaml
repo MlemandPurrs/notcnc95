@@ -309,7 +309,7 @@ SYRD:
 		PauseOnCondition: build-incomplete || being-demolished
 	ProductionQueue@GDINavy:
 		Type: Navy.GDI
-		DisplayOrder: 6
+		DisplayOrder: 5
 		Group: Naval
 		Factions: gdi
 		LowPowerModifier: 150
@@ -321,7 +321,7 @@ SYRD:
 		CancelledAudio: Cancelled
 	ProductionQueue@NodNavy:
 		Type: Navy.Nod
-		DisplayOrder: 6
+		DisplayOrder: 5
 		Group: Naval
 		Factions: nod
 		LowPowerModifier: 150

@@ -6,13 +6,19 @@ E2:
 		Cost: 175
 	Tooltip:
 		Name: Grenadier
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Defenses
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Ground units
+        Attributes:  May explode on death 50% chance
+        Upgrades:  Can be upgraded with Bouncing Grenades
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 3
 		Prerequisites: proc, ~techlevel.low, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Fast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+		Description:  Fast infantry armed with grenades.
 	Mobile:
 		Speed: 71
 	Health:
@@ -57,17 +63,22 @@ E2:
 MEDI:
 	Inherits: ^Soldier
 	Inherits@selection: ^SelectableSupportUnit
-	Buildable:
-		BuildPaletteOrder: 4
-		Prerequisites: hq, ~techlevel.medium
-		Queue: Infantry.GDI
-		Description: Heals nearby infantry.\nSelf-heals slowly out of combat.\n  Unarmed
 	Tooltip:
 		Name: Medic
+    TooltipExtras:
+        Strengths:  Heals nearby infantry
+        Weaknesses:  Weak vs Infantry, Light Vehicles
+        Canattack:  Unarmed
+        Attributes:  Self-heals slowly out of combat
 	Valued:
 		Cost: 350
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 4
+		Prerequisites: hq, ~techlevel.medium
+		Queue: Infantry.GDI
+		Description: Healer infantry.
 	Health:
 		HP: 7500
 	Armor:
@@ -111,13 +122,18 @@ SNIP:
 		Cost: 900
 	Tooltip:
 		Name: Sniper
+    TooltipExtras:
+        Strengths:  Strong vs Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Infantry only
+        Specialabilities:  Special ability: Camouflage\nCloaks itself when near Trees or Rocks
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
 		BuildPaletteOrder: 7
 		Prerequisites: eye, ~techlevel.high, ~!global-squadenabled
 		Queue: Infantry.GDI
-		Description: Marksman infantry with an Sniper rifle.\n  Special ability: Camouflage\nCloaks self when near Vegetation or Rocks.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+		Description:  Marksman infantry.
 	Health:
 		HP: 5625
 	Armor:
@@ -138,8 +154,6 @@ SNIP:
 	AttackFrontal:
 	WithInfantryBody:
 		DefaultAttackSequence: shoot
-	RenderSprites:
-		Image: snip
 	RenderRangeCircle:
 	DeliversCash:
 		Cursor: enter-reverse-yellow
@@ -163,6 +177,8 @@ SNIP:
 		Name: garrisoned
 		Weapon: Sniper
 		MuzzleSequence: garrison-muzzle
+	RenderSprites:
+		Image: snip
 
 RMBO:
 	Inherits: ^Soldier
@@ -172,6 +188,12 @@ RMBO:
 		Cost: 1000
 	Tooltip:
 		Name: Commando
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  Uses C4 against Buildings to instant-blow up them
+        Specialabilities:  Special ability: Mountaineering\nCan climb Cliffs and traverse Rocky terrain as if was nothing
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -179,7 +201,7 @@ RMBO:
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Infantry.GDI
-		Description: Elite infantry unit, with Machinegun.\nUses C4 against Buildings to instant-blow up them.\n  Maximum 1 can be trained.\n  Special ability: Mountaineering\nCan climb Cliffs and traverse Rocky terrain as if was nothing.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Description:  Elite infantry unit, with Machinegun.\n  Maximum 1 can be trained.
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -257,21 +279,34 @@ E22:
 	Inherits: ^Soldier
 	Inherits@AUTOTARGET: ^AutoTargetGroundAssaultMove
 	Inherits@EXPERIENCE: ^GainsExperience
-	Buildable:
-		BuildPaletteOrder: 8
-		Prerequisites: tech, hq, ~techlevel.medium, ~!global-squadenabled
-		Queue: Infantry.GDI
-		Description: Infantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
 	Valued:
 		Cost: 500
-	Mobile:
-		Speed: 42
 	Tooltip:
 		Name: Mortar Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  May explode on death 50% chance
+	UpdatesPlayerStatistics:
+		AddToArmyValue: true
+	Buildable:
+		BuildPaletteOrder: 8
+		Prerequisites: tech, hq, ~techlevel.high, ~!global-squadenabled
+		Queue: Infantry.GDI
+		Description:  Infantry armed with a Mortar gun.
+	Mobile:
+		Speed: 42
 	Health:
 		HP: 5625
 	Armor:
 		Type: HeavyInf
+	Passenger:
+		CustomPipType: pip-red
+	RevealsShroud:
+		Range: 5c0
+	AutoTarget:
+		ScanRadius: 8
 	Armament:
 		Weapon: MortarShell
 		LocalOffset: 200,0,10
@@ -284,14 +319,12 @@ E22:
 		Weapon: GrenadierExplode
 		EmptyWeapon: GrenadierExplode
 		Chance: 50
-	Passenger:
-		CustomPipType: pip-red
 	DeliversCash:
 		Cursor: enter-reverse-yellow
 		Payload: 125
 		Type: InfantryRefund
-	RevealsShroud:
-		Range: 5c0
+	Targetable:
+		TargetTypes: Ground, Infantry, Grenadier
 
 #   Experimental squad production
 
@@ -302,11 +335,17 @@ E2.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Grenadier
+    TooltipExtras:
+        Strengths:  Strong vs Buildings, Defenses
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Ground units
+        Attributes:  May explode on death 50% chance
+        Upgrades:  Can be upgraded with Bouncing Grenades
 	Buildable:
 		Queue: Infantry.GDI
 		BuildPaletteOrder: 3
         Prerequisites: proc, ~techlevel.low, ~global-squadenabled
-		Description: Deploys a squad of four\nfast infantry armed with grenades.\nMay explode on death 50% chance.\n  Strong vs Buildings, slow-moving targets
+		Description:  Deploys a squad of four\nfast infantry armed with grenades.
         Icon: e2icon
     Valued:
 		Cost: 225
@@ -328,11 +367,16 @@ SNIP.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Sniper
+    TooltipExtras:
+        Strengths:  Strong vs Infantry
+        Weaknesses:  Weak vs anything Else
+        Canattack:  Can attack Infantry only
+        Specialabilities:  Special ability: Camouflage\nCloaks itself when near Trees or Rocks
 	Buildable:
 		Queue: Infantry.GDI
 		BuildPaletteOrder: 7
         Prerequisites: eye, ~techlevel.high, ~global-squadenabled
-		Description: Deploys a pair of\nmarksman infantry with Sniper rifle.\nNeeds to reload after every 5 shots.\nCloaked while standing still.\n  Strong vs Infantry\n  Weak vs Vehicles, Aircraft
+		Description:  Deploys a pair of\nmarksman infantry with Sniper rifle.
         Icon: snipicon
     Valued:
 		Cost: 1500
@@ -354,11 +398,16 @@ E22.squad:
 	ProvidesPrerequisite@squadname:
 	Tooltip:
 		Name: Squad: Mortar Soldier
+    TooltipExtras:
+        Strengths:  Strong vs Infantry, Buildings
+        Weaknesses:  Weak vs Vehicles, Defenses
+        Canattack:  Can attack Ground units
+        Attributes:  May explode on death 50% chance
 	Buildable:
 		Queue: Infantry.GDI
 		BuildPaletteOrder: 8
-        Prerequisites: tech, ~techlevel.medium, ~global-squadenabled
-		Description: Deploys a pair of\ninfantry armed with a Mortar gun.\n  Strong vs Buildings, Infantry\n  Weak vs Vehicles, Aircraft
+        Prerequisites: tech, hq, ~techlevel.high, ~global-squadenabled
+		Description:  Deploys a pair of\ninfantry armed with a Mortar gun.
         Icon: e22icon
     Valued:
 		Cost: 1000
