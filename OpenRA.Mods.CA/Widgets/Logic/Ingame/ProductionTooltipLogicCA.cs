@@ -197,7 +197,7 @@ namespace OpenRA.Mods.CA.Widgets.Logic
 				upgradesLabel.Bounds.Y = descLabel.Bounds.Bottom + strengthsSize.Y + weaknessesSize.Y + canattackSize.Y + extrasSpacing;
 				attributesLabel.Bounds.Y = descLabel.Bounds.Bottom + strengthsSize.Y + weaknessesSize.Y + canattackSize.Y + upgradesSize.Y + extrasSpacing;
 				specialabilitiesLabel.Bounds.Y = descLabel.Bounds.Bottom + strengthsSize.Y + weaknessesSize.Y + canattackSize.Y + upgradesSize.Y + attributesSize.Y + extrasSpacing;
-	
+
 				descLabel.Bounds.Height += strengthsSize.Y + weaknessesSize.Y + canattackSize.Y + upgradesSize.Y + attributesSize.Y + specialabilitiesSize.Y + descLabelPadding + extrasSpacing;
 
 				var leftWidth = new[] { nameSize.X + hotkeyWidth, requiresSize.X, descSize.X, strengthsSize.X, weaknessesSize.X, canattackSize.X, upgradesSize.X, attributesSize.X, specialabilitiesSize.X }.Aggregate(Math.Max);
