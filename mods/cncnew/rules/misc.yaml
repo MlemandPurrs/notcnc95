@@ -386,7 +386,7 @@ crate.nuke:
 crate.ion:
 	AlwaysVisible:
 	DetonateWeaponPower@IonCannonOneShot:	
-        OrderName: IonCannonOneShot
+        OrderName: CrateIon
         Icon: ioncannon
         ChargeInterval: 0
         Description: Ion Cannon (Single Use)

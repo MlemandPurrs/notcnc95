@@ -1235,7 +1235,7 @@ CTRL:
 		PauseOnCondition: lowpower
 		Prerequisites: ~proxy.airstrike.unlock, ~!airstrike.upgrade
 		Icon: airstrike
-		ChargeInterval: 4500
+		ChargeInterval: 7500
 		SquadSize: 1
 		QuantizedFacings: 8
 		Description: Air Strike
@@ -1257,7 +1257,7 @@ CTRL:
 		PauseOnCondition: lowpower
 		Prerequisites: ~airstrike.upgrade
 		Icon: airstrike
-		ChargeInterval: 7500
+		ChargeInterval: 10500
 		SquadSize: 3
 		QuantizedFacings: 8
 		Description: Air Strike
@@ -1279,7 +1279,7 @@ CTRL:
 		PauseOnCondition: lowpower
 		Prerequisites: ~proxy.nodairstrike.unlock
 		Icon: sfigicon
-		ChargeInterval: 4500
+		ChargeInterval: 7500
 		SquadSize: 1
 		QuantizedFacings: 8
 		Description: Air Strike
@@ -1552,7 +1552,7 @@ HQ.GDI:
 		OrderName: ReconDrone
 		Prerequisites: ~!seek.strat, ~techlevel.unrestricted
 		Icon: uav
-		ChargeInterval: 7500
+		ChargeInterval: 6750
 		Description: Recon Drone
 		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
 		SelectTargetSpeechNotification: SelectTarget
@@ -1573,7 +1573,7 @@ HQ.GDI:
 		Prerequisites: ~techlevel.unrestricted
 		OrderName: IonCannon
 		Icon: ioncannon
-		ChargeInterval: 6750
+		ChargeInterval: 10500
 		Description: Ion Cannon
 		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
 		OnFireSound: ion1.aud

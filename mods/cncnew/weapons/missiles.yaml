@@ -204,7 +204,7 @@ HonestJohn:
 		LaunchAngle: 37
 	Warhead@1Dam: SpreadDamage
 		Spread: 512
-		Damage: 4500
+		Damage: 4750
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Versus:
 			None: 100
@@ -221,7 +221,7 @@ HonestJohn:
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Dam: SpreadDamage
 		Spread: 512
-		Damage: 3000
+		Damage: 3250
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 3
 		Versus:
@@ -239,7 +239,7 @@ HonestJohn:
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@3Dam: SpreadDamage
 		Spread: 512
-		Damage: 1500
+		Damage: 1625
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 6
 		Versus:
@@ -257,7 +257,7 @@ HonestJohn:
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@4Dam: SpreadDamage
 		Spread: 512
-		Damage: 750
+		Damage: 815
 		Falloff: 500, 368, 135, 50, 18, 7, 0
 		Delay: 9
 		Versus:
