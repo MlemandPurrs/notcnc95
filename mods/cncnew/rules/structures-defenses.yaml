@@ -240,7 +240,7 @@ OBLI:
 		Bounds: 24,24
 		DecorationBounds: 22,44,0,-10
 	Health:
-		HP: 60000
+		HP: 75000
 	Armor:
 		Type: Fortified
 	RevealsShroud:
@@ -581,7 +581,7 @@ BRIK:
 	Health:
 		HP: 25000
 	Armor:
-		Type: Fortified
+		Type: Heavy
 	BlocksProjectiles:
 	Crushable:
 		CrushClasses: heavywall

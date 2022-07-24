@@ -143,7 +143,7 @@ SNIP:
 	Passenger:
 		CustomPipType: pip-red
 	RevealsShroud:
-		Range: 5c0
+		Range: 6c0
 	AutoTarget:
 		InitialStance: Defend
 		InitialStanceAI: ReturnFire
@@ -201,7 +201,7 @@ RMBO:
 		BuildLimit: 1
 		Prerequisites: tech, ~techlevel.high
 		Queue: Infantry.GDI
-		Description:  Elite infantry unit, with Machinegun.\n  Maximum 1 can be trained.
+		Description:  Elite infantry unit, with Machinegun.\nMaximum one can be trained.
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -213,7 +213,7 @@ RMBO:
 	Armor:
 		Type: Infantry
 	Passenger:
-		CustomPipType: pip-red
+		CustomPipType: pip-white
 		Voice: Move
 	RevealsShroud:
 		Range: 5c0

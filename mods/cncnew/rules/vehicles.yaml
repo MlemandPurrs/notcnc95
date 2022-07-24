@@ -11,7 +11,6 @@ MCV:
     TooltipExtras:
         Strengths:  Allows to expand into another Base
         Canattack:  Unarmed
-        Attributes:  Deploys into another Construction Yard
 	Buildable:
 		BuildPaletteOrder: 11
 		Prerequisites: hq, fix, ~techlevel.medium
@@ -230,9 +229,10 @@ MHQ:
 		Name: Mobile HQ
     TooltipExtras:
         Strengths:  Strong vs Infantry\nGood Vision radius
-        Weaknesses:  Weak vs Tanks
+        Weaknesses:  Weak vs anything Else
         Canattack: Can attack Ground units
-        Attributes:  Detects nearby Stealth units\nJams enemy Radar over distance.
+        Attributes:  Detects nearby Stealth units
+        Specialabilities:  Jams enemy Radar over distance
 	Health:
 		HP: 15000
 	Armor:
@@ -255,7 +255,7 @@ MHQ:
 		BuildLimit: 1
 		Prerequisites: anytier3, ~techlevel.high
 		Queue: Vehicle.GDI, Vehicle.Nod
-		Description:  Mobile base of operations, armed with basic gun.\n  Maximum one can be built.
+		Description:  Mobile base of operations.\nMaximum one can be built.
 	Turreted:
 		TurnSpeed: 8
 		Offset: 246,-60,112

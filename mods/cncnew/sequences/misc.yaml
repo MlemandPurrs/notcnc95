@@ -307,6 +307,8 @@ pips:
 		Start: 4
 	pip-blue:
 		Start: 5
+	pip-white:
+		Start: 6
 	pip-heal: pip-heal
 		Offset: -1, 1
 	groups: pdigits
@@ -387,18 +389,6 @@ resources:
 	ti10: rtib10
 	ti11: rtib11
 	ti12: rtib12
-	bti1: rtib1
-	bti2: rtib2
-	bti3: rtib3
-	bti4: rtib4
-	bti5: rtib5
-	bti6: rtib6
-	bti7: rtib7
-	bti8: rtib8
-	bti9: rtib9
-	bti10: rtib10
-	bti11: rtib11
-	bti12: rtib12
 
 shroud:
 	Defaults:

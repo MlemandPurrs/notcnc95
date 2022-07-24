@@ -113,7 +113,7 @@ APC:
         Strengths:  Strong vs Infantry, Light Vehicles
         Weaknesses:  Weak vs Tanks, Defenses\nNeeds to turn to Attack
         Canattack:  Can attack Ground units
-        Upgrades:  Can be upgraded with Armor-Piercing Ammo
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
         Attributes:  Carries up to 5 Infantry into battle
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
@@ -386,11 +386,11 @@ HTNK:
 	Tooltip:
 		Name: Mammoth Tank
     TooltipExtras:
-        Strengths:  Strong vs Everything\nCan crush Concrete Walls
+        Strengths:  Strong vs Everything
         Weaknesses:  Weak vs Superweapons
         Canattack:  Can attack Air and Ground units
         Upgrades:  Can be upgraded with Composite Armor
-        Attributes:  Self-repairs slowly out of combat
+        Attributes:  Self-repairs slowly out of combat\nCan smash through Concrete Walls
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -601,7 +601,7 @@ MNLY:
 		BuildPaletteOrder: 8
 		Prerequisites: eye, fix, ~techlevel.high
 		Queue: Vehicle.GDI
-		Description:  Support vehicle providing field mechanic duties
+		Description:  Support vehicle providing field mechanic duties.
 	Health:
 		HP: 30000
 	Armor:

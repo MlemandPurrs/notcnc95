@@ -164,7 +164,7 @@ RMB2:
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Infantry.Nod
-		Description:  Elite infantry unit, with silenced Sniper.\n  Maximum 1 can be trained.
+		Description:  Elite infantry unit, with silenced Sniper.\nMaximum one can be trained.
 	Mobile:
 		Speed: 71
 		Voice: Move
@@ -175,7 +175,7 @@ RMB2:
 	Armor:
 		Type: Infantry
 	Passenger:
-		CustomPipType: pip-red
+		CustomPipType: pip-white
 		Voice: Move
 	RevealsShroud:
 		Range: 5c0
@@ -215,7 +215,7 @@ RMB2:
 		DischargingColor: FF00FF
 	Cloak:
 		CloakTypes: Stealth
-		InitialDelay: 90
+		InitialDelay: 0
 		CloakDelay: 90
 		CloakedCondition: hidethatskull
 		CloakSound: trans1.aud

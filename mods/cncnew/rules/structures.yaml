@@ -234,11 +234,12 @@ NUK2:
 		Bounds: 48,48
 	HitShape:
 		TargetableOffsets: 630,299,0
+    #   there, 50 cheaper than two regular PP.
 	Valued:
-		Cost: 700
+		Cost: 650
 	Tooltip:
 		Name: Advanced Power Plant
-    #   actually, its not.. so idk why it keeps saying so
+    #   ha ! in the original its the other way around...
     TooltipExtras:
         Strengths:  Cheaper than keep building the standard Power Plant
         Attributes:  Power amount scales with damage
@@ -970,15 +971,16 @@ FIX:
 		Cost: 800
 	Tooltip:
 		Name: Service Depot
-    TooltipExtras@1:
+    TooltipExtras:
         Strengths:  Repairs Vehicles and Aircraft for credits
         Weaknesses:  Vehicle and Aircraft can be sold here for half value\n(their value scaling with health)
-        RequiresCondition: ~!fieldrepairs-enabled
-    TooltipExtras@2:
+        RequiresCondition: !fieldrepairs-enabled
+    TooltipExtras@RepairsEnabled:
         Strengths:  Repairs Vehicles and Aircraft for credits
-        Weaknesses:  Vehicle and Aircraft can be sold here for half value\n(their value scaling with health)
+        Weaknesses:  Vehicle and Aircraft can be sold for half value\n(their value scaling with health)
         Specialabilities:  Special Ability: Field Repairs\nAffected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration
-        RequiresCondition: ~fieldrepairs-enabled
+        RequiresCondition: fieldrepairs-enabled
+        IsStandard: false
 	Buildable:
 		BuildPaletteOrder: 8
 		Prerequisites: vehicleproduction, ~techlevel.medium
@@ -1637,7 +1639,7 @@ EYE.Plug:
 		Prerequisites: hq, tech, !eye.plug, ~!aitoodumb, ~techlevel.high
 		Queue: Building.GDI
 		BuildLimit: 1
-		Description: Adds an Sattelite Uplink to Communications Center.\n  Maximum one can be built.
+		Description: Adds an Sattelite Uplink to Communications Center.\nMaximum one can be built.
 	Plug:
 		Type: eyeupgrade
 	#	this is to show will use extra -50 power when applied on the tooltip
@@ -1666,7 +1668,7 @@ EYE:
 		Prerequisites: tech, ~aitoodumb, ~techlevel.high
 		Queue: Building.GDI
 		BuildLimit: 1
-		Description: Provides Radar and Sattelite Uplink.\n  Maximum one can be built.
+		Description: Provides Radar and Sattelite Uplink.\nMaximum one can be built.
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1756,7 +1758,7 @@ TECH:
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.GDI
-		Description:  GDI Facility for research and development.\n  Maximum one can be built.
+		Description:  GDI Facility for research and development.\nMaximum one can be built.
 	Valued:
 		Cost: 2000
 	Tooltip:
@@ -1843,7 +1845,7 @@ TMPL:
 		BuildLimit: 1
 		Prerequisites: vehicleproduction, hq, ~techlevel.high
 		Queue: Building.Nod
-		Description:  The centre of Nod command and research computing.\n  Maximum one can be built.
+		Description:  The centre of Nod command and research computing.\nMaximum one can be built.
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -1955,13 +1957,13 @@ NBIO:
 		BuildLimit: 1
 		Prerequisites: tmpl, ~techlevel.high
 		Queue: Building.Nod
-		Description:  Vital research facility of the Nod.\n  Maximum one can be built.
+		Description:  Vital research facility of the Nod.\nMaximum one can be built.
 	Tooltip:
 		Name: Nod Research Laboratory
     TooltipExtras:
-        Strengths:  Enables production of SSM Launcher,\nChemical Trooper and Chemical Mortar.
-        Weaknesses:  Requires Power to operate.
-        Attributes:  Enables Nuclear Strike at Temple of Nod.
+        Strengths:  Enables production of SSM Launcher,\nChemical Trooper and Chemical Mortar
+        Weaknesses:  Requires Power to operate
+        Attributes:  Enables Nuclear Strike at Temple of Nod
 	Valued:
 		Cost: 1000
 	ProvidesPrerequisite@buildingname:

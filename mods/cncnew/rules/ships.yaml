@@ -43,8 +43,9 @@ BOAT:
 LST:
 	Inherits: ^Ship
 	Inherits@TRANSPORT: ^Transport
+    Inherits@selection: ^SelectableSupportUnit
 	Valued:
-		Cost: 500
+		Cost: 700
 	Tooltip:
 		Name: Landing Craft
     TooltipExtras:
@@ -65,9 +66,9 @@ LST:
 	Health:
 		HP: 40000
 	Armor:
-		Type: Heavy
+		Type: Medium
 	RevealsShroud:
-		Range: 7c0
+		Range: 3c0
 	-BodyOrientation:
 	ClassicFacingBodyOrientation:
 	Selectable:
@@ -90,7 +91,7 @@ GB:
 	Inherits@EXPERIENCE: ^GainsExperience
 	Inherits@AUTOTARGET: ^AutoTargetAllAssaultMove
 	Valued:
-		Cost: 750
+		Cost: 700
 	Buildable:
 		Queue: Navy.GDI, Navy.Nod
 		Prerequisites: proc, ~techlevel.low

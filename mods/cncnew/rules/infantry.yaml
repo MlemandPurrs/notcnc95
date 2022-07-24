@@ -10,7 +10,7 @@ E1:
         Strengths:  Strong vs Infantry
         Weaknesses:  Weak vs anything Else
         Canattack:  Can attack Ground units
-        Attributes:  Can be upgraded with Armor-Piercing Bullets
+        Upgrades:  Can be upgraded with Armor-Piercing Bullets
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -82,6 +82,8 @@ E3:
 		Description:  Anti-tank infantry.
 	Mobile:
 		Speed: 42
+	RevealsShroud:
+		Range: 4c0
 	Health:
 		HP: 5625
 	Armor:

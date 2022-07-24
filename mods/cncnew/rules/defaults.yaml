@@ -187,11 +187,13 @@
 			pip-blue: pip-blue
 			pip-red: pip-red
 			pip-green: pip-green
+            pip-white: pip-white
 			gray: pip-gray
 			yellow: pip-yellow
 			blue: pip-blue
 			red: pip-red
 			green: pip-green
+            white: pip-white
 
 ^SlowdownWhenDamaged:
 	SpeedMultiplier@HEAVYDAMAGE:
@@ -241,6 +243,8 @@
 		RepairActors: fix
 	Passenger:
 		CargoType: Vehicle
+        #   this to ensure only one fits into LST
+        Weight: 5
 	ActorLostNotification:
 	HiddenUnderFog:
 	AttackMove:

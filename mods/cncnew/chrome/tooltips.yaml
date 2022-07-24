@@ -241,7 +241,7 @@ Background@PRODUCTION_TOOLTIP:
 			Height: 2
 			Font: TinyBold
 			VAlign: Top
-			TextColor: FFFF00
+			TextColor: FCC478
 		Label@SPECIALABILITIES:
 			X: 7
 			Y: 34
@@ -356,7 +356,7 @@ Background@PRODUCTION_TOOLTIP_FACTIONSUFFIX:
 			Height: 2
 			Font: TinyBold
 			VAlign: Top
-			TextColor: FFFF00
+			TextColor: FCC478
 		Label@SPECIALABILITIES:
 			X: 7
 			Y: 34

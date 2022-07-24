@@ -17,12 +17,15 @@ apbullets.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Armor-Piercing Bullets
+    TooltipExtras:
+        Strengths:  Deals +20% increased Damage
+        Upgrades:  Upgrades: Soldier, Jeep, Buggy, APC, Guard Tower
 	Buildable:
 		BuildPaletteOrder: 1
 		Queue: Upgrades.GDI, Upgrades.Nod
 		Prerequisites: ~infantryproduction, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Increases the damage dealt by small caliber weapons.\n\n  Upgrades: Soldier, Jeep, Buggy, APC, Guard Tower\n  + Deals 20% increased damage
+		Description: Increases the damage dealt by small caliber weapons.
 	Valued:
 		Cost: 1000
 	RenderSprites:
@@ -32,12 +35,15 @@ airradar.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Aerial Warning Radar
+    TooltipExtras:
+        Strengths:  Reveals incoming enemy planes over a large distance
+        Upgrades:  Upgrades: Communications Center
 	Buildable:
 		BuildPaletteOrder: 7
 		Queue: Upgrades.GDI, Upgrades.Nod
 		Prerequisites: ~hq, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Enables to spot and ping incoming Airplanes.\n\n  Upgrades: Communications Center\n  + Reveals incoming enemy planes over a large distance
+		Description: Enables to spot and ping incoming Airplanes.
 	Valued:
 		Cost: 1000
 	RenderSprites:
@@ -47,12 +53,15 @@ carryall.unlock:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Unlock: Carryall
+    TooltipExtras:
+        Strengths:  VTOL Transport capable of carrying all Vehicles
+        Upgrades:  Upgrades:  Carryall
 	Buildable:
 		BuildPaletteOrder: 16
 		Queue: Upgrades.GDI, Upgrades.Nod
 		Prerequisites: ~hpad, ~fix, ~anytier3, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows to build the Carryall unit for production.\n\n  Unlocks: Carryall\n  + VTOL Transport capable of carrying all Vehicles
+		Description: Allows to build the Carryall unit for production.
 	Valued:
 		Cost: 1500
 	RenderSprites:
@@ -67,12 +76,16 @@ bouncynades.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Bouncing Grenades
+    TooltipExtras:
+        Strengths:  Bouncing nades can be cleverly used to outrange
+        Weaknesses:  The nades might miss more than every so often
+        Upgrades:  Upgrades: Grenadier
 	Buildable:
 		BuildPaletteOrder: 3
 		Queue: Upgrades.GDI
 		Prerequisites: ~pyle, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Makes Grenades delayed fuse so that they can bounce.\n\n  Upgrades: Grenadier\n  + Bouncing nades can be cleverly used to outrange\n  - The nades might miss more than every so often
+		Description: Makes Grenades delayed fuse so that they can bounce.
         Icon: bouncynades
 	Valued:
 		Cost: 500
@@ -83,12 +96,16 @@ towhumvee.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: TOW Missile
+    TooltipExtras:
+        Strengths:  Increases overall damage dealt
+        Weaknesses:  Adds 50$ to the cost of Humvee
+        Upgrades:  Upgrades: Humvee
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Upgrades.GDI
 		Prerequisites: ~weap, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Adds a secondary TOW Launcher to Humvee.\n\n  Upgrades: Humvee\n  + Increases overall damage dealt\n  - Adds 50$ to the cost of Humvee
+		Description: Adds a secondary TOW Launcher to Humvee.
         Icon: towhumvee
 	Valued:
 		Cost: 700
@@ -99,12 +116,15 @@ comparmor.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Composite Armor
+    TooltipExtras:
+        Strengths:  Increases Hitpoints of those Tanks by 20%
+        Upgrades:  Upgrades: Main Battle Tank and Mammoth Tank
 	Buildable:
 		BuildPaletteOrder: 8
 		Queue: Upgrades.GDI
 		Prerequisites: ~fix, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Equips GDI Tanks with advanced armor plating.\n\n  Upgrades: Main Battle Tank and Mammoth Tank\n  + Increases Hitpoints of those Tanks by 20%
+		Description: Equips GDI Tanks with advanced armor plating.
         Icon: comparmor
 	Valued:
 		Cost: 2000
@@ -115,12 +135,15 @@ targetlaser.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Targeting Laser
+    TooltipExtras:
+        Strengths:  The laser designator causes the target Vehicle to take +20% damage
+        Upgrades:  Upgrades: Main Battle Tank
 	Buildable:
 		BuildPaletteOrder: 9
 		Queue: Upgrades.GDI
 		Prerequisites: ~weap, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Adds a secondary laser designator to Main Battle Tank.\n\n  Upgrades: Main Battle Tank\n  + The laser designator increases damage dealt to the target Vehicle by 20%
+		Description: Adds a secondary laser designator to Main Battle Tank.
         Icon: targetlaser
 	Valued:
 		Cost: 1000
@@ -131,12 +154,15 @@ uavmissile.upgrade:
     Inherits: ^Upgrade
     Tooltip:
         Name: Upgrade: Recon UAV Missile
+    TooltipExtras:
+        Strengths:  Fires one Missile at target
+        Upgrades:  Upgrades: Recon Drone
     Buildable:
         BuildPaletteOrder: 12
         Queue: Upgrades.GDI
         Prerequisites: ~hq, ~tech, ~techlevel.unrestricted
         BuildDuration: 1500
-        Description: Recon Drone gains limited Offensive capacity.\n\n  Upgrades: Recon Drone\n  + Fires one Missile at target
+        Description: Recon Drone gains limited Offensive capacity.
         Icon: uavmissile
     Valued:
         Cost: 1000
@@ -147,12 +173,16 @@ orcaammo.upgrade:
     Inherits: ^Upgrade
     Tooltip:
         Name: Upgrade: Orca Ammo
+    TooltipExtras:
+        Strengths:  Gains +2 Ammo
+        Weaknesses:  Initial Ammo remains unchanged at 3
+        Upgrades:  Upgrades: Orca
     Buildable:
         BuildPaletteOrder: 13
         Queue: Upgrades.GDI
-        Prerequisites: ~hpad, ~hq, ~tech, ~techlevel.unrestricted
+        Prerequisites: ~hpad, ~tech, ~techlevel.unrestricted
         BuildDuration: 1500
-        Description: Orcas are fitted with extended missile racks.\n\n  Upgrades: Orca\n  + Gains +2 Ammo
+        Description: Orcas are fitted with extended missile racks.
         Icon: orcaammo
     Valued:
         Cost: 1000
@@ -163,6 +193,9 @@ mh60medic.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Black Hawk Medic
+    TooltipExtras:
+        Strengths:  Heals surrounding Infantry when landed on ground
+        Upgrades:  Upgrades: Black Hawk
 	Buildable:
 		BuildPaletteOrder: 14
 		Queue: Upgrades.GDI
@@ -179,12 +212,16 @@ airstrike.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Airstrike
+    TooltipExtras:
+        Strengths:  Will include +2 A-10 Bomber Planes
+        Weaknesses:  Takes longer to recharge
+        Upgrades:  Upgrades: Airstrike
 	Buildable:
 		BuildPaletteOrder: 15
 		Queue: Upgrades.GDI
 		Prerequisites: ~proxy.airstrike.unlock, ~ctrl, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Improves the Airstrike to include two more A-10 Bombers.\n\n  Upgrades: Airstrike\n  + 2 more A-10 Bomber Planes\n  - Takes longer to recharge
+		Description: Improves the Airstrike to include two more A-10 Bombers.
         Icon: airstrike
 	Valued:
 		Cost: 1500
@@ -197,12 +234,15 @@ explosivevest.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Hi-Explosive Vests
+    TooltipExtras:
+        Strengths:   Doubles the damage dealt by Fanatics
+        Upgrades:  Upgrades: Fanatic
 	Buildable:
-		BuildPaletteOrder: 3
+        BuildPaletteOrder: 3
 		Queue: Upgrades.Nod
-		Prerequisites: ~proc, ~tmpl, ~techlevel.unrestricted
+		Prerequisites: ~hand, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Equips Fanatics with improved Explosives.\n\n  Upgrades: Fanatic\n  +  Doubles the damage dealt by Fanatics
+		Description: Equips Fanatics with improved Explosives.
         Icon: explosivevest
 	Valued:
 		Cost: 500
@@ -213,12 +253,15 @@ towmissile.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: TOW Missile
+    TooltipExtras:
+        Strengths:  Increases overall damage dealt
+        Upgrades:  Upgrades: Light Tank
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Upgrades.Nod
 		Prerequisites: ~afld, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Adds a secondary missile launcher to Light Tank.\n\n  Upgrades: Light Tank\n  + Increases overall damage dealt
+		Description: Adds a secondary missile launcher to Light Tank.
         Icon: towmissile
 	Valued:
 		Cost: 700
@@ -229,12 +272,15 @@ ssmreload.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: SSM Reload
+    TooltipExtras:
+        Strengths:  The unit reloads 40% faster
+        Upgrades:  Upgrades: SSM Launcher
 	Buildable:
 		BuildPaletteOrder: 11
 		Queue: Upgrades.Nod
 		Prerequisites: ~nbio, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Greatly accelerates the reloading rate of SSM Launcher.\n\n  Upgrades: SSM Launcher\n  + SSM Launcher reloads 40% faster
+		Description: Greatly accelerates the reloading rate of SSM Launcher.
         Icon: ssmreload
 	Valued:
 		Cost: 1200
@@ -244,13 +290,16 @@ ssmreload.upgrade:
 c17speed.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
-		Name: Upgrade: Cargo Plane speed
+		Name: Upgrade: Faster Deliveries
+    TooltipExtras:
+        Strengths:  Movement speed gets a +70% increase
+        Upgrades:  Upgrades: Cargo Plane
 	Buildable:
 		BuildPaletteOrder: 12
 		Queue: Upgrades.Nod
 		Prerequisites: ~afld, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Accelerates the Cargo Plane for faster deliveries.\n\n  Upgrades: Cargo Plane\n  + Movement speed gets a +70% increase
+		Description: Accelerates the Cargo Plane for faster deliveries.
         Icon: c17speed
 	Valued:
 		Cost: 1500
@@ -261,12 +310,16 @@ hellfire.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Apache Rocket Pods
+    TooltipExtras:
+        Strengths:  Performs better against Tanks
+        Weaknesses:  Takes longer to resupply
+        Upgrades:  Upgrades: Apache
 	Buildable:
 		BuildPaletteOrder: 13
 		Queue: Upgrades.Nod
 		Prerequisites: ~hpad, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Adds Hellfire rocket pods to Apache.\n\n  Upgrades: Apache\n  + Performs better against Tanks\n  - Takes longer to resupply
+		Description: Adds Hellfire rocket pods to Apache.
         Icon: hellfire
 	Valued:
 		Cost: 900
@@ -276,13 +329,16 @@ hellfire.upgrade:
 rh66stealth.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
-		Name: Upgrade: Commanche Stealth
+		Name: Upgrade: Comanche Stealth
+    TooltipExtras:
+        Strengths:  Commanche gains active Cloaking technology
+        Upgrades:  Upgrades: Comanche
 	Buildable:
 		BuildPaletteOrder: 14
 		Queue: Upgrades.Nod
 		Prerequisites: ~hpad, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Enables Commanche to utilize Cloaking while on Air.\n\n  Upgrades: Commanche\n  + Commanche gains active Cloaking technology
+		Description: Enables Commanche to utilize Cloaking while on Air.
         Icon: rh66stealth
 	Valued:
 		Cost: 1200
@@ -293,12 +349,15 @@ training.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
 		Name: Upgrade: Special Training
+    TooltipExtras:
+        Strengths:  Accelerates the rate with which Ranks gets earned
+        Upgrades:  Upgrades: Entire arsenal
 	Buildable:
 		BuildPaletteOrder: 15
 		Queue: Upgrades.Nod
 		Prerequisites: ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: All combat units earn experience 50% faster.\n\n  Upgrades: Entire arsenal\n  + Accelerates the rate with which Ranks gets earned
+		Description: All combat units earn experience 50% faster.
         Icon: training
 	Valued:
 		Cost: 1000
@@ -308,13 +367,16 @@ training.upgrade:
 interceptorsnod.upgrade:
 	Inherits: ^Upgrade
 	Tooltip:
-		Name: Upgrade: F-22 Extra Fuel Pods
+		Name: Upgrade: F-22 Fuel Pods
+    TooltipExtras:
+        Strengths:  Interceptors remain on air for longer
+        Upgrades:  Upgrades: Interceptors
 	Buildable:
 		BuildPaletteOrder: 17
 		Queue: Upgrades.Nod
 		Prerequisites: ~proxy.interceptorsnod.unlock, ~ctrl, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Extra Fuel pods on the Interceptors extend duration.\n\n  Upgrades: Interceptors\n  + Interceptors remain on air for longer.
+		Description: Extra Fuel pods on the Interceptors extend duration.
         Icon: fuelpods
 	Valued:
 		Cost: 1000

@@ -1457,12 +1457,16 @@ airstrike.unlock:
     Inherits: unit.summoner
 	Tooltip:
 		Name: Unlock: Airstrike
+    TooltipExtras:
+        Strengths:  Burns buildings and infantry along a line
+        Weaknesses:  The A-10 Bomber is vulnerable to SAM sites and AA Guns
+        Upgrades:  Can be upgraded to include +2 A-10 Bomber Planes
 	Buildable:
 		BuildPaletteOrder: 6
 		Queue: Aircraft.GDI
 		Prerequisites: ctrl, ~hq, ~tech, ~techlevel.unrestricted, ~!proxy.airstrike.unlock
 		BuildDuration: 1500
-		Description: Allows the usage of the 'Airstrike' support power.\n\n  Unlocks: Airstrike\n\n  + Burns buildings and infantry along a line.\n  - The Bomber is vulnerable to SAM sites.
+		Description: Allows the usage of the 'Airstrike' support power.
         Icon: airstrike
 	Valued:
 		Cost: 1600
@@ -1485,12 +1489,16 @@ interceptorsgdi.unlock:
     Inherits: unit.summoner
 	Tooltip:
 		Name: Unlock: F-18 Interceptors
+    TooltipExtras:
+        Strengths:  Provides Anti-Air cover over targeted area
+        Weaknesses:  The Planes are vulnerable to SAM sites and AA Guns
+        Upgrades:  Unlocks: Interceptors
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Aircraft.GDI
 		Prerequisites: ctrl, ~hq, ~tech, ~!proxy.interceptorsgdi.unlock, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+		Description: Allows the usage of the 'Interceptors' support power.
         Icon: interceptorgdi
 	Valued:
 		Cost: 1200
@@ -1515,12 +1523,16 @@ interceptorsnod.unlock:
     Inherits: unit.summoner
 	Tooltip:
 		Name: Unlock: F-22 Interceptors
+    TooltipExtras:
+        Strengths:  Provides Anti-Air cover over targeted area
+        Weaknesses:  The Planes are vulnerable to SAM sites and AA Guns
+        Upgrades:  Can be upgraded with F-22 Fuel Pods
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Aircraft.Nod
 		Prerequisites: ctrl, ~hq, ~tmpl, ~!proxy.interceptorsnod.unlock, ~techlevel.unrestricted
 		BuildDuration: 1500
-		Description: Allows the usage of the 'Interceptors' support power.\n\n  Unlocks: Interceptors\n\n  + Provides Anti-Air cover over targeted area.\n  - The Planes are vulnerable to SAM sites.
+		Description: Allows the usage of the 'Interceptors' support power.
         Icon: interceptornod
 	Valued:
 		Cost: 1200
@@ -1543,12 +1555,16 @@ nodairstrike.unlock:
     Inherits: unit.summoner
 	Tooltip:
 		Name: Unlock: Stealth Airstrike
+    TooltipExtras:
+        Strengths:  Burns buildings and infantry along a line
+        Weaknesses:  The Planes are vulnerable to SAM sites and AA Guns
+        Attributes:  The Bomber Plane is Stealthed
 	Buildable:
 		BuildPaletteOrder: 6
 		Queue: Aircraft.Nod
 		Prerequisites: ctrl, ~hq, ~tmpl, ~techlevel.unrestricted, ~!proxy.nodairstrike.unlock
 		BuildDuration: 1500
-        Description: Allows the usage of the 'Stealth Airstrike' support power.\n\n  Unlocks: Stealth Airstrike\n\n  + Burns buildings and infantry along a line.\n  + The Bomber is Stealthed\n  - The Bomber is vulnerable to SAM sites.
+        Description: Allows the usage of the 'Stealth Airstrike' support power.
         Icon: airstrikenod
 	Valued:
 		Cost: 1800
