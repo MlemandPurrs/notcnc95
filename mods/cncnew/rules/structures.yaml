@@ -1765,7 +1765,7 @@ TECH:
 		Name: Technology Center
     TooltipExtras:
         Strengths:  Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and Advanced Sattelite Uplink.
-        Attributes:  Researches GDI Technologies
+        Upgrades:  Researches GDI Technologies
 	Health:
 		HP: 200000
 	Armor:
@@ -1838,7 +1838,7 @@ TMPL:
 		Name: Temple of Nod
     TooltipExtras:
         Strengths:  Unlocks production of Stealth Tank, Commanche, Nod Commando,\nObelisk of Light and Nod Research Laboratory
-        Attributes:  Researches Nod Technologies
+        Upgrades:  Researches Nod Technologies
         Specialabilities:  Special Ability: Nuclear Strike\nLaunches a devastating atomic bomb at target location.\n(requires Nod Research Laboratory)
 	Buildable:
 		BuildPaletteOrder: 11

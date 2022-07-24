@@ -292,6 +292,7 @@ Player:
             e4.squad: 15
 			e5: 15
             e5.squad: 15
+			e6: 5
 			snip: 15
             snip.squad: 15
             e22: 15
@@ -330,7 +331,7 @@ Player:
             e4.squad: 2
 			e5: 5
             e5.squad: 2
-			e6: 3
+			e6: 2
             e22: 2
             e22.squad: 1
             e23: 2

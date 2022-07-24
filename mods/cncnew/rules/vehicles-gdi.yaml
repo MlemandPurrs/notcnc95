@@ -348,8 +348,8 @@ MTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
-    UpgradeableTo:
-        Actors: MTNK.Upgraded
+    #   UpgradeableTo:
+    #   Actors: MTNK.Upgraded
 
 MTNK.Husk:
 	Inherits: ^Husk
@@ -458,8 +458,8 @@ HTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
-    UpgradeableTo:
-        Actors: HTNK.Upgraded
+    #   UpgradeableTo:
+    #   Actors: HTNK.Upgraded
 
 HTNK.Husk:
 	Inherits: ^Husk

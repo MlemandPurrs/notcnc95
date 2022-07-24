@@ -151,6 +151,7 @@ StnkRockets.AA:
 	ValidTargets: Helicopter
 
 #   this one uses Artillery damage type
+#   actually scratch that, making it normal missile
 #   MLRS Rocket artillery
 227mm:
 	Inherits: ^MissileWeapon
@@ -176,19 +177,7 @@ StnkRockets.AA:
 	Warhead@1Dam: SpreadDamage
 		Spread: 683
 		ValidTargets: Ground
-		Damage: 3750
-		Versus:
-			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
-            Wood: 120
+		Damage: 4000
 	Warhead@3Eff: CreateEffect
 		Explosions: med_frag
 		ImpactSounds: xplobig4.aud

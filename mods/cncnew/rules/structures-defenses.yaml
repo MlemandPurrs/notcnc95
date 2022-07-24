@@ -406,7 +406,7 @@ SAM:
 	Tooltip:
 		Name: SAM Site
     TooltipExtras:
-        Strengths:  Strong vs Aircraft
+        Strengths:  Strong vs Aircraft\nWhen closed takes less damage
         Weaknesses:  Cannot attack Ground units
         Canattack:  Can attack Aircraft only
         Attributes:  Detects nearby Stealth aircraft\nCan attack approaching Airplanes
@@ -461,6 +461,7 @@ SAM:
 		Offsets: 
 			!ammo: 0, -11
 	AttackPopupTurreted:
+        ClosedDamageMultiplier: 50
 		PauseOnCondition: lowpower && !build-incomplete
 	WithMuzzleOverlay:
 	RenderRangeCircle:

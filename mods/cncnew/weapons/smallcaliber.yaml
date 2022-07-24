@@ -235,4 +235,4 @@ AAVulcan:
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter, Airplane
 		Spread: 426
-		Damage: 800
+		Damage: 1000

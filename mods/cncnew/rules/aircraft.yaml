@@ -662,8 +662,8 @@ ORCA:
 	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
 		Condition: orcaammo-upgraded
 		Prerequisites: orcaammo.upgrade
-    UpgradeableTo:
-        Actors: orca.upgraded
+    #   UpgradeableTo:
+    #   Actors: orca.upgraded
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -908,8 +908,8 @@ HELI.ai:
 	TransformOnCondition@hellfirepods:
 		IntoActor: heli.ai.upgraded
 		RequiresCondition: hellfire-upgraded
-    UpgradeableTo:
-        Actors: heli.ai.upgraded
+    #   UpgradeableTo:
+    #   Actors: heli.ai.upgraded
     -MapEditorData:
 
 HELI.ai.upgraded:
