@@ -361,12 +361,12 @@ namespace OpenRA.Mods.Common.Traits
 
 			if (!replacements.ContainsKey(queueItem.Item))
 			{
-				var upgradeableTo = rules.Actors[queueItem.Item].TraitInfo<UpgradeableToInfo>();
+				var UpgradeableTo = rules.Actors[queueItem.Item].TraitInfo<UpgradeableToInfo>();
 				var replacement = new ReplacementDetails();
 
-				if (upgradeableTo != null)
+				if (UpgradeableTo != null)
 				{
-					var replacementName = upgradeableTo.Actors.Where(a => buildableNames.Contains(a)).FirstOrDefault();
+					var replacementName = UpgradeableTo.Actors.Where(a => buildableNames.Contains(a)).FirstOrDefault();
 					if (replacementName != null)
 					{
 						replacement.Info = rules.Actors[replacementName];
