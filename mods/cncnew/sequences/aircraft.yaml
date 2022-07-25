@@ -161,3 +161,10 @@ sfig:
 		Facings: 32
 		UseClassicFacings: True
 	icon: sfigicon
+
+c130:
+	Inherits: emp-overlay
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	icon: c17icon

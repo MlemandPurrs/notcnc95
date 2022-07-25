@@ -26,6 +26,10 @@ namespace OpenRA.Mods.Common.Traits
 		[Desc("List of audio clips to play when the actor is being sold.")]
 		public readonly string[] SellSounds = { };
 
+		[NotificationReference("Speech")]
+		[Desc("Speech notification to play.")]
+		public readonly string Notification = null;
+
 		[Desc("Whether to show the cash tick indicators rising from the actor.")]
 		public readonly bool ShowTicks = true;
 

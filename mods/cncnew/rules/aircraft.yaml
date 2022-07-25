@@ -53,6 +53,58 @@ C17:
 		Modifier: 170
 		RequiresCondition: c17speed-upgraded
 
+C130:
+    Inherits: C17
+	Tooltip:
+		Name: Paradrop Aircraft
+	Aircraft:
+		CruiseAltitude: 3072
+		Speed: 236
+        AirborneCondition: airborne
+    -DamageMultiplier@INVULNERABLE:
+    -GrantConditionOnPrerequisite@C17Speed:
+    -SpeedMultiplier@C17Speed:
+	Contrail@1:
+		Offset: -233,-650,0
+    -Contrail@2:
+    -Contrail@3:
+	Contrail@4:
+		Offset: -233,650,0
+	HitShape:
+	Health:
+		HP: 16500
+	Armor:
+		Type: Aircraft
+	Targetable@AIRBORNE:
+		TargetTypes: Airplane
+		RequiresCondition: airborne
+    SpawnActorOnDeath:
+        Actor: C130.Husk
+
+C130.Husk:
+	Inherits: ^PlaneHusk
+	Tooltip:
+		Name: Paradrop Aircraft
+	Aircraft:
+		TurnSpeed: 20
+		Speed: 259
+	Contrail@1:
+		Offset: -233,-650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -233,650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	SmokeTrailWhenDamaged:
+		Offset: -1c43,0,0
+		Interval: 2
+		MinDamage: Undamaged
+	RenderSprites:
+		Image: c130
+
 A10:
 	Inherits: ^Plane
 	-ActorLostNotification:
@@ -253,12 +305,12 @@ UAV:
 		TargetTypes: Airplane
 		RequiresCondition: airborne
 	Contrail@1:
-		Offset: -465,683,0
+		Offset: -425,683,0
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
 	Contrail@2:
-		Offset: -465,-683,0
+		Offset: -425,-683,0
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
@@ -1069,7 +1121,7 @@ RH66:
         Upgrades:  Can be upgraded to gain Stealth capability
 	Buildable:
 		BuildPaletteOrder: 3
-		Prerequisites: hpad, tmpl, ~techlevel.high
+		Prerequisites: hpad, tmpl, ~techlevel.high, ~!aitoodumb
 		Queue: Aircraft.Nod
 		Description:  Fast and nimble Attack helicopter.
 	UpdatesPlayerStatistics:
@@ -1185,6 +1237,16 @@ RH66.Husk:
 		Type: GroundPosition
 	RenderSprites:
 		Image: rh66
+
+RH66.ai:
+    Inherits: RH66
+    Buildable:
+		Prerequisites: hpad, tmpl, ~techlevel.high, ~!aitoodumb
+    Armament@PRIMARY:
+        PauseOnCondition: !ammo || emp-crate-collected
+    RenderSprites:
+        Image: rh66
+    -MapEditorData:
 
 OCAR:
 	Inherits: ^Helicopter

@@ -13,6 +13,7 @@ World:
 		ValuePerUnit: 0
 	LuaScript:
 		Scripts: td-shellmap.lua
+	-StartGameNotification:
 
 ^Palettes:
 	-PlayerColorPalette:

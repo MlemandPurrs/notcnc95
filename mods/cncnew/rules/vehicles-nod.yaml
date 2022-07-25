@@ -520,6 +520,7 @@ STNK:
 	RevealsShroud:
 		Range: 5c0
 	Cloak:
+        CloakTypes: Stealth
 		InitialDelay: 90
 		CloakDelay: 90
 		CloakSound: trans1.aud

@@ -187,7 +187,7 @@ Player:
 					TargetMetric: Value
 					CheckRadius: 2c0
 			UseParatroopers:
-				OrderName: NodParatroopers
+				OrderName: Paratroopers
 				MinimumAttractiveness: 5
 				Consideration@1:
 					Against: Enemy
@@ -201,6 +201,15 @@ Player:
 					Attractiveness: -5
 					TargetMetric: None
 					CheckRadius: 8c0
+			UseFieldRepairs:
+				OrderName: FieldRepairs
+				MinimumAttractiveness: 1
+				Consideration@1:
+					Against: Ally
+					Types: Repair
+					Attractiveness: 1
+					TargetMetric: None
+					CheckRadius: 2c0
 	BaseBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		BuildingQueues: Building.Nod, Building.GDI, Upgrades.GDI, Upgrades.Nod
@@ -262,6 +271,7 @@ Player:
 			gtwr: 6
 			sam: 4
 			cram: 4
+            ctrl: 1
 		BuildingFractions:
 			proc: 20
             proc.clone: 20
@@ -283,6 +293,7 @@ Player:
 			tech: 1
 			fix: 1
 			hpad: 2
+            ctrl: 1
             apbullets.upgrade: 1
             bouncynades.upgrade: 1
             towhumvee.upgrade: 1
@@ -299,8 +310,8 @@ Player:
 	SquadManagerBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
 		MinimumAttackForceDelay: 25
-		SquadSize: 15
-		SquadSizeRandomBonus: 15
+		SquadSize: 16
+		SquadSizeRandomBonus: 16
 		ExcludeFromSquadsTypes: harv, mcv, e6
         #   reg. 'mersenne twister' crash, root of cause is below
         #   wat happenz is in the unlikely case there are no Construction Yards remaining on board
@@ -359,8 +370,8 @@ Player:
 			heli.ai: 5
             heli.ai.upgraded: 5
 			orca: 5
-			mh60: 5
-			rh66: 5
+			mh60.ai: 5
+			rh66.ai: 5
 			rmbo: 1
 			rmb2: 1
 			mhq: 1
@@ -396,6 +407,6 @@ Player:
             heli.ai: 5
             heli.ai.upgraded: 5
             mh60.ai: 2    
-            rh66: 2
+            rh66.ai: 2
             gb: 5
             airstrike.unlock: 1

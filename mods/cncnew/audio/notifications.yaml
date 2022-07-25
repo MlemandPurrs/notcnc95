@@ -3,31 +3,61 @@ Speech:
 		gdi: gdi
 		nod: nod
 	Notifications:
+        AirstrikeInbound: airinc1
 		AirstrikeReady: airredy1
+        AirUnitReady: aunitr1
+        AirUnitLost: aunitl1
 		BaseAttack: baseatk1
+        BridgeRepaired: bridger1
 		Building: bldging1
 		BuildingCannotPlaceAudio: deploy1
 		BuildingCaptured: capt1
-		BuildingInProgress: bldg1
+        BuildingInfiltrated: bldginf1
+		BuildingInProgress: bldgprg1
 		BuildingLost: strclost
+        BuildingSold: strcsld1
 		Cancelled: cancel1
 		CivilianBuildingCaptured: civcapt1
+        CivilianBuildingDestroyed: civdest1
+        CivilianBuildingRestored: civrest1
 		CivilianKilled: civdead1
+		CommandoFreed: comndof1
+        CommandoLost: comndol1
+        CommandoReady: comndrdy
+		CommandoRescued: comndor1
 		ConstructionComplete: constru1
-		EnemyUnitsApproaching: enmyunit
-		EnemyStructureDestroyed: estrucx
+		ConvoyApproaching: convyap1
+		ConvoyUnitLost: convlst1
+        CreditsDelivered: creditd1
+        CreditsObtained: credito1
+		CreditsStolen: credit1
+        EnemyUnitsApproaching: enmyunit
+		EnemyDetected: enmydet
+        EnemyShipsApproaching: enmyship
+        EnemyStructureDestroyed: estrucx
 		EnemyPlanesApproaching: enemya
-		HarvesterAttack:
+        EnemyReinforcements: ereinfin
+        FieldRepairsEnemy: enmyfrep
+        FieldRepairsReady: freprdy1
+        FieldRepairsUse: frepcom1
+		HarvesterAttack: harvatt1
 		HarvesterLost: harvlost
+        IncomingTransmission: transms1
+        InsufficientFunds: nofunds1
 		InsufficientPower: nopower1
-		IonCannonCharging: ionchrg1
+        InterceptorsLaunched: incintc
+		InterceptorsReady: intcptr1
+        IonCannonCharging: ionchrg1
 		IonCannonReady: ionredy1
 		Leave: batlcon1
 		Lose: fail1
 		LowPower: lopower1
 		MissionAccomplished: accom1
 		MissionFailed: fail1
-		NewOptions: newopt1
+        MissionTimerInitialised: mtimein1
+		NavalUnitLost: navylst1
+        NavalUnitReady: navyrdy1
+        NewOptions: newopt1
 		NoBuild: nobuild1
 		NodStructureDestroyed: nstruc1
 		NotReady: noredy1
@@ -36,19 +66,50 @@ Speech:
 		NuclearWeaponLaunched: nuklnch1
 		OnHold: onhold1
 		PrimaryBuildingSelected: pribldg1
+        RadarScanReady: rdrscnr1
+        ReconDroneAvailable: rcndrnr1
 		Reinforce: reinfor1
+        ReinforceAvailable: reinfav1
+        ReinforceEnroute: reinfinc
 		Repairing: repair1
+        SatelliteLaunched: satlnch1
 		SelectTarget: select1
+		SignalFlare: flare1
 		SilosNeeded: silos1
-		StartGame:
-		GameLoaded:
-		GameSaved:
-		Training: bldging1
-		UnitDestroyed: dead1
+		StartGame: bctrinit
+		GameLoaded: load1
+		GameSaved: save1
+		Training: train1
+		UnabletoComply: unable1
+        UnitDestroyed: dead1
+        UnitFull: unitful1
+        UnitInProgress: unitprg1
+        UnitRepaired: unitrep1
+        UnitSold: unitsld1
 		UnitLost: unitlost
 		UnitReady: unitredy
+        UnitUpgraded: unitupgr
+        UpgradeOptions: upgropt1
+        Upgrading: upgrdin1
+        UpgradeInProgress: upgrprg1
+        UpgradeReady: upgrdrdy
+        VisceroidSeen: vicedet1
+        WallSold: wallsold
 		Win: accom1
-	DisablePrefixes: AirstrikeReady, BaseAttack, Building, BuildingCannotPlaceAudio, BuildingInProgress, BuildingLost, Cancelled, CivilianBuildingCaptured, CivilianKilled, ConstructionComplete, EnemyUnitsApproaching, EnemyStructureDestroyed, EnemyPlanesApproaching, HarvesterAttack, HarvesterLost, InsufficientPower, IonCannonCharging, IonCannonReady, Leave, Lose, LowPower, MissionAccomplished, MissionFailed, NewOptions, NoBuild, NodStructureDestroyed, NotReady, NuclearWarheadApproaching, NuclearWeaponAvailable, NuclearWeaponLaunched, OnHold, PrimaryBuildingSelected, Reinforce, Repairing, SelectTarget, SilosNeeded, Training, UnitLost, UnitReady, Win
+		OneMinuteRemaining: 1minr
+		TwoMinutesRemaining: 2minr
+		ThreeMinutesRemaining: 3minr
+		FourMinutesRemaining: 4minr
+		FiveMinutesRemaining: 5minr
+		TenMinutesRemaining: 10minr
+		TwentyMinutesRemaining: 20minr
+		ThirtyMinutesRemaining: 30minr		
+		FourtyMinutesRemaining: 40minr
+        FiftyMinutesRemaining: 50minr
+		OneHourRemaining: 1hourr
+		TwoHoursRemaining: 2hourr
+		ThreeHoursRemaining: 3hourr
+	DisablePrefixes: AirstrikeInbound, AirstrikeReady, AirUnitReady, AirUnitLost, BaseAttack, BridgeRepaired, Building, BuildingCannotPlaceAudio, BuildingCaptured, BuildingInfiltrated, BuildingInProgress, BuildingLost, BuildingSold, Cancelled, CivilianBuildingCaptured, CivilianBuildingDestroyed, CivilianBuildingRestored, CivilianKilled, CommandoFreed, CommandoLost, CommandoReady, CommandoRescued, ConstructionComplete, ConvoyApproaching, ConvoyUnitLost, CreditsDelivered, CreditsObtained, CreditsStolen, EnemyUnitsApproaching, EnemyDetected, EnemyShipsApproaching, EnemyStructureDestroyed, EnemyPlanesApproaching, EnemyReinforcements, FieldRepairsEnemy, FieldRepairsReady, FieldRepairsUse, HarvesterAttack, HarvesterLost, IncomingTransmission, InsufficientFunds, InsufficientPower, InterceptorsLaunched, InterceptorsReady, IonCannonCharging, IonCannonReady, Leave, Lose, LowPower, MissionAccomplished, MissionFailed, MissionTimerInitialised, NavalUnitLost, NavalUnitReady, NewOptions, NoBuild, NodStructureDestroyed, NotReady, NuclearWarheadApproaching, NuclearWeaponAvailable, NuclearWeaponLaunched, OnHold, PrimaryBuildingSelected, RadarScanReady, ReconDroneAvailable, Reinforce, ReinforceAvailable, ReinforceEnroute, Repairing, SatteliteLaunched, SelectTarget, SignalFlare, SilosNeeded, StartGame, GameLoaded, GameSaved, Training, UnabletoComply, UnitDestroyed, UnitFull, UnitInProgress, UnitRepaired, UnitSold, UnitLost, UnitReady, UnitUpgraded, UpgradeOptions, Upgrading, UpgradeInProgress, UpgradeReady, VisceroidSeen, WallSold, Win, OneMinuteRemaining, TwoMinutesRemaining, ThreeMinutesRemaining, FourMinutesRemaining, FiveMinutesRemaining, TenMinutesRemaining, TwentyMinutesRemaining, ThirtyMinutesRemaining, FourtyMinutesRemaining, FiftyMinutesRemaining, OneHourRemaining, TwoHoursRemaining, ThreeHoursRemaining
 
 Sounds:
 	Notifications:

@@ -347,6 +347,7 @@
 	HiddenUnderFog:
 		Type: GroundPosition
 	ActorLostNotification:
+		Notification: AirUnitLost
 	Explodes:
 		Weapon: HeliExplode
 		EmptyWeapon: HeliExplode
@@ -511,7 +512,7 @@
 		BlinkPattern: On, Off
 	DetectCloaked:
 		CloakTypes: Stealth, GroundStealth, AirStealth
-		Range: 1c0
+		Range: 1c826
 	DeathSounds@NORMAL:
 		DeathTypes: DefaultDeath, BulletDeath, SmallExplosionDeath, ExplosionDeath, RippedApartDeath
 	DeathSounds@BURNED:
@@ -678,6 +679,7 @@
 		Type: GroundPosition
 		AlwaysVisibleRelationships: None
 	ActorLostNotification:
+		Notification: AirUnitLost
 	AttackMove:
 	WithShadow:
 		Offset: 43, 128, 0
@@ -725,6 +727,7 @@
 	Targetable:
 		TargetTypes: Ground, Water, Ship
 	ActorLostNotification:
+		Notification: NavalUnitLost
 	HiddenUnderFog:
 	AttackMove:
 	WithDamageOverlay:
@@ -746,7 +749,7 @@
 		RepairActors: syrd
 	DetectCloaked:
 		CloakTypes: Underwater
-		Range: 1c0
+		Range: 1c826
 	Targetable@REPAIR:
 		RequiresCondition: damaged
 		TargetTypes: Repair
@@ -792,6 +795,7 @@
 	CaptureNotification:
 		Notification: BuildingCaptured
 		NewOwnerVoice: false
+        LoseNotification: BuildingLost
 	ActorLostNotification:
 		Notification: BuildingLost
 	ShakeOnDeath:
@@ -880,8 +884,11 @@
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 		SellSounds: cashturn.aud
+        Notification: BuildingSold
 	CaptureManager:
 		BeingCapturedCondition: being-captured
+	CaptureNotification:
+		LoseNotification: BuildingLost
 	Capturable:
 		RequiresCondition: !build-incomplete
 		Types: building-sabotage
@@ -960,6 +967,8 @@
 ^TechBuilding:
 	Inherits: ^CivBuilding
 	-RenderSprites:
+    ActorLostNotification:
+        Notification: CivilianBuildingDestroyed
 	OwnerLostAction:
 		Action: ChangeOwner
 	CaptureManager:
@@ -1012,6 +1021,8 @@
 	MapEditorData:
 		Categories: Husk
 	CaptureManager:
+	CaptureNotification:
+		Notification: CivilianBuildingRestored
 	Capturable:
 		Types: restore-tech
 		ValidRelationships: Enemy, Neutral, Ally
@@ -1085,6 +1096,7 @@
 	WithWallSpriteBody:
 	Sellable:
 		SellSounds: cashturn.aud
+        Notification: WallSold
 	Guardable:
 	FrozenUnderFog:
 	ScriptTriggers:
@@ -1534,6 +1546,7 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: unit.sellable
+        Notification: UnitSold
 	ProximityExternalCondition:
 		Condition: unit.docked
 		Range: 1c0
@@ -1547,6 +1560,7 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: ship.sellable
+        Notification: UnitSold
 	ExternalCondition@Sellable:
 		Condition: ship.sellable
 

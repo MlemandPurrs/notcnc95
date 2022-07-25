@@ -63,15 +63,11 @@ HeliExplode:
 
 UnitExplode:
 	Inherits: ^DamagingExplosion
-	Warhead@1Dam: SpreadDamage
-		Damage: 5000
 	Warhead@2Eff: CreateEffect
 		ImpactSounds: xplobig6.aud
 
 UnitExplodeShip:
 	Inherits: ^DamagingExplosion
-	Warhead@1Dam: SpreadDamage
-		Damage: 5000
 	Warhead@2Eff: CreateEffect
 		Explosions: building
 		ImpactSounds: xplobig6.aud
@@ -109,7 +105,7 @@ UnitExplodeHarvEmpty:
 		ImpactSounds: xplos.aud
 
 UnitExplodeStealthTank:
-	Inherits: UnitExplodeBig
+	Inherits: UnitExplodeSmall
 	Warhead@1Dam: SpreadDamage
 		InvalidTargets: StealthTank
 

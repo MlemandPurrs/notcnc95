@@ -135,6 +135,8 @@ FACT:
         EffectiveOwnerFromOwner: true
 	AcceptsDeliveredCash:
 		ValidTypes: MoneyTransfer
+        #   Sounds: credito1.aud
+        #   Nope, this needs a proper Notification support
     GrantConditionOnBotOwner@allowGDIai:
         Condition: is-ai-gdi
         Bots: normal
@@ -572,7 +574,7 @@ PYLE:
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
+		LimitedAudio: UnabletoComply
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -672,7 +674,7 @@ HAND:
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
+		LimitedAudio: UnabletoComply
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -811,8 +813,8 @@ WEAP:
 		LowPowerModifier: 150
 		ReadyAudio: UnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionBar:
@@ -859,7 +861,6 @@ AFLD:
     TooltipExtras:
         Strengths:  Allows to produce Vehicles
         Upgrades:  Can be upgraded for Faster deliveries
-        Specialabilities:  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry anywhere on map\n(requires Communications Center)
 	ProvidesPrerequisite:
 		Prerequisite: vehicleproduction
 	Buildable:
@@ -902,8 +903,8 @@ AFLD:
 		Group: Vehicle
 		LowPowerModifier: 150
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionBar:
@@ -916,37 +917,11 @@ AFLD:
 	SpawnActorOnDeath:
 		Actor: afld.husk
         EffectiveOwnerFromOwner: true
-	ParatroopersPower@NodParatroopers:
-		OrderName: NodParatroopers
-		Prerequisites: ~hq, ~techlevel.unrestricted
-		Icon: pinficon
-		ChargeInterval: 7500
-		Description: Paratroopers
-		UnitType: c17
-		LongDesc: A C-17 drops a squad of veteran Infantry\nanywhere on the map.
-		DropItems: E1R1,E3R1,E1R1,E3R1,E1R1
-		ReinforcementsArrivedSpeechNotification: Reinforce
-		SelectTargetSpeechNotification: SelectTarget
-		IncomingSpeechNotification: EnemyPlanesApproaching
-		AllowImpassableCells: false
-		QuantizedFacings: 8
-		CameraActor: camera.small
-		DisplayBeacon: true
-		BeaconPoster: pinfbcon
-		ArrowSequence: arrow
-		ClockSequence: clock
-		CircleSequence: circles
-		UseDirectionalTarget: True
-		DirectionArrowAnimation: paradirection
-		SupportPowerPaletteOrder: 5
-		PauseOnCondition: lowpower
-		Cursor: airdrop
-	GrantConditionOnPowerState@LOWPOWER:
-		Condition: lowpower
-		ValidPowerStates: Low, Critical
-	SupportPowerChargeBar:
 	ActorPreviewPlaceBuildingPreview:
         Animated: false
+    GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
 
 AFLD.Husk:
 	Inherits: ^BuildingHusk
@@ -1007,7 +982,8 @@ FIX:
 		HpPerStep: 1000
 		Interval: 9
 		PlayerExperience: 0
-		StartRepairingNotification: Repairing		
+		StartRepairingNotification: Repairing
+        FinishRepairingNotification: UnitRepaired
 		RepairDamageTypes: Repair
 	RallyPoint:
 	Power:
@@ -1030,7 +1006,7 @@ FIX:
 		RequiresCondition: !unit.docked && !build-incomplete && !being-captured && !being-demolished
 	GrantExternalConditionPower@FieldRepairs:
 		PauseOnCondition: lowpower
-		OrderName: FieldRepairPower
+		OrderName: FieldRepairs
 		Prerequisites: ~global-fieldrepairs, ~techlevel.unrestricted
 		Icon: fieldrepair
 		ChargeInterval: 6000
@@ -1039,8 +1015,11 @@ FIX:
 		Duration: 375
 		Description: Field Repairs
 		LongDesc: Affected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration.
+        EndChargeSpeechNotification: FieldRepairsReady
+        LaunchSpeechNotification: FieldRepairsUse
 		SelectTargetSpeechNotification: SelectTarget
-		InsufficientPowerSpeechNotification: InsufficientPower
+		IncomingSpeechNotification: FieldRepairsEnemy
+        InsufficientPowerSpeechNotification: InsufficientPower
 		Condition: fieldrepair
 		Cursor: repair
 		Sequence: none
@@ -1102,9 +1081,10 @@ HPAD:
 	Reservable:
 	RepairsUnits:
 		HpPerStep: 1000
-		Interval: 15
+		Interval: 18
 		PlayerExperience: 0
 		StartRepairingNotification: Repairing
+        FinishRepairingNotification: UnitRepaired
 		RepairDamageTypes: Repair
 	WithResupplyAnimation:
 		RequiresCondition: !build-incomplete
@@ -1148,10 +1128,10 @@ HPAD:
 		Factions: gdi
 		Group: Aircraft
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: AirUnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionQueue@Nod:
@@ -1160,10 +1140,10 @@ HPAD:
 		Factions: nod
 		Group: Aircraft
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: AirUnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
     ProductionBar@GDI:
@@ -1203,7 +1183,8 @@ CTRL:
     TooltipExtras:
         Strengths:  Allows purchasing of Airforce support powers
         Weaknesses:  Requires Power to operate
- 	Buildable:
+        Specialabilities:  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry\n(requires Communications Center)
+    Buildable:
 		BuildPaletteOrder: 6
 		Prerequisites: hpad, anytier3, ~techlevel.high
 		Queue: Building.GDI, Building.Nod
@@ -1228,8 +1209,34 @@ CTRL:
 		UseDeathTypeSuffix: False
 	SpawnActorOnDeath:
 		Actor: ctrl.husk
-		OwnerType: InternalName
         EffectiveOwnerFromOwner: true
+	ParatroopersPower@Paratroopers:
+		OrderName: Paratroopers
+		Prerequisites: ~hq, ~techlevel.unrestricted
+		Icon: pinficon
+		ChargeInterval: 7500
+		Description: Paratroopers
+		UnitType: c130
+		LongDesc: A C-130 drops a squad of veteran Infantry\nanywhere on the map.
+		DropItems: E1R1,E3R1,E1R1,E3R1,E1R1
+		ReinforcementsArrivedSpeechNotification: Reinforce
+		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: ReinforceAvailable
+        LaunchSpeechNotification: ReinforceEnroute
+		IncomingSpeechNotification: EnemyReinforcements
+        AllowImpassableCells: false
+		QuantizedFacings: 8
+		CameraActor: camera.small
+		DisplayBeacon: true
+		BeaconPoster: pinfbcon
+		ArrowSequence: arrow
+		ClockSequence: clock
+		CircleSequence: circles
+		UseDirectionalTarget: True
+		DirectionArrowAnimation: paradirection
+		SupportPowerPaletteOrder: 5
+		PauseOnCondition: lowpower
+		Cursor: airdrop
 	AirstrikePower@AirstrikeA10:
 		OrderName: AirStrikeA10
 		PauseOnCondition: lowpower
@@ -1240,7 +1247,10 @@ CTRL:
 		QuantizedFacings: 8
 		Description: Air Strike
 		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
-		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: AirstrikeReady
+        LaunchSpeechNotification: AirstrikeInbound
+        SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1262,7 +1272,10 @@ CTRL:
 		QuantizedFacings: 8
 		Description: Air Strike
 		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
-		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: AirstrikeReady
+		LaunchSpeechNotification: AirstrikeInbound
+        SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1284,7 +1297,10 @@ CTRL:
 		QuantizedFacings: 8
 		Description: Air Strike
 		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
-		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: AirstrikeReady
+        LaunchSpeechNotification: AirstrikeInbound
+        SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		UnitType: sfig
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1304,7 +1320,10 @@ CTRL:
 		ChargeInterval: 7500
 		Description: F-18 Interceptors
 		LongDesc: A squadron of F-18 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
+		EndChargeSpeechNotification: InterceptorsReady
+        LaunchSpeechNotification: InterceptorsLaunched
 		SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		CameraActor: camera
 		CameraRemoveDelay: 450
 		UnitType: f18
@@ -1328,7 +1347,10 @@ CTRL:
 		ChargeInterval: 7500
 		Description: Interceptors
 		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
+		EndChargeSpeechNotification: InterceptorsReady
+        LaunchSpeechNotification: InterceptorsLaunched
 		SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		CameraActor: camera
 		CameraRemoveDelay: 450
 		UnitType: f22
@@ -1352,7 +1374,10 @@ CTRL:
 		ChargeInterval: 7500
 		Description: Interceptors
 		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 30 seconds.
+		EndChargeSpeechNotification: InterceptorsReady
+        LaunchSpeechNotification: InterceptorsLaunched
 		SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		CameraActor: camera
 		CameraRemoveDelay: 700
 		UnitType: f22
@@ -1458,6 +1483,7 @@ HQ:
 		Description: Radar Scan
 		LongDesc: Reveals an area of the map and cloaked enemy units there.
 		StartFullyCharged: false
+		EndChargeSpeechNotification: RadarScanReady
 		SelectTargetSpeechNotification: SelectTarget
 		Cursor: sonar-target
 		SupportPowerPaletteOrder: 4
@@ -1550,11 +1576,12 @@ HQ.GDI:
 	AirstrikePower@ReconDrone:
 		PauseOnCondition: lowpower
 		OrderName: ReconDrone
-		Prerequisites: ~!seek.strat, ~techlevel.unrestricted
+		Prerequisites: ~techlevel.unrestricted
 		Icon: uav
 		ChargeInterval: 6750
 		Description: Recon Drone
 		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+        EndChargeSpeechNotification: ReconDroneAvailable
 		SelectTargetSpeechNotification: SelectTarget
 		UnitType: uav
 		QuantizedFacings: 32
@@ -1568,21 +1595,24 @@ HQ.GDI:
 		Cursor: sonar-target
 		SupportPowerPaletteOrder: 4
 	IonCannonPower@IonCannon:
-		RequiresCondition: eyeupgrade
+        RequiresCondition: eyeupgrade
 		PauseOnCondition: lowpower
 		Prerequisites: ~techlevel.unrestricted
 		OrderName: IonCannon
 		Icon: ioncannon
+		Cursor: ioncannon
 		ChargeInterval: 10500
 		Description: Ion Cannon
-		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
+		BeginChargeSpeechNotification: IonCannonCharging
+		EndChargeSpeechNotification: IonCannonReady
+		SelectTargetSpeechNotification: SelectTarget
+		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
-		Cursor: ioncannon
-		SelectTargetSpeechNotification: SelectTarget 
 		DisplayRadarPing: True
+		CameraActor: camera.small
 		SupportPowerPaletteOrder: 1
 		DisplayTimerRelationships: Ally, Neutral, Enemy
-		CameraActor: camera.small
 	SupportPowerChargeBar:
 	RenderSprites:
 		Image: gdihq
@@ -1765,7 +1795,7 @@ TECH:
 		Name: Technology Center
     TooltipExtras:
         Strengths:  Unlocks production of Mammoth Tank, Commando,\nAdvanced Guard Tower and Advanced Sattelite Uplink.
-        Upgrades:  Researches GDI Technologies
+        Upgrades:  Researches GDI Upgrades
 	Health:
 		HP: 200000
 	Armor:
@@ -1796,10 +1826,10 @@ TECH:
 		Factions: gdi
 		Group: Upgrades
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: UpgradeReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UpgradeInProgress
+		QueuedAudio: Upgrading
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionBar@TechGDI:
@@ -1838,7 +1868,7 @@ TMPL:
 		Name: Temple of Nod
     TooltipExtras:
         Strengths:  Unlocks production of Stealth Tank, Commanche, Nod Commando,\nObelisk of Light and Nod Research Laboratory
-        Upgrades:  Researches Nod Technologies
+        Upgrades:  Researches Nod Upgrades
         Specialabilities:  Special Ability: Nuclear Strike\nLaunches a devastating atomic bomb at target location.\n(requires Nod Research Laboratory)
 	Buildable:
 		BuildPaletteOrder: 11
@@ -1910,10 +1940,10 @@ TMPL:
 		Factions: nod
 		Group: Upgrades
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: UpgradeReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UpgradeInProgress
+		QueuedAudio: Upgrading
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionBar@TechNod:

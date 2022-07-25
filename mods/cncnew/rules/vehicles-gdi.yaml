@@ -429,7 +429,7 @@ HTNK:
 		PauseOnCondition: emp-crate-collected
 	Armament@TERTIARY:
 		Name: tertiary
-		Weapon: MachineGun
+		Weapon: MachineGunLight
 		LocalOffset: 172,0,360
 		MuzzleSequence: muzzle-mg
 		PauseOnCondition: emp-crate-collected

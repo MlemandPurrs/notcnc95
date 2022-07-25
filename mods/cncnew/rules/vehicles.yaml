@@ -276,6 +276,8 @@ MHQ:
 		Type: jammer
 		Range: 16c0
 		Color: E49430
+	Voiced:
+		VoiceSet: MoebiusVoice
 
 MHQ.Husk:
 	Inherits: ^Husk

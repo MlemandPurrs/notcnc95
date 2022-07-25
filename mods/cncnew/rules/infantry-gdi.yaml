@@ -410,7 +410,7 @@ E22.squad:
 		Description:  Deploys a pair of\ninfantry armed with a Mortar gun.
         Icon: e22icon
     Valued:
-		Cost: 1000
+		Cost: 900
 	RenderSprites:
 		Image: production.infantry
 	Armor:

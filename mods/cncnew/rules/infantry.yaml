@@ -149,6 +149,7 @@ E6:
 		CustomPipType: pip-yellow
 	EngineerRepair:
 	RepairsBridges:
+        RepairNotification: BridgeRepaired
 	CaptureManager:
 	Captures@CAPTURESPLAYERMULTI:
 		CaptureTypes: building-sabotage, building-tech
@@ -257,6 +258,9 @@ VICE:
 		AddToArmyValue: true
 	AttackWander:
 	EdibleByLeap:
+    AnnounceOnSeen:
+        Notification: VisceroidSeen
+        PingRadar: False
 
 #   Experimental squad production
 

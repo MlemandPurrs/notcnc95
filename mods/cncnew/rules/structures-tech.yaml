@@ -313,10 +313,10 @@ SYRD:
 		Group: Naval
 		Factions: gdi
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: NavalUnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionQueue@NodNavy:
@@ -325,10 +325,10 @@ SYRD:
 		Group: Naval
 		Factions: nod
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: NavalUnitReady
 		BlockedAudio: NoBuild
-		LimitedAudio: BuildingInProgress
-		QueuedAudio: Training
+		LimitedAudio: UnitInProgress
+		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
 	ProductionBar@GDINavy:
@@ -337,8 +337,9 @@ SYRD:
 		ProductionType: Navy.Nod
 	RepairsUnits:
 		HpPerStep: 1000
-		Interval: 14
+		Interval: 18
 		StartRepairingNotification: Repairing
+        FinishRepairingNotification: UnitRepaired
 		PlayerExperience: 0
 		RepairDamageTypes: Repair
 	RallyPoint:

@@ -307,6 +307,7 @@ World:
 		Duration: 4500
 	SpawnMapActors:
 	MapBuildRadius:
+        AllyBuildRadiusCheckboxEnabled: false
 		AllyBuildRadiusCheckboxDisplayOrder: 4
 		BuildRadiusCheckboxDisplayOrder: 5
 	MapOptions:
@@ -391,6 +392,7 @@ World:
 	ObjectivesPanel:
 		PanelName: SKIRMISH_STATS
 	RadarPings:
+	StartGameNotification:
 	LoadWidgetAtGameStart:
 		ShellmapRoot: MENU_BACKGROUND
 	ScriptTriggers:
@@ -398,6 +400,21 @@ World:
 		Scripts: ecosetting.lua
         #   husksetting.lua
 	TimeLimitManager:
+        TimeLimitOptions: 0, 10, 20, 30, 40, 60, 90, 120, 150, 180
+		TimeLimitWarnings:
+            180: ThreeHoursRemaining
+            120: TwoHoursRemaining
+            60: OneHourRemaining
+            50: FiftyMinutesRemaining
+			40: FourtyMinutesRemaining
+			30: ThirtyMinutesRemaining
+			20: TwentyMinutesRemaining
+			10: TenMinutesRemaining
+			5: FiveMinutesRemaining
+			4: FourMinutesRemaining
+			3: ThreeMinutesRemaining
+			2: TwoMinutesRemaining
+			1: OneMinuteRemaining    
 	ScriptLobbyDropdown@EcoSpeed:
 		ID: growthrate
 		Label: Growth Rate

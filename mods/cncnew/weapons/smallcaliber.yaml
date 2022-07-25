@@ -174,7 +174,8 @@ HeliAAGun:
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter
 
-#   this one uses Artillery damage type
+#   changed damage versus to flame
+#   kills stuff way too fast with Artillery
 #   Mobile Anti-Air Gun
 APCGun:
 	ReloadDelay: 12
@@ -189,18 +190,18 @@ APCGun:
 		Spread: 128
 		Damage: 2000
 		InvalidTargets: Wall, Trees
-        Versus:
+		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 100
-			Light: 200
-			Medium: 150
-			Heavy: 125
-            Aircraft: 150
-            Structure: 50
-            Fortified: 75
-            Wood: 125
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 25
+            Structure: 100
+            Fortified: 100
+            Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag
@@ -235,4 +236,4 @@ AAVulcan:
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter, Airplane
 		Spread: 426
-		Damage: 1000
+		Damage: 1750
