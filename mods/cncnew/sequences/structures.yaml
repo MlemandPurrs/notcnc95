@@ -1362,11 +1362,11 @@ bio.husk:
 		Length: *
 		Offset: 0,0
 
-techsilo:
-	idle:
+tibx:
+	idle: techsilo
 		Length: 18
 		Tick: 80
-	damaged-idle:
+	damaged-idle: techsilo
 		Start: 18
 		Length: 19
 		Tick: 80
@@ -1393,7 +1393,34 @@ syrd:
 		Tick: 80
 	icon: syrdicon
 
-oilplat:
+oilb:
+	Defaults:
+		Offset: 0,-6
+	idle:
+	damaged-idle:
+		Start: 1
+		Length: *
+    dead:
+        Start: 1
+        Length: *
+	make:
+	bib: bib3
+		Length: *
+		Offset: 0,0
+		UseTilesetExtension: true
+
+oilb.husk:
+	Defaults:
+		Offset: 0,-6
+	idle: oilb
+		Start: 1
+		Length: *
+	bib: bib3
+		Length: *
+		Offset: 0,0
+		UseTilesetExtension: true
+
+oilp:
 	idle: oilplat
 		Start: 0
 
@@ -1422,7 +1449,7 @@ rpad:
 		Tick: 80
 
 rpad.husk:
-	idle: hpad
+	idle: rpad
 		Start: 14
 		ZOffset: -1023
 
@@ -1487,6 +1514,27 @@ adom:
 adom.husk:
 	idle: adom
 		Start: 2
+	bib: bib3
+		UseTilesetExtension: true
+		Length: *
+
+acom:
+	idle:
+	damaged-idle:
+		Start: 1
+	dead:
+		Start: 1
+		Tick: 800
+	make: acommake
+		Length: *
+		Tick: 80
+	bib: bib3
+		UseTilesetExtension: true
+        Length: *
+
+acom.husk:
+	idle: acom
+		Start: 1
 	bib: bib3
 		UseTilesetExtension: true
 		Length: *

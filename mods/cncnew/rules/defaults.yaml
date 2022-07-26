@@ -1001,6 +1001,7 @@
 ^TechBuildingHusk:
 	Inherits@1: ^SpriteActor
 	Inherits@shape: ^1x1Shape
+    -RenderSprites:
 	Interactable:
 	AppearsOnRadar:
 	Health:
@@ -1029,6 +1030,8 @@
     CapturableProgressBlink:
 	TransformOnCapture:
 		ForceHealthPercentage: 35
+	RenderSprites:
+		Palette:
 
 ^CivField:
 	Inherits: ^CivBuilding

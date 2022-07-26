@@ -1371,6 +1371,7 @@ OCAR.Reinforce:
 	-Voiced:
 	RejectsOrders:
 	Interactable:
+	-MapEditorData:
 
 OCAR.Pod:
 	Inherits: OCAR.Reinforce
@@ -1512,6 +1513,7 @@ NV22.Reinforce:
 	-Voiced:
 	RejectsOrders:
 	Interactable:
+	-MapEditorData:
 
 #   this whole jazz is necessary as to because
 #   ProductionFromMapEdge cant work with ^Upgrade

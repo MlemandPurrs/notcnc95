@@ -3,7 +3,8 @@ V19:
 	Selectable:
 		Bounds: 24,24
 	CashTrickler:
-		Amount: 10
+        Interval: 50
+		Amount: 20
 		RequiresCondition: enabled
 	Building:
 		Footprint: x
@@ -24,7 +25,7 @@ V19:
 	GrantConditionOnCombatantOwner:
 		Condition: enabled
 	RenderSprites:
-		Palette: player
+		Image: v19
 
 V19.Husk:
 	Inherits: ^TechBuildingHusk
@@ -46,6 +47,93 @@ V19.Husk:
 	TransformOnCapture:
 		IntoActor: v19
 	RenderSprites:
+
+OILB:
+	Inherits: ^TechBuilding
+    Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	CashTrickler:
+		Interval: 200
+		Amount: 160
+		RequiresCondition: enabled
+	CashTricklerBar:
+		Color: FFFF9E
+	Health:
+		HP: 150000
+	Tooltip:
+		Name: Large Oil Derrick
+	TooltipDescription@ally:
+		Description: Provides additional funds.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to receive additional funds.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: OILB.Husk
+	UpdatesDerrickCount:
+	GrantConditionOnCombatantOwner:
+		Condition: enabled
+	RenderSprites:
+		Image: oilb
+
+OILB.Husk:
+	Inherits: ^TechBuildingHusk
+	-RenderSprites:
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Large Oil Derrick (Destroyed)
+	TooltipDescription:
+		Description: Capture to receive additional funds.
+		ValidRelationships: Neutral, Enemy, Ally
+	WithBuildingBib:
+		HasMinibib: true
+	TransformOnCapture:
+		IntoActor: oilb
+	RenderSprites:
+
+OILP:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	CashTrickler:
+		Interval: 200
+		Amount: 160
+		RequiresCondition: enabled
+	CashTricklerBar:
+		Color: FFFF9E
+	GrantConditionOnCombatantOwner:
+		Condition: enabled
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Tooltip:
+		Name: Oil Platform
+	TooltipDescription@ally:
+		Description: Provides additional funds.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture with Engineer Boat to receive additional funds.
+		ValidRelationships: Neutral, Enemy
+	#	invincible and otherwise interactable
+	DamageMultiplier:
+		Modifier: 0
+	Targetable:
+		RequiresForceFire: true
+		TargetTypes: None
+	Capturable:
+		Types: building-naval
+	CapturableProgressBar:
+	CapturableProgressBlink:
+	-RepairableBuilding:
+	-WithBuildingRepairDecoration:
+	-EngineerRepairable:
 
 HOSP:
 	Inherits: ^TechBuilding
@@ -73,7 +161,6 @@ HOSP:
 
 HOSP.Husk:
 	Inherits: ^TechBuildingHusk
-	-RenderSprites:
 	Interactable:
 		Bounds: 48,48
 	Building:
@@ -116,7 +203,6 @@ BIO:
 
 BIO.Husk:
 	Inherits: ^TechBuildingHusk
-	-RenderSprites:
 	Interactable:
 		Bounds: 48,48
 	Building:
@@ -155,7 +241,7 @@ MISS:
 	WithMakeAnimation:
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:
-		Palette: player
+		Image: miss
 
 MISS.Husk:
 	Inherits: ^TechBuildingHusk
@@ -172,7 +258,7 @@ MISS.Husk:
 	RenderSprites:
 		Image: miss.husk
 
-TECHSILO:
+TIBX:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^2x2Shape
 	Building:
@@ -205,7 +291,7 @@ TECHSILO:
 		ValidPowerStates: Low, Critical
 	UpdatesDerrickCount:
 	Health:
-		HP: 70000
+		HP: 60000
 	Explodes:
 		Weapon: TiberiumExplosion
 		EmptyWeapon: TiberiumExplosion
@@ -214,42 +300,6 @@ TECHSILO:
 	WithDeathAnimation:
 		DeathSequence: dead
 		UseDeathTypeSuffix: false
-
-OILPLAT:
-	Inherits: ^TechBuilding
-	Inherits@shape: ^2x2Shape
-	CashTrickler:
-		Interval: 500
-		Amount: 100
-		RequiresCondition: enabled
-	CashTricklerBar:
-		Color: FFFF9E
-	GrantConditionOnCombatantOwner:
-		Condition: enabled
-	Building:
-		Footprint: xx xx
-		Dimensions: 2,2
-	Tooltip:
-		Name: Oil Platform
-	TooltipDescription@ally:
-		Description: Provides additional funds.
-		ValidRelationships: Ally
-	TooltipDescription@other:
-		Description: Capture with Boats to receive additional funds.
-		ValidRelationships: Neutral, Enemy
-	#	invincible and otherwise interactable
-	DamageMultiplier:
-		Modifier: 0
-	Targetable:
-		RequiresForceFire: true
-		TargetTypes: None
-	Capturable:
-		Types: building-naval
-	CapturableProgressBar:
-	CapturableProgressBlink:
-	-RepairableBuilding:
-	-WithBuildingRepairDecoration:
-	-EngineerRepairable:
 
 SYRD:
 	Inherits: ^BaseBuilding
@@ -447,7 +497,6 @@ RPAD:
 
 RPAD.Husk:
 	Inherits: ^TechBuildingHusk
-	-RenderSprites:
 	Interactable:
 		Bounds: 48,48
 	Building:
@@ -490,3 +539,55 @@ WIND:
 		RequiresCondition: !owner.is.neutral
     GrantConditionIfOwnerIsNeutral:
         Condition: owner.is.neutral
+
+EXPB:
+	Inherits: ^TechBuilding
+	Inherits@shape: ^2x2Shape
+	CaptureManager:
+		BeingCapturedCondition: being-captured
+	Selectable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx ==
+		Dimensions: 2,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 250000
+	Tooltip:
+		Name: Expansion Post
+	RevealsShroud:
+		MinRange: 5c0
+	BaseProvider:
+		PauseOnCondition: being-captured
+		Range: 8c0
+	TooltipDescription@ally:
+		Description: Provides buildable area.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to gain buildable area.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: EXPB.Husk
+	WithBuildingBib:
+	ProvidesPrerequisite@buildingname:
+	RenderSprites:
+		Image: acom
+
+EXPB.Husk:
+	Inherits: ^TechBuildingHusk
+	Inherits@shape: ^2x2Shape
+	Interactable:
+		Bounds: 48,48
+	Building:
+		Footprint: xx xx ==
+		Dimensions: 2,3
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: Expansion Post (Destroyed)
+	TooltipDescription:
+		Description: Capture to gain buildable area.
+		ValidRelationships: Neutral, Enemy, Ally        
+	RenderSprites:
+		Image: acom.husk
+	TransformOnCapture:
+		IntoActor: expb

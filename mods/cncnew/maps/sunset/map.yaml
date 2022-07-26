@@ -441,7 +441,7 @@ Actors:
 	Actor136: map3.3
 		Location: 99,99
 		Owner: Neutral
-	Actor135: oilplat
+	Actor135: oilp
 		Location: 45,73
 		Owner: Neutral
 	Actor33: v19
@@ -456,10 +456,10 @@ Actors:
 	Actor138: v19
 		Location: 50,60
 		Owner: Neutral
-	Actor139: oilplat
+	Actor139: oilp
 		Location: 70,63
 		Owner: Neutral
-	Actor140: oilplat
+	Actor140: oilp
 		Location: 59,44
 		Owner: Neutral
 	Actor144: syrd

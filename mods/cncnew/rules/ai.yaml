@@ -25,7 +25,7 @@ Player:
 	CaptureManagerBotModule@engineer:
 		RequiresCondition: enable-ai-player
 		CapturingActorTypes: e6
-		CapturableActorTypes: fact,hq,fix,hq.gdi,eye,bio,hosp,nbio,syrd
+		CapturableActorTypes: fact,hq,hq.gdi,eye,bio,hosp,nbio,syrd,v19,rpad,wind
 		CheckCaptureTargetsForVisibility: false
 		MaximumCaptureTargetOptions: 15
 	SupportPowerBotModule:

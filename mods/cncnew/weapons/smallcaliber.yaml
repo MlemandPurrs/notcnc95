@@ -174,12 +174,18 @@ HeliAAGun:
 	Warhead@1Dam: SpreadDamage
 		ValidTargets: Helicopter
 
-#   changed damage versus to flame
-#   flame sucks vs Aircraft and makes every MG obsolete now
-#   using small caliber next, but that will just make it a
-#   reskinned MG. Dont want use Cannon as GDI has enough Tanks.
-#   kills stuff way too fast with Artillery.
-#   Trying now Rocket damage type, yepp its ridicilous.
+#   There is not a damage type for this that doesnt make it 
+#   render another unit obsolete. 
+#   Artillery turns the unit into a killing machine,
+#   with Cannon it becomes a fast firing Tank, no need for Mediums,
+#   with Rocket it eats Tanks and Aircraft, rendering Tanks obsolete,
+#   with Smallcalibre makes it supercede every Machinegun. 
+#   with Napalm its in a balanced spot, however sucks against Air,
+#   unfeasible as you get this unit to counter Air at the first place.
+
+
+#   changed versus type to Napalm, its value versus aircraft
+#   bumped to 75 from 25
 #   Mobile Anti-Air Gun
 APCGun:
 	ReloadDelay: 12
@@ -196,15 +202,15 @@ APCGun:
 		InvalidTargets: Wall, Trees
 		Versus:
 			None: 100
-            Infantry: 100
-			LightInf: 100
-			HeavyInf: 50
-			Light: 100
-			Medium: 125
-			Heavy: 125
-            Aircraft: 150
-            Structure: 150
-            Fortified: 125
+            Infantry: 200
+			LightInf: 200
+			HeavyInf: 200
+			Light: 125
+			Medium: 75
+			Heavy: 50
+            Aircraft: 75
+            Structure: 100
+            Fortified: 100
             Wood: 100
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect

@@ -214,7 +214,7 @@ HonestJohn:
 			Light: 125
 			Medium: 75
 			Heavy: 50
-            Aircraft: 25
+            Aircraft: 75
             Structure: 100
             Fortified: 100
             Wood: 100
@@ -232,7 +232,7 @@ HonestJohn:
 			Light: 125
 			Medium: 75
 			Heavy: 50
-            Aircraft: 25
+            Aircraft: 75
             Structure: 100
             Fortified: 100
             Wood: 100
@@ -250,7 +250,7 @@ HonestJohn:
 			Light: 125
 			Medium: 75
 			Heavy: 50
-            Aircraft: 25
+            Aircraft: 75
             Structure: 100
             Fortified: 100
             Wood: 100
@@ -268,7 +268,7 @@ HonestJohn:
 			Light: 125
 			Medium: 75
 			Heavy: 50
-            Aircraft: 25
+            Aircraft: 75
             Structure: 100
             Fortified: 100
             Wood: 100

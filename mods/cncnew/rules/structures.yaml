@@ -390,7 +390,6 @@ PROC:
 	WithIdleOverlay@ARROWS:
 		RequiresCondition: !build-incomplete && dockincoming && !dockinprocess
 		Sequence: active
-		#   PauseOnCondition: dockinprocess
 	ExternalCondition@ARROWS:
 		Condition: dockincoming
 		SourceCap: 1
@@ -481,9 +480,9 @@ SILO:
 		RequiresCondition: contains-resources
 		Weapon: TiberiumExplosion
 	CashTrickler:
-		Interval: 600
-		InitialDelay: 600
-		Amount: 30
+		Interval: 150
+		InitialDelay: 150
+		Amount: 60
 		PauseOnCondition: lowpower && build-incomplete
 		UseResourceStorage: true
 	CashTricklerBar:
