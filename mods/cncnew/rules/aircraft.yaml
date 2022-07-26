@@ -1241,7 +1241,7 @@ RH66.Husk:
 RH66.ai:
     Inherits: RH66
     Buildable:
-		Prerequisites: hpad, tmpl, ~techlevel.high, ~!aitoodumb
+		Prerequisites: hpad, tmpl, ~techlevel.high, ~aitoodumb
     Armament@PRIMARY:
         PauseOnCondition: !ammo || emp-crate-collected
     RenderSprites:

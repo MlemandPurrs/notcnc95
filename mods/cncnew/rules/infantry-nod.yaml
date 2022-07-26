@@ -248,6 +248,8 @@ RMB2:
 		Name: garrisoned
 		Weapon: Sniper
 		MuzzleSequence: garrison-muzzle
+    ActorLostNotification:
+        Notification: CommandoLost
 
 E5:
 	Inherits: ^Soldier

@@ -391,9 +391,11 @@ crate.ion:
         ChargeInterval: 0
         Description: Ion Cannon (Single Use)
         LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
-        #   LaunchSound: ion1.aud
+		EndChargeSpeechNotification: IonCannonReady
+		SelectTargetSpeechNotification: SelectTarget
+        InsufficientPowerSpeechNotification: InsufficientPower
+        LaunchSpeechNotification: IonCannonFired
         Cursor: ioncannon
-        SelectTargetSpeechNotification: SelectTarget 
         DisplayRadarPing: True
         SupportPowerPaletteOrder: 1
         DisplayTimerRelationships: Ally, Neutral, Enemy
@@ -415,7 +417,10 @@ crate.airstrike:
 		QuantizedFacings: 8
 		Description: Air Strike (Single Use)
 		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
-		SelectTargetSpeechNotification: SelectTarget
+		EndChargeSpeechNotification: AirstrikeReady
+        LaunchSpeechNotification: AirstrikeInbound
+        SelectTargetSpeechNotification: SelectTarget
+        IncomingSpeechNotification: EnemyPlanesApproaching
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -469,22 +474,7 @@ SILOTIB:
 	ExternalCondition@Fast:
 		Condition: growthfast
 
-camera.hacker:
-	Inherits: CAMERA
-	RevealsShroud:
-		Range: 0c512
-	KillsSelf:
-		RemoveInstead: true
-		Delay: 50
-
 unit.summoner:
 	Inherits@SYSTEM: ^SummonerDummy
 	RenderSprites:
 		Image: dummy
-
-MINV:
-	Inherits: ^Mine
-	RenderSprites:
-		Image: minv
-	Explodes:
-		Weapon: ATMine

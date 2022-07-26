@@ -48,6 +48,7 @@ Speech:
         InterceptorsLaunched: incintc
 		InterceptorsReady: intcptr1
         IonCannonCharging: ionchrg1
+        IonCannonFired: ionfire1
 		IonCannonReady: ionredy1
 		Leave: batlcon1
 		Lose: fail1
@@ -79,6 +80,8 @@ Speech:
 		StartGame: bctrinit
 		GameLoaded: load1
 		GameSaved: save1
+		TimerStarted: timergo1
+		TimerStopped: timerno1
 		Training: train1
 		UnabletoComply: unable1
         UnitDestroyed: dead1
@@ -88,6 +91,7 @@ Speech:
         UnitSold: unitsld1
 		UnitLost: unitlost
 		UnitReady: unitredy
+        UnitStolen: unitsto
         UnitUpgraded: unitupgr
         UpgradeOptions: upgropt1
         Upgrading: upgrdin1
@@ -109,7 +113,7 @@ Speech:
 		OneHourRemaining: 1hourr
 		TwoHoursRemaining: 2hourr
 		ThreeHoursRemaining: 3hourr
-	DisablePrefixes: AirstrikeInbound, AirstrikeReady, AirUnitReady, AirUnitLost, BaseAttack, BridgeRepaired, Building, BuildingCannotPlaceAudio, BuildingCaptured, BuildingInfiltrated, BuildingInProgress, BuildingLost, BuildingSold, Cancelled, CivilianBuildingCaptured, CivilianBuildingDestroyed, CivilianBuildingRestored, CivilianKilled, CommandoFreed, CommandoLost, CommandoReady, CommandoRescued, ConstructionComplete, ConvoyApproaching, ConvoyUnitLost, CreditsDelivered, CreditsObtained, CreditsStolen, EnemyUnitsApproaching, EnemyDetected, EnemyShipsApproaching, EnemyStructureDestroyed, EnemyPlanesApproaching, EnemyReinforcements, FieldRepairsEnemy, FieldRepairsReady, FieldRepairsUse, HarvesterAttack, HarvesterLost, IncomingTransmission, InsufficientFunds, InsufficientPower, InterceptorsLaunched, InterceptorsReady, IonCannonCharging, IonCannonReady, Leave, Lose, LowPower, MissionAccomplished, MissionFailed, MissionTimerInitialised, NavalUnitLost, NavalUnitReady, NewOptions, NoBuild, NodStructureDestroyed, NotReady, NuclearWarheadApproaching, NuclearWeaponAvailable, NuclearWeaponLaunched, OnHold, PrimaryBuildingSelected, RadarScanReady, ReconDroneAvailable, Reinforce, ReinforceAvailable, ReinforceEnroute, Repairing, SatteliteLaunched, SelectTarget, SignalFlare, SilosNeeded, StartGame, GameLoaded, GameSaved, Training, UnabletoComply, UnitDestroyed, UnitFull, UnitInProgress, UnitRepaired, UnitSold, UnitLost, UnitReady, UnitUpgraded, UpgradeOptions, Upgrading, UpgradeInProgress, UpgradeReady, VisceroidSeen, WallSold, Win, OneMinuteRemaining, TwoMinutesRemaining, ThreeMinutesRemaining, FourMinutesRemaining, FiveMinutesRemaining, TenMinutesRemaining, TwentyMinutesRemaining, ThirtyMinutesRemaining, FourtyMinutesRemaining, FiftyMinutesRemaining, OneHourRemaining, TwoHoursRemaining, ThreeHoursRemaining
+	DisablePrefixes: AirstrikeInbound, AirstrikeReady, AirUnitReady, AirUnitLost, BaseAttack, BridgeRepaired, Building, BuildingCannotPlaceAudio, BuildingCaptured, BuildingInfiltrated, BuildingInProgress, BuildingLost, BuildingSold, Cancelled, CivilianBuildingCaptured, CivilianBuildingDestroyed, CivilianBuildingRestored, CivilianKilled, CommandoFreed, CommandoLost, CommandoReady, CommandoRescued, ConstructionComplete, ConvoyApproaching, ConvoyUnitLost, CreditsDelivered, CreditsObtained, CreditsStolen, EnemyUnitsApproaching, EnemyDetected, EnemyShipsApproaching, EnemyStructureDestroyed, EnemyPlanesApproaching, EnemyReinforcements, FieldRepairsEnemy, FieldRepairsReady, FieldRepairsUse, HarvesterAttack, HarvesterLost, IncomingTransmission, InsufficientFunds, InsufficientPower, InterceptorsLaunched, InterceptorsReady, IonCannonCharging, IonCannonFired, IonCannonReady, Leave, Lose, LowPower, MissionAccomplished, MissionFailed, MissionTimerInitialised, NavalUnitLost, NavalUnitReady, NewOptions, NoBuild, NodStructureDestroyed, NotReady, NuclearWarheadApproaching, NuclearWeaponAvailable, NuclearWeaponLaunched, OnHold, PrimaryBuildingSelected, RadarScanReady, ReconDroneAvailable, Reinforce, ReinforceAvailable, ReinforceEnroute, Repairing, SatteliteLaunched, SelectTarget, SignalFlare, SilosNeeded, StartGame, GameLoaded, GameSaved, TimerStarted, TimerStopped, Training, UnabletoComply, UnitDestroyed, UnitFull, UnitInProgress, UnitRepaired, UnitSold, UnitLost, UnitReady, UnitStolen, UnitUpgraded, UpgradeOptions, Upgrading, UpgradeInProgress, UpgradeReady, VisceroidSeen, WallSold, Win, OneMinuteRemaining, TwoMinutesRemaining, ThreeMinutesRemaining, FourMinutesRemaining, FiveMinutesRemaining, TenMinutesRemaining, TwentyMinutesRemaining, ThirtyMinutesRemaining, FourtyMinutesRemaining, FiftyMinutesRemaining, OneHourRemaining, TwoHoursRemaining, ThreeHoursRemaining
 
 Sounds:
 	Notifications:

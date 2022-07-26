@@ -272,6 +272,8 @@ RMBO:
 		Name: garrisoned
 		Weapon: MiniGun
 		MuzzleSequence: garrison-muzzle
+    ActorLostNotification:
+        Notification: CommandoLost
 
 #	'Advanced' Grenadier
 #	hence E22

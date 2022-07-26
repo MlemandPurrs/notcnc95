@@ -108,6 +108,8 @@ Player:
 		Prerequisites: global-squadenabled
 	PlayerStatistics:
 	FrozenActorLayer:
+	HarvesterAttackNotifier:
+        NotifyInterval: 250
 	PlaceBeacon:
 	ProvidesTechPrerequisite@low:
 		Name: Low

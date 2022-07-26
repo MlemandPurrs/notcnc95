@@ -1607,6 +1607,7 @@ HQ.GDI:
 		BeginChargeSpeechNotification: IonCannonCharging
 		EndChargeSpeechNotification: IonCannonReady
 		SelectTargetSpeechNotification: SelectTarget
+        LaunchSpeechNotification: IonCannonFired
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1740,6 +1741,7 @@ EYE:
 		BeginChargeSpeechNotification: IonCannonCharging
 		EndChargeSpeechNotification: IonCannonReady
 		SelectTargetSpeechNotification: SelectTarget
+        LaunchSpeechNotification: IonCannonFired
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1810,8 +1812,6 @@ TECH:
 	WithDeathAnimation:
 		DeathSequence: dead
 		UseDeathTypeSuffix: false
-	Sellable:
-		RequiresCondition: !build-incomplete && !being-demolished
 	RenderSprites:
 		Image: miss
 	Sellable:

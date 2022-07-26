@@ -884,7 +884,7 @@
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 		SellSounds: cashturn.aud
-        Notification: BuildingSold
+        #   Notification: BuildingSold
 	CaptureManager:
 		BeingCapturedCondition: being-captured
 	CaptureNotification:
@@ -1096,7 +1096,7 @@
 	WithWallSpriteBody:
 	Sellable:
 		SellSounds: cashturn.aud
-        Notification: WallSold
+        #   Notification: WallSold
 	Guardable:
 	FrozenUnderFog:
 	ScriptTriggers:
@@ -1546,7 +1546,7 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: unit.sellable
-        Notification: UnitSold
+        #   Notification: UnitSold
 	ProximityExternalCondition:
 		Condition: unit.docked
 		Range: 1c0
@@ -1560,7 +1560,7 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: ship.sellable
-        Notification: UnitSold
+        #   Notification: UnitSold
 	ExternalCondition@Sellable:
 		Condition: ship.sellable
 
