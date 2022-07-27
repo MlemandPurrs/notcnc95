@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -15,6 +15,7 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits.Render
 {
+	[TraitLocation(SystemActors.Player)]
 	[Desc("Attach this to the player actor. When attached, enables all actors possessing the ProducibleWithLevel ",
 		"trait to have their production queue icons render with an overlay defined in this trait. ",
 		"The icon change occurs when ProducibleWithLevel.Prerequisites are met.")]
@@ -47,7 +48,7 @@ namespace OpenRA.Mods.Common.Traits.Render
 		readonly Sprite sprite;
 		readonly VeteranProductionIconOverlayInfo info;
 
-		Dictionary<ActorInfo, bool> overlayActive = new Dictionary<ActorInfo, bool>();
+		readonly Dictionary<ActorInfo, bool> overlayActive = new Dictionary<ActorInfo, bool>();
 
 		public VeteranProductionIconOverlay(ActorInitializer init, VeteranProductionIconOverlayInfo info)
 		{
@@ -69,8 +70,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 			}
 		}
 
-		Sprite IProductionIconOverlay.Sprite { get { return sprite; } }
-		string IProductionIconOverlay.Palette { get { return info.Palette; } }
+		Sprite IProductionIconOverlay.Sprite => sprite;
+		string IProductionIconOverlay.Palette => info.Palette;
+
 		float2 IProductionIconOverlay.Offset(float2 iconSize)
 		{
 			var x = (sprite.Size.X - iconSize.X) / 2;

@@ -30,6 +30,11 @@ E1:
 		ScanRadius: 3
 	Armament:
 		Weapon: M16
+	AttackFrontal:
+		Voice: Attack
+		FacingTolerance: 0
+	AttackMove:
+		Voice: Attack
 	WithInfantryBody:
 		IdleSequences: idle1,idle2,idle3,idle4
 		DefaultAttackSequence: shoot
@@ -96,6 +101,11 @@ E3:
 		Weapon: Rockets
 		LocalOffset: 256,43,341
 		FireDelay: 5
+	AttackFrontal:
+		Voice: Attack
+		FacingTolerance: 0
+	AttackMove:
+		Voice: Attack
 	TakeCover:
 		ProneOffset: 180,0,-200
 	WithInfantryBody:
@@ -193,8 +203,10 @@ TECN:
 		Name: garrisoned
 		Weapon: Pistol
 		MuzzleSequence: garrison-muzzle
+    AttackFrontal:
+        FacingTolerance: 0
     ActorLostNotification:
-        Notification: UnitLost
+        Notification: InfantryLost
         NotifyAll: false
 
 VICE:
@@ -215,7 +227,7 @@ VICE:
 		Speed: 71
 		Locomotor: critter
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Targetable:
 		TargetTypes: Ground, Creep
 	AutoTarget:
@@ -233,6 +245,7 @@ VICE:
 		MuzzleSequence: muzzle
 	AttackFrontal:
 		Voice: Attack
+        FacingTolerance: 0
 	BodyOrientation:
 		QuantizedFacings: 8
 	WithSpriteBody:

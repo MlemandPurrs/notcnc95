@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -17,19 +17,18 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits
 {
+	[TraitLocation(SystemActors.World)]
 	[Desc("Identify untraversable regions of the map for faster pathfinding, especially with AI.",
 		"This trait is required. Every mod needs it attached to the world actor.")]
 	class DomainIndexInfo : TraitInfo<DomainIndex> { }
 
 	public class DomainIndex : IWorldLoaded
 	{
-		TileSet tileSet;
 		Dictionary<uint, MovementClassDomainIndex> domainIndexes;
 
 		public void WorldLoaded(World world, WorldRenderer wr)
 		{
 			domainIndexes = new Dictionary<uint, MovementClassDomainIndex>();
-			tileSet = world.Map.Rules.TileSet;
 			var locomotors = world.WorldActor.TraitsImplementing<Locomotor>().Where(l => !string.IsNullOrEmpty(l.Info.Name));
 			var movementClasses = locomotors.Select(t => t.MovementClass).Distinct();
 
@@ -79,7 +78,7 @@ namespace OpenRA.Mods.Common.Traits
 			domains = new CellLayer<ushort>(world.Map);
 			transientConnections = new Dictionary<ushort, HashSet<ushort>>();
 
-			using (new PerfTimer("BuildDomains: {0} for movement class {1}".F(world.Map.Title, movementClass)))
+			using (new PerfTimer($"BuildDomains: {world.Map.Title} for movement class {movementClass}"))
 				BuildDomains(world);
 		}
 
@@ -153,7 +152,7 @@ namespace OpenRA.Mods.Common.Traits
 			var toProcess = new Stack<ushort>();
 			toProcess.Push(d1);
 
-			while (toProcess.Any())
+			while (toProcess.Count > 0)
 			{
 				var current = toProcess.Pop();
 				if (!transientConnections.ContainsKey(current))

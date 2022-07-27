@@ -34,8 +34,8 @@ BOAT:
 	WithGunboatBody:
 		Sequence: left # Just a work-around to avoid crash
 	Selectable:
-		Bounds: 42,24
-		DecorationBounds: 42,24
+		Bounds: 1792, 1024
+		DecorationBounds: 1792, 1024
 	AutoTarget:
 		AllowMovement: false
 	RejectsOrders:
@@ -72,8 +72,9 @@ LST:
 	-BodyOrientation:
 	ClassicFacingBodyOrientation:
 	Selectable:
-		Bounds: 48,48
-	WithRoof:
+		Bounds: 2048, 2048
+    #   Trait no longer exists..
+	#   WithRoof:
 	WithCargo:
 		DisplayTypes: Infantry, Vehicle
 		LocalOffset: 390,-256,0, 390,256,0, 0,0,0, -390,-256,0, -390,256,0
@@ -123,7 +124,7 @@ GB:
 	WithSpriteTurret:
 	RenderRangeCircle:
 	Selectable:
-		DecorationBounds: 65,55
+		DecorationBounds: 1065, 1055
 	RenderSprites:
 		Image: gb
 		FactionImages:
@@ -163,8 +164,8 @@ ENGB:
 		CaptureDelay: 100
 		ConsumedByCapture: false
 	Selectable:
-		Bounds: 24,24,0,0
-		DecorationBounds: 24,16,0,0
+		Bounds: 1024, 1024, 0, 0
+		DecorationBounds: 1024, 1016, 0, 0
 	Minelayer:
 		Mine: MINS
 		TileUnknownName: build-valid
@@ -197,7 +198,7 @@ ENGB:
 		Condition: replenishsmine
 	DetectCloaked:
 		Range: 4c0
-		CloakTypes: Underwater
+		DetectionTypes: Underwater
 	RenderDetectionCircle:
 	Voiced:
 		VoiceSet: EngineerVoice
@@ -207,16 +208,16 @@ MINS:
 	Tooltip:
 		Name: Sea Mine
 	Health:
-		HP: 50
+		HP: 5000
 		NotifyAppliedDamage: false
 	Cloak:
-		CloakTypes: Underwater
+		DetectionTypes: Underwater
 		InitialDelay: 0
 		CloakDelay: 75
 		CloakSound: subshow1.aud
 		UncloakSound: subshow1.aud
-		Palette: submerged
-		IsPlayerPalette: false
+		Palette: cloaktransparent
+        IsPlayerPalette: true
 	RenderSprites:
 		Image: mins
 	Targetable:

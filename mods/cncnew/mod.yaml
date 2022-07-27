@@ -1,6 +1,6 @@
 Metadata:
 	Title: Not CnC 95
-	Version: N3trunnerZ 4EvA
+	Version: It came from CA!
 	Website: https://www.openra.net
 	WebIcon32: https://www.openra.net/images/icons/cnc_32x32.png
 
@@ -29,12 +29,12 @@ Packages:
 	cncnew|bits/audio
 	cncnew|bits/audio/dino
 	cncnew|bits/audio/engineer
-	cncnew|bits/audio/evacustom
 	cncnew|bits/audio/mechanic
 	cncnew|bits/audio/medic
 	cncnew|bits/audio/sakura
 	cncnew|bits/audio/terroist
 	cncnew|bits/audio/chemtrooper
+    cncnew|bits/audio/evacustom
 	cncnew|bits/temperate
 	cncnew|bits/jungle
 	cncnew|bits/desert
@@ -142,6 +142,7 @@ ChromeLayout:
 	cncnew|chrome/gamesave-loading.yaml
 	cncnew|chrome/ingame.yaml
 	cncnew|chrome/ingame-chat.yaml
+	common|chrome/ingame-transients.yaml
 	cncnew|chrome/ingame-menu.yaml
 	cncnew|chrome/ingame-debug.yaml
 	cncnew|chrome/ingame-infochat.yaml
@@ -150,15 +151,22 @@ ChromeLayout:
 	cncnew|chrome/ingame-infoscripterror.yaml
 	cncnew|chrome/ingame-infoobjectives.yaml
 	cncnew|chrome/ingame-infostats.yaml
+	cncnew|chrome/ingame-info-lobby-options.yaml
 	cncnew|chrome/ingame-debuginfo.yaml
 	cncnew|chrome/music.yaml
 	cncnew|chrome/settings.yaml
+	cncnew|chrome/settings-display.yaml
+	cncnew|chrome/settings-audio.yaml
+	cncnew|chrome/settings-input.yaml
+	cncnew|chrome/settings-hotkeys.yaml
+	cncnew|chrome/settings-advanced.yaml
 	cncnew|chrome/credits.yaml
 	cncnew|chrome/dialogs.yaml
 	cncnew|chrome/tooltips.yaml
 	cncnew|chrome/assetbrowser.yaml
 	cncnew|chrome/missionbrowser.yaml
 	cncnew|chrome/editor.yaml
+	common|chrome/text-notifications.yaml
 
 Voices:
 	cncnew|audio/voices.yaml
@@ -170,7 +178,7 @@ Music:
 	cncnew|audio/music.yaml
 
 Translations:
-	cncnew|languages/english.yaml
+	common|languages/en.ftl
 
 Hotkeys:
 	common|hotkeys/game.yaml
@@ -179,6 +187,9 @@ Hotkeys:
 	common|hotkeys/production-peractor.yaml
 	common|hotkeys/supportpowers.yaml
 	common|hotkeys/viewport.yaml
+	common|hotkeys/chat.yaml
+	common|hotkeys/editor.yaml
+	common|hotkeys/control-groups.yaml
 	cncnew|hotkeys.yaml
 
 LoadScreen: CncLoadScreen
@@ -238,9 +249,15 @@ MapGrid:
 	TileSize: 24,24
 	Type: Rectangular
 
+DefaultOrderGenerator: UnitOrderGenerator
+
 SupportsMapsFrom: cnc, cncnew
 
 SoundFormats: Aud, Wav
+
+VideoFormats: Vqa, Wsa
+
+TerrainFormat: DefaultTerrain
 
 SpriteFormats: ShpTD, TmpTD, ShpTS, TmpRA
 
@@ -255,36 +272,37 @@ SpriteSequenceFormat: ClassicTilesetSpecificSpriteSequence
 ModelSequenceFormat: PlaceholderModelSequence
 
 AssetBrowser:
-	SupportedExtensions: .shp, .tem, .des, .sno, .jun, .vqa
+	SpriteExtensions: .shp, .tem, .des, .sno, .jun
+	AudioExtensions: .aud, .wav
+	VideoExtensions: .vqa, .wsa
 
 GameSpeeds:
-	slowest:
-		Name: Slowest
-		Timestep: 80
-		OrderLatency: 2
-	slower:
-		Name: Slower
-		Timestep: 50
-		OrderLatency: 2
-	default:
-		Name: Normal
-		Timestep: 40
-		OrderLatency: 2
-	fast:
-		Name: Fast
-		Timestep: 35
-		OrderLatency: 2
-	faster:
-		Name: Faster
-		Timestep: 30
-		OrderLatency: 2
-	fastest:
-		Name: Fastest
-		Timestep: 20
-		OrderLatency: 2
-
-ColorValidator:
-	TeamColorPresets: C4B060, 4494E4, EC0000, 00C400, FC8800, AB7B84, 44907C, 702C24, D1987C, A0F08C, FCFC54, F861A4, A800A8, 90ACC4, 546C74, BD33A4
+	DefaultSpeed: default
+	Speeds:
+        slowest:
+            Name: Slowest
+            Timestep: 80
+            OrderLatency: 2
+        slower:
+            Name: Slower
+            Timestep: 50
+            OrderLatency: 2
+        default:
+            Name: Normal
+            Timestep: 40
+            OrderLatency: 2
+        fast:
+            Name: Fast
+            Timestep: 35
+            OrderLatency: 2
+        faster:
+            Name: Faster
+            Timestep: 30
+            OrderLatency: 2
+        fastest:
+            Name: Fastest
+            Timestep: 20
+            OrderLatency: 2
 
 ModContent:
 	InstallPromptMessage: Not CnC 95 requires artwork and audio from the original game.\n\nQuick Install will automatically download this content (without music\nor videos) from a mirror of the 2007 C&C Gold freeware release.\n\nAdvanced Install includes options for copying the music, videos, and\nother content from an original game disc or digital installation.

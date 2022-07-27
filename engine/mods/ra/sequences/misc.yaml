@@ -96,8 +96,8 @@ burn-s:
 
 pips:
 	groups:
-		Start: 8
 		Length: 10
+		Frames: 9, 10, 11, 12, 13, 14, 15, 16, 17, 8
 		Offset: 9, 5
 	medic:
 		Start: 20
@@ -301,6 +301,7 @@ wcrate:
 		ZOffset: -511
 	idle:
 	land:
+		Start: 1
 	water: wwcrate
 		Length: *
 		Tick: 500
@@ -599,11 +600,11 @@ craters:
 mine:
 	idle:
 		UseTilesetExtension: true
-		ZOffset: -1024
+		ZOffset: -2c512
 
 gmine:
 	idle:
-		ZOffset: -1024
+		ZOffset: -2c512
 		UseTilesetExtension: true
 		TilesetOverrides:
 			INTERIOR: TEMPERAT
@@ -661,3 +662,10 @@ paradirection:
 		X: -6
 		y: 5
 		Offset: -15, -15, 0
+
+twinkle:
+	Defaults:
+		Length: *
+	twinkle1: twinkle1
+	twinkle2: twinkle2
+	twinkle3: twinkle3

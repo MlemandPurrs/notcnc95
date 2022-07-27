@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -26,6 +26,7 @@ namespace OpenRA.Mods.Common.Activities
 		readonly BodyOrientation carryableBody;
 
 		readonly int delay;
+		readonly Color? targetLineColor;
 
 		// TODO: Expose this to yaml
 		readonly WDist targetLockRange = WDist.FromCells(4);
@@ -33,10 +34,11 @@ namespace OpenRA.Mods.Common.Activities
 		enum PickupState { Intercept, LockCarryable, Pickup }
 		PickupState state = PickupState.Intercept;
 
-		public PickupUnit(Actor self, Actor cargo, int delay)
+		public PickupUnit(Actor self, Actor cargo, int delay, Color? targetLineColor)
 		{
 			this.cargo = cargo;
 			this.delay = delay;
+			this.targetLineColor = targetLineColor;
 			carryable = cargo.Trait<Carryable>();
 			carryableFacing = cargo.Trait<IFacing>();
 			carryableBody = cargo.Trait<BodyOrientation>();
@@ -95,7 +97,7 @@ namespace OpenRA.Mods.Common.Activities
 					// Pickup position and facing are now known - swap the fly/wait activity with Land
 					ChildActivity.Cancel(self);
 
-					var localOffset = carryall.OffsetForCarryable(self, cargo).Rotate(carryableBody.QuantizeOrientation(self, cargo.Orientation));
+					var localOffset = carryall.OffsetForCarryable(self, cargo).Rotate(carryableBody.QuantizeOrientation(cargo.Orientation));
 					QueueChild(new Land(self, Target.FromActor(cargo), -carryableBody.LocalToWorld(localOffset), carryableFacing.Facing));
 
 					// Pause briefly before attachment for visual effect
@@ -116,7 +118,8 @@ namespace OpenRA.Mods.Common.Activities
 
 		public override IEnumerable<TargetLineNode> TargetLineNodes(Actor self)
 		{
-			yield return new TargetLineNode(Target.FromActor(cargo), carryall.Info.TargetLineColor);
+			if (targetLineColor != null)
+				yield return new TargetLineNode(Target.FromActor(cargo), targetLineColor.Value);
 		}
 
 		class AttachUnit : Activity

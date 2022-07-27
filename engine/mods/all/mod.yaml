@@ -1,6 +1,6 @@
 Metadata:
 	Title: All mods
-	Version: release-20210321
+	Version: ca
 	Hidden: true
 
 Packages:
@@ -28,6 +28,8 @@ Fonts:
 SoundFormats:
 
 SpriteFormats:
+
+TerrainFormat: DefaultTerrain
 
 SpriteSequenceFormat: DefaultSpriteSequence
 

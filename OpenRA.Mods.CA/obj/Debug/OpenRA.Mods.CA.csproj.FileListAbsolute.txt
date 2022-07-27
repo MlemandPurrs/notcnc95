@@ -1,4 +1,0 @@
-D:\GitHub\raplusmod\OpenRA.Mods.CA\obj\Debug\OpenRA.Mods.CA.csprojAssemblyReference.cache
-D:\GitHub\raplusmod\OpenRA.Mods.CA\obj\Debug\OpenRA.Mods.CA.csproj.CoreCompileInputs.cache
-D:\GitHub\raplusmod\OpenRA.Mods.CA\obj\Debug\OpenRA.Mods.CA.AssemblyInfoInputs.cache
-D:\GitHub\raplusmod\OpenRA.Mods.CA\obj\Debug\OpenRA.Mods.CA.AssemblyInfo.cs

@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -33,10 +33,12 @@ namespace OpenRA.Graphics
 		int[] Frames { get; }
 		Rectangle Bounds { get; }
 		bool IgnoreWorldTint { get; }
+		float Scale { get; }
 
 		Sprite GetSprite(int frame);
 		Sprite GetSprite(int frame, WAngle facing);
 		Sprite GetShadow(int frame, WAngle facing);
+		float GetAlpha(int frame);
 	}
 
 	public interface ISpriteSequenceLoader
@@ -50,7 +52,7 @@ namespace OpenRA.Graphics
 		readonly string tileSet;
 		readonly Lazy<Sequences> sequences;
 		readonly Lazy<SpriteCache> spriteCache;
-		public SpriteCache SpriteCache { get { return spriteCache.Value; } }
+		public SpriteCache SpriteCache => spriteCache.Value;
 
 		readonly Dictionary<string, UnitSequences> sequenceCache = new Dictionary<string, UnitSequences>();
 
@@ -70,15 +72,15 @@ namespace OpenRA.Graphics
 		public ISpriteSequence GetSequence(string unitName, string sequenceName)
 		{
 			if (!sequences.Value.TryGetValue(unitName, out var unitSeq))
-				throw new InvalidOperationException("Unit `{0}` does not have any sequences defined.".F(unitName));
+				throw new InvalidOperationException($"Unit `{unitName}` does not have any sequences defined.");
 
 			if (!unitSeq.Value.TryGetValue(sequenceName, out var seq))
-				throw new InvalidOperationException("Unit `{0}` does not have a sequence named `{1}`".F(unitName, sequenceName));
+				throw new InvalidOperationException($"Unit `{unitName}` does not have a sequence named `{sequenceName}`");
 
 			return seq;
 		}
 
-		public IEnumerable<string> Images { get { return sequences.Value.Keys; } }
+		public IEnumerable<string> Images => sequences.Value.Keys;
 
 		public bool HasSequence(string unitName)
 		{
@@ -88,7 +90,7 @@ namespace OpenRA.Graphics
 		public bool HasSequence(string unitName, string sequenceName)
 		{
 			if (!sequences.Value.TryGetValue(unitName, out var unitSeq))
-				throw new InvalidOperationException("Unit `{0}` does not have any sequences defined.".F(unitName));
+				throw new InvalidOperationException($"Unit `{unitName}` does not have any sequences defined.");
 
 			return unitSeq.Value.ContainsKey(sequenceName);
 		}
@@ -96,7 +98,7 @@ namespace OpenRA.Graphics
 		public IEnumerable<string> Sequences(string unitName)
 		{
 			if (!sequences.Value.TryGetValue(unitName, out var unitSeq))
-				throw new InvalidOperationException("Unit `{0}` does not have any sequences defined.".F(unitName));
+				throw new InvalidOperationException($"Unit `{unitName}` does not have any sequences defined.");
 
 			return unitSeq.Value.Keys;
 		}
@@ -123,7 +125,7 @@ namespace OpenRA.Graphics
 				}
 			}
 
-			return new ReadOnlyDictionary<string, UnitSequences>(items);
+			return items;
 		}
 
 		public void Preload()

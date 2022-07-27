@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -119,7 +119,7 @@ namespace OpenRA.Mods.Common.Traits
 				actor =>
 				{
 					var init = actor.GetInitOrDefault<StanceInit>(this);
-					var stance = init != null ? init.Value : InitialStance;
+					var stance = init?.Value ?? InitialStance;
 					return stances[(int)stance];
 				},
 				(actor, value) => actor.ReplaceInit(new StanceInit(this, (UnitStance)stances.IndexOf(value))));
@@ -135,7 +135,7 @@ namespace OpenRA.Mods.Common.Traits
 		[Sync]
 		int nextScanTime = 0;
 
-		public UnitStance Stance { get { return stance; } }
+		public UnitStance Stance => stance;
 
 		[Sync]
 		public Actor Aggressor;
@@ -257,7 +257,7 @@ namespace OpenRA.Mods.Common.Traits
 
 			Aggressor = attacker;
 
-			Attack(self, Target.FromActor(Aggressor), allowMove);
+			Attack(Target.FromActor(Aggressor), allowMove);
 		}
 
 		void INotifyIdle.TickIdle(Actor self)
@@ -309,10 +309,10 @@ namespace OpenRA.Mods.Common.Traits
 		{
 			var target = ScanForTarget(self, allowMove, allowTurn);
 			if (target.Type != TargetType.Invalid)
-				Attack(self, target, allowMove);
+				Attack(target, allowMove);
 		}
 
-		void Attack(Actor self, in Target target, bool allowMove)
+		void Attack(in Target target, bool allowMove)
 		{
 			foreach (var ab in ActiveAttackBases)
 				ab.AttackTarget(target, AttackSource.AutoTarget, false, allowMove);
@@ -325,8 +325,8 @@ namespace OpenRA.Mods.Common.Traits
 
 			return activeTargetPriorities.Any(ati =>
 			{
-				// Incompatible stances
-				if (!ati.ValidRelationships.HasStance(self.Owner.RelationshipWith(owner)))
+				// Incompatible relationship
+				if (!ati.ValidRelationships.HasRelationship(self.Owner.RelationshipWith(owner)))
 					return false;
 
 				// Incompatible target types
@@ -393,8 +393,8 @@ namespace OpenRA.Mods.Common.Traits
 					if (ati.Priority < chosenTargetPriority)
 						return false;
 
-					// Incompatible stances
-					if (!ati.ValidRelationships.HasStance(self.Owner.RelationshipWith(owner)))
+					// Incompatible relationship
+					if (!ati.ValidRelationships.HasRelationship(self.Owner.RelationshipWith(owner)))
 						return false;
 
 					// Incompatible target types

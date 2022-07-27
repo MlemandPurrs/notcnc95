@@ -113,7 +113,16 @@ namespace OpenRA.Mods.CA.Traits
 		public bool Disguised { get { return IsMirage; } }
 
 		public ActorInfo ActorType { get; private set; }
-		public Player Owner { get { return IsMirage ? self.World.Players.First(p => p.InternalName == Info.EffectiveOwner) : null; } }
+		public Player Owner
+		{
+			get
+			{
+				if (Info.EffectiveOwner == "Self")
+					return self.Owner;
+
+				return IsMirage ? self.World.Players.First(p => p.InternalName == Info.EffectiveOwner) : null;
+			}
+		}
 
 		public Mirage(ActorInitializer init, MirageInfo info)
 			: base(info)
@@ -124,7 +133,7 @@ namespace OpenRA.Mods.CA.Traits
 			var targets = self.World.ActorsWithTrait<MirageTarget>().Distinct();
 			targetTypes = targets.Select(a => a.Actor.Info).ToArray();
 
-			if (!targetTypes.Any() && info.DefaultTargetTypes != null)
+			if (targetTypes.Length == 0 && info.DefaultTargetTypes != null)
 				targetTypes = self.World.Map.Rules.Actors.Where(a => info.DefaultTargetTypes.Contains(a.Key)).Select(a => a.Value).ToArray();
 
 			ActorType = targetTypes.RandomOrDefault(self.World.SharedRandom);
@@ -209,7 +218,7 @@ namespace OpenRA.Mods.CA.Traits
 
 		void INotifyHarvesterAction.MovementCancelled(Actor self) { }
 
-		void INotifyHarvesterAction.Harvested(Actor self, ResourceType resource) { }
+		void INotifyHarvesterAction.Harvested(Actor self, string resourceType) { }
 
 		void INotifyHarvesterAction.Docked()
 		{

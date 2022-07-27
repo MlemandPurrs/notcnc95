@@ -63,7 +63,7 @@ construction_yard:
 		-ConcretePrerequisites:
 	WithBuildingBib:
 	Selectable:
-		Bounds: 96,64
+		Bounds: 3072, 2048
 	Health:
 		HP: 30000
 	HitShape:
@@ -116,7 +116,7 @@ wind_trap:
 		BuildDurationModifier: 100
 		Description: Provides power for other structures.
 	Selectable:
-		Bounds: 64,64
+		Bounds: 2048, 2048
 	Valued:
 		Cost: 225
 	Tooltip:
@@ -165,7 +165,7 @@ barracks:
 		BuildDurationModifier: 100
 		Description: Trains infantry.
 	Selectable:
-		Bounds: 64,64
+		Bounds: 2048, 2048
 	Valued:
 		Cost: 225
 	Tooltip:
@@ -185,6 +185,7 @@ barracks:
 	RevealsShroud:
 		Range: 3c768
 	RallyPoint:
+		ForceSetType: Infantry
 	Exit@1:
 		SpawnOffset: 352,576,0
 		ExitCell: 0,2
@@ -232,7 +233,7 @@ refinery:
 		BuildDurationModifier: 100
 		Description: Harvesters unload Spice here for processing.
 	Selectable:
-		Bounds: 96,64
+		Bounds: 3072, 2048
 	Valued:
 		Cost: 1500
 	Tooltip:
@@ -301,7 +302,7 @@ silo:
 		BuildDurationModifier: 100
 		Description: Stores excess harvested Spice.
 	Selectable:
-		Bounds: 32,32
+		Bounds: 1024, 1024
 	Valued:
 		Cost: 120
 	Tooltip:
@@ -356,7 +357,7 @@ light_factory:
 		BuildDurationModifier: 100
 		Description: Produces light vehicles.
 	Selectable:
-		Bounds: 96,64
+		Bounds: 3072, 2048
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -392,6 +393,7 @@ light_factory:
 		Queues: Vehicle
 		Sequence: production-welding
 	RallyPoint:
+		ForceSetType: Vehicle
 	Exit@1:
 		SpawnOffset: 544,-224,0
 		ExitCell: 2,1
@@ -434,7 +436,7 @@ heavy_factory:
 		BuildDurationModifier: 100
 		Description: Produces heavy vehicles.
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -459,6 +461,7 @@ heavy_factory:
 	RevealsShroud:
 		Range: 4c768
 	RallyPoint:
+		ForceSetType: Armor
 	Exit@1:
 		SpawnOffset: 256,192,0
 		ExitCell: 0,2
@@ -522,7 +525,7 @@ outpost:
 		BuildDurationModifier: 100
 		Description: Provides a radar map of the battlefield.\n  Requires power to operate.
 	Selectable:
-		Bounds: 96,64
+		Bounds: 3072, 2048
 	Valued:
 		Cost: 750
 	Tooltip:
@@ -579,7 +582,7 @@ starport:
 		Footprint: xxx x=x =x=
 		Dimensions: 3,3
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Health:
 		HP: 35000
 	HitShape:
@@ -595,6 +598,7 @@ starport:
 	RevealsShroud:
 		Range: 3c768
 	RallyPoint:
+		ForceSetType: Starport
 	Exit@1:
 		SpawnOffset: 0,-480,0
 		ExitCell: 2,2
@@ -604,6 +608,7 @@ starport:
 	ProductionAirdrop:
 		Produces: Starport
 		ActorType: frigate
+		ReadyTextNotification: Reinforcements have arrived.
 	RenderSprites:
 		Image: starport.ordos
 		FactionImages:
@@ -660,8 +665,6 @@ wall:
 		Cost: 20
 	CustomSellValue:
 		Value: 0
-	UpdatesPlayerStatistics:
-		AddToAssetsValue: false
 	Tooltip:
 		Name: Concrete Wall
 		GenericName: Structure
@@ -670,7 +673,7 @@ wall:
 		BuildSounds: CHUNG.WAV
 		TerrainTypes: Rock, Concrete
 	FootprintPlaceBuildingPreview:
-		LineBuildSegmentPalette: placelinesegment
+		LineBuildFootprintAlpha: 0.65
 	RequiresBuildableArea:
 		AreaTypes: building
 		Adjacent: 7
@@ -729,8 +732,8 @@ medium_gun_turret:
 	RequiresBuildableArea:
 		Adjacent: 4
 	Selectable:
-		Bounds: 32,32
-		DecorationBounds: 32,40,0,-8
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 1280, 0, -256
 	Health:
 		HP: 27000
 	Armor:
@@ -758,7 +761,7 @@ large_gun_turret:
 	Inherits@IDISABLE: ^DisableOnLowPowerOrPowerDown
 	Inherits@AUTOTARGET: ^AutoTargetGround
 	AttackTurreted:
-		PauseOnCondition: disabled
+		PauseOnCondition: disabled || build-incomplete
 	Buildable:
 		Queue: Building
 		Prerequisites: outpost, upgrade.conyard, ~techlevel.medium
@@ -773,8 +776,8 @@ large_gun_turret:
 	RequiresBuildableArea:
 		Adjacent: 4
 	Selectable:
-		Bounds: 32,32
-		DecorationBounds: 32,40,0,-8
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 1280, 0, -256
 	Health:
 		HP: 30000
 	Armor:
@@ -828,13 +831,15 @@ repair_pad:
 	RevealsShroud:
 		Range: 3c768
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Reservable:
 	RepairsUnits:
 		Interval: 10
 		HpPerStep: 800
 		StartRepairingNotification: Repairing
+		StartRepairingTextNotification: Repairing.
 		FinishRepairingNotification: UnitRepaired
+		FinishRepairingTextNotification: Unit repaired.
 		PlayerExperience: 15
 	RallyPoint:
 	RenderSprites:
@@ -863,7 +868,7 @@ high_tech_factory:
 		BuildDurationModifier: 100
 		Description: Unlocks advanced technology.
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Valued:
 		Cost: 1150
 	Tooltip:
@@ -915,18 +920,20 @@ high_tech_factory:
 	ProvidesPrerequisite@buildingname:
 	AirstrikePower:
 		Icon: ornistrike
-		Description: Air Strike
+		Name: Air Strike
 		Prerequisites: ~techlevel.superweapons, upgrade.hightech
 		ChargeInterval: 7500
 		SquadSize: 3
 		SquadOffset: -1536, 1024, 0
-		LongDesc: Ornithopters hit the target with bombs
+		Description: Ornithopters hit the target with bombs
 		UnitType: ornithopter
 		DisplayBeacon: True
 		CameraActor: camera
 		ArrowSequence: arrow
 		CircleSequence: circles
 		SupportPowerPaletteOrder: 10
+		EndChargeTextNotification: Airstrike ready.
+		SelectTargetTextNotification: Select target.
 	Power:
 		Amount: -75
 	GrantConditionOnPrerequisite@UPGRADEABLE:
@@ -942,7 +949,7 @@ research_centre:
 		BuildDurationModifier: 100
 		Description: Unlocks advanced tanks.
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -994,7 +1001,7 @@ palace:
 		BuildDurationModifier: 100
 		Description: Unlocks elite infantry and weapons.
 	Selectable:
-		Bounds: 96,96
+		Bounds: 3072, 3072
 	Valued:
 		Cost: 1600
 	Tooltip:
@@ -1058,12 +1065,17 @@ palace:
 		RequiresCondition: harkonnen
 		Prerequisites: ~techlevel.superweapons, ~palace.nuke
 		ChargeInterval: 7500
-		Description: Death Hand
-		LongDesc: Launches an atomic missile at a target location
+		Name: Death Hand
+		Description: Launches an atomic missile at a target location
 		BeginChargeSpeechNotification: DeathHandMissilePrepping
 		EndChargeSpeechNotification: DeathHandMissileReady
 		IncomingSpeechNotification: MissileLaunchDetected
+		BeginChargeTextNotification: Death Hand missile prepping.
+		EndChargeTextNotification: Death Hand missile ready.
+		IncomingTextNotification: Missile launch detected.
+		SelectTargetTextNotification: Select target.
 		MissileWeapon: deathhand
+		MissileImage: deathhand
 		MissileDelay: 18
 		SpawnOffset: 32,816,0
 		DetonationAltitude: 3c0
@@ -1079,8 +1091,8 @@ palace:
 		TrailSequences: idle
 		SupportPowerPaletteOrder: 40
 	ProduceActorPower@fremen:
-		Description: Recruit Fremen
-		LongDesc: Elite infantry unit armed with assault rifles and rockets\n  Strong vs Infantry, Vehicles\n  Weak vs Artillery\n  Special Ability: Invisibility
+		Name: Recruit Fremen
+		Description: Elite infantry unit armed with assault rifles and rockets\n  Strong vs Infantry, Vehicles\n  Weak vs Artillery\n  Special Ability: Invisibility
 		Icon: fremen
 		PauseOnCondition: disabled
 		RequiresCondition: atreides
@@ -1088,13 +1100,16 @@ palace:
 		Actors: fremen, fremen
 		Type: Fremen
 		ChargeInterval: 2250
+		EndChargeTextNotification: Fremen ready.
 		ReadyAudio: Reinforce
+		ReadyTextNotification: Reinforcements have arrived.
 		BlockedAudio: NoRoom
+		BlockedTextNotification: No room for new unit.
 		OrderName: ProduceActorPower.Fremen
 		SupportPowerPaletteOrder: 20
 	ProduceActorPower@saboteur:
-		Description: Recruit Saboteur
-		LongDesc: Sneaky infantry, armed with explosives\n  Strong vs Buildings\n  Weak vs Everything\n  Special Ability: destroy buildings
+		Name: Recruit Saboteur
+		Description: Sneaky infantry, armed with explosives\n  Strong vs Buildings\n  Weak vs Everything\n  Special Ability: destroy buildings
 		Icon: saboteur
 		PauseOnCondition: disabled
 		RequiresCondition: ordos
@@ -1102,8 +1117,11 @@ palace:
 		Actors: saboteur
 		Type: Saboteur
 		ChargeInterval: 2250
+		EndChargeTextNotification: Saboteur ready.
 		ReadyAudio: Reinforce
+		ReadyTextNotification: Reinforcements have arrived.
 		BlockedAudio: NoRoom
+		BlockedTextNotification: No room for new unit.
 		OrderName: ProduceActorPower.Saboteur
 		SupportPowerPaletteOrder: 30
 	Exit@1:

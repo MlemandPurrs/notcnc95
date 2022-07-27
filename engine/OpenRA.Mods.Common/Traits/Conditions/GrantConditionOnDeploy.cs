@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -37,9 +37,14 @@ namespace OpenRA.Mods.Common.Traits
 		[Desc("Can this actor deploy on slopes?")]
 		public readonly bool CanDeployOnRamps = false;
 
+		[Desc("Does this actor need to synchronize it's deployment with other actors?")]
+		public readonly bool SmartDeploy = false;
+
+		[CursorReference]
 		[Desc("Cursor to display when able to (un)deploy the actor.")]
 		public readonly string DeployCursor = "deploy";
 
+		[CursorReference]
 		[Desc("Cursor to display when unable to (un)deploy the actor.")]
 		public readonly string DeployBlockedCursor = "deploy-blocked";
 
@@ -100,7 +105,7 @@ namespace OpenRA.Mods.Common.Traits
 		int deployedToken = Actor.InvalidConditionToken;
 		int undeployedToken = Actor.InvalidConditionToken;
 
-		public DeployState DeployState { get { return deployState; } }
+		public DeployState DeployState => deployState;
 
 		public GrantConditionOnDeploy(ActorInitializer init, GrantConditionOnDeployInfo info)
 			: base(info)
@@ -185,7 +190,42 @@ namespace OpenRA.Mods.Common.Traits
 			return new Order("GrantConditionOnDeploy", self, queued);
 		}
 
-		bool IIssueDeployOrder.CanIssueDeployOrder(Actor self, bool queued) { return !IsTraitPaused && !IsTraitDisabled; }
+		bool IIssueDeployOrder.CanIssueDeployOrder(Actor self, bool queued) { return !IsTraitPaused && !IsTraitDisabled && IsGroupDeployNeeded(self); }
+
+		bool IsGroupDeployNeeded(Actor self)
+		{
+			if (!Info.SmartDeploy)
+				return true;
+
+			var actors = self.World.Selection.Actors;
+
+			bool hasDeployedActors = false;
+			bool hasUndeployedActors = false;
+
+			foreach (var a in actors)
+			{
+				GrantConditionOnDeploy gcod = null;
+				if (!a.IsDead && a.IsInWorld)
+					gcod = a.TraitOrDefault<GrantConditionOnDeploy>();
+
+				if (!hasDeployedActors && gcod != null && (gcod.DeployState == DeployState.Deploying || gcod.DeployState == DeployState.Deployed))
+					hasDeployedActors = true;
+
+				if (!hasUndeployedActors && gcod != null && (gcod.DeployState == DeployState.Undeploying || gcod.DeployState == DeployState.Undeployed))
+					hasUndeployedActors = true;
+
+				if (!self.IsDead && !self.Disposed && hasDeployedActors && hasUndeployedActors)
+				{
+					var self_gcod = self.TraitOrDefault<GrantConditionOnDeploy>();
+					if (self_gcod.DeployState == DeployState.Undeploying || self_gcod.DeployState == DeployState.Undeployed)
+						return true;
+
+					return false;
+				}
+			}
+
+			return true;
+		}
 
 		public void ResolveOrder(Actor self, Order order)
 		{
@@ -259,7 +299,7 @@ namespace OpenRA.Mods.Common.Traits
 			if (!IsValidTerrain(self.Location))
 				return;
 
-			if (Info.DeploySounds != null && Info.DeploySounds.Any())
+			if (Info.DeploySounds != null && Info.DeploySounds.Length > 0)
 				Game.Sound.Play(SoundType.World, Info.DeploySounds, self.World, self.CenterPosition);
 
 			// Revoke condition that is applied while undeployed.
@@ -268,7 +308,7 @@ namespace OpenRA.Mods.Common.Traits
 
 			// If there is no animation to play just grant the condition that is used while deployed.
 			// Alternatively, play the deploy animation and then grant the condition.
-			if (!notify.Any())
+			if (notify.Length == 0)
 				OnDeployCompleted();
 			else
 				foreach (var n in notify)
@@ -283,7 +323,7 @@ namespace OpenRA.Mods.Common.Traits
 			if (!init && deployState != DeployState.Deployed)
 				return;
 
-			if (Info.UndeploySounds != null && Info.UndeploySounds.Any())
+			if (Info.UndeploySounds != null && Info.UndeploySounds.Length > 0)
 				Game.Sound.Play(SoundType.World, Info.UndeploySounds, self.World, self.CenterPosition);
 
 			if (!init)
@@ -291,7 +331,7 @@ namespace OpenRA.Mods.Common.Traits
 
 			// If there is no animation to play just grant the condition that is used while undeployed.
 			// Alternatively, play the undeploy animation and then grant the condition.
-			if (!notify.Any())
+			if (notify.Length == 0)
 				OnUndeployCompleted();
 			else
 				foreach (var n in notify)

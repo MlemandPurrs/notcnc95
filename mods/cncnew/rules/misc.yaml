@@ -5,7 +5,7 @@ CRATE.plain:
 CRATE:
 	Inherits: ^Crate
 	Crate:
-		Lifetime: 240
+		Duration: 6000
 	GiveCashCrateAction:
 		Amount: 1000
 		Sequence: dollar
@@ -218,14 +218,6 @@ waypoint:
 	MapEditorData:
 		Categories: System
 
-fact.colorpicker:
-	Inherits: FACT
-	-Buildable:
-	-MapEditorData:
-	RenderSprites:
-		Image: fact
-		Palette: colorpicker
-
 CAMERA:
 	Interactable:
 	EditorOnlyTooltip:
@@ -270,7 +262,7 @@ CAMERA.scan:
 	RevealsShroud:
 		Range: 7c536
 	DetectCloaked:
-		CloakTypes: GroundStealth, Stealth, AirStealth
+		DetectionTypes: GroundStealth, Stealth, AirStealth
 		Range: 7c536
 
 CAMERA.minimum:
@@ -359,15 +351,21 @@ crate.nuke:
 		Cursor: nuke
 		Icon: abomb
 		ChargeInterval: 0
-		Description: Nuclear Strike (Single Use)
-		LongDesc: Launch a tactical nuclear warhead.\nApplies heavy damage over a large area.
+		Name: Nuclear Strike (Single Use)
+		Description: Launch a tactical nuclear warhead.\nApplies heavy damage over a large area.
 		EndChargeSpeechNotification: NuclearWeaponAvailable
+        EndChargeTextNotification: Nuclear weapon available.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		InsufficientPowerSpeechNotification: InsufficientPower
+        InsufficientPowerTextNotification: Insufficient power.
 		LaunchSpeechNotification: NuclearWeaponLaunched
+        LaunchTextNotification: Nuclear weapon launched.
 		IncomingSpeechNotification: NuclearWarheadApproaching
+        IncomingTextNotification: Nuclear warhead approaching.
 		SkipAscent: True
 		MissileWeapon: atomic
+        MissileImage: atomic
 		MissileDelay: 11
 		SpawnOffset: 1c0,427,0
 		DisplayTimerRelationships: Ally, Neutral, Enemy
@@ -389,12 +387,14 @@ crate.ion:
         OrderName: CrateIon
         Icon: ioncannon
         ChargeInterval: 0
-        Description: Ion Cannon (Single Use)
-        LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
+        Name: Ion Cannon (Single Use)
+        Description: Initiate an Ion Cannon strike.\nApplies instant damage to an small area.
 		EndChargeSpeechNotification: IonCannonReady
+        EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
-        InsufficientPowerSpeechNotification: InsufficientPower
-        LaunchSpeechNotification: IonCannonFired
+        SelectTargetTextNotification: Select target.
+        DetectedSpeechNotification: IonCannonFired
+        DetectedTextNotification: Ion cannon fired.
         Cursor: ioncannon
         DisplayRadarPing: True
         SupportPowerPaletteOrder: 1
@@ -415,12 +415,16 @@ crate.airstrike:
 		Icon: airstrike
 		SquadSize: 3
 		QuantizedFacings: 8
-		Description: Air Strike (Single Use)
-		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		Name: Air Strike (Single Use)
+		Description: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
 		EndChargeSpeechNotification: AirstrikeReady
+        EndChargeTextNotification: Airstrike ready.
         LaunchSpeechNotification: AirstrikeInbound
+        LaunchTextNotification: Airstrike inbound.
         SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -474,7 +478,23 @@ SILOTIB:
 	ExternalCondition@Fast:
 		Condition: growthfast
 
-unit.summoner:
-	Inherits@SYSTEM: ^SummonerDummy
+fact.colorpicker:
+    AlwaysVisible:
+    WithSpriteBody:
 	RenderSprites:
-		Image: dummy
+		Image: fact
+        Palette: colorpicker
+
+fact.colorpicker.gdi:
+    AlwaysVisible:
+    WithSpriteBody:
+	RenderSprites:
+        Image: gdifact
+        Palette: colorpicker
+ 
+fact.colorpicker.nod:
+    AlwaysVisible:
+    WithSpriteBody:
+	RenderSprites:
+        Image: nodfact
+        Palette: colorpicker

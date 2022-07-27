@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using OpenRA.Mods.Common.FileFormats;
 using OpenRA.Widgets;
@@ -53,14 +54,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		Mode visible = Mode.Progress;
 
 		[ObjectCreator.UseCtor]
-		public InstallFromDiscLogic(Widget widget, ModContent content, Dictionary<string, ModContent.ModSource> sources, Action afterInstall)
+		public InstallFromDiscLogic(Widget widget, ModContent content, Dictionary<string, ModContent.ModSource> sources)
 		{
 			this.content = content;
 			this.sources = sources;
 
 			Log.AddChannel("install", "install.log");
 
-			// this.afterInstall = afterInstall;
 			panel = widget.Get("DISC_INSTALL_PANEL");
 
 			titleLabel = panel.Get<LabelWidget>("TITLE");
@@ -175,7 +175,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				if (Platform.CurrentPlatform == PlatformType.Windows)
 				{
 					var installations = missingSources
-						.Where(s => s.Type == ModContent.SourceType.Install)
+						.Where(s => s.Type == ModContent.SourceType.RegistryDirectory || s.Type == ModContent.SourceType.RegistryDirectoryFromFile)
 						.Select(s => s.Title)
 						.Distinct();
 
@@ -207,74 +207,74 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 						switch (i.Key)
 						{
 							case "copy":
-							{
-								var sourceDir = Path.Combine(path, i.Value.Value);
-								foreach (var node in i.Value.Nodes)
 								{
-									var sourcePath = Path.Combine(sourceDir, node.Value.Value);
-									var targetPath = Platform.ResolvePath(node.Key);
-									if (File.Exists(targetPath))
+									var sourceDir = Path.Combine(path, i.Value.Value);
+									foreach (var node in i.Value.Nodes)
 									{
-										Log.Write("install", "Ignoring installed file " + targetPath);
-										continue;
+										var sourcePath = Path.Combine(sourceDir, node.Value.Value);
+										var targetPath = Platform.ResolvePath(node.Key);
+										if (File.Exists(targetPath))
+										{
+											Log.Write("install", "Ignoring installed file " + targetPath);
+											continue;
+										}
+
+										Log.Write("install", $"Copying {sourcePath} -> {targetPath}");
+										extracted.Add(targetPath);
+										Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
+
+										using (var source = File.OpenRead(sourcePath))
+										using (var target = File.OpenWrite(targetPath))
+										{
+											var displayFilename = Path.GetFileName(targetPath);
+											var length = source.Length;
+
+											Action<long> onProgress = null;
+											if (length < ShowPercentageThreshold)
+												message = "Copying " + displayFilename;
+											else
+												onProgress = b => message = $"Copying {displayFilename} ({100 * b / length}%)";
+
+											CopyStream(source, target, length, onProgress);
+										}
 									}
 
-									Log.Write("install", "Copying {0} -> {1}".F(sourcePath, targetPath));
-									extracted.Add(targetPath);
-									Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
-
-									using (var source = File.OpenRead(sourcePath))
-									using (var target = File.OpenWrite(targetPath))
-									{
-										var displayFilename = Path.GetFileName(targetPath);
-										var length = source.Length;
-
-										Action<long> onProgress = null;
-										if (length < ShowPercentageThreshold)
-											message = "Copying " + displayFilename;
-										else
-											onProgress = b => message = "Copying " + displayFilename + " ({0}%)".F(100 * b / length);
-
-										CopyStream(source, target, length, onProgress);
-									}
+									break;
 								}
 
-								break;
-							}
-
 							case "extract-raw":
-							{
-								ExtractFromPackage(ExtractionType.Raw, path, i.Value, extracted, m => message = m);
-								break;
-							}
+								{
+									ExtractFromPackage(ExtractionType.Raw, path, i.Value, extracted, m => message = m);
+									break;
+								}
 
 							case "extract-blast":
-							{
-								ExtractFromPackage(ExtractionType.Blast, path, i.Value, extracted, m => message = m);
-								break;
-							}
+								{
+									ExtractFromPackage(ExtractionType.Blast, path, i.Value, extracted, m => message = m);
+									break;
+								}
 
 							case "extract-mscab":
-							{
-								ExtractFromMSCab(path, i.Value, extracted, m => message = m);
-								break;
-							}
+								{
+									ExtractFromMSCab(path, i.Value, extracted, m => message = m);
+									break;
+								}
 
 							case "extract-iscab":
-							{
-								ExtractFromISCab(path, i.Value, extracted, m => message = m);
-								break;
-							}
+								{
+									ExtractFromISCab(path, i.Value, extracted, m => message = m);
+									break;
+								}
 
 							case "delete":
-							{
-								// Yaml path may be specified relative to a named directory (e.g. ^SupportDir) or the detected disc path
-								var sourcePath = i.Value.Value.StartsWith("^") ? Platform.ResolvePath(i.Value.Value) : Path.Combine(path, i.Value.Value);
+								{
+									// Yaml path may be specified relative to a named directory (e.g. ^SupportDir) or the detected disc path
+									var sourcePath = i.Value.Value.StartsWith("^") ? Platform.ResolvePath(i.Value.Value) : Path.Combine(path, i.Value.Value);
 
-								Log.Write("debug", "Deleting {0}", sourcePath);
-								File.Delete(sourcePath);
-								break;
-							}
+									Log.Write("debug", "Deleting {0}", sourcePath);
+									File.Delete(sourcePath);
+									break;
+								}
 
 							default:
 								Log.Write("debug", "Unknown installation command {0} - ignoring", i.Key);
@@ -362,11 +362,11 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					if (length < ShowPercentageThreshold)
 						updateMessage("Extracting " + displayFilename);
 					else
-						onProgress = b => updateMessage("Extracting " + displayFilename + " ({0}%)".F(100 * b / length));
+						onProgress = b => updateMessage($"Extracting {displayFilename} ({100 * b / length}%)");
 
 					using (var target = File.OpenWrite(targetPath))
 					{
-						Log.Write("install", "Extracting {0} -> {1}".F(sourcePath, targetPath));
+						Log.Write("install", $"Extracting {sourcePath} -> {targetPath}");
 						if (type == ExtractionType.Blast)
 							Blast.Decompress(source, target, (read, _) => onProgress?.Invoke(read));
 						else
@@ -398,9 +398,9 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 					using (var target = File.OpenWrite(targetPath))
 					{
-						Log.Write("install", "Extracting {0} -> {1}".F(sourcePath, targetPath));
+						Log.Write("install", $"Extracting {sourcePath} -> {targetPath}");
 						var displayFilename = Path.GetFileName(Path.GetFileName(targetPath));
-						Action<int> onProgress = percent => updateMessage("Extracting {0} ({1}%)".F(displayFilename, percent));
+						Action<int> onProgress = percent => updateMessage($"Extracting {displayFilename} ({percent}%)");
 						reader.ExtractFile(node.Value.Value, target, onProgress);
 					}
 				}
@@ -447,9 +447,9 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 						Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
 						using (var target = File.OpenWrite(targetPath))
 						{
-							Log.Write("install", "Extracting {0} -> {1}".F(sourcePath, targetPath));
+							Log.Write("install", $"Extracting {sourcePath} -> {targetPath}");
 							var displayFilename = Path.GetFileName(Path.GetFileName(targetPath));
-							Action<int> onProgress = percent => updateMessage("Extracting {0} ({1}%)".F(displayFilename, percent));
+							Action<int> onProgress = percent => updateMessage($"Extracting {displayFilename} ({percent}%)");
 							reader.ExtractFile(node.Value.Value, target, onProgress);
 						}
 					}
@@ -464,7 +464,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		string FindSourcePath(ModContent.ModSource source, IEnumerable<string> volumes)
 		{
-			if (source.Type == ModContent.SourceType.Install)
+			if (source.Type == ModContent.SourceType.RegistryDirectory || source.Type == ModContent.SourceType.RegistryDirectoryFromFile)
 			{
 				if (source.RegistryKey == null)
 					return null;
@@ -472,11 +472,18 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				if (Platform.CurrentPlatform != PlatformType.Windows)
 					return null;
 
+				// We need an extra check for the platform here to silence a warning when the registry is accessed
+				// TODO: Remove this once our platform checks use the same method
+				if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+					return null;
+
 				foreach (var prefix in source.RegistryPrefixes)
 				{
-					var path = Microsoft.Win32.Registry.GetValue(prefix + source.RegistryKey, source.RegistryValue, null) as string;
-					if (path == null)
+					if (!(Microsoft.Win32.Registry.GetValue(prefix + source.RegistryKey, source.RegistryValue, null) is string path))
 						continue;
+
+					if (source.Type == ModContent.SourceType.RegistryDirectoryFromFile)
+						path = Path.GetDirectoryName(path);
 
 					return IsValidSourcePath(path, source) ? path : null;
 				}
@@ -522,7 +529,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 								return false;
 						}
 						else if (CryptoUtil.SHA1Hash(fileStream) != kv.Value.Value)
-								return false;
+							return false;
 					}
 				}
 			}

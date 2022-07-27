@@ -125,6 +125,11 @@ E4:
 		LocalOffset: 341,0,256
 		FireDelay: 3
 		MuzzleSequence: muzzle
+	AttackFrontal:
+        FacingTolerance: 0
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
 	TakeCover:
 		ProneOffset: 190,0,-198
 	WithMuzzleOverlay:
@@ -187,7 +192,8 @@ RMB2:
 	Armament:
 		Weapon: Sniper
 	AttackFrontal:
-		Voice: Attack
+        FacingTolerance: 0
+		Voice: Attack       
 	AttackMove:
 		Voice: Attack
 	WithInfantryBody:
@@ -214,7 +220,7 @@ RMB2:
 		ChargingColor: 8B008B
 		DischargingColor: FF00FF
 	Cloak:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		InitialDelay: 0
 		CloakDelay: 90
 		CloakedCondition: hidethatskull
@@ -313,6 +319,7 @@ E5:
 	Targetable:
 		TargetTypes: Ground, Infantry, Chem
 	AttackFrontal:
+		FacingTolerance: 0
 		Voice: Attack
 	AttackMove:
 		Voice: Attack
@@ -378,6 +385,10 @@ E23:
 		LocalOffset: 200,0,10
 		FireDelay: 15
 	AttackFrontal:
+		FacingTolerance: 0
+		Voice: Attack
+	AttackMove:
+		Voice: Attack
 	RenderRangeCircle:
 	WithInfantryBody:
 		DefaultAttackSequence: throw

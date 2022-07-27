@@ -1,6 +1,11 @@
 ^BasePlayer:
 	AlwaysVisible:
 	Shroud:
+	PlayerResources:
+		ResourceValues:
+			Tiberium: 35
+			BlueTiberium: 60
+            RedTiberium: 85
 
 EditorPlayer:
 	Inherits: ^BasePlayer
@@ -19,7 +24,7 @@ Player:
 		LeaveNotification: Leave
 	ConquestVictoryConditions:
 	PowerManager:
-		AdviceInterval: 750
+		AdviceInterval: 30000
 		SpeechNotification: LowPower
 	AllyRepair:
 	PlayerResources:
@@ -31,6 +36,9 @@ Player:
 	DeveloperMode:
 		CheckboxDisplayOrder: 9
 	BaseAttackNotifier:
+		TextNotification: Base under attack.
+        AllyNotification: AlliedBaseAttack
+		AllyTextNotification: Our ally is under attack.        
 	Shroud:
 		FogCheckboxEnabled: True
 		FogCheckboxLocked: False

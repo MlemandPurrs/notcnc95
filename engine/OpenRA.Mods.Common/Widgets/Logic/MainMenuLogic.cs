@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -11,10 +11,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using OpenRA.Network;
+using OpenRA.Support;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.Common.Widgets.Logic
@@ -93,7 +94,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			var missionsButton = singleplayerMenu.Get<ButtonWidget>("MISSIONS_BUTTON");
 			missionsButton.OnClick = OpenMissionBrowserPanel;
 
-			var hasCampaign = modData.Manifest.Missions.Any();
+			var hasCampaign = modData.Manifest.Missions.Length > 0;
 			var hasMissions = modData.MapCache
 				.Any(p => p.Status == MapStatus.Available && p.Visibility.HasFlag(MapVisibility.MissionSelector));
 
@@ -157,7 +158,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			// Loading into the map editor
 			Game.BeforeGameStart += RemoveShellmapUI;
 
-			var onSelect = new Action<string>(uid => LoadMapIntoEditor(modData.MapCache[uid].Uid));
+			var onSelect = new Action<string>(uid =>
+			{
+				if (modData.MapCache[uid].Status != MapStatus.Available)
+					SwitchMenu(MenuType.Extras);
+				else
+					LoadMapIntoEditor(modData.MapCache[uid].Uid);
+			});
 
 			var newMapButton = widget.Get<ButtonWidget>("NEW_MAP_BUTTON");
 			newMapButton.OnClick = () =>
@@ -274,19 +281,47 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				{
 					if (!fetchedNews)
 					{
-						// Send the mod and engine version to support version-filtered news (update prompts)
-						var newsURL = "{0}?version={1}&mod={2}&modversion={3}".F(
-							webServices.GameNews,
-							Uri.EscapeUriString(Game.EngineVersion),
-							Uri.EscapeUriString(Game.ModData.Manifest.Id),
-							Uri.EscapeUriString(Game.ModData.Manifest.Metadata.Version));
+						Task.Run(async () =>
+						{
+							try
+							{
+								var client = HttpClientFactory.Create();
 
-						// Parameter string is blank if the player has opted out
-						newsURL += SystemInfoPromptLogic.CreateParameterString();
+								// Send the mod and engine version to support version-filtered news (update prompts)
+								var url = new HttpQueryBuilder(webServices.GameNews)
+								{
+									{ "version", Game.EngineVersion },
+									{ "mod", Game.ModData.Manifest.Id },
+									{ "modversion", Game.ModData.Manifest.Metadata.Version }
+								}.ToString();
 
-						new Download(newsURL, cacheFile, e => { },
-							e => NewsDownloadComplete(e, cacheFile, currentNews,
-								() => OpenNewsPanel(newsButton)));
+								// Parameter string is blank if the player has opted out
+								url += SystemInfoPromptLogic.CreateParameterString();
+
+								var response = await client.GetStringAsync(url);
+								await File.WriteAllTextAsync(cacheFile, response);
+
+								Game.RunAfterTick(() => // run on the main thread
+								{
+									fetchedNews = true;
+									var newNews = ParseNews(cacheFile);
+									if (newNews == null)
+										return;
+
+									DisplayNews(newNews);
+
+									if (currentNews == null || newNews.Any(n => !currentNews.Select(c => c.DateTime).Contains(n.DateTime)))
+										OpenNewsPanel(newsButton);
+								});
+							}
+							catch (Exception e)
+							{
+								Game.RunAfterTick(() => // run on the main thread
+								{
+									SetNewsStatus($"Failed to retrieve news: {e.Message}");
+								});
+							}
+						});
 					}
 
 					newsButton.OnClick = () => OpenNewsPanel(newsButton);
@@ -313,10 +348,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		void LoadMapIntoEditor(string uid)
 		{
-			ConnectionLogic.Connect(Game.CreateLocalServer(uid),
-				"",
-				() => { Game.LoadEditor(uid); },
-				() => { Game.CloseServer(); SwitchMenu(MenuType.MapEditor); });
+			Game.LoadEditor(uid);
 
 			DiscordService.UpdateStatus(DiscordState.InMapEditor);
 
@@ -358,32 +390,10 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			}
 			catch (Exception ex)
 			{
-				SetNewsStatus("Failed to parse news: {0}".F(ex.Message));
+				SetNewsStatus($"Failed to parse news: {ex.Message}");
 			}
 
 			return null;
-		}
-
-		void NewsDownloadComplete(AsyncCompletedEventArgs e, string cacheFile, NewsItem[] oldNews, Action onNewsDownloaded)
-		{
-			Game.RunAfterTick(() => // run on the main thread
-			{
-				if (e.Error != null)
-				{
-					SetNewsStatus("Failed to retrieve news: {0}".F(Download.FormatErrorMessage(e.Error)));
-					return;
-				}
-
-				fetchedNews = true;
-				var newNews = ParseNews(cacheFile);
-				if (newNews == null)
-					return;
-
-				DisplayNews(newNews);
-
-				if (oldNews == null || newNews.Any(n => !oldNews.Select(c => c.DateTime).Contains(n.DateTime)))
-					onNewsDownloaded();
-			});
 		}
 
 		void DisplayNews(IEnumerable<NewsItem> newsItems)

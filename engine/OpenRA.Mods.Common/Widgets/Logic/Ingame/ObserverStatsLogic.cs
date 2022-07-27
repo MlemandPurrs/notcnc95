@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -66,7 +66,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			for (var i = 0; i < keyNames.Length; i++)
 				statsHotkeys[i] = logicArgs.TryGetValue("Statistics" + keyNames[i] + "Key", out yaml) ? modData.Hotkeys[yaml.Value] : new HotkeyReference();
 
-			players = world.Players.Where(p => !p.NonCombatant);
+			players = world.Players.Where(p => !p.NonCombatant && p.Playable);
 			teams = players.GroupBy(p => (world.LobbyInfo.ClientWithIndex(p.ClientIndex) ?? new Session.Client()).Team).OrderBy(g => g.Key);
 			hasTeams = !(teams.Count() == 1 && teams.First().Key == 0);
 
@@ -407,7 +407,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			template.Get<LabelWidget>("ASSETS").GetText = () => assetsText.Update(stats.AssetsValue);
 
 			var harvesters = template.Get<LabelWidget>("HARVESTERS");
-			harvesters.GetText = () => world.ActorsHavingTrait<Harvester>().Count(a => a.Owner == player && !a.IsDead).ToString();
+			harvesters.GetText = () => world.ActorsWithTrait<Harvester>().Count(a => a.Actor.Owner == player && !a.Actor.IsDead && !a.Trait.IsTraitDisabled).ToString();
 
 			var derricks = template.GetOrNull<LabelWidget>("DERRICKS");
 			if (derricks != null)
@@ -545,10 +545,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		}
 
 		// HACK The height of the templates and the scrollpanel needs to be kept in synch
-		bool ShowScrollBar
-		{
-			get { return players.Count() + (hasTeams ? teams.Count() : 0) > 10; }
-		}
+		bool ShowScrollBar => players.Count() + (hasTeams ? teams.Count() : 0) > 10;
 
 		class StatsDropDownOption
 		{

@@ -36,8 +36,17 @@ namespace OpenRA.Mods.CA.Warheads
 		[Desc("Trigger the DelayedWeapon after these amount of ticks.")]
 		public readonly int TriggerTime = 30;
 
+		[Desc("If true, trigger time is added for every 100 value of the target.")]
+		public readonly bool ScaleTriggerTimeWithValue = false;
+
 		[Desc("DeathType(s) that trigger the DelayedWeapon to activate. Leave empty to always trigger the DelayedWeapon on death.")]
 		public readonly BitSet<DamageType> DeathTypes = default(BitSet<DamageType>);
+
+		[Desc("List of sounds that can be played on attaching.")]
+		public readonly string[] AttachSounds = new string[0];
+
+		[Desc("List of sounds that can be played if attaching is not possible.")]
+		public readonly string[] MissSounds = new string[0];
 
 		public WeaponInfo WeaponInfo;
 
@@ -47,9 +56,12 @@ namespace OpenRA.Mods.CA.Warheads
 				throw new YamlException("Weapons Ruleset does not contain an entry '{0}'".F(Weapon.ToLowerInvariant()));
 		}
 
+		public int CalculatedTriggerTime { get; private set; }
+
 		public override void DoImpact(in Target target, WarheadArgs args)
 		{
 			var firedBy = args.SourceActor;
+
 			if (!target.IsValidFor(firedBy))
 				return;
 
@@ -58,6 +70,7 @@ namespace OpenRA.Mods.CA.Warheads
 			if (!IsValidImpact(pos, firedBy))
 				return;
 
+			var world = firedBy.World;
 			var availableActors = firedBy.World.FindActorsOnCircle(pos, Range);
 			foreach (var actor in availableActors)
 			{
@@ -78,7 +91,28 @@ namespace OpenRA.Mods.CA.Warheads
 
 				var attachable = actor.TraitsImplementing<DelayedWeaponAttachable>().FirstOrDefault(a => a.CanAttach(Type));
 				if (attachable != null)
+				{
+					CalculatedTriggerTime = TriggerTime;
+
+					if (ScaleTriggerTimeWithValue)
+					{
+						var valued = actor.Info.TraitInfoOrDefault<ValuedInfo>();
+						if (valued != null)
+							CalculatedTriggerTime = (valued.Cost / 100) * TriggerTime;
+					}
+
 					attachable.Attach(new DelayedWeaponTrigger(this, args));
+
+					var attachSound = AttachSounds.RandomOrDefault(world.LocalRandom);
+					if (attachSound != null)
+						Game.Sound.Play(SoundType.World, attachSound, pos);
+				}
+				else
+				{
+					var failSound = MissSounds.RandomOrDefault(world.LocalRandom);
+					if (failSound != null)
+						Game.Sound.Play(SoundType.World, failSound, pos);
+				}
 			}
 		}
 	}

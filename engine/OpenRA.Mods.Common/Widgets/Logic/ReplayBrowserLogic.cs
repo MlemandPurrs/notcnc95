@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenRA.FileFormats;
-using OpenRA.Primitives;
+using OpenRA.Network;
 using OpenRA.Traits;
 using OpenRA.Widgets;
 
@@ -93,7 +93,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			Ui.LoadWidget("MAP_PREVIEW", mapPreviewRoot, new WidgetArgs
 			{
 				{ "orderManager", null },
-				{ "getMap", (Func<MapPreview>)(() => map) },
+				{ "getMap", (Func<(MapPreview, Session.MapStatus)>)(() => (map, Session.MapStatus.Playable)) },
 				{ "onMouseDown",  (Action<MapPreviewWidget, MapPreview, MouseInput>)((preview, mapPreview, mi) => { }) },
 				{ "getSpawnOccupants", (Func<Dictionary<int, SpawnOccupant>>)(() => spawnOccupants.Update(selectedReplay)) },
 				{ "getDisabledSpawnPoints", (Func<HashSet<int>>)(() => disabledSpawnPoints.Update(selectedReplay)) },
@@ -101,7 +101,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			});
 
 			var replayDuration = new CachedTransform<ReplayMetadata, string>(r =>
-				"Duration: {0}".F(WidgetUtils.FormatTimeSeconds((int)selectedReplay.GameInfo.Duration.TotalSeconds)));
+				$"Duration: {WidgetUtils.FormatTimeSeconds((int)selectedReplay.GameInfo.Duration.TotalSeconds)}");
 			panel.Get<LabelWidget>("DURATION").GetText = () => replayDuration.Update(selectedReplay);
 
 			SetupFilters();
@@ -423,7 +423,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			{
 				ConfirmationDialogs.ButtonPrompt(
 					title: "Delete selected replay?",
-					text: "Delete replay '{0}'?".F(Path.GetFileNameWithoutExtension(r.FilePath)),
+					text: $"Delete replay '{Path.GetFileNameWithoutExtension(r.FilePath)}'?",
 					onConfirm: () =>
 					{
 						DeleteReplay(r);
@@ -460,7 +460,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 				ConfirmationDialogs.ButtonPrompt(
 					title: "Delete all selected replays?",
-					text: "Delete {0} replays?".F(list.Count),
+					text: $"Delete {list.Count} replays?",
 					onConfirm: () =>
 					{
 						list.ForEach(DeleteReplay);
@@ -498,7 +498,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			}
 			catch (Exception ex)
 			{
-				Game.Debug("Failed to delete replay file '{0}'. See the logs for details.", replay.FilePath);
+				TextNotificationsManager.Debug("Failed to delete replay file '{0}'. See the logs for details.", replay.FilePath);
 				Log.Write("debug", ex.ToString());
 				return;
 			}
@@ -623,13 +623,8 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			try
 			{
-				if (map.Status != MapStatus.Available)
-				{
-					if (map.Status == MapStatus.DownloadAvailable)
-						LoadMapPreviewRules(map);
-					else if (Game.Settings.Game.AllowDownloading)
-						modData.MapCache.QueryRemoteMapDetails(services.MapRepository, new[] { map.Uid }, LoadMapPreviewRules);
-				}
+				if (map.Status == MapStatus.Unavailable && Game.Settings.Game.AllowDownloading)
+					modData.MapCache.QueryRemoteMapDetails(services.MapRepository, new[] { map.Uid });
 
 				var players = replay.GameInfo.Players
 					.GroupBy(p => p.Team)
@@ -639,7 +634,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				var noTeams = players.Count() == 1;
 				foreach (var p in players)
 				{
-					var label = noTeams ? "Players" : p.Key == 0 ? "No Team" : "Team {0}".F(p.Key);
+					var label = noTeams ? "Players" : p.Key == 0 ? "No Team" : $"Team {p.Key}";
 					teams.Add(label, p);
 				}
 
@@ -671,7 +666,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 						var flag = item.Get<ImageWidget>("FLAG");
 						flag.GetImageCollection = () => "flags";
-						var factionInfo = modData.DefaultRules.Actors["world"].TraitInfos<FactionInfo>();
+						var factionInfo = modData.DefaultRules.Actors[SystemActors.World].TraitInfos<FactionInfo>();
 						flag.GetImageName = () => (factionInfo != null && factionInfo.Any(f => f.InternalName == o.FactionId)) ? o.FactionId : "Random";
 
 						playerList.AddChild(item);
@@ -683,15 +678,6 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				Log.Write("debug", "Exception while parsing replay: {0}", e);
 				SelectReplay(null);
 			}
-		}
-
-		void LoadMapPreviewRules(MapPreview map)
-		{
-			new Task(() =>
-			{
-				// Force map rules to be loaded on this background thread
-				map.PreloadRules();
-			}).Start();
 		}
 
 		void WatchReplay()
@@ -763,19 +749,14 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			public string MapName;
 			public string Faction;
 
-			public bool IsEmpty
-			{
-				get
-				{
-					return Type == default(GameType)
-						&& Date == default(DateType)
-						&& Duration == default(DurationType)
-						&& Outcome == default(WinState)
-						&& string.IsNullOrEmpty(PlayerName)
-						&& string.IsNullOrEmpty(MapName)
-						&& string.IsNullOrEmpty(Faction);
-				}
-			}
+			public bool IsEmpty =>
+				Type == default(GameType)
+				&& Date == default(DateType)
+				&& Duration == default(DurationType)
+				&& Outcome == default(WinState)
+				&& string.IsNullOrEmpty(PlayerName)
+				&& string.IsNullOrEmpty(MapName)
+				&& string.IsNullOrEmpty(Faction);
 		}
 
 		enum GameType

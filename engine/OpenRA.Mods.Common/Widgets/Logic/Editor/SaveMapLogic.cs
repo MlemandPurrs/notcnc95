@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -92,8 +92,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 				foreach (var kv in modData.MapCache.MapLocations)
 				{
-					var folder = kv.Key as Folder;
-					if (folder == null)
+					if (!(kv.Key is Folder folder))
 						continue;
 
 					try
@@ -112,13 +111,17 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				}
 
 				if (map.Package != null)
+				{
 					selectedDirectory = writableDirectories.FirstOrDefault(k => k.Folder.Contains(map.Package.Name));
+					if (selectedDirectory == null)
+						selectedDirectory = writableDirectories.FirstOrDefault(k => Directory.GetDirectories(k.Folder.Name).Any(f => f.Contains(map.Package.Name)));
+				}
 
 				// Prioritize MapClassification.User directories over system directories
 				if (selectedDirectory == null)
 					selectedDirectory = writableDirectories.OrderByDescending(kv => kv.Classification).First();
 
-				directoryDropdown.GetText = () => selectedDirectory == null ? "" : selectedDirectory.DisplayName;
+				directoryDropdown.GetText = () => selectedDirectory?.DisplayName ?? "";
 				directoryDropdown.OnClick = () =>
 					directoryDropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", 210, writableDirectories, setupItem);
 			}
@@ -174,14 +177,9 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 				var combinedPath = Platform.ResolvePath(Path.Combine(selectedDirectory.Folder.Name, filename.Text + fileTypes[fileType].Extension));
 
-				// Invalidate the old map metadata
-				if (map.Uid != null && map.Package != null && map.Package.Name == combinedPath)
-					modData.MapCache[map.Uid].Invalidate();
-
 				try
 				{
-					var package = map.Package as IReadWritePackage;
-					if (package == null || package.Name != combinedPath)
+					if (!(map.Package is IReadWritePackage package) || package.Name != combinedPath)
 					{
 						selectedDirectory.Folder.Delete(combinedPath);
 						if (fileType == MapFileType.OraMap)
@@ -191,9 +189,6 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					}
 
 					map.Save(package);
-
-					// Update the map cache so it can be loaded without restarting the game
-					modData.MapCache[map.Uid].UpdateFromMap(map.Package, selectedDirectory.Folder, selectedDirectory.Classification, null, map.Grid.Type);
 
 					Console.WriteLine("Saved current map at {0}", combinedPath);
 					Ui.CloseWindow();
@@ -209,7 +204,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 						title: "Failed to save map",
 						text: "See debug.log for details.",
 						onConfirm: () => { },
-						confirmText: "Ok");
+						confirmText: "OK");
 				}
 			};
 		}

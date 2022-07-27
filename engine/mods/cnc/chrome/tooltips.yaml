@@ -325,6 +325,12 @@ Background@SUPPORT_POWER_TOOLTIP:
 			Y: 20
 			Font: TinyBold
 			VAlign: Top
+		Label@COST:
+			X: 5
+			Y: 8
+			Font: TinyBold
+			VAlign: Top
+			Text: $
 
 Background@SUPPORT_POWER_TOOLTIP_FACTIONSUFFIX:
 	Logic: SupportPowerTooltipLogic, AddFactionSuffixLogic

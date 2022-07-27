@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -61,9 +61,18 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				if (titleLabel != null)
 				{
 					var font = Game.Renderer.Fonts[titleLabel.Font];
-					var title = new CachedTransform<MapPreview, string>(m => WidgetUtils.TruncateText(m.Title, titleLabel.Bounds.Width, font));
+					var title = new CachedTransform<MapPreview, string>(m =>
+					{
+						var truncated = WidgetUtils.TruncateText(m.Title, titleLabel.Bounds.Width, font);
+
+						if (m.Title != truncated)
+							titleLabel.GetTooltipText = () => m.Title;
+						else
+							titleLabel.GetTooltipText = null;
+
+						return truncated;
+					});
 					titleLabel.GetText = () => title.Update(preview);
-					titleLabel.GetTooltipText = () => preview.Title;
 				}
 
 				var typeLabel = panel.GetOrNull<LabelWidget>("MAP_TYPE");
@@ -78,17 +87,17 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				{
 					var font = Game.Renderer.Fonts[authorLabel.Font];
 					var author = new CachedTransform<MapPreview, string>(
-						m => WidgetUtils.TruncateText("Created by {0}".F(m.Author), authorLabel.Bounds.Width, font));
+						m => WidgetUtils.TruncateText($"Created by {m.Author}", authorLabel.Bounds.Width, font));
 					authorLabel.GetText = () => author.Update(preview);
 				}
 			}
 
 			var serverName = panel.Get<TextFieldWidget>("SERVER_NAME");
-			serverName.Text = Settings.SanitizedServerName(settings.Server.Name);
-			serverName.OnEnterKey = () => { serverName.YieldKeyboardFocus(); return true; };
+			serverName.Text = Game.Settings.SanitizedServerName(settings.Server.Name);
+			serverName.OnEnterKey = _ => { serverName.YieldKeyboardFocus(); return true; };
 			serverName.OnLoseFocus = () =>
 			{
-				serverName.Text = Settings.SanitizedServerName(serverName.Text);
+				serverName.Text = Game.Settings.SanitizedServerName(serverName.Text);
 				settings.Server.Name = serverName.Text;
 			};
 
@@ -116,20 +125,20 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			if (noticesNoUPnP != null)
 			{
 				noticesNoUPnP.IsVisible = () => advertiseOnline &&
-					(UPnP.Status == UPnPStatus.NotSupported || UPnP.Status == UPnPStatus.Disabled);
+					(Nat.Status == NatStatus.NotSupported || Nat.Status == NatStatus.Disabled);
 
 				var settingsA = noticesNoUPnP.GetOrNull("SETTINGS_A");
 				if (settingsA != null)
-					settingsA.IsVisible = () => UPnP.Status == UPnPStatus.Disabled;
+					settingsA.IsVisible = () => Nat.Status == NatStatus.Disabled;
 
 				var settingsB = noticesNoUPnP.GetOrNull("SETTINGS_B");
 				if (settingsB != null)
-					settingsB.IsVisible = () => UPnP.Status == UPnPStatus.Disabled;
+					settingsB.IsVisible = () => Nat.Status == NatStatus.Disabled;
 			}
 
 			var noticesUPnP = panel.GetOrNull("NOTICES_UPNP");
 			if (noticesUPnP != null)
-				noticesUPnP.IsVisible = () => advertiseOnline && UPnP.Status == UPnPStatus.Enabled;
+				noticesUPnP.IsVisible = () => advertiseOnline && Nat.Status == NatStatus.Enabled;
 
 			var noticesLAN = panel.GetOrNull("NOTICES_LAN");
 			if (noticesLAN != null)
@@ -145,16 +154,15 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			if (advertiseOnline)
 			{
-				noticesLabelA.Text = "Internet Server (UPnP ";
+				noticesLabelA.Text = "Internet Server (UPnP/NAT-PMP ";
 				var aWidth = Game.Renderer.Fonts[noticesLabelA.Font].Measure(noticesLabelA.Text).X;
 				noticesLabelA.Bounds.Width = aWidth;
 
-				var status = UPnP.Status;
-				noticesLabelB.Text = status == UPnPStatus.Enabled ? "Enabled" :
-					status == UPnPStatus.NotSupported ? "Not Supported" : "Disabled";
+				noticesLabelB.Text = Nat.Status == NatStatus.Enabled ? "Enabled" :
+					Nat.Status == NatStatus.NotSupported ? "Not Supported" : "Disabled";
 
-				noticesLabelB.TextColor = status == UPnPStatus.Enabled ? ChromeMetrics.Get<Color>("NoticeSuccessColor") :
-					status == UPnPStatus.NotSupported ? ChromeMetrics.Get<Color>("NoticeErrorColor") :
+				noticesLabelB.TextColor = Nat.Status == NatStatus.Enabled ? ChromeMetrics.Get<Color>("NoticeSuccessColor") :
+					Nat.Status == NatStatus.NotSupported ? ChromeMetrics.Get<Color>("NoticeErrorColor") :
 					ChromeMetrics.Get<Color>("NoticeInfoColor");
 
 				var bWidth = Game.Renderer.Fonts[noticesLabelB.Font].Measure(noticesLabelB.Text).X;
@@ -176,7 +184,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		void CreateAndJoin()
 		{
-			var name = Settings.SanitizedServerName(panel.Get<TextFieldWidget>("SERVER_NAME").Text);
+			var name = Game.Settings.SanitizedServerName(panel.Get<TextFieldWidget>("SERVER_NAME").Text);
 			if (!Exts.TryParseIntegerInvariant(panel.Get<TextFieldWidget>("LISTEN_PORT").Text, out var listenPort))
 				listenPort = 1234;
 
@@ -204,13 +212,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			}
 			catch (System.Net.Sockets.SocketException e)
 			{
-				var message = "Could not listen on port {0}.".F(Game.Settings.Server.ListenPort);
+				var message = $"Could not listen on port {Game.Settings.Server.ListenPort}.";
 
 				// AddressAlreadyInUse (WSAEADDRINUSE)
 				if (e.ErrorCode == 10048)
 					message += "\nCheck if the port is already being used.";
 				else
-					message += "\nError is: \"{0}\" ({1})".F(e.Message, e.ErrorCode);
+					message += $"\nError is: \"{e.Message}\" ({e.ErrorCode})";
 
 				ConfirmationDialogs.ButtonPrompt("Server Creation Failed", message, onCancel: () => { }, cancelText: "Back");
 			}

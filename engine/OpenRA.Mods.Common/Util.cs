@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -157,6 +157,11 @@ namespace OpenRA.Mods.Common
 			return Math.Abs(offset.X) < 2 && Math.Abs(offset.Y) < 2;
 		}
 
+		public static IEnumerable<CPos> ExpandFootprint(CPos cell, bool allowDiagonal)
+		{
+			return Neighbours(cell, allowDiagonal);
+		}
+
 		public static IEnumerable<CPos> ExpandFootprint(IEnumerable<CPos> cells, bool allowDiagonal)
 		{
 			return cells.SelectMany(c => Neighbours(c, allowDiagonal)).Distinct();
@@ -193,7 +198,7 @@ namespace OpenRA.Mods.Common
 			}
 		}
 
-		public static int RandomDelay(World world, int[] range)
+		public static int RandomInRange(MersenneTwister random, int[] range)
 		{
 			if (range.Length == 0)
 				return 0;
@@ -201,25 +206,28 @@ namespace OpenRA.Mods.Common
 			if (range.Length == 1)
 				return range[0];
 
-			return world.SharedRandom.Next(range[0], range[1]);
+			return random.Next(range[0], range[1]);
 		}
 
 		public static string FriendlyTypeName(Type t)
 		{
 			if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(HashSet<>))
-				return "Set of {0}".F(t.GetGenericArguments().Select(FriendlyTypeName).ToArray());
+				return $"Set of {t.GetGenericArguments().Select(FriendlyTypeName).First()}";
 
 			if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-				return "Mapping of {0} to {1}".F(t.GetGenericArguments().Select(FriendlyTypeName).ToArray());
+			{
+				var args = t.GetGenericArguments().Select(FriendlyTypeName).ToArray();
+				return $"Dictionary with Key: {args[0]}, Value {args[1]}";
+			}
 
 			if (t.IsSubclassOf(typeof(Array)))
-				return "Collection of {0}".F(FriendlyTypeName(t.GetElementType()));
+				return $"Collection of {FriendlyTypeName(t.GetElementType())}";
 
 			if (t.IsGenericType && t.GetGenericTypeDefinition().GetInterfaces().Any(e => e.IsGenericType && e.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
-				return "Collection of {0}".F(FriendlyTypeName(t.GetGenericArguments().First()));
+				return $"Collection of {FriendlyTypeName(t.GetGenericArguments().First())}";
 
 			if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
-				return "{0} (optional)".F(t.GetGenericArguments().Select(FriendlyTypeName).First());
+				return $"{t.GetGenericArguments().Select(FriendlyTypeName).First()} (optional)";
 
 			if (t == typeof(int) || t == typeof(uint))
 				return "Integer";
@@ -279,7 +287,7 @@ namespace OpenRA.Mods.Common
 				case InaccuracyType.Absolute:
 					return inaccuracy;
 				default:
-					throw new InvalidEnumArgumentException("inaccuracyType", (int)inaccuracyType, typeof(InaccuracyType));
+					throw new InvalidEnumArgumentException(nameof(inaccuracyType), (int)inaccuracyType, typeof(InaccuracyType));
 			}
 		}
 	}

@@ -14,7 +14,7 @@ mcv:
 		Name: Mobile Construction Vehicle
 	Selectable:
 		Class: mcv
-		DecorationBounds: 42,42
+		DecorationBounds: 1344, 1344
 	Health:
 		HP: 45000
 	Armor:
@@ -35,6 +35,7 @@ mcv:
 		Offset: -1,-1
 		TransformSounds: BUILD1.WAV
 		NoTransformNotification: CannotDeploy
+		NoTransformTextNotification: Cannot deploy here.
 	SpawnActorOnDeath:
 		Actor: mcv.husk
 		OwnerType: InternalName
@@ -63,7 +64,7 @@ harvester:
 		Name: Spice Harvester
 	Selectable:
 		Class: harvester
-		DecorationBounds: 42,42
+		DecorationBounds: 1344, 1344
 	Harvester:
 		Capacity: 28
 		HarvestFacings: 8
@@ -102,6 +103,8 @@ harvester:
 		Margin: 1, 4
 		RequiresSelection: true
 		PipCount: 7
+	-GrantConditionOnDamageState@HEAVY:
+	-SpeedMultiplier@HEAVYDAMAGE:
 
 trike:
 	Inherits: ^Vehicle
@@ -140,6 +143,7 @@ trike:
 		LocalOffset: -544,0,0
 		MuzzleSequence: muzzle
 	AttackFrontal:
+		FacingTolerance: 0
 	Explodes:
 		Weapon: UnitExplodeSmall
 		EmptyWeapon: UnitExplodeSmall
@@ -176,6 +180,7 @@ quad:
 		Weapon: Rocket
 		LocalOffset: 128,64,64, 128,-64,64
 	AttackFrontal:
+		FacingTolerance: 0
 	Explodes:
 		Weapon: UnitExplodeSmall
 		EmptyWeapon: UnitExplodeSmall
@@ -220,6 +225,7 @@ siege_tank:
 		LocalOffset: 512,0,320
 		MuzzleSequence: muzzle
 	AttackFrontal:
+		FacingTolerance: 0
 	WithMuzzleOverlay:
 	WithSpriteTurret:
 	Explodes:
@@ -266,6 +272,7 @@ missile_tank:
 		Weapon: mtank_pri
 		LocalOffset: -128,128,171, -128,-128,171
 	AttackFrontal:
+		FacingTolerance: 0
 	AutoTarget:
 		InitialStanceAI: Defend
 	Explodes:
@@ -310,6 +317,7 @@ sonic_tank:
 		Weapon: Sound
 		LocalOffset: 600,0,427
 	AttackFrontal:
+		FacingTolerance: 0
 	Explodes:
 		Weapon: UnitExplodeLarge
 		EmptyWeapon: UnitExplodeLarge
@@ -356,6 +364,7 @@ devastator:
 		LocalOffset: 640,0,32
 		MuzzleSequence: muzzle
 	AttackFrontal:
+		FacingTolerance: 0
 	WithMuzzleOverlay:
 		IgnoreOffset: true
 	Explodes:
@@ -390,7 +399,7 @@ devastator:
 		Delay: 3
 		StartIfBelow: 50
 	Selectable:
-		DecorationBounds: 44,38,0,0
+		DecorationBounds: 1408, 1216, 0, 0
 
 raider:
 	Inherits: ^Vehicle
@@ -427,6 +436,7 @@ raider:
 		LocalOffset: 170,0,0
 		MuzzleSequence: muzzle
 	AttackFrontal:
+		FacingTolerance: 0
 	Explodes:
 		Weapon: UnitExplodeSmall
 		EmptyWeapon: UnitExplodeSmall
@@ -491,6 +501,7 @@ deviator:
 		Weapon: DeviatorMissile
 		LocalOffset: -299,0,85
 	AttackFrontal:
+		FacingTolerance: 0
 	AutoTarget:
 		InitialStanceAI: Defend
 	Explodes:

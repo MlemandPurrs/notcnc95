@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -33,13 +33,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		readonly WorldRenderer worldRenderer;
 		readonly MenuPaletteEffect mpe;
 		readonly bool isSinglePlayer;
-		bool hasError;
+		readonly bool hasError;
 		bool leaving;
 		bool hideMenu;
 
 		[ObjectCreator.UseCtor]
 		public IngameMenuLogic(Widget widget, ModData modData, World world, Action onExit, WorldRenderer worldRenderer,
-			IngameInfoPanel activePanel, Dictionary<string, MiniYaml> logicArgs)
+			IngameInfoPanel initialPanel, Dictionary<string, MiniYaml> logicArgs)
 		{
 			this.modData = modData;
 			this.world = world;
@@ -103,7 +103,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				Action<bool> requestHideMenu = h => hideMenu = h;
 				var gameInfoPanel = Game.LoadWidget(world, "GAME_INFO_PANEL", panelRoot, new WidgetArgs()
 				{
-					{ "activePanel", activePanel },
+					{ "initialPanel", initialPanel },
 					{ "hideMenu", requestHideMenu }
 				});
 
@@ -116,18 +116,19 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			// TODO: Create a mechanism to do things like this cleaner. Also needed for scripted missions
 			if (world.Type == WorldType.Regular)
 			{
-				var moi = world.Map.Rules.Actors["player"].TraitInfoOrDefault<MissionObjectivesInfo>();
+				var moi = world.Map.Rules.Actors[SystemActors.Player].TraitInfoOrDefault<MissionObjectivesInfo>();
 				if (moi != null)
 				{
-					var faction = world.LocalPlayer == null ? null : world.LocalPlayer.Faction.InternalName;
+					var faction = world.LocalPlayer?.Faction.InternalName;
 					Game.Sound.PlayNotification(world.Map.Rules, null, "Speech", moi.LeaveNotification, faction);
+					TextNotificationsManager.AddTransientLine(moi.LeaveTextNotification, null);
 				}
 			}
 
 			leaving = true;
 
 			var iop = world.WorldActor.TraitsImplementing<IObjectivesPanel>().FirstOrDefault();
-			var exitDelay = iop != null ? iop.ExitDelay : 0;
+			var exitDelay = iop?.ExitDelay ?? 0;
 			if (mpe != null)
 			{
 				Game.RunAfterDelay(exitDelay, () =>
@@ -208,7 +209,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				return;
 
 			var iop = world.WorldActor.TraitsImplementing<IObjectivesPanel>().FirstOrDefault();
-			var exitDelay = iop != null ? iop.ExitDelay : 0;
+			var exitDelay = iop?.ExitDelay ?? 0;
 
 			Action onRestart = () =>
 			{
@@ -351,12 +352,27 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				hideMenu = true;
 				var editorActorLayer = world.WorldActor.Trait<EditorActorLayer>();
 				var actionManager = world.WorldActor.Trait<EditorActionManager>();
+
+				var playerDefinitions = editorActorLayer.Players.ToMiniYaml();
+
+				var playerCount = new MapPlayers(playerDefinitions).Players.Count;
+				if (playerCount > MapPlayers.MaximumPlayerCount)
+				{
+					ConfirmationDialogs.ButtonPrompt(
+						title: "Error: Max player count exceeded",
+						text: $"There are too many players defined ({playerCount}/{MapPlayers.MaximumPlayerCount}).",
+						onConfirm: ShowMenu,
+						confirmText: "Back");
+
+					return;
+				}
+
 				Ui.OpenWindow("SAVE_MAP_PANEL", new WidgetArgs()
 				{
 					{ "onSave", (Action<string>)(_ => { hideMenu = false; actionManager.Modified = false; }) },
 					{ "onExit", () => hideMenu = false },
 					{ "map", world.Map },
-					{ "playerDefinitions", editorActorLayer.Players.ToMiniYaml() },
+					{ "playerDefinitions", playerDefinitions },
 					{ "actorDefinitions", editorActorLayer.Save() }
 				});
 			};

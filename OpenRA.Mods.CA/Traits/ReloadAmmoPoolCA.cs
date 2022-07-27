@@ -17,7 +17,9 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.CA.Traits
 {
-	[Desc("Reloads an ammo pool.")]
+	[Desc("Reloads an ammo pool.",
+		"CA version adds a progress bar, allows for reload to only begin below a certain ammo threshold",
+		"and allows reload to be delayed on fire/reset (as opposed to just resetting on firing).")]
 	public class ReloadAmmoPoolCAInfo : PausableConditionalTraitInfo
 	{
 		[Desc("Reload ammo pool with this name.")]
@@ -121,13 +123,16 @@ namespace OpenRA.Mods.CA.Traits
 			if (Info.ReloadWhenAmmoReaches > -1 && ammoPool.CurrentAmmoCount > Info.ReloadWhenAmmoReaches)
 				return;
 
-			if (!ammoPool.HasFullAmmo && --remainingTicks == 0)
+			if (((reloadCount > 0 && !ammoPool.HasFullAmmo) || (reloadCount < 0 && ammoPool.HasAmmo)) && --remainingTicks == 0)
 			{
 				remainingTicks = Util.ApplyPercentageModifiers(reloadDelay, modifiers.Select(m => m.GetReloadAmmoModifier()));
 				if (!string.IsNullOrEmpty(sound))
 					Game.Sound.PlayToPlayer(SoundType.World, self.Owner, sound, self.CenterPosition);
 
-				ammoPool.GiveAmmo(self, reloadCount);
+				if (reloadCount < 0)
+					ammoPool.TakeAmmo(self, -reloadCount);
+				else
+					ammoPool.GiveAmmo(self, reloadCount);
 			}
 		}
 
@@ -145,5 +150,11 @@ namespace OpenRA.Mods.CA.Traits
 		bool ISelectionBar.DisplayWhenEmpty { get { return false; } }
 
 		Color ISelectionBar.GetColor() { return Info.SelectionBarColor; }
+
+		protected override void TraitDisabled(Actor self)
+		{
+			remainingTicks = Util.ApplyPercentageModifiers(Info.Delay, modifiers.Select(m => m.GetReloadAmmoModifier()));
+			remainingDelay = Info.DelayAfterReset;
+		}
 	}
 }

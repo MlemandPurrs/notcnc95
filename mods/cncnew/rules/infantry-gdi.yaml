@@ -39,6 +39,11 @@ E2:
 		LocalOffset: 0,0,427
 		FireDelay: 15
         RequiresCondition: bouncynades-upgraded
+	AttackFrontal:
+		Voice: Attack
+		FacingTolerance: 0
+	AttackMove:
+		Voice: Attack
 	TakeCover:
 		ProneOffset: 300,0,-227
 	WithInfantryBody:
@@ -152,6 +157,10 @@ SNIP:
 	Armament@PRIMARY:
 		Weapon: Sniper
 	AttackFrontal:
+		Voice: Attack
+		FacingTolerance: 0
+	AttackMove:
+		Voice: Attack
 	WithInfantryBody:
 		DefaultAttackSequence: shoot
 	RenderRangeCircle:
@@ -160,12 +169,12 @@ SNIP:
 		Payload: 225
 		Type: InfantryRefund
 	Cloak:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		InitialDelay: 90
 		CloakDelay: 90
 		UncloakOn: Unload, Demolish, Dock, Damage, Heal
 		Palette: cloaktransparent
-		IsPlayerPalette: true
+	    IsPlayerPalette: true
 		PauseOnCondition: cloak-force-disabled
 		RequiresCondition: proximity.camouflage
 	GrantConditionOnDamageState@UNCLOAK:
@@ -226,6 +235,7 @@ RMBO:
 		Weapon: MiniGun
 	AttackFrontal:
 		Voice: Attack
+        FacingTolerance: 0
 	AttackMove:
 		Voice: Attack
 	ExternalCondition@PRODUCED:
@@ -314,6 +324,10 @@ E22:
 		LocalOffset: 200,0,10
 		FireDelay: 15
 	AttackFrontal:
+		Voice: Attack
+		FacingTolerance: 0
+	AttackMove:
+		Voice: Attack
 	RenderRangeCircle:
 	WithInfantryBody:
 		DefaultAttackSequence: throw

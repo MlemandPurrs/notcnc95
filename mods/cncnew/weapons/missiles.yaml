@@ -365,7 +365,7 @@ rah66AG:
 		Speed: 213
 	Warhead@1Dam: SpreadDamage
 		Spread: 256
-		Damage: 3500
+		Damage: 4500
 		Versus:
 			None: 100
             Infantry: 200

@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -24,13 +24,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		MapClassification currentTab;
 
-		Dictionary<MapClassification, ScrollPanelWidget> scrollpanels = new Dictionary<MapClassification, ScrollPanelWidget>();
+		readonly Dictionary<MapClassification, ScrollPanelWidget> scrollpanels = new Dictionary<MapClassification, ScrollPanelWidget>();
 
-		Dictionary<MapClassification, MapPreview[]> tabMaps = new Dictionary<MapClassification, MapPreview[]>();
+		readonly Dictionary<MapClassification, MapPreview[]> tabMaps = new Dictionary<MapClassification, MapPreview[]>();
 		string[] visibleMaps;
 
 		string selectedUid;
-		Action<string> onSelect;
+		readonly Action<string> onSelect;
 
 		string category;
 		string mapFilter;
@@ -65,7 +65,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			if (mapFilterInput != null)
 			{
 				mapFilterInput.TakeKeyboardFocus();
-				mapFilterInput.OnEscKey = () =>
+				mapFilterInput.OnEscKey = _ =>
 				{
 					if (mapFilterInput.Text.Length == 0)
 						canceling();
@@ -77,7 +77,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 					return true;
 				};
-				mapFilterInput.OnEnterKey = () => { approving(); return true; };
+				mapFilterInput.OnEnterKey = _ => { approving(); return true; };
 				mapFilterInput.OnTextEdited = () =>
 				{
 					mapFilter = mapFilterInput.Text;
@@ -98,7 +98,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			}
 
 			var deleteMapButton = widget.Get<ButtonWidget>("DELETE_MAP_BUTTON");
-			deleteMapButton.IsDisabled = () => modData.MapCache[selectedUid].Class != MapClassification.User;
+			deleteMapButton.IsDisabled = () => currentTab != MapClassification.User;
 			deleteMapButton.IsVisible = () => currentTab == MapClassification.User;
 			deleteMapButton.OnClick = () =>
 			{
@@ -106,7 +106,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				{
 					RefreshMaps(currentTab, filter);
 					EnumerateMaps(currentTab, itemTemplate);
-					if (!tabMaps[currentTab].Any())
+					if (tabMaps[currentTab].Length == 0)
 						SwitchTab(modData.MapCache[newUid].Class, itemTemplate);
 				});
 			};
@@ -126,7 +126,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			SetupMapTab(MapClassification.User, filter, "USER_MAPS_TAB_BUTTON", "USER_MAPS_TAB", itemTemplate);
 			SetupMapTab(MapClassification.System, filter, "SYSTEM_MAPS_TAB_BUTTON", "SYSTEM_MAPS_TAB", itemTemplate);
 
-			if (initialMap == null && tabMaps.Keys.Contains(initialTab) && tabMaps[initialTab].Any())
+			if (initialMap == null && tabMaps.Keys.Contains(initialTab) && tabMaps[initialTab].Length > 0)
 			{
 				selectedUid = Game.ModData.MapCache.ChooseInitialMap(tabMaps[initialTab].Select(mp => mp.Uid).First(),
 					Game.CosmeticRandom);
@@ -163,7 +163,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			var tabButton = widget.Get<ButtonWidget>(tabButtonName);
 			tabButton.IsHighlighted = () => currentTab == tab;
-			tabButton.IsVisible = () => tabMaps[tab].Any();
+			tabButton.IsVisible = () => tabMaps[tab].Length > 0;
 			tabButton.OnClick = () => SwitchTab(tab, itemTemplate);
 
 			RefreshMaps(tab, filter);
@@ -191,9 +191,9 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					.ToList();
 
 				// 'all game types' extra item
-				categories.Insert(0, (null as string, tabMaps[tab].Count()));
+				categories.Insert(0, (null as string, tabMaps[tab].Length));
 
-				Func<(string Category, int Count), string> showItem = x => "{0} ({1})".F(x.Category ?? "All Maps", x.Count);
+				Func<(string Category, int Count), string> showItem = x => $"{x.Category ?? "All Maps"} ({x.Count})";
 
 				Func<(string Category, int Count), ScrollItemWidget, ScrollItemWidget> setupItem = (ii, template) =>
 				{
@@ -253,12 +253,10 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					() => selectedUid = preview.Uid, dblClick);
 				item.IsVisible = () => item.RenderBounds.IntersectsWith(scrollpanels[tab].RenderBounds);
 
-				var titleLabel = item.Get<LabelWidget>("TITLE");
+				var titleLabel = item.Get<LabelWithTooltipWidget>("TITLE");
 				if (titleLabel != null)
 				{
-					var font = Game.Renderer.Fonts[titleLabel.Font];
-					var title = WidgetUtils.TruncateText(preview.Title, titleLabel.Bounds.Width, font);
-					titleLabel.GetText = () => title;
+					WidgetUtils.TruncateLabelToTooltip(titleLabel, preview.Title);
 				}
 
 				var previewWidget = item.Get<MapPreviewWidget>("PREVIEW");
@@ -272,16 +270,14 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					if (type != null)
 						details = type + " ";
 
-					details += "({0} players)".F(preview.PlayerCount);
+					details += $"({preview.PlayerCount} players)";
 					detailsWidget.GetText = () => details;
 				}
 
-				var authorWidget = item.GetOrNull<LabelWidget>("AUTHOR");
+				var authorWidget = item.GetOrNull<LabelWithTooltipWidget>("AUTHOR");
 				if (authorWidget != null)
 				{
-					var font = Game.Renderer.Fonts[authorWidget.Font];
-					var author = WidgetUtils.TruncateText("Created by {0}".F(preview.Author), authorWidget.Bounds.Width, font);
-					authorWidget.GetText = () => author;
+					WidgetUtils.TruncateLabelToTooltip(authorWidget, $"Created by {preview.Author}");
 				}
 
 				var sizeWidget = item.GetOrNull<LabelWidget>("SIZE");
@@ -320,7 +316,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			}
 			catch (Exception ex)
 			{
-				Game.Debug("Failed to delete map '{0}'. See the debug.log file for details.", map);
+				TextNotificationsManager.Debug("Failed to delete map '{0}'. See the debug.log file for details.", map);
 				Log.Write("debug", ex.ToString());
 			}
 
@@ -331,7 +327,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		{
 			ConfirmationDialogs.ButtonPrompt(
 				title: "Delete map",
-				text: "Delete the map '{0}'?".F(modData.MapCache[map].Title),
+				text: $"Delete the map '{modData.MapCache[map].Title}'?",
 				onConfirm: () =>
 				{
 					var newUid = DeleteMap(map);

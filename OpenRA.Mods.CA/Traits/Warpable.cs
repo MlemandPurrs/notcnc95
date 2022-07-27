@@ -24,6 +24,10 @@ namespace OpenRA.Mods.CA.Traits
 		[Desc("Amount of ticks required to pass without being damaged to revoke effects of the temporal weapon.")]
 		public readonly int RevokeDelay = 1;
 
+		[Desc("Amount of warp damage revoked each tick after RevokeDelay has passed. Use -1 for all damage to be revoked.",
+			"Zero means damage will never be revoked.")]
+		public readonly int RevokeRate = -1;
+
 		[Desc("Amount required to be taken for the unit to be killed.",
 			"Use -1 to be calculated from the actor health.")]
 		public readonly int EraseDamage = -1;
@@ -46,6 +50,7 @@ namespace OpenRA.Mods.CA.Traits
 		readonly WarpableInfo info;
 		readonly Health health;
 		readonly int requiredDamage;
+		int ScalingRequiredDamage { get { return 100 * health.HP / health.MaxHP * requiredDamage / 100; } }
 
 		int token = Actor.InvalidConditionToken;
 
@@ -69,28 +74,29 @@ namespace OpenRA.Mods.CA.Traits
 			tick = info.RevokeDelay;
 
 			if (info.ScaleWithCurrentHealthPercentage)
-			{
-				var currentRequiredDamage = 100 * health.HP / health.MaxHP * requiredDamage / 100;
-
-				if (recievedDamage >= currentRequiredDamage)
+				if (recievedDamage >= ScalingRequiredDamage)
 					self.Kill(damager, info.DamageTypes);
-			}
 			else
 				if (recievedDamage >= requiredDamage)
-				self.Kill(damager, info.DamageTypes);
+					self.Kill(damager, info.DamageTypes);
 
-			if (!string.IsNullOrEmpty(info.Condition) &&
-				token == Actor.InvalidConditionToken)
+			if (!string.IsNullOrEmpty(info.Condition) && token == Actor.InvalidConditionToken)
 				token = self.GrantCondition(info.Condition);
 		}
 
 		void ITick.Tick(Actor self)
 		{
-			if (--tick < 0)
+			if (recievedDamage > 0 && --tick < 0)
 			{
-				recievedDamage = 0;
+				if (info.RevokeRate == -1)
+					recievedDamage = 0;
+				else
+					recievedDamage -= info.RevokeRate;
 
-				if (token != Actor.InvalidConditionToken)
+				if (recievedDamage < 0)
+					recievedDamage = 0;
+
+				if (recievedDamage == 0 && token != Actor.InvalidConditionToken)
 					token = self.RevokeCondition(token);
 			}
 		}
@@ -99,6 +105,9 @@ namespace OpenRA.Mods.CA.Traits
 		{
 			if (!info.ShowSelectionBar)
 				return 0;
+
+			if (info.ScaleWithCurrentHealthPercentage)
+				return (float)recievedDamage / ScalingRequiredDamage;
 
 			return (float)recievedDamage / requiredDamage;
 		}

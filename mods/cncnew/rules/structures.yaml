@@ -7,7 +7,7 @@ FACT:
 			TopLeft: -1536, -1024
 			BottomRight: 1536, 1024
 	Selectable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Valued:
 		Cost: 3000
 	Tooltip:
@@ -59,8 +59,11 @@ FACT:
 		Group: Building
 		LowPowerModifier: 150
 		ReadyAudio: ConstructionComplete
+        ReadyTextNotification: Construction complete.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: BuildingInProgress
+        LimitedTextNotification: Building in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -71,8 +74,11 @@ FACT:
 		Group: Building
 		LowPowerModifier: 150
 		ReadyAudio: ConstructionComplete
+        ReadyTextNotification: Construction complete.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: BuildingInProgress
+        LimitedTextNotification: Building in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -83,8 +89,11 @@ FACT:
 		Group: Defence
 		LowPowerModifier: 150
 		ReadyAudio: ConstructionComplete
+        ReadyTextNotification: Construction complete.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: BuildingInProgress
+        LimitedTextNotification: Building in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -95,8 +104,11 @@ FACT:
 		Group: Defence
 		LowPowerModifier: 150
 		ReadyAudio: ConstructionComplete
+        ReadyTextNotification: Construction complete.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: BuildingInProgress
+        LimitedTextNotification: Building in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -152,7 +164,7 @@ FACT:
 FACT.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -169,7 +181,7 @@ NUKE:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	HitShape:
 		TargetableOffsets: 630,299,0
 	Valued:
@@ -217,7 +229,7 @@ NUKE:
 NUKE.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -233,7 +245,7 @@ NUK2:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	HitShape:
 		TargetableOffsets: 630,299,0
     #   there, 50 cheaper than two regular PP.
@@ -284,7 +296,7 @@ NUK2:
 NUK2.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -337,8 +349,8 @@ PROC:
 	StoresResources:
 		Capacity: 1000
 	Selectable:
-		Bounds: 72,56
-		DecorationBounds: 73,72
+		Bounds: 3072, 3056
+		DecorationBounds: 3073, 3072
 	FreeActorWithDelivery@GDI:
 		Actor: HARV
 		DeliveryOffset: 1,2
@@ -398,7 +410,7 @@ PROC:
 PROC.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,56
+		Bounds: 3072, 3056
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -465,8 +477,8 @@ SILO:
 	MustBeDestroyed:
 		RequiredForShortGame: false
 	Selectable:
-		Bounds: 48,24
-		DecorationBounds: 49,30
+		Bounds: 2048, 1024
+		DecorationBounds: 2090, 1280
 	RenderSprites:
 		Image: silo
 		FactionImages:
@@ -480,9 +492,9 @@ SILO:
 		RequiresCondition: contains-resources
 		Weapon: TiberiumExplosion
 	CashTrickler:
-		Interval: 150
-		InitialDelay: 150
-		Amount: 60
+		Interval: 625
+		InitialDelay: 625
+		Amount: 30
 		PauseOnCondition: lowpower && build-incomplete
 		UseResourceStorage: true
 	CashTricklerBar:
@@ -494,7 +506,7 @@ SILO:
 SILO.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,24
+		Bounds: 2048, 1024
 	Building:
 		Footprint: xx
 		Dimensions: 2,1
@@ -571,9 +583,12 @@ PYLE:
 		DisplayOrder: 2
 		Group: Infantry
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: InfantryReady
+        ReadyTextNotification: Infantry ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnabletoComply
+        LimitedTextNotification: Unable to comply.
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -585,7 +600,7 @@ PYLE:
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	Selectable:
-		Bounds: 48,42,0,-5
+		Bounds: 2048, 1792, 0, -213
 	FreeActor@1:
 		Actor: E1
 		SpawnOffset: 0,2
@@ -611,7 +626,7 @@ PYLE:
 PYLE.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -671,9 +686,12 @@ HAND:
 		DisplayOrder: 2
 		Group: Infantry
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+		ReadyAudio: InfantryReady
+        ReadyTextNotification: Infantry ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnabletoComply
+        LimitedTextNotification: Unable to comply.
 		QueuedAudio: Training
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -685,8 +703,8 @@ HAND:
 		RequiresCondition: !build-incomplete
 	ProvidesPrerequisite@buildingname:
 	Selectable:
-		Bounds: 48,48
-		DecorationBounds: 48,68,0,-10
+		Bounds: 2048, 2048
+		DecorationBounds: 2048, 2901, 0, -426
 	FreeActor@1:
 		Actor: E1
 		SpawnOffset: 0,2
@@ -725,7 +743,7 @@ HAND:
 HAND.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -771,14 +789,14 @@ WEAP:
 		BuildPaletteOrder: 5
 		Prerequisites: anypower, ~techlevel.low
 		Queue: Building.GDI
-		Description: Produces Armor and Vehicles.
+		Description:  Produces Armor and Vehicles.
 	Building:
 		Footprint: xxx +++ ===
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	Selectable:
-		Bounds: 72,48
-		DecorationBounds: 72,64,0,-16
+		Bounds: 3072, 2048
+		DecorationBounds: 3072, 2730, 0, -682
 	Health:
 		HP: 120000
 	Armor:
@@ -810,9 +828,12 @@ WEAP:
 		DisplayOrder: 3
 		Group: Vehicle
 		LowPowerModifier: 150
-		ReadyAudio: UnitReady
+        ReadyAudio: UnitReady
+        ReadyTextNotification: Unit ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnitInProgress
+        LimitedTextNotification: Unit in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -826,7 +847,7 @@ WEAP:
 	-ActorPreviewPlaceBuildingPreview:
 	SequencePlaceBuildingPreview:
 		Sequence: place
-		SequencePalette: placebuilding
+        SequenceAlpha: 0.65
 	SpawnActorOnDeath:
 		Actor: weap.husk
         EffectiveOwnerFromOwner: true
@@ -834,7 +855,7 @@ WEAP:
 WEAP.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
 		Footprint: xxx === ===
 		Dimensions: 3,3
@@ -847,7 +868,7 @@ WEAP.Husk:
 AFLD:
 	Inherits: ^BaseBuilding
 	Selectable:
-		Bounds: 96,48
+		Bounds: 4096, 2048
 	HitShape:
 		TargetableOffsets: 0,0,0, 0,-512,256, 0,-1451,384, 0,512,128, 0,1536,85
 		Type: Rectangle
@@ -886,9 +907,10 @@ AFLD:
 		SpawnOffset: -1024,0,0
 		ExitCell: 3,2
 		ProductionTypes: Vehicle.Nod
-	ProductionAirdrop:
+	ProductionAirdropCA:
 		Produces: Vehicle.Nod
 		ActorType: c17
+        ReadyAudio: Reinforce
 	WithBuildingBib:
 	WithIdleOverlay@DISH:
 		RequiresCondition: !build-incomplete
@@ -902,7 +924,9 @@ AFLD:
 		Group: Vehicle
 		LowPowerModifier: 150
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnitInProgress
+        LimitedTextNotification: Unit in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -925,7 +949,7 @@ AFLD:
 AFLD.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 4096, 2048
 	Building:
 		Footprint: XXXX xxxx ====
 		Dimensions: 4,3
@@ -964,8 +988,8 @@ FIX:
 		Footprint: =+= +++ =+=
 		Dimensions: 3,3
 	Selectable:
-		Bounds: 64,34,0,3
-		DecorationBounds: 72,48
+		Bounds: 2730, 1450, 0, 128
+		DecorationBounds: 3072, 2048
 	Health:
 		HP: 90000
 	Armor:
@@ -982,7 +1006,9 @@ FIX:
 		Interval: 9
 		PlayerExperience: 0
 		StartRepairingNotification: Repairing
+        StartRepairingTextNotification: Repairing.
         FinishRepairingNotification: UnitRepaired
+        FinishRepairingTextNotification: Unit repaired.
 		RepairDamageTypes: Repair
 	RallyPoint:
 	Power:
@@ -1012,12 +1038,16 @@ FIX:
 		Dimensions: 3, 3
 		Footprint: xxx xxx xxx
 		Duration: 375
-		Description: Field Repairs
-		LongDesc: Affected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration.
+		Name: Field Repairs
+		Description: Affected vehicles self-repair for 2% of their\nmaximum health per second for 15 second duration.
         EndChargeSpeechNotification: FieldRepairsReady
+        EndChargeTextNotification: Field repairs ready.
         LaunchSpeechNotification: FieldRepairsUse
+        LaunchTextNotification: Field repairs commencing.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		IncomingSpeechNotification: FieldRepairsEnemy
+        IncomingTextNotification: Enemy used fieldrepairs.
         InsufficientPowerSpeechNotification: InsufficientPower
 		Condition: fieldrepair
 		Cursor: repair
@@ -1035,7 +1065,7 @@ FIX:
 FIX.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 68,34
+		Bounds: 2730, 1450
 	Building:
 		Footprint: === xxx ===
 		Dimensions: 3,3
@@ -1048,7 +1078,7 @@ HPAD:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 768,-512,0, 768,512,0, -281,-512,0, -630,512,0
@@ -1128,8 +1158,11 @@ HPAD:
 		Group: Aircraft
 		LowPowerModifier: 150
 		ReadyAudio: AirUnitReady
+        ReadyTextNotification: Air unit ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnitInProgress
+        LimitedTextNotification: Unit in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -1140,8 +1173,11 @@ HPAD:
 		Group: Aircraft
 		LowPowerModifier: 150
 		ReadyAudio: AirUnitReady
+        ReadyTextNotification: Air unit ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnitInProgress
+        LimitedTextNotification: Unit in progress.
 		QueuedAudio: Building
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -1158,7 +1194,7 @@ HPAD:
 HPAD.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -1170,8 +1206,8 @@ CTRL:
 	Inherits@shape: ^2x2Shape
     SelectionDecorations:
 	Selectable:
-		Bounds: 48,48
-        DecorationBounds: 48, 56, 0, 0
+		Bounds: 2048, 2048
+        DecorationBounds: 2048, 2056, 0, 0
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 768,-512,0, 768,512,0, -281,-512,0, -630,512,0
@@ -1210,19 +1246,26 @@ CTRL:
 		Actor: ctrl.husk
         EffectiveOwnerFromOwner: true
 	ParatroopersPower@Paratroopers:
+		PauseOnCondition: lowpower
 		OrderName: Paratroopers
 		Prerequisites: ~hq, ~techlevel.unrestricted
 		Icon: pinficon
-		ChargeInterval: 7500
-		Description: Paratroopers
+		ChargeInterval: 6750
 		UnitType: c130
-		LongDesc: A C-130 drops a squad of veteran Infantry\nanywhere on the map.
+		Name: Paratroopers
+		Description: A C-130 drops a squad of veteran Infantry\nanywhere on the map.
 		DropItems: E1R1,E3R1,E1R1,E3R1,E1R1
 		ReinforcementsArrivedSpeechNotification: Reinforce
+        ReinforcementsArrivedTextNotification: Reinforcements arrived.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		EndChargeSpeechNotification: ReinforceAvailable
+        EndChargeTextNotification: Reinforcements available.
         LaunchSpeechNotification: ReinforceEnroute
+        LaunchTextNotification: Reinforcements on the way.
 		IncomingSpeechNotification: EnemyReinforcements
+        IncomingTextNotification: Enemy reinforcements inbound.
+        InsufficientPowerTextNotification: Insufficient power.
         AllowImpassableCells: false
 		QuantizedFacings: 8
 		CameraActor: camera.small
@@ -1234,22 +1277,26 @@ CTRL:
 		UseDirectionalTarget: True
 		DirectionArrowAnimation: paradirection
 		SupportPowerPaletteOrder: 5
-		PauseOnCondition: lowpower
 		Cursor: airdrop
 	AirstrikePower@AirstrikeA10:
 		OrderName: AirStrikeA10
 		PauseOnCondition: lowpower
 		Prerequisites: ~proxy.airstrike.unlock, ~!airstrike.upgrade
 		Icon: airstrike
-		ChargeInterval: 7500
+		ChargeInterval: 6750
 		SquadSize: 1
 		QuantizedFacings: 8
-		Description: Air Strike
-		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		Name: Air Strike
+		Description: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
 		EndChargeSpeechNotification: AirstrikeReady
+        EndChargeTextNotification: Airstrike ready.
         LaunchSpeechNotification: AirstrikeInbound
+        LaunchTextNotification: Airstrike inbound.
         SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1266,15 +1313,20 @@ CTRL:
 		PauseOnCondition: lowpower
 		Prerequisites: ~airstrike.upgrade
 		Icon: airstrike
-		ChargeInterval: 10500
+		ChargeInterval: 9750
 		SquadSize: 3
 		QuantizedFacings: 8
-		Description: Air Strike
-		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		Name: Air Strike
+		Description: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
 		EndChargeSpeechNotification: AirstrikeReady
-		LaunchSpeechNotification: AirstrikeInbound
+        EndChargeTextNotification: Airstrike ready.
+        LaunchSpeechNotification: AirstrikeInbound
+        LaunchTextNotification: Airstrike inbound.
         SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		UnitType: a10
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1291,15 +1343,20 @@ CTRL:
 		PauseOnCondition: lowpower
 		Prerequisites: ~proxy.nodairstrike.unlock
 		Icon: sfigicon
-		ChargeInterval: 7500
+		ChargeInterval: 6750
 		SquadSize: 1
 		QuantizedFacings: 8
-		Description: Air Strike
-		LongDesc: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
+		Name: Stealth Air Strike
+		Description: Deploy an aerial napalm strike.\nBurns buildings and infantry along a line.
 		EndChargeSpeechNotification: AirstrikeReady
+        EndChargeTextNotification: Airstrike ready.
         LaunchSpeechNotification: AirstrikeInbound
+        LaunchTextNotification: Airstrike inbound.
         SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		UnitType: sfig
 		DisplayBeacon: True
 		BeaconPoster: airstrike
@@ -1316,13 +1373,18 @@ CTRL:
 		OrderName: GDIInterceptors
 		Prerequisites: ~proxy.interceptorsgdi.unlock
 		Icon: gdicepticon
-		ChargeInterval: 7500
-		Description: F-18 Interceptors
-		LongDesc: A squadron of F-18 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
+		ChargeInterval: 6750
+		Name: F-18 Interceptors
+		Description: A squadron of F-18 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
 		EndChargeSpeechNotification: InterceptorsReady
+        EndChargeTextNotification: Interceptors ready.
         LaunchSpeechNotification: InterceptorsLaunched
+        LaunchTextNotification: Our fighters launched.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		CameraActor: camera
 		CameraRemoveDelay: 450
 		UnitType: f18
@@ -1343,13 +1405,18 @@ CTRL:
 		OrderName: NodInterceptors
 		Prerequisites: ~proxy.interceptorsnod.unlock, ~!interceptorsnod.upgrade
 		Icon: cepticon
-		ChargeInterval: 7500
-		Description: Interceptors
-		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
+		ChargeInterval: 6750
+		Name: Interceptors
+		Description: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
 		EndChargeSpeechNotification: InterceptorsReady
+        EndChargeTextNotification: Interceptors ready.
         LaunchSpeechNotification: InterceptorsLaunched
+        LaunchTextNotification: Our fighters launched.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		CameraActor: camera
 		CameraRemoveDelay: 450
 		UnitType: f22
@@ -1370,13 +1437,18 @@ CTRL:
 		OrderName: NodInterceptorsUpgraded
 		Prerequisites: ~interceptorsnod.upgrade
 		Icon: cepticon
-		ChargeInterval: 7500
-		Description: Interceptors
-		LongDesc: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 30 seconds.
+		ChargeInterval: 6750
+		Name: Interceptors
+		Description: A squadron of F-22 provides anti-air\ncover over the selected target area.\nAir cover lasts for 30 seconds.
 		EndChargeSpeechNotification: InterceptorsReady
+        EndChargeTextNotification: Interceptors ready.
         LaunchSpeechNotification: InterceptorsLaunched
+        LaunchTextNotification: Our fighters launched.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
         IncomingSpeechNotification: EnemyPlanesApproaching
+        IncomingTextNotification: Enemy planes approaching.
+        InsufficientPowerTextNotification: Insufficient power.
 		CameraActor: camera
 		CameraRemoveDelay: 700
 		UnitType: f22
@@ -1402,7 +1474,7 @@ CTRL:
 CTRL.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048,2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -1440,8 +1512,8 @@ HQ:
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Selectable:
-		Bounds: 48,40,0,9
-		DecorationBounds: 48,53,0,-4
+		Bounds: 2048, 1706, 0, 384
+		DecorationBounds: 2048, 2261, 0, -170
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Health:
@@ -1453,7 +1525,7 @@ HQ:
 	WithBuildingBib:
 	RenderDetectionCircle:
 	DetectCloaked:
-		CloakTypes: GroundStealth, Stealth, AirStealth
+		DetectionTypes: GroundStealth, Stealth, AirStealth
 		Range: 5c0
 		RequiresCondition: !lowpower
 	Power:
@@ -1479,11 +1551,13 @@ HQ:
 		LifeTime: 300
 		ChargeInterval: 3750
 		Icon: radarscan
-		Description: Radar Scan
-		LongDesc: Reveals an area of the map and cloaked enemy units there.
+		Name: Radar Scan
+		Description: Reveals an area of the map and cloaked enemy units there.
 		StartFullyCharged: false
 		EndChargeSpeechNotification: RadarScanReady
+        EndChargeTextNotification: Radar Scan ready.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		Cursor: sonar-target
 		SupportPowerPaletteOrder: 4
 		EffectImage: sonarbox
@@ -1515,7 +1589,7 @@ HQ:
 HQ.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,40
+		Bounds: 2048, 1706
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1578,10 +1652,12 @@ HQ.GDI:
 		Prerequisites: ~techlevel.unrestricted
 		Icon: uav
 		ChargeInterval: 6750
-		Description: Recon Drone
-		LongDesc: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
+		Name: Recon Drone
+		Description: An UAV reveals a strip of the map\nand cloaked enemy units within sight.
         EndChargeSpeechNotification: ReconDroneAvailable
+        EndChargeTextNotification: Recon Drone available.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		UnitType: uav
 		QuantizedFacings: 32
 		DisplayBeacon: true
@@ -1601,12 +1677,16 @@ HQ.GDI:
 		Icon: ioncannon
 		Cursor: ioncannon
 		ChargeInterval: 10500
-		Description: Ion Cannon
-		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
+		Name: Ion Cannon
+		Description: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
 		BeginChargeSpeechNotification: IonCannonCharging
+        BeginChargeTextNotification: Ion cannon charging.
 		EndChargeSpeechNotification: IonCannonReady
+        EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
-        LaunchSpeechNotification: IonCannonFired
+        SelectTargetTextNotification: Select target.
+        DetectedSpeechNotification: IonCannonFired
+        DetectedTextNotification: Ion cannon fired.
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1645,7 +1725,7 @@ HQ.GDI:
 HQ.GDI.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,40
+		Bounds: 2048, 1706
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1704,8 +1784,8 @@ EYE:
 		Dimensions: 2,2
 		LocalCenterOffset: 0,-512,0
 	Selectable:
-		Bounds: 48,40,0,9
-		DecorationBounds: 48,53,0,-4
+		Bounds: 2048, 1706, 0, 384
+		DecorationBounds: 2048, 2261, 0, -170
 	WithSpriteBody:
 		PauseOnCondition: lowpower
 	Health:
@@ -1725,7 +1805,7 @@ EYE:
 		Condition: jammed
 	RenderDetectionCircle:
 	DetectCloaked:
-		CloakTypes: GroundStealth, Stealth, AirStealth
+		DetectionTypes: GroundStealth, Stealth, AirStealth
 		Range: 5c0
 		RequiresCondition: !lowpower
 	IonCannonPower@IonCannon:
@@ -1735,12 +1815,16 @@ EYE:
 		Icon: ioncannon
 		Cursor: ioncannon
 		ChargeInterval: 10500
-		Description: Ion Cannon
-		LongDesc: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
+		Name: Ion Cannon
+		Description: Initiate an Ion Cannon strike.\nApplies instant damage to a small area.
 		BeginChargeSpeechNotification: IonCannonCharging
+        BeginChargeTextNotification: Ion cannon charging.
 		EndChargeSpeechNotification: IonCannonReady
+        EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
-        LaunchSpeechNotification: IonCannonFired
+        SelectTargetTextNotification: Select target.
+        DetectedSpeechNotification: IonCannonFired
+        DetectedTextNotification: Ion cannon fired.
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1762,7 +1846,7 @@ EYE:
 EYE.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,40
+		Bounds: 2048, 1706
 	Building:
 		Footprint: Xx xx
 		Dimensions: 2,2
@@ -1776,7 +1860,7 @@ TECH:
 	Inherits: ^BaseBuilding
 	Inherits@shape: ^3x2Shape
 	Selectable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 840,0,0, 840,-1024,0, 420,768,0, -840,0,0, -840,-1024,0, -840,1024,0
@@ -1826,8 +1910,11 @@ TECH:
 		Group: Upgrades
 		LowPowerModifier: 150
 		ReadyAudio: UpgradeReady
+        ReadyTextNotification: Upgrade installed.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UpgradeInProgress
+        LimitedTextNotification: Upgrade in progress.
 		QueuedAudio: Upgrading
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -1844,9 +1931,9 @@ TECH:
 TECH.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
-		Footprint:  xxx xxx
+		Footprint: xxx xxx
 		Dimensions: 3,2
 		LocalCenterOffset: 0,-512,0
 	Tooltip:
@@ -1880,8 +1967,8 @@ TMPL:
 		Dimensions: 3,3
 		LocalCenterOffset: 0,-512,0
 	Selectable:
-		Bounds: 72,48
-		DecorationBounds: 72,68,0,-12
+		Bounds: 3072, 2048
+		DecorationBounds: 3072, 2901, 0, -512
 	Health:
 		HP: 200000
 	Armor:
@@ -1895,14 +1982,20 @@ TMPL:
 		Icon: abomb
 		Cursor: nuke
 		ChargeInterval: 13500
-		Description: Nuclear Strike
-		LongDesc: Launch a tactical nuclear warhead.\nApplies heavy damage over a large area.
+		Name: Nuclear Strike
+		Description: Launch a tactical nuclear warhead.\nApplies heavy damage over a large area.
 		EndChargeSpeechNotification: NuclearWeaponAvailable
+        EndChargeTextNotification: Nuclear weapon available.
 		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
 		InsufficientPowerSpeechNotification: InsufficientPower
+        InsufficientPowerTextNotification: Insufficient power.
 		LaunchSpeechNotification: NuclearWeaponLaunched
+        LaunchTextNotification: Nuclear weapon launched.
 		IncomingSpeechNotification: NuclearWarheadApproaching
+        IncomingTextNotification: Nuclear warhead approaching.
 		MissileWeapon: atomic
+        MissileImage: atomic
 		MissileDelay: 11
 		SpawnOffset: 3c0,0,-1c512
 		DisplayTimerRelationships: Ally, Neutral, Enemy
@@ -1940,8 +2033,11 @@ TMPL:
 		Group: Upgrades
 		LowPowerModifier: 150
 		ReadyAudio: UpgradeReady
+        ReadyTextNotification: Upgrade ready.
 		BlockedAudio: NoBuild
+        BlockedTextNotification: Unable to build more.
 		LimitedAudio: UpgradeInProgress
+        LimitedTextNotification: Upgrade in progress.
 		QueuedAudio: Upgrading
 		OnHoldAudio: OnHold
 		CancelledAudio: Cancelled
@@ -1955,7 +2051,7 @@ TMPL:
 TMPL.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
 		Footprint: xxx xxx ===
 		Dimensions: 3,3
@@ -1973,7 +2069,7 @@ NBIO:
 		Animated: false
 	SelectionDecorations:
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -2017,7 +2113,7 @@ NBIO:
 NBIO.Husk:
 	Inherits: ^BuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2

@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -27,9 +27,11 @@ namespace OpenRA.Mods.Common.Traits
 		[Desc("Armament names")]
 		public readonly string[] Armaments = { "primary", "secondary" };
 
+		[CursorReference]
 		[Desc("Cursor to display when hovering over a valid target.")]
 		public readonly string Cursor = null;
 
+		[CursorReference]
 		[Desc("Cursor to display when hovering over a valid target that is outside of range.")]
 		public readonly string OutsideRangeCursor = null;
 
@@ -51,7 +53,7 @@ namespace OpenRA.Mods.Common.Traits
 		[VoiceReference]
 		public readonly string Voice = "Action";
 
-		[Desc("Tolerance for attack angle. Range [0, 128], 128 covers 360 degrees.")]
+		[Desc("Tolerance for attack angle. Range [0, 512], 512 covers 360 degrees.")]
 		public readonly WAngle FacingTolerance = new WAngle(512);
 
 		public override void RulesetLoaded(Ruleset rules, ActorInfo ai)
@@ -62,7 +64,7 @@ namespace OpenRA.Mods.Common.Traits
 				throw new YamlException("Facing tolerance must be in range of [0, 512], 512 covers 360 degrees.");
 		}
 
-		public override abstract object Create(ActorInitializer init);
+		public abstract override object Create(ActorInitializer init);
 	}
 
 	public abstract class AttackBase : PausableConditionalTrait<AttackBaseInfo>, ITick, IIssueOrder, IResolveOrder, IOrderVoice, ISync
@@ -73,7 +75,7 @@ namespace OpenRA.Mods.Common.Traits
 		[Sync]
 		public bool IsAiming { get; set; }
 
-		public IEnumerable<Armament> Armaments { get { return getArmaments(); } }
+		public IEnumerable<Armament> Armaments => getArmaments();
 
 		protected IFacing facing;
 		protected IPositionable positionable;
@@ -149,14 +151,11 @@ namespace OpenRA.Mods.Common.Traits
 			if (!target.IsValidFor(self))
 				return false;
 
-			if (!HasAnyValidWeapons(target))
+			if (!HasAnyValidWeapons(target, reloadingIsInvalid: true))
 				return false;
 
-			var mobile = self.TraitOrDefault<Mobile>();
-			if (mobile != null && !mobile.CanInteractWithGroundLayer(self))
-				return false;
-
-			if (Armaments.All(a => a.IsReloading))
+			// PERF: Mobile implements IPositionable, so we can use 'as' to save a trait look-up here.
+			if (positionable is Mobile mobile && !mobile.CanInteractWithGroundLayer(self))
 				return false;
 
 			return true;
@@ -228,7 +227,7 @@ namespace OpenRA.Mods.Common.Traits
 
 		public abstract Activity GetAttackActivity(Actor self, AttackSource source, in Target newTarget, bool allowMove, bool forceAttack, Color? targetLineColor = null);
 
-		public bool HasAnyValidWeapons(in Target t, bool checkForCenterTargetingWeapons = false)
+		public bool HasAnyValidWeapons(in Target t, bool checkForCenterTargetingWeapons = false, bool reloadingIsInvalid = false)
 		{
 			if (IsTraitDisabled)
 				return false;
@@ -240,7 +239,8 @@ namespace OpenRA.Mods.Common.Traits
 			foreach (var armament in Armaments)
 			{
 				var checkIsValid = checkForCenterTargetingWeapons ? armament.Weapon.TargetActorCenter : !armament.IsTraitPaused;
-				if (checkIsValid && !armament.IsTraitDisabled && armament.Weapon.IsValidAgainst(t, self.World, self))
+				var reloadingStateIsValid = !reloadingIsInvalid || !armament.IsReloading;
+				if (checkIsValid && reloadingStateIsValid && !armament.IsTraitDisabled && armament.Weapon.IsValidAgainst(t, self.World, self))
 					return true;
 			}
 
@@ -377,7 +377,7 @@ namespace OpenRA.Mods.Common.Traits
 
 			return Armaments.Where(a =>
 				!a.IsTraitDisabled
-				&& (owner == null || (forceAttack ? a.Info.ForceTargetRelationships : a.Info.TargetRelationships).HasStance(self.Owner.RelationshipWith(owner)))
+				&& (owner == null || (forceAttack ? a.Info.ForceTargetRelationships : a.Info.TargetRelationships).HasRelationship(self.Owner.RelationshipWith(owner)))
 				&& a.Weapon.IsValidAgainst(t, self.World, self));
 		}
 
@@ -425,7 +425,7 @@ namespace OpenRA.Mods.Common.Traits
 			}
 
 			public string OrderID { get; private set; }
-			public int OrderPriority { get; private set; }
+			public int OrderPriority { get; }
 			public bool TargetOverridesSelection(Actor self, in Target target, List<Actor> actorsAt, CPos xy, TargetModifiers modifiers) { return true; }
 
 			bool CanTargetActor(Actor self, in Target target, ref TargetModifiers modifiers, ref string cursor)
@@ -473,7 +473,7 @@ namespace OpenRA.Mods.Common.Traits
 				return true;
 			}
 
-			bool CanTargetLocation(Actor self, CPos location, List<Actor> actorsAtLocation, TargetModifiers modifiers, ref string cursor)
+			bool CanTargetLocation(Actor self, CPos location, TargetModifiers modifiers, ref string cursor)
 			{
 				if (!self.World.Map.Contains(location))
 					return false;
@@ -504,7 +504,7 @@ namespace OpenRA.Mods.Common.Traits
 				return true;
 			}
 
-			public bool CanTarget(Actor self, in Target target, List<Actor> othersAtTarget, ref TargetModifiers modifiers, ref string cursor)
+			public bool CanTarget(Actor self, in Target target, ref TargetModifiers modifiers, ref string cursor)
 			{
 				switch (target.Type)
 				{
@@ -512,7 +512,7 @@ namespace OpenRA.Mods.Common.Traits
 					case TargetType.FrozenActor:
 						return CanTargetActor(self, target, ref modifiers, ref cursor);
 					case TargetType.Terrain:
-						return CanTargetLocation(self, self.World.Map.CellContaining(target.CenterPosition), othersAtTarget, modifiers, ref cursor);
+						return CanTargetLocation(self, self.World.Map.CellContaining(target.CenterPosition), modifiers, ref cursor);
 					default:
 						return false;
 				}

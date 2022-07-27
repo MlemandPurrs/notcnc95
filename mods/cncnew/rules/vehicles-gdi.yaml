@@ -65,7 +65,10 @@ JEEP:
         RequiresCondition: towhumvee-upgraded
 	AttackTurreted:
         Armaments: primary, secondary
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	WithSpriteTurret@1:
 		Sequence: turret
@@ -139,12 +142,17 @@ APC:
 		LocalOffset: 85,0,171
 		MuzzleSequence: muzzle
 	AttackFrontal:
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	Cargo:
 		Types: Infantry
 		MaxWeight: 5
-		LoadingCondition: notmobile
+		UnloadVoice: Unload
+        LoadingCondition: notmobile
 		LoadedCondition: loaded
 		PassengerConditions:
 			rmbo: commandoinside
@@ -192,8 +200,8 @@ MAAG:
 	Tooltip:
 		Name: Mobile Anti-Air Gun
     TooltipExtras:
-        Strengths:  Strong vs Light Vehicles, Aircraft
-        Weaknesses:  Weak vs Infantry, Tanks
+        Strengths:  Strong vs Infantry, Aircraft
+        Weaknesses:  Weak vs Tanks
         Canattack:  Can attack Air and Ground units
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
@@ -242,7 +250,10 @@ MAAG:
 		RevokeOnNewTarget: False
 		RevokeAll: True
 	AttackTurreted:
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	WithSpriteTurret:
 		RequiresCondition: !attack-air
@@ -321,7 +332,10 @@ MTNK:
 		PauseOnCondition: emp-crate-collected
 	AttackTurreted:
 		Armaments: primary, secondary
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	WithSpriteTurret@1:
 		Sequence: turret
@@ -338,7 +352,7 @@ MTNK:
 		EffectiveOwnerFromOwner: true
 		Probability: 33
 	Selectable:
-		DecorationBounds: 28,28
+		DecorationBounds: 1194, 1194
 	GrantConditionOnPrerequisite@LaserDesignator:
 		Condition: targetlaser-upgraded
 		Prerequisites: targetlaser.upgrade
@@ -348,8 +362,8 @@ MTNK:
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
-    #   UpgradeableTo:
-    #   Actors: MTNK.Upgraded
+    UpgradeableTo:
+        Actors: MTNK.Upgraded
 
 MTNK.Husk:
 	Inherits: ^Husk
@@ -435,7 +449,10 @@ HTNK:
 		PauseOnCondition: emp-crate-collected
 	AttackTurreted:
 		Armaments: primary, secondary, tertiary
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	ChangesHealth:
 		Step: 500
@@ -451,15 +468,15 @@ HTNK:
 		EffectiveOwnerFromOwner: true
 		Probability: 33
 	Selectable:
-		DecorationBounds: 34,34,0,-3
+		DecorationBounds: 1450, 1450, 0, -128
 	TransformOnCondition@CompositeArmor:
 		IntoActor: HTNK.Upgraded
 		RequiresCondition: comparmor-upgraded
 	GrantConditionOnPrerequisite@CompositeArmor:
 		Condition: comparmor-upgraded
 		Prerequisites: comparmor.upgrade
-    #   UpgradeableTo:
-    #   Actors: HTNK.Upgraded
+    UpgradeableTo:
+        Actors: HTNK.Upgraded
 
 HTNK.Husk:
 	Inherits: ^Husk
@@ -546,7 +563,11 @@ MSAM:
 		Armaments: primary
 		TargetFrozenActors: True
 		ForceFireIgnoresActors: True
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithSpriteTurret:
 	Explodes:
 		Weapon: UnitExplodeMech
@@ -642,7 +663,7 @@ MNLY:
 		RearmActors: fix
 	DetectCloaked:
 		Range: 4c0
-		CloakTypes: Mine
+		DetectionTypes: Mine
 	RenderDetectionCircle:
 	Explodes:
 		Weapon: ATMine

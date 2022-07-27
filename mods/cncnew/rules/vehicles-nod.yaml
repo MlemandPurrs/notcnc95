@@ -40,7 +40,11 @@ BGGY:
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
 	AttackFrontal:
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	WithSpriteTurret:
 	SpawnActorOnDeath:
@@ -107,7 +111,11 @@ BIKE:
 		LocalYaw: 100, -100
 		PauseOnCondition: emp-crate-collected
 	AttackFrontal:
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	SpawnActorOnDeath:
 		Actor: BIKE.Husk
 		OwnerType: InternalName
@@ -116,7 +124,7 @@ BIKE:
 	Passenger:
 		CustomPipType: pip-yellow
 	DetectCloaked:
-		CloakTypes: GroundStealth, Stealth, AirStealth
+		DetectionTypes: GroundStealth, Stealth, AirStealth
 		Range: 3c768
 		RequiresCondition: !emp-crate-collected
 	RenderDetectionCircle:
@@ -182,7 +190,10 @@ NAPC:
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
 	AttackTurreted:
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	Turreted:
 		TurnSpeed: 24
 		Offset: 176,0,160
@@ -287,7 +298,10 @@ LTNK:
 		AmmoPools: ammo
 		RequiresCondition: towmissile-upgraded
 	AttackTurreted:
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	WithSpriteTurret@1:
 		Sequence: turret
@@ -354,7 +368,11 @@ FTNK:
 		MuzzleSequence: muzzle
 		PauseOnCondition: emp-crate-collected
 	AttackFrontal:
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	Explodes:
 		Weapon: FlametankExplode
@@ -433,7 +451,11 @@ MLRS:
 		RequiresSelection: true
 		AmmoPools: primary
 	AttackFrontal:
+        FacingTolerance: 0
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithSpriteTurret:
 		RequiresCondition: ammo > 1
 	WithSpriteTurret@OneMissile:
@@ -444,7 +466,6 @@ MLRS:
 		Sequence: turret0
 	AutoTarget:
 		InitialStanceAI: Defend
-	#	RenderRangeCircle:
 	WithRangeCircle:
 		Range: 11c0
 		Color: FFFF0080
@@ -520,7 +541,7 @@ STNK:
 	RevealsShroud:
 		Range: 5c0
 	Cloak:
-        CloakTypes: Stealth
+        DetectionTypes: Stealth
 		InitialDelay: 90
 		CloakDelay: 90
 		CloakSound: trans1.aud
@@ -542,8 +563,11 @@ STNK:
 		PauseOnCondition: emp-crate-collected
 	Turreted:
 		TurnSpeed: 28
-	AttackTurreted:		
+	AttackTurreted:	
+        Voice: Attack
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithSpriteTurret:
 	AutoTarget:
 		InitialStance: HoldFire

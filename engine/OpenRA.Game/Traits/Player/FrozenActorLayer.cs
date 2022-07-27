@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -22,6 +22,7 @@ namespace OpenRA.Traits
 		void OnVisibilityChanged(FrozenActor frozen);
 	}
 
+	[TraitLocation(SystemActors.Player)]
 	[Desc("Required for FrozenUnderFog to work. Attach this to the player actor.")]
 	public class FrozenActorLayerInfo : TraitInfo, Requires<ShroudInfo>
 	{
@@ -43,7 +44,7 @@ namespace OpenRA.Traits
 
 		public Player Owner { get; private set; }
 		public BitSet<TargetableType> TargetTypes { get; private set; }
-		public IEnumerable<WPos> TargetablePositions { get { return targetablePositions; } }
+		public IEnumerable<WPos> TargetablePositions => targetablePositions;
 
 		public ITooltipInfo TooltipInfo { get; private set; }
 		public Player TooltipOwner { get; private set; }
@@ -71,10 +72,13 @@ namespace OpenRA.Traits
 
 		public Polygon MouseBounds = Polygon.Empty;
 
-		static readonly IRenderable[] NoRenderables = new IRenderable[0];
-		static readonly Rectangle[] NoBounds = new Rectangle[0];
+		static readonly IRenderable[] NoRenderables = Array.Empty<IRenderable>();
+		static readonly Rectangle[] NoBounds = Array.Empty<Rectangle>();
 
 		int flashTicks;
+		TintModifiers flashModifiers;
+		float3 flashTint;
+		float? flashAlpha;
 
 		public FrozenActor(Actor actor, ICreatesFrozenActors frozenTrait, PPos[] footprint, Player viewer, bool startsRevealed)
 		{
@@ -108,11 +112,11 @@ namespace OpenRA.Traits
 			UpdateVisibility();
 		}
 
-		public uint ID { get { return actor.ActorID; } }
-		public bool IsValid { get { return Owner != null; } }
-		public ActorInfo Info { get { return actor.Info; } }
-		public Actor Actor { get { return !actor.IsDead ? actor : null; } }
-		public Player Viewer { get { return viewer; } }
+		public uint ID => actor.ActorID;
+		public bool IsValid => Owner != null;
+		public ActorInfo Info => actor.Info;
+		public Actor Actor => !actor.IsDead ? actor : null;
+		public Player Viewer => viewer;
 
 		public void RefreshState()
 		{
@@ -175,31 +179,49 @@ namespace OpenRA.Traits
 			Owner = null;
 		}
 
-		public void Flash()
+		public void Flash(Color color, float alpha)
 		{
 			flashTicks = 5;
+			flashModifiers = TintModifiers.ReplaceColor;
+			flashTint = new float3(color.R, color.G, color.B) / 255f;
+			flashAlpha = alpha;
 		}
 
-		public IEnumerable<IRenderable> Render(WorldRenderer wr)
+		public void Flash(float3 tint)
+		{
+			flashTicks = 5;
+			flashModifiers = TintModifiers.None;
+			flashTint = tint;
+			flashAlpha = null;
+		}
+
+		public IEnumerable<IRenderable> Render()
 		{
 			if (Shrouded)
 				return NoRenderables;
 
 			if (flashTicks > 0 && flashTicks % 2 == 0)
 			{
-				var highlight = wr.Palette("highlight");
-				return Renderables.Concat(Renderables.Where(r => !r.IsDecoration)
-					.Select(r => r.WithPalette(highlight)));
+				return Renderables.Concat(Renderables.Where(r => !r.IsDecoration && r is IModifyableRenderable)
+					.Select(r =>
+					{
+						var mr = (IModifyableRenderable)r;
+						mr = mr.WithTint(flashTint, mr.TintModifiers | flashModifiers);
+						if (flashAlpha.HasValue)
+							mr = mr.WithAlpha(flashAlpha.Value);
+
+						return mr;
+					}));
 			}
 
 			return Renderables;
 		}
 
-		public bool HasRenderables { get { return !Shrouded && Renderables.Any(); } }
+		public bool HasRenderables => !Shrouded && Renderables.Length > 0;
 
 		public override string ToString()
 		{
-			return "{0} {1}{2}".F(Info.Name, ID, IsValid ? "" : " (invalid)");
+			return $"{Info.Name} {ID}{(IsValid ? "" : " (invalid)")}";
 		}
 	}
 
@@ -301,7 +323,7 @@ namespace OpenRA.Traits
 		{
 			return world.ScreenMap.RenderableFrozenActorsInBox(owner, wr.Viewport.TopLeft, wr.Viewport.BottomRight)
 				.Where(f => f.Visible)
-				.SelectMany(ff => ff.Render(wr));
+				.SelectMany(ff => ff.Render());
 		}
 
 		public IEnumerable<Rectangle> ScreenBounds(Actor self, WorldRenderer wr)

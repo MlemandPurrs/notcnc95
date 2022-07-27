@@ -171,16 +171,14 @@ allyrepair:
 		Tick: 160
 		ZOffset: 2047
 
-crate:
-	idle:
-		ZOffset: -511
-
 scrate:
 	idle:
+		Start: 1
 		ZOffset: -511
 
 wcrate:
 	idle:
+		Start: 1
 		ZOffset: -511
 
 xcratea:
@@ -272,6 +270,7 @@ pips:
 	groups: pdigits
 		Length: *
 		Offset: 9, 5
+		Frames: 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
 	pip-hazmat: pip-hazmat
 		Offset: -3, 0
 

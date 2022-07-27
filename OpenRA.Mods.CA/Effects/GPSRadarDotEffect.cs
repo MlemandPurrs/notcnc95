@@ -28,6 +28,9 @@ namespace OpenRA.Mods.CA.Effects
 		readonly IDefaultVisibility visibility;
 		readonly IVisibilityModifier[] visibilityModifiers;
 
+		readonly int ticksBetweenRenderChecks = 5;
+		int ticksUntilRenderCheck = 0;
+
 		class DotState
 		{
 			public readonly GpsRadarWatcher Watcher;
@@ -50,6 +53,7 @@ namespace OpenRA.Mods.CA.Effects
 
 			visibility = actor.Trait<IDefaultVisibility>();
 			visibilityModifiers = actor.TraitsImplementing<IVisibilityModifier>().ToArray();
+			ticksUntilRenderCheck = ticksBetweenRenderChecks;
 
 			dotStates = new PlayerDictionary<DotState>(actor.World,
 				p => new DotState(actor, p.PlayerActor.Trait<GpsRadarWatcher>(), p.FrozenActorLayer));
@@ -61,8 +65,8 @@ namespace OpenRA.Mods.CA.Effects
 			if (trait.IsTraitDisabled)
 				return false;
 
-			// Hide the indicator if no watchers are available
-			if (!state.Watcher.Granted && !state.Watcher.GrantedAllies)
+			// Hide the indicator if no watchers are available and no applicable ranged GPS observers
+			if (!state.Watcher.Granted && !state.Watcher.GrantedAllies && !trait.HasRangedObserver(toPlayer))
 				return false;
 
 			// Hide the indicator if a frozen actor portrait is visible
@@ -88,11 +92,17 @@ namespace OpenRA.Mods.CA.Effects
 
 		void IEffect.Tick(World world)
 		{
+			// PERF: delay between checking if icon should be rendered
+			if (--ticksUntilRenderCheck > 0)
+				return;
+
 			for (var playerIndex = 0; playerIndex < dotStates.Count; playerIndex++)
 			{
 				var state = dotStates[playerIndex];
 				state.Visible = ShouldRender(state, world.Players[playerIndex]);
 			}
+
+			ticksUntilRenderCheck = ticksBetweenRenderChecks;
 		}
 
 		IEnumerable<IRenderable> IEffect.Render(WorldRenderer wr)

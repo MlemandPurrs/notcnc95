@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -24,7 +24,7 @@ namespace OpenRA
 	{
 		public readonly string Command;
 		public NoSuchCommandException(string command)
-			: base("No such command '{0}'".F(command))
+			: base($"No such command '{command}'")
 		{
 			Command = command;
 		}
@@ -39,6 +39,18 @@ namespace OpenRA
 	class Program
 	{
 		static void Main(string[] args)
+		{
+			try
+			{
+				Run(args);
+			}
+			finally
+			{
+				Log.Dispose();
+			}
+		}
+
+		static void Run(string[] args)
 		{
 			var engineDir = Environment.GetEnvironmentVariable("ENGINE_DIR");
 			if (!string.IsNullOrEmpty(engineDir))
@@ -56,12 +68,12 @@ namespace OpenRA
 
 			if (args.Length == 0)
 			{
-				PrintUsage(new InstalledMods(modSearchPaths, new string[0]), null);
+				PrintUsage(new InstalledMods(modSearchPaths, Array.Empty<string>()), null);
 				return;
 			}
 
 			var modId = args[0];
-			var explicitModPaths = new string[0];
+			var explicitModPaths = Array.Empty<string>();
 			if (File.Exists(modId) || Directory.Exists(modId))
 			{
 				explicitModPaths = new[] { modId };

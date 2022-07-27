@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -14,10 +14,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OpenRA.Graphics;
+using OpenRA.Primitives;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits
 {
+	[TraitLocation(SystemActors.World | SystemActors.EditorWorld)]
 	public class ShroudRendererInfo : TraitInfo
 	{
 		public readonly string Sequence = "shroud";
@@ -79,7 +81,7 @@ namespace OpenRA.Mods.Common.Traits
 			All = Top | Right | Bottom | Left
 		}
 
-		struct TileInfo
+		readonly struct TileInfo
 		{
 			public readonly float3 ScreenPosition;
 			public readonly byte Variant;
@@ -101,26 +103,27 @@ namespace OpenRA.Mods.Common.Traits
 		readonly CellLayer<TileInfo> tileInfos;
 		readonly CellLayer<bool> cellsDirty;
 		bool anyCellDirty;
-		readonly Sprite[] fogSprites, shroudSprites;
+		readonly (Sprite Sprite, float Scale, float Alpha)[] fogSprites, shroudSprites;
 
 		Shroud shroud;
 		Func<PPos, bool> visibleUnderShroud, visibleUnderFog;
 		TerrainSpriteLayer shroudLayer, fogLayer;
+		PaletteReference shroudPaletteReference, fogPaletteReference;
 		bool disposed;
 
 		public ShroudRenderer(World world, ShroudRendererInfo info)
 		{
 			if (info.ShroudVariants.Length != info.FogVariants.Length)
-				throw new ArgumentException("ShroudRenderer must define the same number of shroud and fog variants!", "info");
+				throw new ArgumentException("ShroudRenderer must define the same number of shroud and fog variants!", nameof(info));
 
 			if ((info.OverrideFullFog == null) ^ (info.OverrideFullShroud == null))
-				throw new ArgumentException("ShroudRenderer cannot define overrides for only one of shroud or fog!", "info");
+				throw new ArgumentException("ShroudRenderer cannot define overrides for only one of shroud or fog!", nameof(info));
 
 			if (info.ShroudVariants.Length > byte.MaxValue)
-				throw new ArgumentException("ShroudRenderer cannot define this many shroud and fog variants.", "info");
+				throw new ArgumentException("ShroudRenderer cannot define this many shroud and fog variants.", nameof(info));
 
 			if (info.Index.Length >= byte.MaxValue)
-				throw new ArgumentException("ShroudRenderer cannot define this many indexes for shroud directions.", "info");
+				throw new ArgumentException("ShroudRenderer cannot define this many indexes for shroud directions.", nameof(info));
 
 			this.info = info;
 			this.world = world;
@@ -134,8 +137,8 @@ namespace OpenRA.Mods.Common.Traits
 			// Load sprite variants
 			var variantCount = info.ShroudVariants.Length;
 			variantStride = (byte)(info.Index.Length + (info.OverrideFullShroud != null ? 1 : 0));
-			shroudSprites = new Sprite[variantCount * variantStride];
-			fogSprites = new Sprite[variantCount * variantStride];
+			shroudSprites = new (Sprite, float, float)[variantCount * variantStride];
+			fogSprites = new (Sprite, float, float)[variantCount * variantStride];
 
 			var sequenceProvider = map.Rules.Sequences;
 			for (var j = 0; j < variantCount; j++)
@@ -144,15 +147,17 @@ namespace OpenRA.Mods.Common.Traits
 				var fogSequence = sequenceProvider.GetSequence(info.Sequence, info.FogVariants[j]);
 				for (var i = 0; i < info.Index.Length; i++)
 				{
-					shroudSprites[j * variantStride + i] = shroudSequence.GetSprite(i);
-					fogSprites[j * variantStride + i] = fogSequence.GetSprite(i);
+					shroudSprites[j * variantStride + i] = (shroudSequence.GetSprite(i), shroudSequence.Scale, shroudSequence.GetAlpha(i));
+					fogSprites[j * variantStride + i] = (fogSequence.GetSprite(i), fogSequence.Scale, fogSequence.GetAlpha(i));
 				}
 
 				if (info.OverrideFullShroud != null)
 				{
 					var i = (j + 1) * variantStride - 1;
-					shroudSprites[i] = sequenceProvider.GetSequence(info.Sequence, info.OverrideFullShroud).GetSprite(0);
-					fogSprites[i] = sequenceProvider.GetSequence(info.Sequence, info.OverrideFullFog).GetSprite(0);
+					shroudSequence = sequenceProvider.GetSequence(info.Sequence, info.OverrideFullShroud);
+					fogSequence = sequenceProvider.GetSequence(info.Sequence, info.OverrideFullFog);
+					shroudSprites[i] = (shroudSequence.GetSprite(0), shroudSequence.Scale, shroudSequence.GetAlpha(0));
+					fogSprites[i] = (fogSequence.GetSprite(0), fogSequence.Scale, fogSequence.GetAlpha(0));
 				}
 			}
 
@@ -189,24 +194,19 @@ namespace OpenRA.Mods.Common.Traits
 
 			visibleUnderFog = puv => map.Contains(puv);
 
-			var shroudSheet = shroudSprites[0].Sheet;
-			if (shroudSprites.Any(s => s.Sheet != shroudSheet))
-				throw new InvalidDataException("Shroud sprites span multiple sheets. Try loading their sequences earlier.");
-
-			var shroudBlend = shroudSprites[0].BlendMode;
-			if (shroudSprites.Any(s => s.BlendMode != shroudBlend))
+			var shroudBlend = shroudSprites[0].Sprite.BlendMode;
+			if (shroudSprites.Any(s => s.Sprite.BlendMode != shroudBlend))
 				throw new InvalidDataException("Shroud sprites must all use the same blend mode.");
 
-			var fogSheet = fogSprites[0].Sheet;
-			if (fogSprites.Any(s => s.Sheet != fogSheet))
-				throw new InvalidDataException("Fog sprites span multiple sheets. Try loading their sequences earlier.");
-
-			var fogBlend = fogSprites[0].BlendMode;
-			if (fogSprites.Any(s => s.BlendMode != fogBlend))
+			var fogBlend = fogSprites[0].Sprite.BlendMode;
+			if (fogSprites.Any(s => s.Sprite.BlendMode != fogBlend))
 				throw new InvalidDataException("Fog sprites must all use the same blend mode.");
 
-			shroudLayer = new TerrainSpriteLayer(w, wr, shroudSheet, shroudBlend, wr.Palette(info.ShroudPalette), false);
-			fogLayer = new TerrainSpriteLayer(w, wr, fogSheet, fogBlend, wr.Palette(info.FogPalette), false);
+			var emptySprite = new Sprite(shroudSprites[0].Sprite.Sheet, Rectangle.Empty, TextureChannel.Alpha);
+			shroudPaletteReference = wr.Palette(info.ShroudPalette);
+			fogPaletteReference = wr.Palette(info.FogPalette);
+			shroudLayer = new TerrainSpriteLayer(w, wr, emptySprite, shroudBlend, false);
+			fogLayer = new TerrainSpriteLayer(w, wr, emptySprite, fogBlend, false);
 
 			WorldOnRenderPlayerChanged(world.RenderPlayer);
 		}
@@ -242,7 +242,7 @@ namespace OpenRA.Mods.Common.Traits
 
 		void WorldOnRenderPlayerChanged(Player player)
 		{
-			var newShroud = player != null ? player.Shroud : null;
+			var newShroud = player?.Shroud;
 
 			if (shroud != newShroud)
 			{
@@ -289,16 +289,16 @@ namespace OpenRA.Mods.Common.Traits
 				var tileInfo = tileInfos[uv];
 				var shroudSprite = GetSprite(shroudSprites, GetEdges(puv, visibleUnderShroud), tileInfo.Variant);
 				var shroudPos = tileInfo.ScreenPosition;
-				if (shroudSprite != null)
-					shroudPos += shroudSprite.Offset - 0.5f * shroudSprite.Size;
+				if (shroudSprite.Sprite != null)
+					shroudPos += shroudSprite.Sprite.Offset - 0.5f * shroudSprite.Sprite.Size;
 
 				var fogSprite = GetSprite(fogSprites, GetEdges(puv, visibleUnderFog), tileInfo.Variant);
 				var fogPos = tileInfo.ScreenPosition;
-				if (fogSprite != null)
-					fogPos += fogSprite.Offset - 0.5f * fogSprite.Size;
+				if (fogSprite.Sprite != null)
+					fogPos += fogSprite.Sprite.Offset - 0.5f * fogSprite.Sprite.Size;
 
-				shroudLayer.Update(uv, shroudSprite, shroudPos, true);
-				fogLayer.Update(uv, fogSprite, fogPos, true);
+				shroudLayer.Update(uv, shroudSprite.Sprite, shroudPaletteReference, shroudPos, shroudSprite.Scale, shroudSprite.Alpha, true);
+				fogLayer.Update(uv, fogSprite.Sprite, fogPaletteReference, fogPos, fogSprite.Scale, fogSprite.Alpha, true);
 			}
 
 			anyCellDirty = false;
@@ -322,10 +322,10 @@ namespace OpenRA.Mods.Common.Traits
 					cellsDirty[cell + direction] = true;
 		}
 
-		Sprite GetSprite(Sprite[] sprites, Edges edges, int variant)
+		(Sprite Sprite, float Scale, float Alpha) GetSprite((Sprite, float, float)[] sprites, Edges edges, int variant)
 		{
 			if (edges == Edges.None)
-				return null;
+				return (null, 1f, 1f);
 
 			return sprites[variant * variantStride + edgesToSpriteIndexOffset[(byte)edges]];
 		}

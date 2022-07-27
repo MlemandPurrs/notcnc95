@@ -3,9 +3,10 @@ GenericVoice:
 		nod: .v01,.v03
 		gdi: .v01,.v03
 	Voices:
-		Select: await1,ready,report1,yessir1
-		Action: ackno,affirm1,noprob,ritaway,roger,ugotit
-		Die: nuyell1,nuyell4,nuyell5,nuyell6
+		Select: ackno, await1, ready, report1, yessir1
+		Action: affirm1, ritaway, ugotit, roger, movout1
+		Attack: affirm1, ritaway, ugotit, noprob, yessir1
+		Die: nuyell1, nuyell3, nuyell4, nuyell5, nuyell6
 		Burned: yell1
 		Zapped: nuyell3
 		Poisoned: nuyell12
@@ -17,9 +18,10 @@ VehicleVoice:
 		nod: .v00,.v02
 		gdi: .v00,.v02
 	Voices:
-		Select: vehic1,yessir1,report1,await1,unit1
-		Action: ackno,affirm1,movout1
-		Unload: movout1
+		Select: vehic1, yessir1, await1, unit1, report1
+		Action: ackno, affirm1, movout1
+		Attack: ackno, affirm1, yessir1
+		Unload: movout1, affirm1
 		Boink: boink
 	DisableVariants: Boink
 
@@ -50,6 +52,7 @@ MoebiusVoice:
 		Select: mcomnd1,mhello1,myes1,mhmmm1,mthanks1
 		Move: myesyes1,mplan3,mtiber1,mcourse1
 		Action: myesyes1,mplan3,mtiber1,mcourse1
+        Attack: myes1,mcourse1
         Unload: mplan3
 		Die: nuyell1,nuyell4,nuyell5,nuyell6
 		Burned: yell1

@@ -1,7 +1,7 @@
 V19:
 	Inherits: ^TechBuilding
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	CashTrickler:
         Interval: 50
 		Amount: 20
@@ -31,7 +31,7 @@ V19.Husk:
 	Inherits: ^TechBuildingHusk
 	-RenderSprites:
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	WithSpriteBody:
 	WithIdleOverlay:
 		StartSequence: fire-start
@@ -52,7 +52,7 @@ OILB:
 	Inherits: ^TechBuilding
     Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -84,7 +84,7 @@ OILB.Husk:
 	Inherits: ^TechBuildingHusk
 	-RenderSprites:
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -102,6 +102,8 @@ OILB.Husk:
 OILP:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 2048, 2048
 	CashTrickler:
 		Interval: 200
 		Amount: 160
@@ -139,7 +141,7 @@ HOSP:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -162,7 +164,7 @@ HOSP:
 HOSP.Husk:
 	Inherits: ^TechBuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -181,7 +183,7 @@ BIO:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -204,7 +206,7 @@ BIO:
 BIO.Husk:
 	Inherits: ^TechBuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx
 		Dimensions: 2,2
@@ -227,7 +229,7 @@ MISS:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^3x2Shape
 	Selectable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
 		Footprint: xxx xxx
 		Dimensions: 3,2
@@ -246,7 +248,7 @@ MISS:
 MISS.Husk:
 	Inherits: ^TechBuildingHusk
 	Interactable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	Building:
 		Footprint:  xxx xxx
 		Dimensions: 3,2
@@ -265,7 +267,7 @@ TIBX:
 		Footprint: xx xx
 		Dimensions: 2,2
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Valued:
 		Cost: 750
 	Tooltip:
@@ -321,7 +323,7 @@ SYRD:
 	MustBeDestroyed:
 		RequiredForShortGame: false
 	Selectable:
-		Bounds: 72,48
+		Bounds: 3072, 2048
 	HitShape:
 		TargetableOffsets: 768,0,0, 768,-1024,0, 768,1024,0
 		Type: Rectangle
@@ -435,7 +437,7 @@ RPAD:
 	Inherits: ^TechBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	HitShape:
 		UseTargetableCellsOffsets: false
 		TargetableOffsets: 0,0,0, 768,-512,0, 768,512,0, -281,-512,0, -630,512,0
@@ -447,10 +449,10 @@ RPAD:
 	Tooltip:
 		Name: Reinforcements Pad
 	TooltipDescription@ally:
-		Description: Periodically provides Reinforcements, free of charge.
+		Description: Periodically provides Tank Reinforcements, free of charge.
 		ValidRelationships: Ally
 	TooltipDescription@other:
-		Description: Capture to periodically obtain Reinforcements.
+		Description: Capture to periodically obtain Tank Reinforcements.
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: RPAD.Husk
@@ -460,13 +462,11 @@ RPAD:
 	ProductionAirdropCA@1:
 		Produces: PadReinforcementsGDI
 		ActorType: ocar.reinforce
-		IncomingAudio: Reinforce
-		BaselineSpawn: true
+		ReadyAudio: Reinforce
 	ProductionAirdropCA@2:
 		Produces: PadReinforcementsNod
 		ActorType: nv22.reinforce
-		IncomingAudio: Reinforce
-		BaselineSpawn: true
+        ReadyAudio: Reinforce
 	WithDeliveryAnimation:
 	Exit@1:
 		SpawnOffset: 0,-256,0
@@ -498,7 +498,7 @@ RPAD:
 RPAD.Husk:
 	Inherits: ^TechBuildingHusk
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: ++ ++
 		Dimensions: 2,2
@@ -515,8 +515,8 @@ RPAD.Husk:
 WIND:
 	Inherits: ^TechBuilding
 	Selectable:
-		Bounds: 24,24,0,16
-        DecorationBounds: 24,48,0,0
+		Bounds: 1024, 1024, 0, 16
+        DecorationBounds: 1024, 1048, 0, 0
 	Building:
 		Footprint: _ x
 		Dimensions: 1,2
@@ -546,7 +546,7 @@ EXPB:
 	CaptureManager:
 		BeingCapturedCondition: being-captured
 	Selectable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx ==
 		Dimensions: 2,3
@@ -577,7 +577,7 @@ EXPB.Husk:
 	Inherits: ^TechBuildingHusk
 	Inherits@shape: ^2x2Shape
 	Interactable:
-		Bounds: 48,48
+		Bounds: 2048, 2048
 	Building:
 		Footprint: xx xx ==
 		Dimensions: 2,3

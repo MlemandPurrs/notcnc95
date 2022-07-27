@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -12,12 +12,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
+using System.Threading.Tasks;
 using BeaconLib;
 using OpenRA.Network;
 using OpenRA.Primitives;
 using OpenRA.Server;
+using OpenRA.Support;
 using OpenRA.Traits;
 using OpenRA.Widgets;
 
@@ -59,7 +59,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		SearchStatus searchStatus = SearchStatus.Fetching;
 
-		Download currentQuery;
+		bool activeQuery;
 		IEnumerable<BeaconLocation> lanGameLocations;
 
 		public string ProgressLabelText()
@@ -231,12 +231,21 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			if (mapPreview != null)
 				mapPreview.Preview = () => currentMap;
 
-			var mapTitle = widget.GetOrNull<LabelWidget>("SELECTED_MAP");
+			var mapTitle = widget.GetOrNull<LabelWithTooltipWidget>("SELECTED_MAP");
 			if (mapTitle != null)
 			{
 				var font = Game.Renderer.Fonts[mapTitle.Font];
 				var title = new CachedTransform<MapPreview, string>(m =>
-					WidgetUtils.TruncateText(m.Title, mapTitle.Bounds.Width, font));
+				{
+					var truncated = WidgetUtils.TruncateText(m.Title, mapTitle.Bounds.Width, font);
+
+					if (m.Title != truncated)
+						mapTitle.GetTooltipText = () => m.Title;
+					else
+						mapTitle.GetTooltipText = null;
+
+					return truncated;
+				});
 
 				mapTitle.GetText = () =>
 				{
@@ -282,7 +291,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			var players = widget.GetOrNull<LabelWidget>("SELECTED_PLAYERS");
 			if (players != null)
 			{
-				players.IsVisible = () => currentServer != null && (clientContainer == null || !currentServer.Clients.Any());
+				players.IsVisible = () => currentServer != null && (clientContainer == null || currentServer.Clients.Length == 0);
 				players.GetText = () => PlayersLabel(currentServer);
 			}
 
@@ -290,7 +299,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			if (clientContainer != null)
 			{
 				clientList = Ui.LoadWidget("MULTIPLAYER_CLIENT_LIST", clientContainer, new WidgetArgs()) as ScrollPanelWidget;
-				clientList.IsVisible = () => currentServer != null && currentServer.Clients.Any();
+				clientList.IsVisible = () => currentServer != null && currentServer.Clients.Length > 0;
 				clientHeader = clientList.Get<ScrollItemWidget>("HEADER");
 				clientTemplate = clientList.Get<ScrollItemWidget>("TEMPLATE");
 				clientList.RemoveChildren();
@@ -313,50 +322,56 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		string PlayersLabel(GameServer game)
 		{
-			return "{0}{1}{2}".F(
-				"{0} Player{1}".F(game.Players > 0 ? game.Players.ToString() : "No", game.Players != 1 ? "s" : ""),
-				game.Bots > 0 ? ", {0} Bot{1}".F(game.Bots, game.Bots != 1 ? "s" : "") : "",
-				game.Spectators > 0 ? ", {0} Spectator{1}".F(game.Spectators, game.Spectators != 1 ? "s" : "") : "");
+			return $"{(game.Players > 0 ? game.Players.ToString() : "No")} Player{(game.Players != 1 ? "s" : "")}{(game.Bots > 0 ? $", {game.Bots} Bot{(game.Bots != 1 ? "s" : "")}" : "")}{(game.Spectators > 0 ? $", {game.Spectators} Spectator{(game.Spectators != 1 ? "s" : "")}" : "")}";
 		}
 
 		public void RefreshServerList()
 		{
 			// Query in progress
-			if (currentQuery != null)
+			if (activeQuery)
 				return;
 
 			searchStatus = SearchStatus.Fetching;
 
-			Action<DownloadDataCompletedEventArgs> onComplete = i =>
+			var queryURL = new HttpQueryBuilder(services.ServerList)
 			{
-				currentQuery = null;
+				{ "protocol", GameServer.ProtocolVersion },
+				{ "engine", Game.EngineVersion },
+				{ "mod", Game.ModData.Manifest.Id },
+				{ "version", Game.ModData.Manifest.Metadata.Version }
+			}.ToString();
 
+			Task.Run(async () =>
+			{
 				List<GameServer> games = null;
-				if (i.Error == null)
+				activeQuery = true;
+
+				try
 				{
+					var client = HttpClientFactory.Create();
+					var httpResponseMessage = await client.GetAsync(queryURL);
+					var result = await httpResponseMessage.Content.ReadAsStreamAsync();
+
+					var yaml = MiniYaml.FromStream(result);
 					games = new List<GameServer>();
-					try
+					foreach (var node in yaml)
 					{
-						var data = Encoding.UTF8.GetString(i.Result);
-						var yaml = MiniYaml.FromString(data);
-						foreach (var node in yaml)
+						try
 						{
-							try
-							{
-								var gs = new GameServer(node.Value);
-								if (gs.Address != null)
-									games.Add(gs);
-							}
-							catch
-							{
-								// Ignore any invalid games advertised.
-							}
+							var gs = new GameServer(node.Value);
+							if (gs.Address != null)
+								games.Add(gs);
+						}
+						catch
+						{
+							// Ignore any invalid games advertised.
 						}
 					}
-					catch
-					{
-						searchStatus = SearchStatus.Failed;
-					}
+				}
+				catch (Exception e)
+				{
+					searchStatus = SearchStatus.Failed;
+					Log.Write("debug", $"Failed to query server list with exception: {e}");
 				}
 
 				var lanGames = new List<GameServer>();
@@ -398,15 +413,9 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					games = groupedLanGames.ToList();
 
 				Game.RunAfterTick(() => RefreshServerListInner(games));
-			};
 
-			var queryURL = services.ServerList + "?protocol={0}&engine={1}&mod={2}&version={3}".F(
-				GameServer.ProtocolVersion,
-				Uri.EscapeUriString(Game.EngineVersion),
-				Uri.EscapeUriString(Game.ModData.Manifest.Id),
-				Uri.EscapeUriString(Game.ModData.Manifest.Metadata.Version));
-
-			currentQuery = new Download(queryURL, _ => { }, onComplete);
+				activeQuery = false;
+			});
 		}
 
 		int GroupSortOrder(GameServer testEntry)
@@ -440,7 +449,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				mapPreview.DisabledSpawnPoints = () => server.DisabledSpawnPoints;
 			}
 
-			if (server == null || !server.Clients.Any())
+			if (server == null || server.Clients.Length == 0)
 			{
 				if (joinButton != null)
 					joinButton.Bounds.Y = joinButtonY;
@@ -465,14 +474,14 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			var noTeams = players.Count() == 1;
 			foreach (var p in players)
 			{
-				var label = noTeams ? "Players" : p.Key == 0 ? "No Team" : "Team {0}".F(p.Key);
+				var label = noTeams ? "Players" : p.Key == 0 ? "No Team" : $"Team {p.Key}";
 				teams.Add(label, p);
 			}
 
 			if (server.Clients.Any(c => c.IsSpectator))
 				teams.Add("Spectators", server.Clients.Where(c => c.IsSpectator));
 
-			var factionInfo = modData.DefaultRules.Actors["world"].TraitInfos<FactionInfo>();
+			var factionInfo = modData.DefaultRules.Actors[SystemActors.World].TraitInfos<FactionInfo>();
 			foreach (var kv in teams)
 			{
 				var group = kv.Key;
@@ -537,7 +546,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					return;
 				}
 
-				if (!rows.Any())
+				if (rows.Count == 0)
 				{
 					searchStatus = SearchStatus.NoGames;
 					return;
@@ -633,20 +642,20 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 						var players = item.GetOrNull<LabelWithTooltipWidget>("PLAYERS");
 						if (players != null)
 						{
-							var label = "{0} / {1}".F(game.Players + game.Bots, game.MaxPlayers + game.Bots)
-								+ (game.Spectators > 0 ? " + {0}".F(game.Spectators) : "");
+							var label = $"{game.Players + game.Bots} / {game.MaxPlayers + game.Bots}"
+							            + (game.Spectators > 0 ? $" + {game.Spectators}" : "");
 
 							var color = canJoin ? players.TextColor : incompatibleGameColor;
 							players.GetText = () => label;
 							players.GetColor = () => color;
 
-							if (game.Clients.Any())
+							if (game.Clients.Length > 0)
 							{
 								var displayClients = game.Clients.Select(c => c.Name);
 								if (game.Clients.Length > 10)
 									displayClients = displayClients
 										.Take(9)
-										.Append("+ {0} other players".F(game.Clients.Length - 9));
+										.Append($"+ {game.Clients.Length - 9} other players");
 
 								var tooltip = displayClients.JoinWith("\n");
 								players.GetTooltipText = () => tooltip;
@@ -698,7 +707,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				if (game.PlayTime > 0)
 				{
 					var totalMinutes = Math.Ceiling(game.PlayTime / 60.0);
-					label += " for {0} minute{1}".F(totalMinutes, totalMinutes > 1 ? "s" : "");
+					label += $" for {totalMinutes} minute{(totalMinutes > 1 ? "s" : "")}";
 				}
 
 				return label;

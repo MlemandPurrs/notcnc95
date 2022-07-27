@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -35,7 +35,7 @@ namespace OpenRA.Mods.Common.Traits
 				throw new YamlException("Actors with Health need at least one HitShape trait!");
 		}
 
-		int IHealthInfo.MaxHP { get { return HP; } }
+		int IHealthInfo.MaxHP => HP;
 
 		IEnumerable<EditorActorOption> IEditorActorOptions.ActorOptions(ActorInfo ai, World world)
 		{
@@ -43,7 +43,7 @@ namespace OpenRA.Mods.Common.Traits
 				actor =>
 				{
 					var init = actor.GetInitOrDefault<HealthInit>();
-					return init != null ? init.Value : 100;
+					return init?.Value ?? 100;
 				},
 				(actor, value) => actor.ReplaceInit(new HealthInit((int)value)));
 		}
@@ -78,16 +78,19 @@ namespace OpenRA.Mods.Common.Traits
 			DisplayHP = hp;
 		}
 
-		public int HP { get { return hp; } }
-		public int MaxHP { get; private set; }
+		public int HP => hp;
+		public int MaxHP { get; }
 
-		public bool IsDead { get { return hp <= 0; } }
+		public bool IsDead => hp <= 0;
 		public bool RemoveOnDeath = true;
 
 		public DamageState DamageState
 		{
 			get
 			{
+				if (hp == MaxHP)
+					return DamageState.Undamaged;
+
 				if (hp <= 0)
 					return DamageState.Dead;
 
@@ -99,9 +102,6 @@ namespace OpenRA.Mods.Common.Traits
 
 				if (hp * 100L < MaxHP * 75L)
 					return DamageState.Medium;
-
-				if (hp == MaxHP)
-					return DamageState.Undamaged;
 
 				return DamageState.Light;
 			}
@@ -168,11 +168,24 @@ namespace OpenRA.Mods.Common.Traits
 			// Apply any damage modifiers
 			if (!ignoreModifiers && damage.Value > 0)
 			{
-				var modifiers = damageModifiers
-					.Concat(damageModifiersPlayer)
-					.Select(t => t.GetDamageModifier(attacker, damage));
+				// PERF: Util.ApplyPercentageModifiers has been manually inlined to
+				// avoid unnecessary loop enumerations and allocations
+				var appliedDamage = (decimal)damage.Value;
+				foreach (var dm in damageModifiers)
+				{
+					var modifier = dm.GetDamageModifier(attacker, damage);
+					if (modifier != 100)
+						appliedDamage *= modifier / 100m;
+				}
 
-				damage = new Damage(Util.ApplyPercentageModifiers(damage.Value, modifiers), damage.DamageTypes);
+				foreach (var dm in damageModifiersPlayer)
+				{
+					var modifier = dm.GetDamageModifier(attacker, damage);
+					if (modifier != 100)
+						appliedDamage *= modifier / 100m;
+				}
+
+				damage = new Damage((int)appliedDamage, damage.DamageTypes);
 			}
 
 			hp = (hp - damage.Value).Clamp(0, MaxHP);
@@ -211,11 +224,6 @@ namespace OpenRA.Mods.Common.Traits
 
 				if (RemoveOnDeath)
 					self.Dispose();
-
-				if (attacker == null)
-					Log.Write("debug", "{0} #{1} was killed.", self.Info.Name, self.ActorID);
-				else
-					Log.Write("debug", "{0} #{1} killed by {2} #{3}", self.Info.Name, self.ActorID, attacker.Info.Name, attacker.ActorID);
 			}
 		}
 
@@ -244,6 +252,7 @@ namespace OpenRA.Mods.Common.Traits
 		{
 			get
 			{
+				var value = base.Value;
 				if (value < 0 || (value == 0 && !allowZero))
 					return 1;
 

@@ -1,7 +1,4 @@
 
-#	i need voice files for those,
-#	EVA could say upgrading, or researching
-#	and when ready Upgrade ready instead of unit ready
 ^Upgrade:
 	AlwaysVisible:
 	Interactable:

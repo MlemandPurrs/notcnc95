@@ -11,13 +11,13 @@
 	BodyOrientation:
 	QuantizeFacingsFromSequence:
 	RenderSprites:
-		PlayerPalette: overlayplayer
+        PlayerPalette: overlayplayer
 
 ^ClassicFacingSpriteActor:
 	ClassicFacingBodyOrientation:
 	QuantizeFacingsFromSequence:
 	RenderSprites:
-		PlayerPalette: overlayplayer
+        PlayerPalette: overlayplayer
 
 ^1x1Shape:
 	HitShape:
@@ -223,7 +223,7 @@
 		TurnSpeed: 20
 		PauseOnCondition: boarding
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	Targetable:
 		TargetTypes: Ground, Unit, Vehicle
 	Targetable@REPAIR:
@@ -235,7 +235,7 @@
 		Duration: 3
 	WithColoredOverlay@repairflash:
 		RequiresCondition: repairflash
-		Palette: highlight
+		Color: FFFFFF
 	GrantConditionOnDamageState@DAMAGED:
 		Condition: damaged
 		ValidDamageStates: Light, Medium, Heavy, Critical
@@ -281,7 +281,7 @@
 		Duration: 4
 	WithColoredOverlay@laserflash:
 		RequiresCondition: laserflash
-		Palette: obelisklaserred
+		Color: 801000
 
 ^TrackedVehicle:
 	Inherits: ^Vehicle
@@ -322,12 +322,12 @@
 		Duration: 3
 	WithColoredOverlay@repairflash:
 		RequiresCondition: repairflash
-		Palette: highlight
+		Color: FFFFFF
 	GrantConditionOnDamageState@DAMAGED:
 		Condition: damaged
 		ValidDamageStates: Light, Medium, Heavy, Critical
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	Repairable:
 		RepairActors: hpad, fix
 	Aircraft:
@@ -457,8 +457,8 @@
 		AlwaysTurnInPlace: true
 		Locomotor: foot
 	Selectable:
-		Bounds: 18,18,0,-6
-		DecorationBounds: 12,17,0,-6
+		Bounds: 768, 768, 0, -256
+		DecorationBounds: 512, 725, 0, -256
 	Targetable:
 		TargetTypes: Ground, Unit, Infantry
 		RequiresCondition: !parachute
@@ -487,6 +487,8 @@
 		CargoType: Infantry
 	HiddenUnderFog:
 	ActorLostNotification:
+        Notification: InfantryLost
+        TextNotification: Infantry lost.
 	Crushable:
 		WarnProbability: 75
 		CrushSound: squish2.aud
@@ -511,7 +513,7 @@
 		BlinkInterval: 32
 		BlinkPattern: On, Off
 	DetectCloaked:
-		CloakTypes: Stealth, GroundStealth, AirStealth
+		DetectionTypes: Stealth, GroundStealth, AirStealth
 		Range: 1c826
 	DeathSounds@NORMAL:
 		DeathTypes: DefaultDeath, BulletDeath, SmallExplosionDeath, ExplosionDeath, RippedApartDeath
@@ -575,9 +577,11 @@
 		IdleSequences: idle1, idle2
 		StandSequences: stand, stand2
 	AttackFrontal:
+		FacingTolerance: 0
 
 ^CivInfantry:
 	Inherits: ^Infantry
+    Inherits@selection: ^SelectableSupportUnit
 	Valued:
 		Cost: 10
 	Tooltip:
@@ -608,9 +612,11 @@
 		Categories: Civilian infantry
 
 ^ArmedCivilian:
+	Inherits@selection: ^SelectableCombatUnit
 	Armament:
 		Weapon: Pistol
 	AttackFrontal:
+        FacingTolerance: 0
 	WithInfantryBody:
 		DefaultAttackSequence: shoot
 
@@ -638,7 +644,7 @@
 		Speed: 113
 		Voice: Move
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	Targetable:
 		TargetTypes: Ground, Creep
 	HiddenUnderFog:
@@ -656,6 +662,7 @@
 		Voice: Attack
 	AttackFrontal:
 		Voice: Attack
+        FacingTolerance: 0
 	DeathSounds:
 	Voiced:
 		VoiceSet: DinoVoice
@@ -723,7 +730,7 @@
 		Locomotor: naval
 		TurnSpeed: 10
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	Targetable:
 		TargetTypes: Ground, Water, Ship
 	ActorLostNotification:
@@ -748,7 +755,7 @@
 	RepairableNear:
 		RepairActors: syrd
 	DetectCloaked:
-		CloakTypes: Underwater
+		DetectionTypes: Underwater
 		Range: 1c826
 	Targetable@REPAIR:
 		RequiresCondition: damaged
@@ -759,7 +766,7 @@
 		Duration: 3
 	WithColoredOverlay@repairflash:
 		RequiresCondition: repairflash
-		Palette: highlight
+		Color: FFFFFF
 	GrantConditionOnDamageState@DAMAGED:
 		Condition: damaged
 		ValidDamageStates: Light, Medium, Heavy, Critical
@@ -783,7 +790,7 @@
 		Dimensions: 1,1
 		Footprint: x
 	ActorPreviewPlaceBuildingPreview:
-		OverridePalette: placebuilding
+        PreviewAlpha: 0.65
 	SoundOnDamageTransition:
 		DamagedSounds: xplobig4.aud
 		DestroyedSounds: crumble.aud, xplobig4.aud
@@ -794,10 +801,12 @@
 		EmptyWeapon: BuildingExplode
 	CaptureNotification:
 		Notification: BuildingCaptured
+        TextNotification: Structure captured.
 		NewOwnerVoice: false
         LoseNotification: BuildingLost
 	ActorLostNotification:
 		Notification: BuildingLost
+        TextNotification: Building lost.
 	ShakeOnDeath:
 	Guardable:
 		Range: 3c0
@@ -884,7 +893,8 @@
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 		SellSounds: cashturn.aud
-        #   Notification: BuildingSold
+        Notification: BuildingSold
+        TextNotification: Structure sold.
 	CaptureManager:
 		BeingCapturedCondition: being-captured
 	CaptureNotification:
@@ -1069,7 +1079,7 @@
 	Inherits@1: ^SpriteActor
 	Inherits@shape: ^1x1Shape
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	CombatDebugOverlay:
 	AppearsOnRadar:
 	OwnerLostAction:
@@ -1080,7 +1090,7 @@
 		BuildSounds: hvydoor1.aud
 		TerrainTypes: Clear,Road
 	FootprintPlaceBuildingPreview:
-		LineBuildSegmentPalette: placelinesegment
+        LineBuildFootprintAlpha: 0.65
 	RequiresBuildableArea:
 		AreaTypes: building
 		Adjacent: 3
@@ -1099,7 +1109,8 @@
 	WithWallSpriteBody:
 	Sellable:
 		SellSounds: cashturn.aud
-        #   Notification: WallSold
+        Notification: WallSold
+        TextNotification: Fortification sold.
 	Guardable:
 	FrozenUnderFog:
 	ScriptTriggers:
@@ -1305,7 +1316,7 @@
 	Tooltip:
 		GenericName: Destroyed Vehicle
 	WithColoredOverlay@IDISABLE:
-		Palette: disabled
+		Color: 000000
 	ScriptTriggers:
 	Explodes:
 		Weapon: UnitExplodeSmall
@@ -1389,7 +1400,7 @@
 ^Crate:
 	Inherits@1: ^SpriteActor
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	HiddenUnderFog:
 	Tooltip:
 		Name: Crate
@@ -1445,7 +1456,7 @@
 		ValidPowerStates: Low, Critical
 	WithColoredOverlay@IDISABLE:
 		RequiresCondition: lowpower
-		Palette: disabled
+		Color: 000000B4
 
 ^Selectable:
 	Selectable:
@@ -1490,7 +1501,6 @@
 		UndeploySounds: cashturn.aud
 	SequencePlaceBuildingPreview:
 		Sequence: place
-		SequencePalette: placebuilding
 	KillsSelf:
 		RemoveInstead: true
 	RenderSprites:
@@ -1549,7 +1559,8 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: unit.sellable
-        #   Notification: UnitSold
+        Notification: UnitSold
+        TextNotification: Unit sold.
 	ProximityExternalCondition:
 		Condition: unit.docked
 		Range: 1c0
@@ -1563,14 +1574,15 @@
 		Cursor: sell-vehicle
 		ShowTicks: false
 		RequiresCondition: ship.sellable
-        #   Notification: UnitSold
+        Notification: UnitSold
+        TextNotification: Unit sold.
 	ExternalCondition@Sellable:
 		Condition: ship.sellable
 
 ^Mine:
 	Inherits: ^SpriteActor
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	WithSpriteBody:
 	HiddenUnderFog:
 	Mine:
@@ -1584,7 +1596,7 @@
 	Armor:
 		Type: None
 	Cloak:
-		CloakTypes: GroundStealth
+		DetectionTypes: GroundStealth
 		CloakSound:
 		UncloakSound:
 		Palette: cloaktransparent
@@ -1611,8 +1623,8 @@
 	ExternalCondition@CHEMWEAPON:
 		Condition: hitbychem
 	WithColoredOverlay@CHEMWEAPON:
-		Palette: chemweapon
 		RequiresCondition: hitbychem
+        Color: 58FC54
 	Targetable@CHEMWEAPON:
 		RequiresCondition: hitbychem
 		TargetTypes: HasPoison
@@ -1658,7 +1670,7 @@
 	Cloak:
 		InitialDelay: 90
 		CloakDelay: 90
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud
 		Palette: cloak
@@ -1675,6 +1687,7 @@
 ^AcceptsInvulnerabilityCrate:
 	WithColoredOverlay@Invulnerability:
 		RequiresCondition: invulnerability-crate-collected
+        Color: 800000
 	DamageMultiplier@Invulnerability:
 		RequiresCondition: invulnerability-crate-collected
 		Modifier: 0
@@ -1689,7 +1702,7 @@
 ^AcceptsEMPCrate:
 	WithColoredOverlay@EMPulse:
 		RequiresCondition: emp-crate-collected
-		Palette: disabled
+        Color: 000000
 	WithIdleOverlay@EMPulse:
 		Sequence: emp-overlay
 		RequiresCondition: emp-crate-collected
@@ -1769,46 +1782,6 @@
 	ExternalCondition@FieldRepair:
 		Condition: fieldrepair
 
-^SummonerDummy:
-	Inherits@1: ^ExistsInWorld
-	Inherits@4: ^SpriteActor
-	OwnerLostAction:
-		Action: Kill
-	Armor:
-		Type: None
-	HiddenUnderFog:
-		Type: GroundPosition
-	ProximityCaptor:
-		Types: Plane
-	Tooltip:
-		GenericName: You shouldnt be seeing this...
-	WithShadow:
-		Offset: 43, 128, 0
-		ZOffset: -129
-	WithFacingSpriteBody:
-	MustBeDestroyed:
-	Voiced:
-		VoiceSet: GenericVoice
-	HitShape:
-	ParaDrop:
-		DropRange: 0c512
-	Health:
-		HP: 1
-	Aircraft:
-		CruiseAltitude: 2
-		TurnSpeed: 255
-		Speed: 999
-		Repulsable: False
-		MaximumPitch: 999
-		InitialFacing: 192
-	Cargo:
-		MaxWeight: 10
-	RejectsOrders:
-	Interactable:
-		Bounds: 1,1
-		DecorationBounds: 1,1
-	SelectionDecorations:
-
 ^LaserDesignatableTarget:
 	DamageMultiplier@LaserDesignator:
 		Modifier: 120
@@ -1818,4 +1791,4 @@
 		TotalCap: 1
 	WithColoredOverlay@LaserDesignator:
 		RequiresCondition: laser-designated
-		Palette: laserpaint
+		Color: F51C1C

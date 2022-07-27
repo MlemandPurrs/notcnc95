@@ -2,7 +2,7 @@ GTWR:
 	Inherits: ^Defense
 	Inherits@AUTOTARGET: ^AutoTargetGround
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -35,7 +35,7 @@ GTWR:
 	BodyOrientation:
 		QuantizedFacings: 8
 	DetectCloaked:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -63,7 +63,7 @@ GTWR:
 GTWR.Husk:
 	Inherits: ^DefenseHusk
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Tooltip:
 		Name: Guard Tower (Destroyed)
 	RenderSprites:
@@ -75,7 +75,7 @@ GUN:
 	-WithDeathAnimation:
 	-BodyOrientation:
 	Selectable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Valued:
 		Cost: 500
 	Tooltip:
@@ -117,7 +117,7 @@ GUN:
 		PauseOnCondition: build-incomplete
 	WithMuzzleOverlay:
 	DetectCloaked:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -136,6 +136,8 @@ GUN:
 
 GUN.Husk:
 	Inherits: ^DefenseHusk
+	Interactable:
+		Bounds: 1024, 1024
 	Turreted:
 		TurnSpeed: 12
 		InitialFacing: 56
@@ -163,8 +165,8 @@ ATWR:
 		Queue: Defence.GDI
 		Description:  All-purpose defensive structure.
 	Selectable:
-		Bounds: 24,24
-		DecorationBounds: 22,48,0,-12
+		Bounds: 1024, 1024
+		DecorationBounds: 938, 2048, 0, -512
 	Health:
 		HP: 60000
 	Armor:
@@ -195,7 +197,7 @@ ATWR:
 	BodyOrientation:
 		QuantizedFacings: 8
 	DetectCloaked:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -211,7 +213,7 @@ ATWR:
 ATWR.Husk:
 	Inherits: ^DefenseHusk
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024,1024
 	Tooltip:
 		Name: Advanced Guard Tower (Destroyed)
 	RenderSprites:
@@ -237,8 +239,8 @@ OBLI:
 		Queue: Defence.Nod
 		Description:  Advanced base defense.
 	Selectable:
-		Bounds: 24,24
-		DecorationBounds: 22,44,0,-10
+		Bounds: 1024, 1024
+		DecorationBounds: 938, 1877, 0, -426
 	Health:
 		HP: 75000
 	Armor:
@@ -263,7 +265,7 @@ OBLI:
 		SoundFiles: obelpowr.aud
 		Interval: 30, 40
 	DetectCloaked:
-		CloakTypes: Stealth
+		DetectionTypes: Stealth
 		Range: 3c768
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -279,7 +281,7 @@ OBLI:
 OBLI.Husk:
 	Inherits: ^DefenseHusk
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Tooltip:
 		Name: Obelisk of Light (Destroyed)
 	RenderSprites:
@@ -306,8 +308,8 @@ CRAM:
 		Queue: Defence.GDI
 		Description:  Anti-Aircraft base defense.
 	Selectable:
-		Bounds: 24,24
-		DecorationBounds: 24,32,0,-4
+		Bounds: 1024, 1024
+		DecorationBounds: 1024, 1032, 0, -4
 	Health:
 		HP: 40000
 	Armor:
@@ -367,7 +369,7 @@ CRAM:
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 	DetectCloaked:
-		CloakTypes: AirStealth
+		DetectionTypes: AirStealth
 		Range: 5c512
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -379,7 +381,7 @@ CRAM:
 CRAM.Husk:
 	Inherits: ^DefenseHusk
 	Interactable:
-		Bounds: 24,24
+		Bounds: 1024, 1024
 	Building:
 		Footprint: x
 		Dimensions: 1,1
@@ -396,7 +398,7 @@ SAM:
 	-BodyOrientation:
 	-ActorPreviewPlaceBuildingPreview:
 	Selectable:
-		Bounds: 48,24
+		Bounds: 2048, 1024
 	HitShape:
 		Type: Rectangle
 			TopLeft: -768,-512
@@ -472,9 +474,9 @@ SAM:
 	ClassicFacingBodyOrientation:
 	SequencePlaceBuildingPreview:
 		Sequence: place
-		SequencePalette: placebuilding
+		SequenceAlpha: 0.65
 	Cloak:
-		CloakTypes: GroundStealth
+		DetectionTypes: GroundStealth
 		InitialDelay: 125
 		CloakDelay: 75
 		Palette: cloaktransparent
@@ -494,7 +496,7 @@ SAM:
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
 	DetectCloaked:
-		CloakTypes: AirStealth
+		DetectionTypes: AirStealth
 		Range: 7c512
 		RequiresCondition: !lowpower && !build-incomplete
 	RenderDetectionCircle:
@@ -503,7 +505,7 @@ SAM:
 SAM.Husk:
 	Inherits: ^DefenseHusk
 	Interactable:
-		Bounds: 24,24
+		Bounds: 2048, 1024
 	Building:
 		Footprint: xx
 		Dimensions: 2,1

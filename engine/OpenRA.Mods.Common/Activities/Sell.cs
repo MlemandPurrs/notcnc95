@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -21,7 +21,7 @@ namespace OpenRA.Mods.Common.Activities
 		readonly IHealth health;
 		readonly SellableInfo sellableInfo;
 		readonly PlayerResources playerResources;
-		bool showTicks;
+		readonly bool showTicks;
 
 		public Sell(Actor self, bool showTicks)
 		{
@@ -47,6 +47,9 @@ namespace OpenRA.Mods.Common.Activities
 
 			if (showTicks && refund > 0 && self.Owner.IsAlliedWith(self.World.RenderPlayer))
 				self.World.AddFrameEndTask(w => w.Add(new FloatingText(self.CenterPosition, self.Owner.Color, FloatingText.FormatCashTick(refund), 30)));
+
+			Game.Sound.PlayNotification(self.World.Map.Rules, self.Owner, "Speech", sellableInfo.Notification, self.Owner.Faction.InternalName);
+			TextNotificationsManager.AddTransientLine(sellableInfo.TextNotification, self.Owner);
 
 			self.Dispose();
 			return false;

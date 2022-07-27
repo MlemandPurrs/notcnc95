@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using OpenRA.Graphics;
 using OpenRA.Mods.Common.Traits.Render;
 using OpenRA.Traits;
@@ -38,22 +37,21 @@ namespace OpenRA.Mods.Common.Lint
 
 		void Run(Action<string> emitError, Action<string> emitWarning, Ruleset rules, SequenceProvider sequences)
 		{
-			var factions = rules.Actors["world"].TraitInfos<FactionInfo>().Select(f => f.InternalName).ToArray();
+			var factions = rules.Actors[SystemActors.World].TraitInfos<FactionInfo>().Select(f => f.InternalName).ToArray();
 			foreach (var actorInfo in rules.Actors)
 			{
+				var images = new HashSet<string>();
+
 				// Actors may have 0 or 1 RenderSprites traits
 				var renderInfo = actorInfo.Value.TraitInfoOrDefault<RenderSpritesInfo>();
-				if (renderInfo == null)
-					continue;
-
-				var images = new HashSet<string>()
+				if (renderInfo != null)
 				{
-					renderInfo.GetImage(actorInfo.Value, sequences, null).ToLowerInvariant()
-				};
+					images.Add(renderInfo.GetImage(actorInfo.Value, null).ToLowerInvariant());
 
-				// Some actors define faction-specific artwork
-				foreach (var faction in factions)
-					images.Add(renderInfo.GetImage(actorInfo.Value, sequences, faction).ToLowerInvariant());
+					// Some actors define faction-specific artwork
+					foreach (var faction in factions)
+						images.Add(renderInfo.GetImage(actorInfo.Value, faction).ToLowerInvariant());
+				}
 
 				foreach (var traitInfo in actorInfo.Value.TraitInfos<TraitInfo>())
 				{
@@ -77,14 +75,15 @@ namespace OpenRA.Mods.Common.Lint
 							if (string.IsNullOrEmpty(imageOverride))
 							{
 								if (!sequenceReference.AllowNullImage)
-									emitError("Actor type `{0}` trait `{1}` must define a value for `{2}`".F(actorInfo.Value.Name, traitName, sequenceReference.ImageReference));
+									emitError($"Actor type `{actorInfo.Value.Name}` trait `{traitName}` must define a value for `{sequenceReference.ImageReference}`");
+
 								continue;
 							}
 
 							sequenceImages = new[] { imageOverride.ToLowerInvariant() };
 						}
 
-						foreach (var sequence in LintExts.GetFieldValues(traitInfo, field, emitError, sequenceReference.DictionaryReference))
+						foreach (var sequence in LintExts.GetFieldValues(traitInfo, field, sequenceReference.DictionaryReference))
 						{
 							if (string.IsNullOrEmpty(sequence))
 								continue;
@@ -95,10 +94,10 @@ namespace OpenRA.Mods.Common.Lint
 								{
 									// TODO: Remove prefixed sequence references and instead use explicit lists of lintable references
 									if (!sequences.Sequences(i).Any(s => s.StartsWith(sequence)))
-										emitWarning("Actor type `{0}` trait `{1}` field `{2}` defines a prefix `{3}` that does not match any sequences on image `{4}`.".F(actorInfo.Value.Name, traitName, field.Name, sequence, i));
+										emitWarning($"Actor type `{actorInfo.Value.Name}` trait `{traitName}` field `{field.Name}` defines a prefix `{sequence}` that does not match any sequences on image `{i}`.");
 								}
 								else if (!sequences.HasSequence(i, sequence))
-									emitError("Actor type `{0}` trait `{1}` field `{2}` references an undefined sequence `{3}` on image `{4}`.".F(actorInfo.Value.Name, traitName, field.Name, sequence, i));
+									emitError($"Actor type `{actorInfo.Value.Name}` trait `{traitName}` field `{field.Name}` references an undefined sequence `{sequence}` on image `{i}`.");
 							}
 						}
 					}
@@ -123,13 +122,13 @@ namespace OpenRA.Mods.Common.Lint
 					if (string.IsNullOrEmpty(image))
 					{
 						if (!sequenceReference.AllowNullImage)
-							emitError("Weapon type `{0}` projectile field `{1}` must define a value".F(weaponInfo.Key, sequenceReference.ImageReference));
+							emitError($"Weapon type `{weaponInfo.Key}` projectile field `{sequenceReference.ImageReference}` must define a value");
 
 						continue;
 					}
 
 					image = image.ToLowerInvariant();
-					foreach (var sequence in LintExts.GetFieldValues(projectileInfo, field, emitError, sequenceReference.DictionaryReference))
+					foreach (var sequence in LintExts.GetFieldValues(projectileInfo, field, sequenceReference.DictionaryReference))
 					{
 						if (string.IsNullOrEmpty(sequence))
 							continue;
@@ -138,10 +137,10 @@ namespace OpenRA.Mods.Common.Lint
 						{
 							// TODO: Remove prefixed sequence references and instead use explicit lists of lintable references
 							if (!sequences.Sequences(image).Any(s => s.StartsWith(sequence)))
-								emitWarning("Weapon type `{0}` projectile field `{1}` defines a prefix `{2}` that does not match any sequences on image `{3}`.".F(weaponInfo.Key, field.Name, sequence, image));
+								emitWarning($"Weapon type `{weaponInfo.Key}` projectile field `{field.Name}` defines a prefix `{sequence}` that does not match any sequences on image `{image}`.");
 						}
 						else if (!sequences.HasSequence(image, sequence))
-							emitError("Weapon type `{0}` projectile field `{1}` references an undefined sequence `{2}` on image `{3}`.".F(weaponInfo.Key, field.Name, sequence, image));
+							emitError($"Weapon type `{weaponInfo.Key}` projectile field `{field.Name}` references an undefined sequence `{sequence}` on image `{image}`.");
 					}
 				}
 			}

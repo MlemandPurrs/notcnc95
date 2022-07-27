@@ -4,6 +4,7 @@
 	ScreenMap:
 	ActorMap:
 	Selection:
+    ControlGroups:
 	MusicPlaylist:
 		VictoryMusic: win1
 		DefeatMusic: nod_map1
@@ -219,43 +220,20 @@
 		Name: Nod
 		InternalName: nod
 		Description: Brotherhood of Nod\nThe Brotherhood is a religious cult centered around their leader Kane\nand the alien substance Tiberium. They utilize stealth technology\nand guerilla tactics to defeat those who oppose them.
-	ResourceType@green-tib:
-		Type: Tiberium
-		Name: Tiberium
-		ResourceType: 1
-		Palette: greentiberium
-		TerrainType: Tiberium
-		Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
-		MaxDensity: 12
-		ValuePerUnit: 35
-		AllowedTerrainTypes: Clear,Road
-		AllowUnderActors: true
-	ResourceType@blue-tib:
-		Type: BlueTiberium
-		Name: Tiberium
-		ResourceType: 2
-		Palette: bluetiberium
-		TerrainType: BlueTiberium
-		Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
-		MaxDensity: 12
-		ValuePerUnit: 60
-		AllowedTerrainTypes: Clear,Road
-		AllowUnderActors: true
-	ResourceType@red-tib:
-		Type: RedTiberium
-		Name: Tiberium
-		ResourceType: 3
-		Palette: redtiberium
-		TerrainType: RedTiberium
-		Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
-		MaxDensity: 12
-		ValuePerUnit: 85
-		AllowedTerrainTypes: Clear,Road
-		AllowUnderActors: true
 	ResourceRenderer:
-		RenderTypes: Tiberium, BlueTiberium, RedTiberium
-	JumpjetActorLayer:
-		HeightOffset: 1c460
+		ResourceTypes:
+			Tiberium:
+				Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
+				Palette: greentiberium
+				Name: Tiberium
+			BlueTiberium:
+				Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
+				Palette: bluetiberium
+				Name: Tiberium
+			RedTiberium:
+				Sequences: ti1,ti2,ti3,ti4,ti5,ti6,ti7,ti8,ti9,ti10,ti11,ti12
+				Palette: redtiberium
+				Name: Tiberium
 
 World:
 	Inherits: ^BaseWorld
@@ -284,6 +262,23 @@ World:
 		SmokeImage: smoke_m
 		SmokeSequences: idle
 	ResourceLayer:
+        RecalculateResourceDensity: true
+        ResourceTypes:
+            Tiberium:
+                ResourceIndex: 1
+                TerrainType: Tiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
+            BlueTiberium:
+                ResourceIndex: 2
+                TerrainType: BlueTiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
+            RedTiberium:
+                ResourceIndex: 3
+                TerrainType: BlueTiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
 	ResourceClaimLayer:
 	WarheadDebugOverlay:
 	CustomTerrainDebugOverlay:
@@ -314,70 +309,84 @@ World:
 		ShortGameCheckboxDisplayOrder: 2
 		TechLevelDropdownDisplayOrder: 2
 		GameSpeedDropdownDisplayOrder: 3
-	MPStartLocations:
+	MapStartingLocations:
 		SeparateTeamSpawnsCheckboxDisplayOrder: 99
 		SeparateTeamSpawnsCheckboxLocked: true
 		SeparateTeamSpawnsCheckboxVisible: false
-	CreateMPPlayers:
-	MPStartUnits@mcvonly:
+	CreateMapPlayers:
+	SpawnStartingUnits:
+		DropdownDisplayOrder: 1
+	StartingUnits@mcvonly:
 		Class: none
 		ClassName: MCV Only
 		Factions: gdi, nod
 		BaseActor: mcv
-	MPStartUnits@deployed:
+	StartingUnits@deployed:
 		Class: deployed
 		ClassName: Deployed Conyard
 		Factions: gdi, nod
 		BaseActor: fact
-	MPStartUnits@mcvdouble:
+	StartingUnits@mcvdouble:
 		Class: doublemcv
 		ClassName: Double MCV
 		Factions: gdi, nod
 		BaseActor: mcv
 		SupportActors: mcv
-	MPStartUnits@lightgdia:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@lightgdia:
 		Class: light
 		ClassName: Light Support
 		Factions: gdi
 		BaseActor: mcv
 		SupportActors: e1,e1,e1,e1,e1,e3,e3,jeep
-	MPStartUnits@lightnoda:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@lightnoda:
 		Class: light
 		ClassName: Light Support
 		Factions: nod
 		BaseActor: mcv
 		SupportActors: e1,e1,e1,e1,e1,e1,e3,e3,bggy
-	MPStartUnits@heavynoda:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavynoda:
 		Class: heavy
 		ClassName: Heavy Support
 		Factions: nod
 		BaseActor: mcv
 		SupportActors: e1,e1,e1,e1,e3,e3,ltnk,ltnk,ftnk
-	MPStartUnits@heavynodb:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavynodb:
 		Class: heavy
 		ClassName: Heavy Support
 		Factions: nod
 		BaseActor: mcv
 		SupportActors: e1,e1,e4,e1,e1,e3,e3,e3,ftnk,ftnk
-	MPStartUnits@heavygdia:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavygdia:
 		Class: heavy
 		ClassName: Heavy Support
 		Factions: gdi
 		BaseActor: mcv
 		SupportActors: e1,e1,e1,e1,e3,e3,jeep,mtnk,mtnk
-	MPStartUnits@heavygdib:
+        InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@heavygdib:
 		Class: heavy
 		ClassName: Heavy Support
 		Factions: gdi
 		BaseActor: mcv
 		SupportActors: e1,e1,e1,e1,e1,e2,e2,e2,e3,e3,apc,mtnk
-	MPStartUnits@cratehunters:
+		InnerSupportRadius: 3
+		OuterSupportRadius: 5
+	StartingUnits@cratehunters:
 		Class: mhq
 		ClassName: Crate Hunters
 		Factions: gdi, nod
 		BaseActor: MHQ
-	SpawnMPUnits:
-		DropdownDisplayOrder: 0
 	CrateSpawner:
 		Minimum: 1
 		Maximum: 6
@@ -396,6 +405,7 @@ World:
 	LoadWidgetAtGameStart:
 		ShellmapRoot: MENU_BACKGROUND
 	ScriptTriggers:
+    CellTriggerOverlay:
 	LuaScript:
 		Scripts: ecosetting.lua
         #   husksetting.lua
@@ -415,6 +425,19 @@ World:
 			3: ThreeMinutesRemaining
 			2: TwoMinutesRemaining
 			1: OneMinuteRemaining    
+	ColorPickerManager:
+		PreviewActor: fact.colorpicker
+        FactionPreviewActors:
+            gdi: fact.colorpicker.gdi
+            nod: fact.colorpicker.nod
+		PresetHues: 0, 0.07, 0.14, 0.34, 0.57, 0.66, 0.74, 0.84, 0, 0.07, 0.12, 0.40, 0.49, 0.63, 0.74, 0.88
+		PresetSaturations: 0.95, 0.97, 0.95, 0.9, 0.97, 0.85, 0.9, 0.9, 0.4, 0.3, 0.48, 0.35, 0.88, 0.37, 0.35, 0.37
+		HsvSaturationRange: 0.3, 0.97
+		SimilarityThreshold: 0.08
+	OrderEffects:
+		TerrainFlashImage: moveflsh
+		TerrainFlashSequence: idle
+		TerrainFlashPalette: moveflash
 	ScriptLobbyDropdown@EcoSpeed:
 		ID: growthrate
 		Label: Growth Rate
@@ -436,12 +459,43 @@ World:
 	#	Default: structures
 	#	Description: Types of Husks that may appear ingame
 	#	DisplayOrder: 6
+	JumpjetActorLayer:
+		HeightOffset: 1c460
+	#   TerrainLighting:
+	#	GreenTint: 1.01
+	#   GlobalLightingPaletteEffect:
+	#	Red: 1.22
+	#	Green: 1.27
+	#	Blue: 1.15
+	#	Ambient: 0.55
+	#	ExcludePalettes: fog, shroud, cursor, chrome, colorpicker, fog, shroud, effect
 
 EditorWorld:
 	Inherits: ^BaseWorld
 	EditorActorLayer:
 	EditorCursorLayer:
 	EditorResourceLayer:
+        RecalculateResourceDensity: true
+        ResourceTypes:
+            Tiberium:
+                ResourceIndex: 1
+                TerrainType: Tiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
+            BlueTiberium:
+                ResourceIndex: 2
+                TerrainType: BlueTiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
+            RedTiberium:
+                ResourceIndex: 3
+                TerrainType: BlueTiberium
+                AllowedTerrainTypes: Clear, Road
+                MaxDensity: 12
 	EditorSelectionLayer:
 	LoadWidgetAtGameStart:
 	EditorActionManager:
+	BuildableTerrainOverlay:
+		AllowedTerrainTypes: Clear, Road
+	#   TerrainLighting:
+	#	GreenTint: 1.01

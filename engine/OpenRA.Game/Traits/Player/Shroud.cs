@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -14,14 +14,13 @@ using System.Collections.Generic;
 
 namespace OpenRA.Traits
 {
+	[TraitLocation(SystemActors.Player | SystemActors.EditorPlayer)]
 	[Desc("Required for shroud and fog visibility checks. Add this to the player actor.")]
 	public class ShroudInfo : TraitInfo, ILobbyOptions
 	{
-		[Translate]
 		[Desc("Descriptive label for the fog checkbox in the lobby.")]
 		public readonly string FogCheckboxLabel = "Fog of War";
 
-		[Translate]
 		[Desc("Tooltip description for the fog checkbox in the lobby.")]
 		public readonly string FogCheckboxDescription = "Line of sight is required to view enemy forces";
 
@@ -37,11 +36,9 @@ namespace OpenRA.Traits
 		[Desc("Display order for the fog checkbox in the lobby.")]
 		public readonly int FogCheckboxDisplayOrder = 0;
 
-		[Translate]
 		[Desc("Descriptive label for the explored map checkbox in the lobby.")]
 		public readonly string ExploredMapCheckboxLabel = "Explored Map";
 
-		[Translate]
 		[Desc("Tooltip description for the explored map checkbox in the lobby.")]
 		public readonly string ExploredMapCheckboxDescription = "Initial map shroud is revealed";
 
@@ -57,7 +54,7 @@ namespace OpenRA.Traits
 		[Desc("Display order for the explore map checkbox in the lobby.")]
 		public readonly int ExploredMapCheckboxDisplayOrder = 0;
 
-		IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(Ruleset rules)
+		IEnumerable<LobbyOption> ILobbyOptions.LobbyOptions(MapPreview map)
 		{
 			yield return new LobbyBooleanOption("explored", ExploredMapCheckboxLabel, ExploredMapCheckboxDescription,
 				ExploredMapCheckboxVisible, ExploredMapCheckboxDisplayOrder, ExploredMapCheckboxEnabled, ExploredMapCheckboxLocked);
@@ -108,10 +105,7 @@ namespace OpenRA.Traits
 		bool disabled;
 		public bool Disabled
 		{
-			get
-			{
-				return disabled;
-			}
+			get => disabled;
 
 			set
 			{
@@ -123,7 +117,7 @@ namespace OpenRA.Traits
 		}
 
 		bool fogEnabled;
-		public bool FogEnabled { get { return !Disabled && fogEnabled; } }
+		public bool FogEnabled => !Disabled && fogEnabled;
 		public bool ExploreMapEnabled { get; private set; }
 
 		public int Hash { get; private set; }
@@ -169,9 +163,14 @@ namespace OpenRA.Traits
 			if (OnShroudChanged == null)
 				return;
 
-			foreach (var puv in map.ProjectedCells)
+			// PERF: Parts of this loop are very hot.
+			// We loop over the direct index that represents the PPos in
+			// the ProjectedCellLayers, converting to a PPos only if
+			// it is needed (which is the uncommon case.)
+			var maxIndex = touched.MaxIndex;
+			for (var index = 0; index < maxIndex; index++)
 			{
-				var index = touched.Index(puv);
+				// PERF: Most cells are not touched
 				if (!touched[index])
 					continue;
 
@@ -191,11 +190,14 @@ namespace OpenRA.Traits
 					}
 				}
 
+				// PERF: Most cells are unchanged
 				var oldResolvedType = resolvedType[index];
 				if (type != oldResolvedType)
 				{
 					resolvedType[index] = type;
-					OnShroudChanged(puv);
+					var uv = touched.PPosFromIndex(index);
+					if (map.Contains(uv))
+						OnShroudChanged(uv);
 				}
 			}
 
@@ -297,7 +299,7 @@ namespace OpenRA.Traits
 			sources.Remove(key);
 		}
 
-		public void ExploreProjectedCells(World world, IEnumerable<PPos> cells)
+		public void ExploreProjectedCells(IEnumerable<PPos> cells)
 		{
 			foreach (var puv in cells)
 			{
@@ -317,7 +319,7 @@ namespace OpenRA.Traits
 		public void Explore(Shroud s)
 		{
 			if (map.Bounds != s.map.Bounds)
-				throw new ArgumentException("The map bounds of these shrouds do not match.", "s");
+				throw new ArgumentException("The map bounds of these shrouds do not match.", nameof(s));
 
 			foreach (var puv in map.ProjectedCells)
 			{

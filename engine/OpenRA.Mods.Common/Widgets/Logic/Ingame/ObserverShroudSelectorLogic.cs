@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -33,7 +33,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		readonly World world;
 
 		CameraOption selected;
-		LabelWidget shroudLabel;
+		readonly LabelWidget shroudLabel;
 
 		class CameraOption
 		{
@@ -97,13 +97,17 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				.OrderBy(g => g.Key);
 
 			var noTeams = teams.Count() == 1;
+			var totalPlayers = 0;
 			foreach (var t in teams)
 			{
-				var label = noTeams ? "Players" : t.Key == 0 ? "No Team" : "Team {0}".F(t.Key);
+				totalPlayers += t.Count();
+				var label = noTeams ? "Players" : t.Key == 0 ? "No Team" : $"Team {t.Key}";
 				groups.Add(label, t);
 			}
 
+			var shroudSelectorDisabled = limitViews && totalPlayers < 2;
 			var shroudSelector = widget.Get<DropDownButtonWidget>("SHROUD_SELECTOR");
+			shroudSelector.IsDisabled = () => shroudSelectorDisabled;
 			shroudSelector.OnMouseDown = _ =>
 			{
 				Func<CameraOption, ScrollItemWidget, ScrollItemWidget> setupItem = (option, template) =>

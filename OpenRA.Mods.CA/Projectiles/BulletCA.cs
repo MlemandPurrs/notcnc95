@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2021 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -52,9 +52,8 @@ namespace OpenRA.Mods.CA.Projectiles
 		[Desc("Does this projectile have a shadow?")]
 		public readonly bool Shadow = false;
 
-		[PaletteReference]
-		[Desc("Palette to use for this projectile's shadow if Shadow is true.")]
-		public readonly string ShadowPalette = "shadow";
+		[Desc("Color to draw shadow if Shadow is true.")]
+		public readonly Color ShadowColor = Color.FromArgb(140, 0, 0, 0);
 
 		[Desc("Trail animation.")]
 		public readonly string TrailImage = null;
@@ -75,6 +74,9 @@ namespace OpenRA.Mods.CA.Projectiles
 
 		[Desc("Use the Player Palette to render the trail sequence.")]
 		public readonly bool TrailUsePlayerPalette = false;
+
+		[Desc("Fixed distance between Trail animations. Overrides the distance calculated using projectile speed.")]
+		public readonly WDist TrailSpacing = WDist.Zero;
 
 		[Desc("Is this blocked by actors with BlocksProjectiles trait.")]
 		public readonly bool Blockable = true;
@@ -98,8 +100,8 @@ namespace OpenRA.Mods.CA.Projectiles
 		[Desc("Terrain where the projectile explodes instead of bouncing.")]
 		public readonly HashSet<string> InvalidBounceTerrain = new HashSet<string>();
 
-		[Desc("If projectile touches an actor with one of these stances during or after the first bounce, trigger explosion.")]
-		public readonly PlayerRelationship ValidBounceBlockerStances = PlayerRelationship.Enemy | PlayerRelationship.Neutral;
+		[Desc("Trigger the explosion if the projectile touches an actor thats owner has these player relationships.")]
+		public readonly PlayerRelationship ValidBounceBlockerRelationships = PlayerRelationship.Enemy | PlayerRelationship.Neutral;
 
 		[Desc("Altitude above terrain below which to explode. Zero effectively deactivates airburst.")]
 		public readonly WDist AirburstAltitude = WDist.Zero;
@@ -127,7 +129,10 @@ namespace OpenRA.Mods.CA.Projectiles
 		readonly WDist speed;
 		readonly string trailPalette;
 
-		ContrailRenderable contrail;
+		readonly float3 shadowColor;
+		readonly float shadowAlpha;
+
+		readonly ContrailRenderable contrail;
 
 		[Sync]
 		WPos pos, lastPos, target, source;
@@ -135,6 +140,7 @@ namespace OpenRA.Mods.CA.Projectiles
 		int length;
 		int ticks, smokeTicks;
 		int remainingBounces;
+		List<Animation> trailItems = new List<Animation>();
 
 		public BulletCA(BulletCAInfo info, ProjectileArgs args)
 		{
@@ -186,6 +192,9 @@ namespace OpenRA.Mods.CA.Projectiles
 
 			smokeTicks = info.TrailDelay;
 			remainingBounces = info.BounceCount;
+
+			shadowColor = new float3(info.ShadowColor.R, info.ShadowColor.G, info.ShadowColor.B) / 255f;
+			shadowAlpha = info.ShadowColor.A / 255f;
 		}
 
 		WAngle GetEffectiveFacing()
@@ -207,6 +216,9 @@ namespace OpenRA.Mods.CA.Projectiles
 		{
 			anim?.Tick();
 
+			foreach (var t in trailItems)
+				t.Tick();
+
 			lastPos = pos;
 			pos = WPos.LerpQuadratic(source, target, angle, ticks, length);
 
@@ -217,7 +229,7 @@ namespace OpenRA.Mods.CA.Projectiles
 		bool ShouldExplode(World world)
 		{
 			// Check for walls or other blocking obstacles
-			if (info.Blockable && BlocksProjectiles.AnyBlockingActorsBetween(world, lastPos, pos, info.Width, out var blockedPos))
+			if (info.Blockable && BlocksProjectiles.AnyBlockingActorsBetween(world, args.SourceActor.Owner, lastPos, pos, info.Width, out var blockedPos))
 			{
 				pos = blockedPos;
 				return true;
@@ -225,9 +237,19 @@ namespace OpenRA.Mods.CA.Projectiles
 
 			if (!string.IsNullOrEmpty(info.TrailImage) && --smokeTicks < 0)
 			{
-				var delayedPos = WPos.LerpQuadratic(source, target, angle, ticks - info.TrailDelay, length);
-				world.AddFrameEndTask(w => w.Add(new SpriteEffect(delayedPos, GetEffectiveFacing(), w,
-					info.TrailImage, info.TrailSequences.Random(world.SharedRandom), trailPalette)));
+				if (info.TrailSpacing != WDist.Zero)
+				{
+					var trailAnim = new Animation(world, info.TrailImage, new Func<WAngle>(GetEffectiveFacing));
+					trailItems.Add(trailAnim);
+					trailAnim.PlayThen(info.TrailSequences.Random(world.SharedRandom), () => world.AddFrameEndTask(w => { trailItems.Remove(trailAnim); }));
+				}
+				else
+				{
+					var delayedPos = WPos.LerpQuadratic(source, target, angle, ticks - info.TrailDelay, length);
+
+					world.AddFrameEndTask(w => w.Add(new SpriteEffect(delayedPos, GetEffectiveFacing(), w,
+						info.TrailImage, info.TrailSequences.Random(world.SharedRandom), trailPalette)));
+				}
 
 				smokeTicks = info.TrailInterval;
 			}
@@ -290,17 +312,39 @@ namespace OpenRA.Mods.CA.Projectiles
 			var world = args.SourceActor.World;
 			if (!world.FogObscures(pos))
 			{
+				var paletteName = info.Palette;
+				if (paletteName != null && info.IsPlayerPalette)
+					paletteName += args.SourceActor.Owner.InternalName;
+
+				var palette = wr.Palette(paletteName);
+
 				if (info.Shadow)
 				{
 					var dat = world.Map.DistanceAboveTerrain(pos);
 					var shadowPos = pos - new WVec(0, 0, dat.Length);
-					foreach (var r in anim.Render(shadowPos, wr.Palette(info.ShadowPalette)))
-						yield return r;
+					foreach (var r in anim.Render(shadowPos, palette))
+						yield return ((IModifyableRenderable)r)
+							.WithTint(shadowColor, ((IModifyableRenderable)r).TintModifiers | TintModifiers.ReplaceColor)
+							.WithAlpha(shadowAlpha);
 				}
 
-				var palette = wr.Palette(info.Palette + (info.IsPlayerPalette ? args.SourceActor.Owner.InternalName : ""));
 				foreach (var r in anim.Render(pos, palette))
 					yield return r;
+
+				var trailPalette = wr.Palette(info.TrailPalette + (info.TrailUsePlayerPalette ? args.SourceActor.Owner.InternalName : ""));
+				var trailMult = 1;
+
+				for (var i = trailItems.Count - 1; i >= 0; i--)
+				{
+					var trailOffset = new WVec(0, info.TrailSpacing.Length, 0);
+					trailOffset = trailOffset.Rotate(WRot.FromYaw(facing));
+					var trailPos = pos + (trailOffset * trailMult);
+
+					foreach (var r in trailItems[i].Render(trailPos, trailPalette))
+						yield return r;
+
+					trailMult++;
+				}
 			}
 		}
 
@@ -327,7 +371,7 @@ namespace OpenRA.Mods.CA.Projectiles
 				if (checkTargetType && !Target.FromActor(victim).IsValidFor(firedBy))
 					continue;
 
-				if (!info.ValidBounceBlockerStances.HasStance(firedBy.Owner.RelationshipWith(victim.Owner)))
+				if (!info.ValidBounceBlockerRelationships.HasRelationship(firedBy.Owner.RelationshipWith(victim.Owner)))
 					continue;
 
 				// If the impact position is within any actor's HitShape, we have a direct hit

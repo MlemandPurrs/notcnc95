@@ -312,16 +312,18 @@ Player:
 		MinimumAttackForceDelay: 25
 		SquadSize: 16
 		SquadSizeRandomBonus: 16
-		ExcludeFromSquadsTypes: harv, mcv, e6
+		ExcludeFromSquadsTypes: harv, mcv, e6, a10, sfig, f18, f22, 
         #   reg. 'mersenne twister' crash, root of cause is below
         #   wat happenz is in the unlikely case there are no Construction Yards remaining on board
         #   ai component that orders a squad to attack goes bonkers as there is no other fallback
 		ConstructionYardTypes: fact,pyle,hand,hand.squad,weap,afld,hpad,tech,tmpl
         #   so expanded the list to falsely include any building of importance, less likely to ctd
+        #   ProtectionTypes: fact, proc, weap, afld, tech, tmpl
 		RushInterval: 400
 		MaxBaseRadius: 24
 		IdleScanRadius: 18
 		AttackScanRadius: 9
+        AirUnitsTypes: heli.ai, heli.ai.upgraded, orca, mh60.ai, rh66.ai
         NavalUnitsTypes: lst, gb
         NavalProductionTypes: syrd
 	UnitBuilderBotModuleCA@ai-player:

@@ -9,13 +9,8 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRA.Activities;
 using OpenRA.GameRules;
 using OpenRA.Graphics;
-using OpenRA.Mods.Common.Activities;
-using OpenRA.Mods.Common.Graphics;
 using OpenRA.Primitives;
 using OpenRA.Traits;
 
@@ -41,12 +36,6 @@ namespace OpenRA.Mods.CA.Traits
 		int RandomRate { get; }
 	}
 
-	[RequireExplicitImplementation]
-	public interface IRemoveInfector
-	{
-		void RemoveInfector(Actor self, bool kill, AttackInfo e = null);
-	}
-
 	public interface INotifyActivate { void Launching(Actor self); }
 
 	[RequireExplicitImplementation]
@@ -67,4 +56,14 @@ namespace OpenRA.Mods.CA.Traits
 	public interface ILoadsOverlayPlayerPalettes { void LoadOverlayPlayerPalettes(WorldRenderer wr, string playerName, Color playerColor, bool replaceExisting); }
 
 	public interface INotifyPrismCharging { void Charging(Actor self, in Target target); }
+
+	[RequireExplicitImplementation]
+	public interface INotifyEnterTeleporter { void Charging(Actor self, Actor teleporter); }
+	public interface INotifyExitTeleporter { void Arrived(Actor self); }
+
+	[RequireExplicitImplementation]
+	public interface IBotAircraftBuilder { bool CanBuildMoreOfAircraft(ActorInfo actorInfo); }
+
+	[RequireExplicitImplementation]
+	public interface IPortableChronoModifier { int GetCooldownModifier(); int GetRangeModifier(); }
 }

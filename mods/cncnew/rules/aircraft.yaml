@@ -54,22 +54,44 @@ C17:
 		RequiresCondition: c17speed-upgraded
 
 C130:
-    Inherits: C17
+	Inherits: ^Plane
+	Inherits@TRANSPORT: ^Transport
+	Interactable:
 	Tooltip:
 		Name: Paradrop Aircraft
+	Valued:
+		Cost: 2000
+	UpdatesPlayerStatistics:
+		AddToAssetsValue: false
 	Aircraft:
 		CruiseAltitude: 3072
+        TurnSpeed: 20
 		Speed: 236
+		LandingSounds: vc130diva.aud, vc130divb.aud
+		Repulsable: False
+		MaximumPitch: 36
         AirborneCondition: airborne
-    -DamageMultiplier@INVULNERABLE:
-    -GrantConditionOnPrerequisite@C17Speed:
-    -SpeedMultiplier@C17Speed:
+	HiddenUnderFog:
+		AlwaysVisibleRelationships: None
+		Type: CenterPosition
+	Cargo:
+		Types: Infantry, Vehicle, Crate
+		MaxWeight: 10
+	ParaDrop:
+		DropRange: 5c0
+		ChuteSound: chute1.aud
 	Contrail@1:
-		Offset: -233,-650,0
-    -Contrail@2:
-    -Contrail@3:
-	Contrail@4:
-		Offset: -233,650,0
+		Offset: -261,-650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+	Contrail@2:
+		Offset: -261,650,0
+		TrailLength: 8
+		TrailWidth: 48
+		UsePlayerColor: false
+    SpawnActorOnDeath:
+        Actor: C130.Husk
 	HitShape:
 	Health:
 		HP: 16500
@@ -78,8 +100,7 @@ C130:
 	Targetable@AIRBORNE:
 		TargetTypes: Airplane
 		RequiresCondition: airborne
-    SpawnActorOnDeath:
-        Actor: C130.Husk
+	-MapEditorData:
 
 C130.Husk:
 	Inherits: ^PlaneHusk
@@ -98,10 +119,6 @@ C130.Husk:
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: c130
 
@@ -127,6 +144,7 @@ A10:
 		AirborneCondition: airborne
 	AttackBomber:
 		Armaments: gun, bombs
+        FacingTolerance: 8
 	Armament@GUNS:
 		Name: gun
 		Weapon: Vulcan
@@ -181,14 +199,9 @@ A10.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: a10
 
-#	simplest would be to make this a Nod Airstrike
 SFIG:
 	Inherits: ^Plane
 	-ActorLostNotification:
@@ -211,6 +224,7 @@ SFIG:
 		AirborneCondition: airborne
 	AttackBomber:
 		Armaments: bombs
+        FacingTolerance: 8
 	Armament@BOMBS:
 		Name: bombs
 		Weapon: Napalm
@@ -232,7 +246,7 @@ SFIG:
 	ExternalCondition@AirRadar:
 		Condition: in-airwarning-radius
 	Cloak:
-		CloakTypes: AirStealth
+		DetectionTypes: AirStealth
 		InitialDelay: 0
 		CloakDelay: 90
 		CloakSound: trans1.aud
@@ -253,10 +267,6 @@ SFIG.Husk:
 	Aircraft:
 		TurnSpeed: 16
 		Speed: 343
-	SmokeTrailWhenDamaged:
-		Offset: -853,0,171
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: sfig
 
@@ -278,22 +288,12 @@ UAV:
 		MaximumPitch: 56
 		AirborneCondition: airborne
 	AttackBomber:
+        FacingTolerance: 8
 	SelectionDecorations:
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
 	DetectCloaked:
 		Range: 7c536
-		CloakTypes: GroundStealth, Stealth, AirStealth
-	#	this doesnt appear, boo...
-	#	RenderDetectionCircle:
-	#	appears more opaque than DetectionCircle
-	#	idk how to fix that
-	WithRangeCircle@DetectionImitation:
-		Range: 7c536
-		Color: 32cd32
-		BorderColor: 000000
-		Visible: Always
+		DetectionTypes: GroundStealth, Stealth, AirStealth
+	RenderDetectionCircle:
 	RevealsShroud:
 		Range: 10c768
 		Type: CenterPosition
@@ -345,10 +345,6 @@ UAV.Husk:
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: uav
 
@@ -438,10 +434,6 @@ F18.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: f22
 
@@ -531,10 +523,6 @@ F22.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
-	SmokeTrailWhenDamaged:
-		Offset: -1c43,0,0
-		Interval: 2
-		MinDamage: Undamaged
 	RenderSprites:
 		Image: f22
 
@@ -559,7 +547,6 @@ TRAN:
 		Queue: Aircraft.GDI, Aircraft.Nod
 		Description:  Fast Infantry Transport Helicopter.
 	Aircraft:
-        #   IdleBehavior: Land
 		TurnSpeed: 20
 		Speed: 150
 		AltitudeVelocity: 0c100
@@ -590,6 +577,7 @@ TRAN:
 	Cargo:
 		Types: Infantry
 		MaxWeight: 10
+		UnloadVoice: Unload
 		AfterUnloadDelay: 40
 		LoadedCondition: loaded
 		PassengerConditions:
@@ -600,7 +588,7 @@ TRAN:
 	SpawnActorOnDeath:
 		Actor: TRAN.Husk
 	Selectable:
-		DecorationBounds: 41,41
+		DecorationBounds: 1749, 1749
 	WithDecoration@COMMANDOSKULL:
 		Image: pips
 		Sequence: pip-skull
@@ -701,7 +689,7 @@ ORCA:
         AmmoPools: primary
 		RearmActors: hpad
 	Selectable:
-		DecorationBounds: 30,24
+		DecorationBounds: 1030,1024
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
@@ -714,8 +702,8 @@ ORCA:
 	GrantConditionOnPrerequisite@OrcaAmmoUpgrade:
 		Condition: orcaammo-upgraded
 		Prerequisites: orcaammo.upgrade
-    #   UpgradeableTo:
-    #   Actors: orca.upgraded
+    UpgradeableTo:
+        Actors: orca.upgraded
 
 ORCA.Husk:
 	Inherits: ^HelicopterHusk
@@ -780,6 +768,8 @@ ORCA.upgraded:
 		LocalOffset: 427,0,-213
 		PauseOnCondition: !ammo
 	WithMuzzleOverlay:
+	AttackMove:
+		Voice: Attack
 	AutoTarget:
 		ScanRadius: 5
 	AttackAircraft:
@@ -788,6 +778,7 @@ ORCA.upgraded:
 		OpportunityFire: false
 		PersistentTargeting: false
 		AttackType: Hover
+        Voice: Attack
 	AmmoPool@1:
         Name: primary
 		Armaments: primary, secondary
@@ -804,7 +795,7 @@ ORCA.upgraded:
         AmmoPools: primary
 		RearmActors: hpad
 	Selectable:
-		DecorationBounds: 30,24
+		DecorationBounds: 1280, 1024
 	WithAmmoPipsDecoration:
 		Position: BottomLeft
 		Margin: 4, 3
@@ -899,6 +890,8 @@ HELI:
 		FullSequence: pip-yellow
 		RequiresSelection: true
 		AmmoPools: ammogun
+	AttackMove:
+		Voice: Attack
 	AutoTarget:
 		ScanRadius: 4
 	AttackAircraft:
@@ -907,6 +900,7 @@ HELI:
 		OpportunityFire: false
 		PersistentTargeting: false
 		AttackType: Hover
+        Voice: Attack
 	WithIdleOverlay@ROTORAIR:
 		Offset: 0,0,85
 		Sequence: rotor
@@ -922,7 +916,7 @@ HELI:
 		RearmActors: hpad
 		AmmoPools: ammorock, ammogun
 	Selectable:
-		DecorationBounds: 30,24
+		DecorationBounds: 1280, 1024
 	GrantConditionOnPrerequisite@hellfirepods:
 		Condition: hellfire-upgraded
 		Prerequisites: hellfire.upgrade
@@ -960,8 +954,8 @@ HELI.ai:
 	TransformOnCondition@hellfirepods:
 		IntoActor: heli.ai.upgraded
 		RequiresCondition: hellfire-upgraded
-    #   UpgradeableTo:
-    #   Actors: heli.ai.upgraded
+    UpgradeableTo:
+        Actors: heli.ai.upgraded
     -MapEditorData:
 
 HELI.ai.upgraded:
@@ -999,7 +993,7 @@ MH60:
 		Description:  Slow moving Helicopter gunship armed with chainguns.
 	SelectionDecorations:
 	Selectable:
-		DecorationBounds: 38,32
+		DecorationBounds: 1280, 1024
 	Health:
 		HP: 35000
 	Armor:
@@ -1019,6 +1013,7 @@ MH60:
 		FacingTolerance: 20
 		PersistentTargeting: false
 		AttackType: Hover
+        Voice: Attack
 	Armament@PRIMARY:
 		Name: primary
 		Weapon: HeliAGGun
@@ -1056,8 +1051,6 @@ MH60:
 	WithIdleOverlay@ROTORGROUND:
 		Sequence: slow-rotor
 		RequiresCondition: !airborne
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
 	SpawnActorOnDeath:
 		Actor: MH60.Husk
 		RequiresCondition: airborne
@@ -1072,6 +1065,10 @@ MH60:
 	GrantConditionOnPrerequisite@mh60medic:
 		Condition: mh60medic-upgraded
 		Prerequisites: mh60medic.upgrade
+	AttackMove:
+		Voice: Attack
+	AutoTarget:
+		ScanRadius: 4
 
 MH60.Husk:
 	Inherits: ^HelicopterHusk
@@ -1082,9 +1079,6 @@ MH60.Husk:
 		Speed: 112
 	WithIdleOverlay:
 		Sequence: rotor
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		MinDamage: Undamaged
 	RevealsShroud:
 		Range: 10c0
 		Type: GroundPosition
@@ -1153,6 +1147,8 @@ RH66:
 		Voice: Attack
 	AttackMove:
 		Voice: Attack
+	AutoTarget:
+		ScanRadius: 4
 	Voiced:
 		VoiceSet: SakuraVoice	
 	ExternalCondition@PRODUCED:
@@ -1172,7 +1168,7 @@ RH66:
 	DeathSounds@SAKURA:
 		Voice: Die
 	Cloak:
-		CloakTypes: AirStealth
+		DetectionTypes: AirStealth
 		InitialDelay: 90
 		CloakDelay: 90
 		CloakSound: trans1.aud
@@ -1209,10 +1205,8 @@ RH66:
 		PipCount: 4
 	WithMuzzleOverlay:
 	SelectionDecorations:
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
 	Selectable:
-		DecorationBounds: 36,28
+		DecorationBounds: 1280, 1024
 	SpawnActorOnDeath:
 		Actor: RH66.Husk
 		RequiresCondition: airborne
@@ -1229,9 +1223,6 @@ RH66.Husk:
 	Aircraft:
 		TurnSpeed: 4
 		Speed: 186
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		MinDamage: Undamaged
 	RevealsShroud:
 		Range: 10c0
 		Type: GroundPosition
@@ -1287,12 +1278,15 @@ OCAR:
 		CarryCondition: carrying
 		PickUpCursor: guard
 		DropOffCursor: guard
+        CarryableConditions:
+            htnk: heavy
+            mcv: heavy
 	SpeedMultiplier@carrying:
 		Modifier: 80
-		RequiresCondition: carrying
-	#	SpeedMultiplier@carryingheavy:
-	#	Modifier: 60
-	#	RequiresCondition: carrying && heavy
+		RequiresCondition: carrying && !heavy
+    SpeedMultiplier@carryingheavy:
+		Modifier: 60
+		RequiresCondition: carrying && heavy
 	Health:
 		HP: 10000
 	Armor:
@@ -1302,11 +1296,8 @@ OCAR:
 		Type: GroundPosition
 	SpawnActorOnDeath:
 		Actor: OCAR.Husk
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		Interval: 2
 	Selectable:
-		DecorationBounds: 44,48,0,0
+		DecorationBounds: 1749, 1749
 	Voiced:
 		VoiceSet: MechanicVoice
 	WithMoveAnimation:
@@ -1343,15 +1334,11 @@ OCAR.Husk:
 	Aircraft:
 		TurnSpeed: 4
 		Speed: 46
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		MinDamage: Undamaged
 	RevealsShroud:
 		Range: 10c0
 		Type: GroundPosition
 	RenderSprites:
 		Image: ocar
-		PlayerPalette: overlayplayer
 
 OCAR.Reinforce:
 	Inherits: OCAR
@@ -1422,9 +1409,15 @@ NV22:
 		CarryCondition: carrying
 		PickUpCursor: guard
 		DropOffCursor: guard
+        CarryableConditions:
+            htnk: heavy
+            mcv: heavy
 	SpeedMultiplier@carrying:
 		Modifier: 80
-		RequiresCondition: carrying
+		RequiresCondition: carrying && !heavy
+    SpeedMultiplier@carryingheavy:
+		Modifier: 60
+		RequiresCondition: carrying && heavy
 	Health:
 		HP: 10000
 	Armor:
@@ -1434,11 +1427,8 @@ NV22:
 		Type: GroundPosition
 	SpawnActorOnDeath:
 		Actor: NV22.Husk
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		Interval: 2
 	Selectable:
-		DecorationBounds: 40,36,0,0
+		DecorationBounds: 1749, 1749
 	Voiced:
 		VoiceSet: MechanicVoice
 	Contrail@1:
@@ -1479,9 +1469,6 @@ NV22.Husk:
 	Aircraft:
 		TurnSpeed: 4
 		Speed: 46
-	SmokeTrailWhenDamaged:
-		Offset: -427,0,0
-		MinDamage: Undamaged
 	WithIdleOverlay@ROTOR1:
 		Offset: 82,785,432
 		Sequence: rotor
@@ -1493,7 +1480,6 @@ NV22.Husk:
 		Type: GroundPosition
 	RenderSprites:
 		Image: nv22
-		PlayerPalette: overlayplayer
 
 NV22.Reinforce:
 	Inherits: NV22
@@ -1515,17 +1501,25 @@ NV22.Reinforce:
 	Interactable:
 	-MapEditorData:
 
-#   this whole jazz is necessary as to because
-#   ProductionFromMapEdge cant work with ^Upgrade
-airstrike.unlock:
-    Inherits: unit.summoner
-	Tooltip:
+proxy.airstrike.unlock:
+	AlwaysVisible:
+	Interactable:
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Armor:
+		Type: None
+ 	Tooltip:
 		Name: Unlock: Airstrike
     TooltipExtras:
         Strengths:  Burns buildings and infantry along a line
         Weaknesses:  The A-10 Bomber is vulnerable to SAM sites and AA Guns
         Upgrades:  Can be upgraded to include +2 A-10 Bomber Planes
-	Buildable:
+    Buildable:
 		BuildPaletteOrder: 6
 		Queue: Aircraft.GDI
 		Prerequisites: ctrl, ~hq, ~tech, ~techlevel.unrestricted, ~!proxy.airstrike.unlock
@@ -1534,24 +1528,23 @@ airstrike.unlock:
         Icon: airstrike
 	Valued:
 		Cost: 1600
-    GrantTimedCondition:
-        Condition: tiktaktiktakboom
-        Duration: 2
-	SpawnActorOnDeath:
-		Actor: proxy.airstrike.unlock
-		RequiresCondition: !tiktaktiktakboom
-	KillsSelf:
-		RequiresCondition: !tiktaktiktakboom
+	ProvidesPrerequisite@proxyname:
     RenderSprites:
         Image: dummy.airstrikers
 
-proxy.airstrike.unlock:
+proxy.interceptorsgdi.unlock:
 	AlwaysVisible:
-	ProvidesPrerequisite@proxyname:
-
-interceptorsgdi.unlock:
-    Inherits: unit.summoner
-	Tooltip:
+	Interactable:
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Armor:
+		Type: None
+ 	Tooltip:
 		Name: Unlock: F-18 Interceptors
     TooltipExtras:
         Strengths:  Provides Anti-Air cover over targeted area
@@ -1566,25 +1559,24 @@ interceptorsgdi.unlock:
         Icon: interceptorgdi
 	Valued:
 		Cost: 1200
-    GrantTimedCondition:
-        Condition: tiktaktiktakboom
-        Duration: 2
-	SpawnActorOnDeath:
-		Actor: proxy.interceptorsgdi.unlock
-		RequiresCondition: !tiktaktiktakboom
-	KillsSelf:
-		RequiresCondition: !tiktaktiktakboom
+	ProvidesPrerequisite@proxyname:
     RenderSprites:
         Image: dummy.airstrikers
 
-proxy.interceptorsgdi.unlock:
-	AlwaysVisible:
-	ProvidesPrerequisite@proxyname:
-
 #   Nod Support Powers
 
-interceptorsnod.unlock:
-    Inherits: unit.summoner
+proxy.interceptorsnod.unlock:
+	AlwaysVisible:
+	Interactable:
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Armor:
+		Type: None
 	Tooltip:
 		Name: Unlock: F-22 Interceptors
     TooltipExtras:
@@ -1600,23 +1592,22 @@ interceptorsnod.unlock:
         Icon: interceptornod
 	Valued:
 		Cost: 1200
-    GrantTimedCondition:
-        Condition: tiktaktiktakboom
-        Duration: 2
-	SpawnActorOnDeath:
-		Actor: proxy.interceptorsnod.unlock
-		RequiresCondition: !tiktaktiktakboom
-	KillsSelf:
-		RequiresCondition: !tiktaktiktakboom
+	ProvidesPrerequisite@proxyname:
     RenderSprites:
         Image: dummy.airstrikers
 
-proxy.interceptorsnod.unlock:
+proxy.nodairstrike.unlock:
 	AlwaysVisible:
-	ProvidesPrerequisite@proxyname:
-
-nodairstrike.unlock:
-    Inherits: unit.summoner
+	Interactable:
+	Aircraft:
+		CruiseAltitude: 2
+		TurnSpeed: 255
+		Speed: 999
+		Repulsable: False
+		MaximumPitch: 999
+		InitialFacing: 192
+	Armor:
+		Type: None
 	Tooltip:
 		Name: Unlock: Stealth Airstrike
     TooltipExtras:
@@ -1632,17 +1623,6 @@ nodairstrike.unlock:
         Icon: airstrikenod
 	Valued:
 		Cost: 1800
-    GrantTimedCondition:
-        Condition: tiktaktiktakboom
-        Duration: 2
-	SpawnActorOnDeath:
-		Actor: proxy.nodairstrike.unlock
-		RequiresCondition: !tiktaktiktakboom
-	KillsSelf:
-		RequiresCondition: !tiktaktiktakboom
+	ProvidesPrerequisite@proxyname:
     RenderSprites:
         Image: dummy.airstrikers
-
-proxy.nodairstrike.unlock:
-	AlwaysVisible:
-	ProvidesPrerequisite@proxyname:

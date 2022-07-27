@@ -1,6 +1,6 @@
-#region Copyright & License Information
+﻿#region Copyright & License Information
 /*
- * Copyright 2015- OpenRA.Mods.AS Developers (see AUTHORS)
+ * Copyright 2015-2022 OpenRA.Mods.CA Developers (see AUTHORS)
  * This file is a part of a third-party plugin for OpenRA, which is
  * free software. It is made available to you under the terms of the
  * GNU General Public License as published by the Free Software
@@ -8,49 +8,77 @@
  */
 #endregion
 
+using System.Linq;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Primitives;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.CA.Traits
 {
-	[Desc("Grants a condition after this actor gets captured")]
-	public class GrantConditionOnCaptureInfo : TraitInfo
+	[Desc("Grants a condition when this actor is captured.")]
+	class GrantConditionOnCaptureInfo : ConditionalTraitInfo
 	{
+		public readonly BitSet<TargetableType> Types = default;
+
+		[FieldLoader.Require]
 		[GrantedConditionReference]
-		[Desc("The condition to grant")]
 		public readonly string Condition = null;
+
+		[Desc("Use `TimedConditionBar` for visualization.")]
+		public readonly int Duration = 0;
 
 		[Desc("Grant condition only if the capturer's CaptureTypes overlap with these types. Leave empty to allow all types.")]
 		public readonly BitSet<CaptureType> CaptureTypes = default(BitSet<CaptureType>);
 
-		public override object Create(ActorInitializer init) { return new GrantConditionOnCapture(init.Self, this); }
+		public override object Create(ActorInitializer init) { return new GrantConditionOnCapture(this); }
 	}
 
-	public class GrantConditionOnCapture : INotifyCapture
+	class GrantConditionOnCapture : ConditionalTrait<GrantConditionOnCaptureInfo>, INotifyCapture, INotifyCreated, ITick
 	{
-		readonly GrantConditionOnCaptureInfo info;
+		int conditionToken = Actor.InvalidConditionToken;
+		int duration;
+		IConditionTimerWatcher[] watchers;
 
-		int token = Actor.InvalidConditionToken;
+		public GrantConditionOnCapture(GrantConditionOnCaptureInfo info)
+			: base(info) { }
 
-		public GrantConditionOnCapture(Actor self, GrantConditionOnCaptureInfo info)
+		void INotifyCapture.OnCapture(Actor self, Actor infiltrator, Player oldOwner, Player newOwner, BitSet<CaptureType> captureTypes)
 		{
-			this.info = info;
-		}
-
-		void GrantCondition(Actor self, string cond)
-		{
-			if (string.IsNullOrEmpty(cond))
+			if (IsTraitDisabled)
 				return;
 
-			if (token == Actor.InvalidConditionToken)
-				token = self.GrantCondition(cond);
+			if (!Info.CaptureTypes.IsEmpty && !Info.CaptureTypes.Overlaps(captureTypes))
+				return;
+
+			duration = Info.Duration;
+
+			if (conditionToken == Actor.InvalidConditionToken)
+				conditionToken = self.GrantCondition(Info.Condition);
 		}
 
-		void INotifyCapture.OnCapture(Actor self, Actor captor, Player oldOwner, Player newOwner, BitSet<CaptureType> captureTypes)
+		bool Notifies(IConditionTimerWatcher watcher) { return watcher.Condition == Info.Condition; }
+
+		protected override void Created(Actor self)
 		{
-			if (info.CaptureTypes.IsEmpty || info.CaptureTypes.Overlaps(captureTypes))
-				GrantCondition(self, info.Condition);
+			watchers = self.TraitsImplementing<IConditionTimerWatcher>().Where(Notifies).ToArray();
+
+			base.Created(self);
+		}
+
+		void ITick.Tick(Actor self)
+		{
+			if (conditionToken != Actor.InvalidConditionToken && Info.Duration > 0)
+			{
+				if (--duration < 0)
+				{
+					conditionToken = self.RevokeCondition(conditionToken);
+					foreach (var w in watchers)
+						w.Update(0, 0);
+				}
+				else
+					foreach (var w in watchers)
+						w.Update(Info.Duration, duration);
+			}
 		}
 	}
 }

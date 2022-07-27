@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -63,13 +63,11 @@ namespace OpenRA
 
 			sb.AppendIndentedFormatLine(indent, "Exception of type `{0}`: {1}", ex.GetType().FullName, ex.Message);
 
-			var tle = ex as TypeLoadException;
-			var oom = ex as OutOfMemoryException;
-			if (tle != null)
+			if (ex is TypeLoadException tle)
 			{
 				sb.AppendIndentedFormatLine(indent, "TypeName=`{0}`", tle.TypeName);
 			}
-			else if (oom != null)
+			else if (ex is OutOfMemoryException)
 			{
 				var gcMemoryBeforeCollect = GC.GetTotalMemory(false);
 				GC.Collect();

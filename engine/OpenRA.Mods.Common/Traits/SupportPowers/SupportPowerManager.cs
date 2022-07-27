@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -18,6 +18,7 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits
 {
+	[TraitLocation(SystemActors.Player)]
 	[Desc("Attach this to the player actor.")]
 	public class SupportPowerManagerInfo : TraitInfo, Requires<DeveloperModeInfo>, Requires<TechTreeInfo>
 	{
@@ -62,7 +63,7 @@ namespace OpenRA.Mods.Common.Traits
 				{
 					Powers.Add(key, t.CreateInstance(key, this));
 
-					if (t.Info.Prerequisites.Any())
+					if (t.Info.Prerequisites.Length > 0)
 					{
 						TechTree.Add(key, t.Info.Prerequisites, 0, this);
 						TechTree.Update();
@@ -105,7 +106,7 @@ namespace OpenRA.Mods.Common.Traits
 				Powers[order.OrderString].Activate(order);
 		}
 
-		static readonly SupportPowerInstance[] NoInstances = { };
+		static readonly SupportPowerInstance[] NoInstances = Array.Empty<SupportPowerInstance>();
 
 		public IEnumerable<SupportPowerInstance> GetPowersForActor(Actor a)
 		{
@@ -147,21 +148,16 @@ namespace OpenRA.Mods.Common.Traits
 		public readonly int TotalTicks;
 
 		protected int remainingSubTicks;
-		public int RemainingTicks { get { return remainingSubTicks / 100; } }
+		public int RemainingTicks => remainingSubTicks / 100;
 		public bool Active { get; private set; }
-		public bool Disabled
-		{
-			get
-			{
-				return Manager.Self.Owner.WinState == WinState.Lost ||
-					(!prereqsAvailable && !Manager.DevMode.AllTech) ||
-					!instancesEnabled ||
-					oneShotFired;
-			}
-		}
+		public bool Disabled =>
+			Manager.Self.Owner.WinState == WinState.Lost ||
+			(!prereqsAvailable && !Manager.DevMode.AllTech) ||
+			!instancesEnabled ||
+			oneShotFired;
 
 		public SupportPowerInfo Info { get { return Instances.Select(i => i.Info).FirstOrDefault(); } }
-		public bool Ready { get { return Active && RemainingTicks == 0; } }
+		public bool Ready => Active && RemainingTicks == 0;
 
 		bool instancesEnabled;
 		bool prereqsAvailable = true;
@@ -227,13 +223,17 @@ namespace OpenRA.Mods.Common.Traits
 				return;
 
 			var power = Instances.FirstOrDefault(i => !i.IsTraitPaused);
-
 			if (power == null)
+				return;
+
+			if (!HasSufficientFunds(power))
 				return;
 
 			Game.Sound.PlayToPlayer(SoundType.UI, Manager.Self.Owner, Info.SelectTargetSound);
 			Game.Sound.PlayNotification(power.Self.World.Map.Rules, power.Self.Owner, "Speech",
 				Info.SelectTargetSpeechNotification, power.Self.Owner.Faction.InternalName);
+
+			TextNotificationsManager.AddTransientLine(Info.SelectTargetTextNotification, power.Self.Owner);
 
 			power.SelectTarget(power.Self, Key, Manager);
 		}
@@ -253,6 +253,9 @@ namespace OpenRA.Mods.Common.Traits
 				});
 
 			if (power == null)
+				return;
+
+			if (!HasSufficientFunds(power, true))
 				return;
 
 			// Note: order.Subject is the *player* actor
@@ -276,6 +279,26 @@ namespace OpenRA.Mods.Common.Traits
 		{
 			return null;
 		}
+
+		bool HasSufficientFunds(SupportPower power, bool activate = false)
+		{
+			if (power.Info.Cost != 0)
+			{
+				var player = Manager.Self;
+				var pr = player.Trait<PlayerResources>();
+				if (pr.Cash + pr.Resources < power.Info.Cost)
+				{
+					Game.Sound.PlayNotification(player.World.Map.Rules, player.Owner, "Speech",
+						pr.Info.InsufficientFundsNotification, player.Owner.Faction.InternalName);
+					return false;
+				}
+
+				if (activate)
+					pr.TakeCash(power.Info.Cost);
+			}
+
+			return true;
+		}
 	}
 
 	public class SelectGenericPowerTarget : OrderGenerator
@@ -285,7 +308,7 @@ namespace OpenRA.Mods.Common.Traits
 		readonly string cursor;
 		readonly MouseButton expectedButton;
 
-		public string OrderKey { get { return order; } }
+		public string OrderKey => order;
 
 		public SelectGenericPowerTarget(string order, SupportPowerManager manager, string cursor, MouseButton button)
 		{
@@ -309,7 +332,7 @@ namespace OpenRA.Mods.Common.Traits
 		protected override void Tick(World world)
 		{
 			// Cancel the OG if we can't use the power
-			if (!manager.Powers.TryGetValue(order, out var p) || !p.Active || !p.Ready)
+			if (!manager.Powers.ContainsKey(order))
 				world.CancelInputMode();
 		}
 

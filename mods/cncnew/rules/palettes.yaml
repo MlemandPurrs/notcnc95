@@ -49,6 +49,9 @@
 		Tileset: JUNGLE
 		Filename: jungle.pal
 		ShadowIndex: 4
+	RotationPaletteEffect@water:
+		ExcludePalettes: effect, chrome
+		RotationBase: 32
 	PaletteFromFile@chrome:
 		Name: chrome
 		Filename: temperat.pal
@@ -67,35 +70,27 @@
 		Name: effect
 		Filename: temperat.pal
 		ShadowIndex: 4
-	PaletteFromFile@colorpicker:
-		Name: colorpicker
+	PaletteFromFile@player:
+		Name: player
 		Filename: temperat.pal
 		ShadowIndex: 4
+    #   ColorPickerPalette@colorpicker:
+	#	Name: colorpicker
+	#	BasePalette: player
+	#	RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
+    #   AllowModifiers: false
+	OverlayColorPickerPalette@colorpicker:
+		Name: colorpicker
+		BasePalette: player
+		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
 		AllowModifiers: false
-	PaletteFromRGBA@shadow:
-		Name: shadow
-		R: 0
-		G: 0
-		B: 0
-		A: 140
-	PaletteFromRGBA@highlight:
-		Name: highlight
-		R: 255
-		G: 255
-		B: 255
-		A: 128
-	PaletteFromRGBA@moveflash:
+    PaletteFromRGBA@moveflash:
 		Name: moveflash
 		R: 255
 		G: 255
 		B: 255
 		A: 64
-	PaletteFromRGBA@disabled:
-		Name: disabled
-		R: 0
-		G: 0
-		B: 0
-		A: 180
+    FlashPaletteEffect:
 	ShroudPalette@shroud:
 		Name: shroud
 	ShroudPalette@fog:
@@ -116,51 +111,17 @@
 		Name: redtiberium
 		Color: F70606
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
-	PaletteFromFile@player:
-		Name: player
-		Filename: temperat.pal
-		ShadowIndex: 4
 	PlayerColorPalette:
-		BasePalette: player
+		BaseName: player
+        BasePalette: player
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
-	PlayerHighlightPalette:
-	MenuPaletteEffect:
-		MenuEffect: Desaturated
-	FlashPaletteEffect:
-	RotationPaletteEffect@water:
-		ExcludePalettes: effect, chrome
-		RotationBase: 32
-	PaletteFromPaletteWithAlpha@placelinesegment:
-		Name: placelinesegment
-		BasePalette: terrain
-		Alpha: 0.65
-	PaletteFromPlayerPaletteWithAlpha@placebuilding:
-		BaseName: placebuilding
-		Alpha: 0.65
-		BasePalette: player
 	OverlayPlayerColorPalette:
-		BasePalette: effect
+		BasePalette: player
 		Ramp: 0.14
 		BaseName: overlayplayer
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
-	PaletteFromRGBA@chemicals:
-		Name: chemweapon
-		R: 88
-		G: 252
-		B: 84
-		A: 128
-	PaletteFromRGBA@invuln:
-		Name: invuln
-		R: 128
-		G: 0
-		B: 0
-		A: 128
-	PaletteFromRGBA@laserpainter:
-		Name: laserpaint
-		R: 245
-		G: 51
-		B: 51
-		A: 128
+	MenuPaletteEffect:
+		MenuEffect: Desaturated
 	PaletteFromPlayerPaletteWithAlpha@cloak:
 		BaseName: cloak
 		BasePalette: overlayplayer
@@ -175,21 +136,4 @@
 		BaseName: cloaktransparent
 		BasePalette: overlayplayer
 		Alpha: 0.55
-	CloakPaletteEffect:
-	FixedColorPalette@RedLaser:
-		Base: terrain
-		Name: redlaser
-		Color: ff0000
-		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
-	PaletteFromRGBA@submerged:
-		Name: submerged
-		R: 0
-		G: 0
-		B: 0
-		A: 140
-	PaletteFromRGBA@obelisklaserred:
-		Name: obelisklaserred
-		R: 128
-		G: 16
-		B: 0
-		A: 140
+    CloakPaletteEffect:

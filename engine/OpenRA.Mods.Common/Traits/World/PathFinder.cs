@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -9,6 +9,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Mods.Common.Pathfinder;
@@ -16,221 +17,110 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Common.Traits
 {
-	[Desc("Calculates routes for mobile units based on the A* search algorithm.", " Attach this to the world actor.")]
+	[TraitLocation(SystemActors.World)]
+	[Desc("Calculates routes for mobile units with locomotors based on the A* search algorithm.", " Attach this to the world actor.")]
 	public class PathFinderInfo : TraitInfo, Requires<LocomotorInfo>
 	{
 		public override object Create(ActorInitializer init)
 		{
-			return new PathFinderUnitPathCacheDecorator(new PathFinder(init.World), new PathCacheStorage(init.World));
+			return new PathFinder(init.World);
 		}
-	}
-
-	public interface IPathFinder
-	{
-		/// <summary>
-		/// Calculates a path for the actor from source to destination
-		/// </summary>
-		/// <returns>A path from start to target</returns>
-		List<CPos> FindUnitPath(CPos source, CPos target, Actor self, Actor ignoreActor, BlockedByActor check);
-
-		List<CPos> FindUnitPathToRange(CPos source, SubCell srcSub, WPos target, WDist range, Actor self, BlockedByActor check);
-
-		/// <summary>
-		/// Calculates a path given a search specification
-		/// </summary>
-		List<CPos> FindPath(IPathSearch search);
-
-		/// <summary>
-		/// Calculates a path given two search specifications, and
-		/// then returns a path when both search intersect each other
-		/// TODO: This should eventually disappear
-		/// </summary>
-		List<CPos> FindBidiPath(IPathSearch fromSrc, IPathSearch fromDest);
 	}
 
 	public class PathFinder : IPathFinder
 	{
-		static readonly List<CPos> EmptyPath = new List<CPos>(0);
+		public static readonly List<CPos> NoPath = new List<CPos>(0);
+
 		readonly World world;
-		DomainIndex domainIndex;
-		bool cached;
 
 		public PathFinder(World world)
 		{
 			this.world = world;
 		}
 
-		public List<CPos> FindUnitPath(CPos source, CPos target, Actor self, Actor ignoreActor, BlockedByActor check)
+		/// <summary>
+		/// Calculates a path for the actor from multiple possible sources to target.
+		/// Returned path is *reversed* and given target to source.
+		/// The shortest path between a source and the target is returned.
+		/// </summary>
+		/// <remarks>
+		/// Searches that provide a multiple source cells are slower than those than provide only a single source cell,
+		/// as optimizations are possible for the single source case. Use searches from multiple source cells
+		/// sparingly.
+		/// </remarks>
+		public List<CPos> FindUnitPathToTargetCell(
+			Actor self, IEnumerable<CPos> sources, CPos target, BlockedByActor check,
+			Func<CPos, int> customCost = null,
+			Actor ignoreActor = null,
+			bool laneBias = true)
 		{
-			// PERF: Because we can be sure that OccupiesSpace is Mobile here, we can save some performance by avoiding querying for the trait.
-			var locomotor = ((Mobile)self.OccupiesSpace).Locomotor;
+			var sourcesList = sources.ToList();
+			if (sourcesList.Count == 0)
+				return NoPath;
 
-			if (!cached)
+			var locomotor = GetLocomotor(self);
+
+			// If the target cell is inaccessible, bail early.
+			var inaccessible =
+				!world.Map.Contains(target) ||
+				!locomotor.CanMoveFreelyInto(self, target, check, ignoreActor) ||
+				(!(customCost is null) && customCost(target) == PathGraph.PathCostForInvalidPath);
+			if (inaccessible)
+				return NoPath;
+
+			// When searching from only one source cell, some optimizations are possible.
+			if (sourcesList.Count == 1)
 			{
-				domainIndex = world.WorldActor.TraitOrDefault<DomainIndex>();
-				cached = true;
-			}
+				var source = sourcesList[0];
 
-			// If a water-land transition is required, bail early
-			if (domainIndex != null && !domainIndex.IsPassable(source, target, locomotor))
-				return EmptyPath;
-
-			var distance = source - target;
-			var canMoveFreely = locomotor.CanMoveFreelyInto(self, target, check, null);
-			if (distance.LengthSquared < 3 && !canMoveFreely)
-				return new List<CPos> { };
-
-			if (source.Layer == target.Layer && distance.LengthSquared < 3 && canMoveFreely)
-				return new List<CPos> { target };
-
-			List<CPos> pb;
-
-			using (var fromSrc = PathSearch.FromPoint(world, locomotor, self, target, source, check).WithIgnoredActor(ignoreActor))
-			using (var fromDest = PathSearch.FromPoint(world, locomotor, self, source, target, check).WithIgnoredActor(ignoreActor).Reverse())
-				pb = FindBidiPath(fromSrc, fromDest);
-
-			return pb;
-		}
-
-		public List<CPos> FindUnitPathToRange(CPos source, SubCell srcSub, WPos target, WDist range, Actor self, BlockedByActor check)
-		{
-			if (!cached)
-			{
-				domainIndex = world.WorldActor.TraitOrDefault<DomainIndex>();
-				cached = true;
-			}
-
-			// PERF: Because we can be sure that OccupiesSpace is Mobile here, we can save some performance by avoiding querying for the trait.
-			var mobile = (Mobile)self.OccupiesSpace;
-			var locomotor = mobile.Locomotor;
-
-			var targetCell = world.Map.CellContaining(target);
-
-			// Correct for SubCell offset
-			target -= world.Map.Grid.OffsetOfSubCell(srcSub);
-
-			// Select only the tiles that are within range from the requested SubCell
-			// This assumes that the SubCell does not change during the path traversal
-			var tilesInRange = world.Map.FindTilesInCircle(targetCell, range.Length / 1024 + 1)
-				.Where(t => (world.Map.CenterOfCell(t) - target).LengthSquared <= range.LengthSquared
-							&& mobile.Info.CanEnterCell(self.World, self, t));
-
-			// See if there is any cell within range that does not involve a cross-domain request
-			// Really, we only need to check the circle perimeter, but it's not clear that would be a performance win
-			if (domainIndex != null)
-			{
-				tilesInRange = new List<CPos>(tilesInRange.Where(t => domainIndex.IsPassable(source, t, locomotor)));
-				if (!tilesInRange.Any())
-					return EmptyPath;
-			}
-
-			using (var fromSrc = PathSearch.FromPoints(world, locomotor, self, tilesInRange, source, check))
-			using (var fromDest = PathSearch.FromPoint(world, locomotor, self, source, targetCell, check).Reverse())
-				return FindBidiPath(fromSrc, fromDest);
-		}
-
-		public List<CPos> FindPath(IPathSearch search)
-		{
-			List<CPos> path = null;
-
-			while (search.CanExpand)
-			{
-				var p = search.Expand();
-				if (search.IsTarget(p))
+				// For adjacent cells on the same layer, we can return the path without invoking a full search.
+				if (source.Layer == target.Layer && (source - target).LengthSquared < 3)
 				{
-					path = MakePath(search.Graph, p);
-					break;
-				}
-			}
-
-			search.Graph.Dispose();
-
-			if (path != null)
-				return path;
-
-			// no path exists
-			return EmptyPath;
-		}
-
-		// Searches from both ends toward each other. This is used to prevent blockings in case we find
-		// units in the middle of the path that prevent us to continue.
-		public List<CPos> FindBidiPath(IPathSearch fromSrc, IPathSearch fromDest)
-		{
-			List<CPos> path = null;
-
-			while (fromSrc.CanExpand && fromDest.CanExpand)
-			{
-				// make some progress on the first search
-				var p = fromSrc.Expand();
-				if (fromDest.Graph[p].Status == CellStatus.Closed &&
-					fromDest.Graph[p].CostSoFar < int.MaxValue)
-				{
-					path = MakeBidiPath(fromSrc, fromDest, p);
-					break;
+					if (!world.Map.Contains(source))
+						return NoPath;
+					return new List<CPos>(2) { target, source };
 				}
 
-				// make some progress on the second search
-				var q = fromDest.Expand();
-				if (fromSrc.Graph[q].Status == CellStatus.Closed &&
-					fromSrc.Graph[q].CostSoFar < int.MaxValue)
-				{
-					path = MakeBidiPath(fromSrc, fromDest, q);
-					break;
-				}
+				// With one starting point, we can use a bidirectional search.
+				using (var fromTarget = PathSearch.ToTargetCell(
+					world, locomotor, self, new[] { target }, source, check, ignoreActor: ignoreActor))
+				using (var fromSource = PathSearch.ToTargetCell(
+					world, locomotor, self, new[] { source }, target, check, ignoreActor: ignoreActor, inReverse: true))
+					return PathSearch.FindBidiPath(fromTarget, fromSource);
 			}
 
-			fromSrc.Graph.Dispose();
-			fromDest.Graph.Dispose();
-
-			if (path != null)
-				return path;
-
-			return EmptyPath;
+			// With multiple starting points, we can only use a unidirectional search.
+			using (var search = PathSearch.ToTargetCell(
+				world, locomotor, self, sourcesList, target, check, customCost, ignoreActor, laneBias))
+				return search.FindPath();
 		}
 
-		// Build the path from the destination. When we find a node that has the same previous
-		// position than itself, that node is the source node.
-		static List<CPos> MakePath(IGraph<CellInfo> cellInfo, CPos destination)
+		/// <summary>
+		/// Calculates a path for the actor from multiple possible sources, whilst searching for an acceptable target.
+		/// Returned path is *reversed* and given target to source.
+		/// The shortest path between a source and a discovered target is returned.
+		/// </summary>
+		/// <remarks>
+		/// Searches with this method are slower than <see cref="FindUnitPathToTargetCell"/> due to the need to search for
+		/// and discover an acceptable target cell. Use this search sparingly.
+		/// </remarks>
+		public List<CPos> FindUnitPathToTargetCellByPredicate(
+			Actor self, IEnumerable<CPos> sources, Func<CPos, bool> targetPredicate, BlockedByActor check,
+			Func<CPos, int> customCost = null,
+			Actor ignoreActor = null,
+			bool laneBias = true)
 		{
-			var ret = new List<CPos>();
-			var currentNode = destination;
-
-			while (cellInfo[currentNode].PreviousPos != currentNode)
-			{
-				ret.Add(currentNode);
-				currentNode = cellInfo[currentNode].PreviousPos;
-			}
-
-			ret.Add(currentNode);
-			return ret;
+			// With no pre-specified target location, we can only use a unidirectional search.
+			using (var search = PathSearch.ToTargetCellByPredicate(
+				world, GetLocomotor(self), self, sources, targetPredicate, check, customCost, ignoreActor, laneBias))
+				return search.FindPath();
 		}
 
-		static List<CPos> MakeBidiPath(IPathSearch a, IPathSearch b, CPos confluenceNode)
+		static Locomotor GetLocomotor(Actor self)
 		{
-			var ca = a.Graph;
-			var cb = b.Graph;
-
-			var ret = new List<CPos>();
-
-			var q = confluenceNode;
-			while (ca[q].PreviousPos != q)
-			{
-				ret.Add(q);
-				q = ca[q].PreviousPos;
-			}
-
-			ret.Add(q);
-
-			ret.Reverse();
-
-			q = confluenceNode;
-			while (cb[q].PreviousPos != q)
-			{
-				q = cb[q].PreviousPos;
-				ret.Add(q);
-			}
-
-			return ret;
+			// PERF: This PathFinder trait requires the use of Mobile, so we can be sure that is in use.
+			// We can save some performance by avoiding querying for the Locomotor trait and retrieving it from Mobile.
+			return ((Mobile)self.OccupiesSpace).Locomotor;
 		}
 	}
 }

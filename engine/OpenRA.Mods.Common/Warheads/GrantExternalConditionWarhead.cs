@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -30,6 +30,10 @@ namespace OpenRA.Mods.Common.Warheads
 		public override void DoImpact(in Target target, WarheadArgs args)
 		{
 			var firedBy = args.SourceActor;
+
+			if (target.Type == TargetType.Invalid)
+				return;
+
 			var actors = target.Type == TargetType.Actor ? new[] { target.Actor } :
 				firedBy.World.FindActorsInCircle(target.CenterPosition, Range);
 
@@ -39,7 +43,7 @@ namespace OpenRA.Mods.Common.Warheads
 					continue;
 
 				a.TraitsImplementing<ExternalCondition>()
-					.FirstOrDefault(t => t.Info.Condition == Condition && t.CanGrantCondition(a, firedBy))
+					.FirstOrDefault(t => t.Info.Condition == Condition && t.CanGrantCondition(firedBy))
 					?.GrantCondition(a, firedBy, Duration);
 			}
 		}

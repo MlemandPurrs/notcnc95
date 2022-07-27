@@ -1,5 +1,7 @@
 Container@OBSERVER_WIDGETS:
+	Logic: LoadIngameChatLogic
 	Children:
+		Container@CHAT_ROOT:
 		Container@MUTE_INDICATOR:
 			Logic: MuteIndicatorLogic
 			X: WINDOW_RIGHT - WIDTH - 260
@@ -81,7 +83,7 @@ Container@OBSERVER_WIDGETS:
 							Y: 41
 							Width: 220
 							Height: 220
-						VqaPlayer@PLAYER:
+						VideoPlayer@PLAYER:
 							X: 9
 							Y: 41
 							Width: 220

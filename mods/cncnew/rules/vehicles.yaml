@@ -17,7 +17,7 @@ MCV:
 		Queue: Vehicle.GDI, Vehicle.Nod
 		Description:  Deploys into another Construction Yard.
 	Selectable:
-		DecorationBounds: 36,36
+		DecorationBounds: 1536, 1536
 	Mobile:
 		Speed: 71
 		Locomotor: heavywheeled
@@ -34,6 +34,8 @@ MCV:
 		Facing: 432
 		TransformSounds: constru2.aud, hvydoor1.aud
 		NoTransformNotification: BuildingCannotPlaceAudio
+        NoTransformTextNotification: Cannot deploy here.
+        Voice: Unload
 	MustBeDestroyed:
 		RequiredForShortGame: true
 	BaseBuilding:
@@ -79,7 +81,7 @@ HARV:
 		Queue: Vehicle.GDI, Vehicle.Nod
 		Description:  Collects Tiberium for processing.
 	Selectable:
-		DecorationBounds: 36,36
+		DecorationBounds: 1536, 1536
 	Harvester:
         DeliveryBuildings: proc, proc.clone
 		Resources: Tiberium, BlueTiberium, RedTiberium
@@ -90,6 +92,15 @@ HARV:
 		SearchFromHarvesterRadius: 8
 		HarvestFacings: 8
 		EmptyCondition: no-tiberium
+	WithHarvesterPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		RequiresSelection: true
+		PipCount: 7
+		ResourceSequences:
+			Tiberium: pip-green
+			BlueTiberium: pip-blue
+            RedTiberium: pip-red
 	Mobile:
 		Speed: 85
 		PauseOnCondition: boarding || emp-crate-collected
@@ -114,15 +125,6 @@ HARV:
 	Explodes:
 		RequiresCondition: !no-tiberium
 		Weapon: TiberiumExplosion
-	WithHarvesterPipsDecoration:
-		Position: BottomLeft
-		Margin: 4, 3
-		RequiresSelection: true
-		PipCount: 7
-		ResourceSequences:
-			Tiberium: pip-green
-			BlueTiberium: pip-blue
-            RedTiberium: pip-red
 	Passenger:
 		CustomPipType: pip-gray
 	RenderSprites:
@@ -246,7 +248,7 @@ MHQ:
 		Sequence: spinner
 		Offset: -256,0,256
 	DetectCloaked:
-		CloakTypes: GroundStealth, Stealth, AirStealth
+		DetectionTypes: GroundStealth, Stealth, AirStealth
 		Range: 4c768
 		RequiresCondition: !emp-crate-collected
 	RenderDetectionCircle:
@@ -265,7 +267,11 @@ MHQ:
 		LocalOffset: 128,0,43
 		PauseOnCondition: emp-crate-collected
 	AttackFrontal:
+        Voice: Attack
+		FacingTolerance: 0
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithSpriteTurret:
 	WithMuzzleOverlay:
 	ProximityExternalCondition@JAMMER:
@@ -327,7 +333,11 @@ ARTY:
 	AttackFrontal:
 		TargetFrozenActors: True
 		ForceFireIgnoresActors: True
+		Voice: Attack
+		FacingTolerance: 0
 		PauseOnCondition: emp-crate-collected
+	AttackMove:
+		Voice: Attack
 	WithMuzzleOverlay:
 	AutoTarget:
 		InitialStanceAI: Defend

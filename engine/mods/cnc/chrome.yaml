@@ -120,6 +120,30 @@ textfield-disabled:
 textfield-focused:
 	Inherits: button-pressed
 
+textfield-nod:
+	Inherits: button-nod
+
+textfield-nod-hover:
+	Inherits: button-nod-hover
+
+textfield-nod-disabled:
+	Inherits: button-nod-disabled
+
+textfield-nod-focused:
+	Inherits: button-nod-pressed
+
+textfield-gdi:
+	Inherits: button-gdi
+
+textfield-gdi-hover:
+	Inherits: button-gdi-hover
+
+textfield-gdi-disabled:
+	Inherits: button-gdi-disabled
+
+textfield-gdi-focused:
+	Inherits: button-gdi-pressed
+
 #
 # Progress bar
 # ===
@@ -151,6 +175,36 @@ scrollpanel-button-disabled:
 scrollpanel-button-pressed:
 	Inherits: button-pressed
 
+scrollpanel-bg-nod:
+	Inherits: panel-gray-nod
+
+scrollpanel-button-nod:
+	Inherits: button-nod
+
+scrollpanel-button-nod-hover:
+	Inherits: button-nod-hover
+
+scrollpanel-button-nod-disabled:
+	Inherits: button-nod-disabled
+
+scrollpanel-button-nod-pressed:
+	Inherits: button-nod-pressed
+
+scrollpanel-bg-gdi:
+	Inherits: panel-gray-gdi
+
+scrollpanel-button-gdi:
+	Inherits: button-gdi
+
+scrollpanel-button-gdi-hover:
+	Inherits: button-gdi-hover
+
+scrollpanel-button-gdi-disabled:
+	Inherits: button-gdi-disabled
+
+scrollpanel-button-gdi-pressed:
+	Inherits: button-gdi-pressed
+
 scrollitem-hover:
 	Inherits: button
 
@@ -158,7 +212,8 @@ scrollitem-selected:
 	Inherits: button-pressed
 
 scrollitem-nohover:
-	Inherits: ^Chrome
+
+scrollitem-nohover-hover:
 
 
 #
@@ -366,23 +421,24 @@ scrollpanel-decorations:
 	Inherits: ^Chrome
 	Regions:
 		down: 836, 17, 16, 16
-		down-pressed: 836, 17, 16, 16
 		down-disabled: 853, 17, 16, 16
 		up: 870, 17, 16, 16
-		up-pressed: 870, 17, 16, 16
 		up-disabled: 887, 17, 16, 16
 		right: 904, 17, 16, 16
-		right-pressed: 904, 17, 16, 16
 		right-disabled: 921, 17, 16, 16
 		left: 938, 17, 16, 16
-		left-pressed: 938, 17, 16, 16
 		left-disabled: 955, 17, 16, 16
+
+scrollpanel-decorations-nod:
+	Inherits: scrollpanel-decorations
+
+scrollpanel-decorations-gdi:
+	Inherits: scrollpanel-decorations
 
 dropdown-decorations:
 	Inherits: ^Chrome
 	Regions:
 		marker: 836, 17, 16, 16
-		marker-pressed: 836, 17, 16, 16
 		marker-disabled: 853, 17, 16, 16
 
 dropdown-separators:
@@ -392,6 +448,9 @@ dropdown-separators:
 		separator-hover: 161, 2, 1, 19
 		separator-pressed: 129, 34, 1, 19
 		separator-disabled: 161, 34, 1, 19
+
+separator:
+	Inherits: button
 
 #
 # Common chrome

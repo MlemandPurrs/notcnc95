@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -19,7 +19,7 @@ namespace OpenRA.Mods.Common.UtilityCommands
 {
 	class ExtractWeaponDocsCommand : IUtilityCommand
 	{
-		string IUtilityCommand.Name { get { return "--weapon-docs"; } }
+		string IUtilityCommand.Name => "--weapon-docs";
 
 		bool IUtilityCommand.ValidateArguments(string[] args)
 		{
@@ -40,7 +40,7 @@ namespace OpenRA.Mods.Common.UtilityCommands
 				"This documentation is aimed at modders. It displays a template for weapon definitions " +
 				"as well as its contained types (warheads and projectiles) with default values and developer commentary. " +
 				"Please do not edit it directly, but add new `[Desc(\"String\")]` tags to the source code. This file has been " +
-				"automatically generated for version {0} of OpenRA.", version);
+				$"automatically generated for version {version} of OpenRA.");
 			Console.WriteLine();
 
 			var doc = new StringBuilder();
@@ -52,7 +52,7 @@ namespace OpenRA.Mods.Common.UtilityCommands
 			var warheads = objectCreator.GetTypesImplementing<IWarhead>().OrderBy(t => t.Namespace);
 			var projectiles = objectCreator.GetTypesImplementing<IProjectileInfo>().OrderBy(t => t.Namespace);
 
-			var weaponTypes = Enumerable.Concat(weaponInfo, Enumerable.Concat(projectiles, warheads));
+			var weaponTypes = weaponInfo.Concat(projectiles.Concat(warheads));
 			foreach (var t in weaponTypes)
 			{
 				// skip helpers like TraitInfo<T>
@@ -63,12 +63,12 @@ namespace OpenRA.Mods.Common.UtilityCommands
 				{
 					currentNamespace = t.Namespace;
 					doc.AppendLine();
-					doc.AppendLine("## {0}".F(currentNamespace));
+					doc.AppendLine($"## {currentNamespace}");
 				}
 
 				var traitName = t.Name.EndsWith("Info") ? t.Name.Substring(0, t.Name.Length - 4) : t.Name;
 				doc.AppendLine();
-				doc.AppendLine("### {0}".F(traitName));
+				doc.AppendLine($"### {traitName}");
 
 				var traitDescLines = t.GetCustomAttributes<DescAttribute>(false).SelectMany(d => d.Lines);
 				foreach (var line in traitDescLines)
@@ -78,8 +78,9 @@ namespace OpenRA.Mods.Common.UtilityCommands
 				if (!infos.Any())
 					continue;
 
-				doc.AppendLine("<table>");
-				doc.AppendLine("<tr><th>Property</th><th>Default Value</th><th>Type</th><th>Description</th></tr>");
+				doc.AppendLine();
+				doc.AppendLine("| Property | Default Value | Type | Description |");
+				doc.AppendLine("| -------- | --------------| ---- | ----------- |");
 
 				var liveTraitInfo = t == typeof(WeaponInfo) ? null : objectCreator.CreateBasic(t);
 				foreach (var info in infos)
@@ -87,16 +88,11 @@ namespace OpenRA.Mods.Common.UtilityCommands
 					var fieldDescLines = info.Field.GetCustomAttributes<DescAttribute>(true).SelectMany(d => d.Lines);
 					var fieldType = Util.FriendlyTypeName(info.Field.FieldType);
 					var defaultValue = liveTraitInfo == null ? "" : FieldSaver.SaveField(liveTraitInfo, info.Field.Name).Value.Value;
-					doc.Append("<tr><td>{0}</td><td>{1}</td><td>{2}</td>".F(info.YamlName, defaultValue, fieldType));
-					doc.Append("<td>");
-
+					doc.Append($"| {info.YamlName} | {defaultValue} | {fieldType} | ");
 					foreach (var line in fieldDescLines)
 						doc.Append(line + " ");
-
-					doc.AppendLine("</td></tr>");
+					doc.AppendLine("|");
 				}
-
-				doc.AppendLine("</table>");
 			}
 
 			Console.Write(doc.ToString());

@@ -93,7 +93,7 @@ namespace OpenRA.Mods.CA.Traits.BotModules.Squads
 			// If there are any own buildings within the DangerRadius, don't flee
 			// PERF: Avoid LINQ
 			foreach (var u in units)
-				if (u.Owner == squad.Bot.Player && u.Info.HasTraitInfo<BuildingInfo>())
+				if ((u.Owner == squad.Bot.Player && u.Info.HasTraitInfo<BuildingInfo>()))
 					return false;
 
 			var enemyAroundUnit = units.Where(unit => squad.SquadManager.IsPreferredEnemyUnit(unit) && unit.Info.HasTraitInfo<AttackBaseInfo>());
@@ -109,14 +109,17 @@ namespace OpenRA.Mods.CA.Traits.BotModules.Squads
 				return false;
 
 			var activity = a.CurrentActivity;
-			if (activity.GetType() == typeof(Resupply))
+			var activityType = activity.GetType();
+			if (activityType == typeof(Resupply) || activityType == typeof(ReturnToBase))
 				return true;
 
 			var next = activity.NextActivity;
 			if (next == null)
 				return false;
 
-			if (next.GetType() == typeof(Resupply))
+			var nextType = next.GetType();
+
+			if (nextType == typeof(Resupply) || nextType == typeof(ReturnToBase))
 				return true;
 
 			return false;
@@ -134,10 +137,10 @@ namespace OpenRA.Mods.CA.Traits.BotModules.Squads
 		protected static bool HasAmmo(IEnumerable<AmmoPool> ammoPools)
 		{
 			foreach (var ap in ammoPools)
-				if (!ap.HasAmmo)
-					return false;
+				if (ap.HasAmmo)
+					return true;
 
-			return true;
+			return false;
 		}
 
 		protected static bool ReloadsAutomatically(IEnumerable<AmmoPool> ammoPools, Rearmable rearmable)
@@ -146,83 +149,10 @@ namespace OpenRA.Mods.CA.Traits.BotModules.Squads
 				return true;
 
 			foreach (var ap in ammoPools)
-				if (!rearmable.Info.AmmoPools.Contains(ap.Info.Name))
+				if (rearmable.Info.AmmoPools.Contains(ap.Info.Name))
 					return false;
 
 			return true;
-		}
-
-		// Retreat units from combat, or for supply only in idle
-		protected void Retreat(SquadCA squad, bool flee, bool rearm, bool repair)
-		{
-			// HACK: "alreadyRepair" is to solve AI repair orders performance,
-			// which is only allow one goes to repairpad at the same time to avoid queueing too many orders.
-			// if repairpad logic is better we can just drop it.
-			var alreadyRepair = false;
-
-			List<Actor> rearmingUnits = new List<Actor>();
-			List<Actor> fleeingUnits = new List<Actor>();
-
-			foreach (var a in squad.Units)
-			{
-				if (IsRearming(a))
-					continue;
-
-				var orderQueued = false;
-
-				// Units need to rearm will be added to rearming group.
-				if (rearm)
-				{
-					var ammoPools = a.TraitsImplementing<AmmoPool>().ToArray();
-					if (!ReloadsAutomatically(ammoPools, a.TraitOrDefault<Rearmable>()) && !FullAmmo(ammoPools))
-					{
-						rearmingUnits.Add(a);
-						orderQueued = true;
-					}
-				}
-
-				// Try repair units.
-				// Don't use grounp order here becuase we have 2 kinds of repaid orders and we need to find repair building for both traits.
-				if (repair && !alreadyRepair)
-				{
-					Actor repairBuilding = null;
-					var orderId = "Repair";
-					var health = a.TraitOrDefault<IHealth>();
-
-					if (health != null && health.DamageState > DamageState.Undamaged)
-					{
-						var repairable = a.TraitOrDefault<Repairable>();
-						if (repairable != null)
-							repairBuilding = repairable.FindRepairBuilding(a);
-						else
-						{
-							var repairableNear = a.TraitOrDefault<RepairableNear>();
-							if (repairableNear != null)
-							{
-								orderId = "RepairNear";
-								repairBuilding = repairableNear.FindRepairBuilding(a);
-							}
-						}
-
-						if (repairBuilding != null)
-						{
-							squad.Bot.QueueOrder(new Order(orderId, a, Target.FromActor(repairBuilding), orderQueued));
-							orderQueued = true;
-							alreadyRepair = true;
-						}
-					}
-				}
-
-				// If there is no order in queue and units should flee, add unit to fleeing group.
-				if (flee && !orderQueued)
-					fleeingUnits.Add(a);
-			}
-
-			if (rearmingUnits.Count > 0)
-				squad.Bot.QueueOrder(new Order("ReturnToBase", null, true, groupedActors: rearmingUnits.ToArray()));
-
-			if (fleeingUnits.Count > 0)
-				squad.Bot.QueueOrder(new Order("Move", null, Target.FromCell(squad.World, RandomBuildingLocation(squad)), false, groupedActors: fleeingUnits.ToArray()));
 		}
 	}
 }

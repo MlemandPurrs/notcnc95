@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -67,16 +67,16 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			var teams = world.Players.Where(p => !p.NonCombatant && p.Playable)
 				.Select(p => (Player: p, PlayerStatistics: p.PlayerActor.TraitOrDefault<PlayerStatistics>()))
-				.OrderByDescending(p => p.PlayerStatistics != null ? p.PlayerStatistics.Experience : 0)
+				.OrderByDescending(p => p.PlayerStatistics?.Experience ?? 0)
 				.GroupBy(p => (world.LobbyInfo.ClientWithIndex(p.Player.ClientIndex) ?? new Session.Client()).Team)
-				.OrderByDescending(g => g.Sum(gg => gg.PlayerStatistics != null ? gg.PlayerStatistics.Experience : 0));
+				.OrderByDescending(g => g.Sum(gg => gg.PlayerStatistics?.Experience ?? 0));
 
 			foreach (var t in teams)
 			{
 				if (teams.Count() > 1)
 				{
 					var teamHeader = ScrollItemWidget.Setup(teamTemplate, () => true, () => { });
-					teamHeader.Get<LabelWidget>("TEAM").GetText = () => t.Key == 0 ? "No Team" : "Team {0}".F(t.Key);
+					teamHeader.Get<LabelWidget>("TEAM").GetText = () => t.Key == 0 ? "No Team" : $"Team {t.Key}";
 					var teamRating = teamHeader.Get<LabelWidget>("TEAM_SCORE");
 					var scoreCache = new CachedTransform<int, string>(s => s.ToString());
 					var teamMemberScores = t.Select(tt => tt.PlayerStatistics).Where(s => s != null).ToArray().Select(s => s.Experience);
@@ -101,7 +101,8 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					if (player == null || player.RelationshipWith(pp) == PlayerRelationship.Ally || player.WinState != WinState.Undefined)
 					{
 						flag.GetImageName = () => pp.Faction.InternalName;
-						item.Get<LabelWidget>("FACTION").GetText = () => pp.Faction.Name;
+						var factionName = pp.Faction.Name != pp.DisplayFaction.Name ? $"{pp.DisplayFaction.Name} ({pp.Faction.Name})" : pp.Faction.Name;
+						item.Get<LabelWidget>("FACTION").GetText = () => factionName;
 					}
 					else
 					{
@@ -110,14 +111,14 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					}
 
 					var scoreCache = new CachedTransform<int, string>(s => s.ToString());
-					item.Get<LabelWidget>("SCORE").GetText = () => scoreCache.Update(p.PlayerStatistics != null ? p.PlayerStatistics.Experience : 0);
+					item.Get<LabelWidget>("SCORE").GetText = () => scoreCache.Update(p.PlayerStatistics?.Experience ?? 0);
 
 					playerPanel.AddChild(item);
 				}
 			}
 
 			var spectators = orderManager.LobbyInfo.Clients.Where(c => c.IsObserver).ToList();
-			if (spectators.Any())
+			if (spectators.Count > 0)
 			{
 				var spectatorHeader = ScrollItemWidget.Setup(teamTemplate, () => true, () => { });
 				spectatorHeader.Get<LabelWidget>("TEAM").GetText = () => "Spectators";
@@ -148,11 +149,11 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 					{
 						hideMenu(true);
 						ConfirmationDialogs.ButtonPrompt(
-							title: "Kick {0}?".F(client.Name),
+							title: $"Kick {client.Name}?",
 							text: "They will not be able to rejoin this game.",
 							onConfirm: () =>
 							{
-								orderManager.IssueOrder(Order.Command("kick {0} {1}".F(client.Index, false)));
+								orderManager.IssueOrder(Order.Command($"kick {client.Index} {false}"));
 								hideMenu(false);
 							},
 							onCancel: () => hideMenu(false),

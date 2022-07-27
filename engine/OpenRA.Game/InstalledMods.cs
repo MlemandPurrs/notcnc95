@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using OpenRA.FileSystem;
 using OpenRA.Graphics;
-using OpenRA.Primitives;
 
 namespace OpenRA
 {
@@ -75,7 +74,7 @@ namespace OpenRA
 			}
 			catch (Exception e)
 			{
-				Log.Write("debug", "Load mod '{0}': {1}".F(path, e));
+				Log.Write("debug", $"Load mod '{path}': {e}");
 			}
 
 			package?.Dispose();
@@ -99,10 +98,10 @@ namespace OpenRA
 			return ret;
 		}
 
-		public Manifest this[string key] { get { return mods[key]; } }
-		public int Count { get { return mods.Count; } }
-		public ICollection<string> Keys { get { return mods.Keys; } }
-		public ICollection<Manifest> Values { get { return mods.Values; } }
+		public Manifest this[string key] => mods[key];
+		public IEnumerable<string> Keys => mods.Keys;
+		public IEnumerable<Manifest> Values => mods.Values;
+		public int Count => mods.Count;
 		public bool ContainsKey(string key) { return mods.ContainsKey(key); }
 		public IEnumerator<KeyValuePair<string, Manifest>> GetEnumerator() { return mods.GetEnumerator(); }
 		public bool TryGetValue(string key, out Manifest value) { return mods.TryGetValue(key, out value); }

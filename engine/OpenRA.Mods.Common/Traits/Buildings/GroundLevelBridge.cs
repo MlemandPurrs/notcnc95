@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -9,6 +9,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using OpenRA.GameRules;
 using OpenRA.Primitives;
@@ -23,7 +24,7 @@ namespace OpenRA.Mods.Common.Traits
 
 		public readonly string Type = "GroundLevelBridge";
 
-		public readonly CVec[] NeighbourOffsets = { };
+		public readonly CVec[] NeighbourOffsets = Array.Empty<CVec>();
 
 		[WeaponReference]
 		[Desc("The name of the weapon to use when demolishing the bridge")]
@@ -38,7 +39,7 @@ namespace OpenRA.Mods.Common.Traits
 		{
 			var weaponToLower = (DemolishWeapon ?? string.Empty).ToLowerInvariant();
 			if (!rules.Weapons.TryGetValue(weaponToLower, out var weapon))
-				throw new YamlException("Weapons Ruleset does not contain an entry '{0}'".F(weaponToLower));
+				throw new YamlException($"Weapons Ruleset does not contain an entry '{weaponToLower}'");
 
 			DemolishWeaponInfo = weapon;
 		}
@@ -70,15 +71,14 @@ namespace OpenRA.Mods.Common.Traits
 			foreach (var cell in cells)
 				self.World.Map.CustomTerrain[cell] = terrainIndex;
 
-			self.World.WorldActor.TraitOrDefault<DomainIndex>()?.UpdateCells(self.World, cells);
+			self.World.WorldActor.Trait<DomainIndex>().UpdateCells(self.World, cells);
 		}
 
 		void INotifyAddedToWorld.AddedToWorld(Actor self)
 		{
 			bridgeLayer.Add(self);
 
-			var tileSet = self.World.Map.Rules.TileSet;
-			var terrainIndex = tileSet.GetTerrainIndex(Info.TerrainType);
+			var terrainIndex = self.World.Map.Rules.TerrainInfo.GetTerrainIndex(Info.TerrainType);
 			UpdateTerrain(self, terrainIndex);
 			KillInvalidActorsInFootprint(self);
 		}
@@ -118,10 +118,10 @@ namespace OpenRA.Mods.Common.Traits
 			});
 		}
 
-		string IBridgeSegment.Type { get { return Info.Type; } }
-		DamageState IBridgeSegment.DamageState { get { return self.GetDamageState(); } }
-		bool IBridgeSegment.Valid { get { return self.IsInWorld; } }
-		CVec[] IBridgeSegment.NeighbourOffsets { get { return Info.NeighbourOffsets; } }
-		CPos IBridgeSegment.Location { get { return self.Location; } }
+		string IBridgeSegment.Type => Info.Type;
+		DamageState IBridgeSegment.DamageState => self.GetDamageState();
+		bool IBridgeSegment.Valid => self.IsInWorld;
+		CVec[] IBridgeSegment.NeighbourOffsets => Info.NeighbourOffsets;
+		CPos IBridgeSegment.Location => self.Location;
 	}
 }

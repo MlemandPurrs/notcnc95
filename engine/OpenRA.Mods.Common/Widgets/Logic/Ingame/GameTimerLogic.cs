@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -24,37 +24,32 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			var timer = widget.GetOrNull<LabelWidget>("GAME_TIMER");
 			var status = widget.GetOrNull<LabelWidget>("GAME_TIMER_STATUS");
 			var tlm = world.WorldActor.TraitOrDefault<TimeLimitManager>();
-			var startTick = Ui.LastTickTime;
+			var startTick = Ui.LastTickTime.Value;
 
-			Func<bool> shouldShowStatus = () => (world.Paused || world.Timestep != world.LobbyInfo.GlobalSettings.Timestep)
-				&& (Ui.LastTickTime - startTick) / 1000 % 2 == 0;
+			Func<bool> shouldShowStatus = () => (world.Paused || world.ReplayTimestep != world.Timestep)
+				&& (Ui.LastTickTime.Value - startTick) / 1000 % 2 == 0;
 
 			Func<string> statusText = () =>
 			{
-				if (world.Paused || world.Timestep == 0)
+				if (world.Paused || world.ReplayTimestep == 0)
 					return "Paused";
 
-				if (world.Timestep == 1)
+				if (world.ReplayTimestep == 1)
 					return "Max Speed";
 
-				return "{0}% Speed".F(world.LobbyInfo.GlobalSettings.Timestep * 100 / world.Timestep);
+				return $"{world.Timestep * 100 / world.ReplayTimestep}% Speed";
 			};
 
 			if (timer != null)
 			{
-				// Timers in replays should be synced to the effective game time, not the playback time.
-				var timestep = world.Timestep;
-				if (world.IsReplay)
-					timestep = world.WorldActor.Trait<MapOptions>().GameSpeed.Timestep;
-
 				timer.GetText = () =>
 				{
 					if (status == null && shouldShowStatus())
 						return statusText();
 
-					var timeLimit = tlm != null ? tlm.TimeLimit : 0;
+					var timeLimit = tlm?.TimeLimit ?? 0;
 					var displayTick = timeLimit > 0 ? timeLimit - world.WorldTick : world.WorldTick;
-					return WidgetUtils.FormatTime(Math.Max(0, displayTick), timestep);
+					return WidgetUtils.FormatTime(Math.Max(0, displayTick), world.Timestep);
 				};
 			}
 
@@ -65,14 +60,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				status.GetText = statusText;
 			}
 
-			var timerTooltip = timer as LabelWithTooltipWidget;
-			if (timerTooltip != null)
+			if (timer is LabelWithTooltipWidget timerTooltip)
 			{
 				var connection = orderManager.Connection as ReplayConnection;
 				if (connection != null && connection.FinalGameTick != 0)
-					timerTooltip.GetTooltipText = () => "{0}% complete".F(world.WorldTick * 100 / connection.FinalGameTick);
+					timerTooltip.GetTooltipText = () => $"{world.WorldTick * 100 / connection.FinalGameTick}% complete";
 				else if (connection != null && connection.TickCount != 0)
-					timerTooltip.GetTooltipText = () => "{0}% complete".F(orderManager.NetFrameNumber * 100 / connection.TickCount);
+					timerTooltip.GetTooltipText = () => $"{orderManager.NetFrameNumber * 100 / connection.TickCount}% complete";
 				else
 					timerTooltip.GetTooltipText = null;
 			}

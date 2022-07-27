@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -54,10 +54,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 		EditorActorPreview CurrentActor
 		{
-			get
-			{
-				return currentActorInner;
-			}
+			get => currentActorInner;
 
 			set
 			{
@@ -117,11 +114,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				&& editor.CurrentBrush == editor.DefaultBrush
 				&& Game.RunTime > lastScrollTime + scrollVisibleTimeout;
 
-			actorIDField.OnEscKey = () =>
-			{
-				actorIDField.YieldKeyboardFocus();
-				return true;
-			};
+			actorIDField.OnEscKey = _ => actorIDField.YieldKeyboardFocus();
 
 			actorIDField.OnTextEdited = () =>
 			{
@@ -133,11 +126,13 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				}
 
 				// Check for duplicate actor ID
-				if (CurrentActor.ID.Equals(actorId, StringComparison.OrdinalIgnoreCase))
+				if (!CurrentActor.ID.Equals(actorId, StringComparison.OrdinalIgnoreCase))
 				{
 					if (editorActorLayer[actorId] != null)
 					{
 						nextActorIDStatus = ActorIDStatus.Duplicate;
+						actorIDErrorLabel.Text = "Duplicate ActorID";
+						actorIDErrorLabel.Visible = true;
 						return;
 					}
 				}
@@ -265,9 +260,8 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 					foreach (var o in options)
 					{
-						if (o is EditorActorCheckbox)
+						if (o is EditorActorCheckbox co)
 						{
-							var co = (EditorActorCheckbox)o;
 							var checkboxContainer = checkboxOptionTemplate.Clone();
 							checkboxContainer.Bounds.Y = initContainer.Bounds.Height;
 							initContainer.Bounds.Height += checkboxContainer.Bounds.Height;
@@ -288,9 +282,8 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 							initContainer.AddChild(checkboxContainer);
 						}
-						else if (o is EditorActorSlider)
+						else if (o is EditorActorSlider so)
 						{
-							var so = (EditorActorSlider)o;
 							var sliderContainer = sliderOptionTemplate.Clone();
 							sliderContainer.Bounds.Y = initContainer.Bounds.Height;
 							initContainer.Bounds.Height += sliderContainer.Bounds.Height;
@@ -324,9 +317,8 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 							initContainer.AddChild(sliderContainer);
 						}
-						else if (o is EditorActorDropdown)
+						else if (o is EditorActorDropdown ddo)
 						{
-							var ddo = (EditorActorDropdown)o;
 							var dropdownContainer = dropdownOptionTemplate.Clone();
 							dropdownContainer.Bounds.Y = initContainer.Bounds.Height;
 							initContainer.Bounds.Height += dropdownContainer.Bounds.Height;
@@ -438,7 +430,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		}
 
 		public bool IsDirty { get; private set; }
-		public bool ShouldDoOnSave { get { return false; } }
+		public bool ShouldDoOnSave => false;
 	}
 
 	public interface IEditActorHandle
@@ -451,7 +443,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 	class EditActorEditorAction : IEditorAction
 	{
-		public string Text { get; private set; }
+		public string Text { get; }
 
 		readonly IEnumerable<IEditActorHandle> handles;
 		readonly EditorActorLayer editorActorLayer;
@@ -464,7 +456,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			actorId = actor.ID;
 			this.actor = actor;
 			this.handles = handles;
-			Text = "Edited {0} ({1})".F(actor.Info.Name, actor.ID);
+			Text = $"Edited {actor.Info.Name} ({actor.ID})";
 		}
 
 		public void Execute()
@@ -554,6 +546,6 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		}
 
 		public bool IsDirty { get; private set; }
-		public bool ShouldDoOnSave { get { return true; } }
+		public bool ShouldDoOnSave => true;
 	}
 }

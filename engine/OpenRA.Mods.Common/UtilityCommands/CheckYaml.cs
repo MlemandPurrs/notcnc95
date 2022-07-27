@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -19,7 +19,7 @@ namespace OpenRA.Mods.Common.UtilityCommands
 {
 	class CheckYaml : IUtilityCommand
 	{
-		string IUtilityCommand.Name { get { return "--check-yaml"; } }
+		string IUtilityCommand.Name => "--check-yaml";
 
 		static int errors = 0;
 
@@ -52,13 +52,13 @@ namespace OpenRA.Mods.Common.UtilityCommands
 				Log.AddChannel("perf", null);
 
 				// bind some nonfatal error handling into FieldLoader, so we don't just *explode*.
-				ObjectCreator.MissingTypeAction = s => EmitError("Missing Type: {0}".F(s));
-				FieldLoader.UnknownFieldAction = (s, f) => EmitError("FieldLoader: Missing field `{0}` on `{1}`".F(s, f.Name));
+				ObjectCreator.MissingTypeAction = s => EmitError($"Missing Type: {s}");
+				FieldLoader.UnknownFieldAction = (s, f) => EmitError($"FieldLoader: Missing field `{s}` on `{f.Name}`");
 
-				var maps = new List<Map>();
+				var maps = new List<(IReadWritePackage package, string map)>();
 				if (args.Length < 2)
 				{
-					Console.WriteLine("Testing mod: {0}".F(modData.Manifest.Metadata.Title));
+					Console.WriteLine($"Testing mod: {modData.Manifest.Metadata.Title}");
 
 					// Run all rule checks on the default mod rules.
 					CheckRules(modData, modData.DefaultRules);
@@ -73,45 +73,24 @@ namespace OpenRA.Mods.Common.UtilityCommands
 						}
 						catch (Exception e)
 						{
-							EmitError("{0} failed with exception: {1}".F(customPassType, e));
+							EmitError($"{customPassType} failed with exception: {e}");
 						}
 					}
 
 					// Use all system maps for lint checking
-					maps = modData.MapCache.EnumerateMapsWithoutCaching().ToList();
+					maps = modData.MapCache.EnumerateMapDirPackagesAndNames().ToList();
 				}
 				else
-					maps.Add(new Map(modData, new Folder(Platform.EngineDir).OpenPackage(args[1], modData.ModFiles)));
+					maps.Add((new Folder(Platform.EngineDir), args[1]));
 
-				foreach (var testMap in maps)
+				foreach (var map in maps)
 				{
-					Console.WriteLine("Testing map: {0}".F(testMap.Title));
-
-					// Lint tests can't be trusted if the map rules are bogus
-					// so report that problem then skip the tests
-					if (testMap.InvalidCustomRules)
-					{
-						EmitError(testMap.InvalidCustomRulesException.ToString());
+					var package = map.package.OpenPackage(map.map, modData.ModFiles);
+					if (package == null)
 						continue;
-					}
 
-					// Run all rule checks on the map if it defines custom rules.
-					if (testMap.RuleDefinitions != null || testMap.VoiceDefinitions != null || testMap.WeaponDefinitions != null)
-						CheckRules(modData, testMap.Rules, testMap);
-
-					// Run all map-level checks here.
-					foreach (var customMapPassType in modData.ObjectCreator.GetTypesImplementing<ILintMapPass>())
-					{
-						try
-						{
-							var customMapPass = (ILintMapPass)modData.ObjectCreator.CreateBasic(customMapPassType);
-							customMapPass.Run(EmitError, EmitWarning, modData, testMap);
-						}
-						catch (Exception e)
-						{
-							EmitError("{0} failed with exception: {1}".F(customMapPassType, e));
-						}
-					}
+					var testMap = new Map(modData, package);
+					TestMap(testMap, modData);
 				}
 
 				if (errors > 0)
@@ -122,12 +101,43 @@ namespace OpenRA.Mods.Common.UtilityCommands
 			}
 			catch (Exception e)
 			{
-				EmitError("Failed with exception: {0}".F(e));
+				EmitError($"Failed with exception: {e}");
 				Environment.Exit(1);
 			}
 		}
 
-		void CheckRules(ModData modData, Ruleset rules, Map map = null)
+		void TestMap(Map map, ModData modData)
+		{
+			Console.WriteLine($"Testing map: {map.Title}");
+
+			// Lint tests can't be trusted if the map rules are bogus
+			// so report that problem then skip the tests
+			if (map.InvalidCustomRules)
+			{
+				EmitError(map.InvalidCustomRulesException.ToString());
+				return;
+			}
+
+			// Run all rule checks on the map if it defines custom rules.
+			if (map.RuleDefinitions != null || map.VoiceDefinitions != null || map.WeaponDefinitions != null)
+				CheckRules(modData, map.Rules);
+
+			// Run all map-level checks here.
+			foreach (var customMapPassType in modData.ObjectCreator.GetTypesImplementing<ILintMapPass>())
+			{
+				try
+				{
+					var customMapPass = (ILintMapPass)modData.ObjectCreator.CreateBasic(customMapPassType);
+					customMapPass.Run(EmitError, EmitWarning, modData, map);
+				}
+				catch (Exception e)
+				{
+					EmitError($"{customMapPassType} failed with exception: {e}");
+				}
+			}
+		}
+
+		void CheckRules(ModData modData, Ruleset rules)
 		{
 			foreach (var customRulesPassType in modData.ObjectCreator.GetTypesImplementing<ILintRulesPass>())
 			{
@@ -138,7 +148,7 @@ namespace OpenRA.Mods.Common.UtilityCommands
 				}
 				catch (Exception e)
 				{
-					EmitError("{0} failed with exception: {1}".F(customRulesPassType, e));
+					EmitError($"{customRulesPassType} failed with exception: {e}");
 				}
 			}
 		}

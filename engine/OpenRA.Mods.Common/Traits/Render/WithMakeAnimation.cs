@@ -1,6 +1,6 @@
 #region Copyright & License Information
 /*
- * Copyright 2007-2020 The OpenRA Developers (see AUTHORS)
+ * Copyright 2007-2022 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made
  * available to you under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of
@@ -38,6 +38,7 @@ namespace OpenRA.Mods.Common.Traits.Render
 		readonly WithMakeAnimationInfo info;
 		readonly WithSpriteBody[] wsbs;
 		readonly bool skipMakeAnimation;
+		WithMakeOverlay[] overlays;
 
 		int token = Actor.InvalidConditionToken;
 
@@ -51,6 +52,7 @@ namespace OpenRA.Mods.Common.Traits.Render
 
 		void INotifyCreated.Created(Actor self)
 		{
+			overlays = self.TraitsImplementing<WithMakeOverlay>().ToArray();
 			if (!skipMakeAnimation)
 				Forward(self, () => { });
 		}
@@ -76,6 +78,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 					onComplete();
 				});
 			});
+
+			foreach (var overlay in overlays)
+				overlay.Forward();
 		}
 
 		public void Reverse(Actor self, Action onComplete)
@@ -99,6 +104,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 					onComplete();
 				});
 			});
+
+			foreach (var overlay in overlays)
+				overlay.Reverse();
 		}
 
 		public void Reverse(Actor self, Activity activity, bool queued = true)
@@ -115,6 +123,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 
 				self.QueueActivity(queued, activity);
 			});
+
+			foreach (var overlay in overlays)
+				overlay.Reverse();
 		}
 
 		// TODO: Make this use Forward instead
@@ -148,6 +159,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 					}
 				});
 			}
+
+			foreach (var overlay in overlays)
+				overlay.Forward();
 		}
 
 		// TODO: Make this use Reverse instead
@@ -181,6 +195,9 @@ namespace OpenRA.Mods.Common.Traits.Render
 					}
 				});
 			}
+
+			foreach (var overlay in overlays)
+				overlay.Reverse();
 		}
 	}
 }

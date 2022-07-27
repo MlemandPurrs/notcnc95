@@ -1,25 +1,27 @@
 Player:
 	-ConquestVictoryConditions:
+	PlayerResources:
+		ResourceValues:
+			Tiberium: 0
+			BlueTiberium: 0
+            RedTiberium: 0
 
 World:
 	-CrateSpawner:
-	-SpawnMPUnits:
-	-MPStartLocations:
+	-SpawnStartingUnits:
+	-MapStartingLocations:
 	MusicPlaylist:
 		BackgroundMusic: airstrik
 		AllowMuteBackgroundMusic: true
 		DisableWorldSounds: true
-	ResourceType@green-tib:
-		ValuePerUnit: 0
 	LuaScript:
 		Scripts: td-shellmap.lua
 	-StartGameNotification:
 
 ^Palettes:
 	-PlayerColorPalette:
-	-PaletteFromPlayerPaletteWithAlpha@placebuilding:
 	IndexedPlayerPalette@buildings:
-		BasePalette: player
+		BasePalette: terrain
 		BaseName: player-buildings
 		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
 		PlayerIndex:
@@ -27,16 +29,13 @@ World:
 			Nod: 127, 126, 125, 124, 122, 46, 120, 47, 125, 124, 123, 122, 42, 121, 120, 120
 			Neutral: 192, 164, 132, 155, 133, 197, 112, 12, 163, 132, 155, 133, 134, 197, 154, 198
 	IndexedPlayerPalette@units:
-		BasePalette: player
+		BasePalette: terrain
+        BaseName: player
 		RemapIndex: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
 		PlayerIndex:
 			GDI: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191
 			Nod: 161, 200, 201, 202, 204, 205, 206, 12, 201, 202, 203, 204, 205, 115, 198, 114
 			Neutral: 192, 164, 132, 155, 133, 197, 112, 12, 163, 132, 155, 133, 134, 197, 154, 198
-	PaletteFromPlayerPaletteWithAlpha@Placebuilding:
-		BaseName: placebuilding
-		Alpha: 0.65
-		BasePalette: player
 
 ^ExistsInWorld:
 	GivesExperience:
@@ -70,6 +69,8 @@ HARV:
 ^Infantry:
 	RenderSprites:
 		PlayerPalette: player
+	WithDeathAnimation:
+		DeathSequencePalette: player
 
 ^Bridge:
 	DamageMultiplier:
@@ -123,3 +124,8 @@ PROC:
 		Actor: HARV
 		SpawnOffset: 1,2
 		Facing: 256
+
+SILO:
+    -CashTrickler:
+    -CashTricklerBar:
+    -GrantConditionOnPowerState@LOWPOWER:
