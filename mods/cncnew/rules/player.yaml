@@ -24,10 +24,11 @@ Player:
 		LeaveNotification: Leave
 	ConquestVictoryConditions:
 	PowerManager:
-		AdviceInterval: 30000
+		AdviceInterval: 60000
 		SpeechNotification: LowPower
 	AllyRepair:
 	PlayerResources:
+        InsufficientFundsNotificationInterval: 60000
         InsufficientFundsNotification: InsufficientFunds
 		CashTickUpNotification: CashTickUp
 		CashTickDownNotification: CashTickDown
@@ -117,7 +118,7 @@ Player:
 	PlayerStatistics:
 	FrozenActorLayer:
 	HarvesterAttackNotifier:
-        NotifyInterval: 250
+        NotifyInterval: 60000
 	PlaceBeacon:
 	ProvidesTechPrerequisite@low:
 		Name: Low

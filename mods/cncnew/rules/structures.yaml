@@ -687,7 +687,7 @@ HAND:
 		Group: Infantry
 		LowPowerModifier: 150
 		ReadyAudio: InfantryReady
-        ReadyTextNotification: Infantry ready.
+        ReadyTextNotification: Infantry unit ready.
 		BlockedAudio: NoBuild
         BlockedTextNotification: Unable to build more.
 		LimitedAudio: UnabletoComply
@@ -1281,7 +1281,7 @@ CTRL:
 	AirstrikePower@AirstrikeA10:
 		OrderName: AirStrikeA10
 		PauseOnCondition: lowpower
-		Prerequisites: ~proxy.airstrike.unlock, ~!airstrike.upgrade
+		Prerequisites: ~airstrike.unlock, ~!airstrike.upgrade
 		Icon: airstrike
 		ChargeInterval: 6750
 		SquadSize: 1
@@ -1341,7 +1341,7 @@ CTRL:
 	AirstrikePower@NodAirStrike:
 		OrderName: NodAirStrike
 		PauseOnCondition: lowpower
-		Prerequisites: ~proxy.nodairstrike.unlock
+		Prerequisites: ~nodairstrike.unlock
 		Icon: sfigicon
 		ChargeInterval: 6750
 		SquadSize: 1
@@ -1371,10 +1371,10 @@ CTRL:
 	InterceptorPower@GDIInterceptors:
 		PauseOnCondition: lowpower
 		OrderName: GDIInterceptors
-		Prerequisites: ~proxy.interceptorsgdi.unlock
+		Prerequisites: ~interceptorsgdi.unlock
 		Icon: gdicepticon
 		ChargeInterval: 6750
-		Name: F-18 Interceptors
+		Name: Interceptors
 		Description: A squadron of F-18 provides anti-air\ncover over the selected target area.\nAir cover lasts for 20 seconds.
 		EndChargeSpeechNotification: InterceptorsReady
         EndChargeTextNotification: Interceptors ready.
@@ -1403,7 +1403,7 @@ CTRL:
 	InterceptorPower@NodInterceptors:
 		PauseOnCondition: lowpower
 		OrderName: NodInterceptors
-		Prerequisites: ~proxy.interceptorsnod.unlock, ~!interceptorsnod.upgrade
+		Prerequisites: ~interceptorsnod.unlock, ~!interceptorsnod.upgrade
 		Icon: cepticon
 		ChargeInterval: 6750
 		Name: Interceptors

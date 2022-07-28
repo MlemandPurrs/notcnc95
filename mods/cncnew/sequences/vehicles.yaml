@@ -459,7 +459,6 @@ mnly:
 	idle: mnly
 		Facings: 32
 		UseClassicFacings: True
-		ZOffset: -512
 	turret: rep-tur
 		Facings: 32
 	icon: gdimnlyicon

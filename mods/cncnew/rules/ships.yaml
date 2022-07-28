@@ -216,8 +216,8 @@ MINS:
 		CloakDelay: 75
 		CloakSound: subshow1.aud
 		UncloakSound: subshow1.aud
-		Palette: cloaktransparent
-        IsPlayerPalette: true
+		Palette: 
+        IsPlayerPalette: false
 	RenderSprites:
 		Image: mins
 	Targetable:

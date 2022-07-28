@@ -834,6 +834,7 @@ miss:
 miss.husk:
 	idle: miss
 		Start: 2
+        Offset: 0,-1
 	bib: mbMISS
 		UseTilesetExtension: true
 		TilesetOverrides:

@@ -14,7 +14,7 @@ Player:
 		RefineryTypes: proc,proc.clone
 		HarvestersPerRefinery: 2
 		MaxHarvesters: 8
-	BuildingRepairBotModule@aiplayer:
+	BuildingRepairBotModuleCA@aiplayer:
 		RequiresCondition: enable-ai-player
 	McvManagerBotModuleCA@aiplayer:
 		RequiresCondition: enable-ai-player
@@ -22,7 +22,7 @@ Player:
 		ConstructionYardTypes: fact
 		McvFactoryTypes: weap, afld
 		MaxBaseRadius: 40
-	CaptureManagerBotModule@engineer:
+	CaptureManagerBotModuleCA@engineer:
 		RequiresCondition: enable-ai-player
 		CapturingActorTypes: e6
 		CapturableActorTypes: fact,hq,hq.gdi,eye,bio,hosp,nbio,syrd,v19,rpad,wind
@@ -220,10 +220,11 @@ Player:
 		ExcessPowerIncreaseThreshold: 4
 		ConstructionYardTypes: fact
 		RefineryTypes: proc,proc.clone
+        MaxExtraRefineries: 0
 		PowerTypes: nuke,nuk2
 		BarracksTypes: pyle,hand,hand.squad
 		VehiclesFactoryTypes: weap,afld
-		ProductionTypes: pyle,hand,hand.squad,weap,afld
+		ProductionTypes: pyle,hand,hand.squad,weap,afld,hpad
 		AntiAirTypes: sam,cram
 		SiloTypes: silo,silo.clone
 		BuildingDelays:
@@ -312,7 +313,9 @@ Player:
 		MinimumAttackForceDelay: 25
 		SquadSize: 16
 		SquadSizeRandomBonus: 16
-		ExcludeFromSquadsTypes: harv, mcv, e6, a10, sfig, f18, f22, 
+		SquadValue: 3000
+        SquadValueRandomBonus: 5000
+        ExcludeFromSquadsTypes: harv, mcv, e6, a10, sfig, f18, f22, 
         #   reg. 'mersenne twister' crash, root of cause is below
         #   wat happenz is in the unlikely case there are no Construction Yards remaining on board
         #   ai component that orders a squad to attack goes bonkers as there is no other fallback
@@ -324,12 +327,27 @@ Player:
 		IdleScanRadius: 18
 		AttackScanRadius: 9
         AirUnitsTypes: heli.ai, heli.ai.upgraded, orca, mh60.ai, rh66.ai
+        AirToAirPriority: 50
+        StaticAntiAirTypes: sam, cram
+        BigAirThreats: heli.ai, heli.ai.upgraded, orca
         NavalUnitsTypes: lst, gb
         NavalProductionTypes: syrd
+		AirSquadTargetTypes:
+            orca: Vehicle, Structure, Helicopter
+            heli.ai: Infantry, Helicopter
+            heli.ai.upgraded: Infantry, Vehicle, Helicopter
+            mh60.ai: Infantry
+            rh66.ai: Infantry, Structure
 	UnitBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
+        IdleBaseUnitsMaximum: 12
 		UnitBuilderInterval: 25
+        UnitBuilderMinCredits: 1000
         MaxAircraft: 5
+        #   MaintainAirSuperiority: true
+        #   MaxAirSuperiority: 2
+        #   AirToAirUnits: heli.ai, heli.ai.upgraded, orca
+        #   AirThreatUnits: heli.ai, heli.ai.upgraded, orca
 		UnitQueues: Vehicle.Nod, Vehicle.GDI, Infantry.Nod, Infantry.GDI, Aircraft.GDI, Aircraft.Nod, Navy.GDI, Navy.Nod
 		UnitDelays:
 			mcv: 12000
@@ -381,8 +399,12 @@ Player:
             gb: 5
             airstrike.unlock: 1
 		UnitLimits:
+            e1: 50
+            e1.squad: 50
 			e2: 10
             e2.squad: 3
+            e3: 30
+            e3.squad: 30
 			e4: 5
             e4.squad: 2
 			e5: 5
@@ -412,3 +434,5 @@ Player:
             rh66.ai: 2
             gb: 5
             airstrike.unlock: 1
+        UnitIntervals:
+            placeholder: 0

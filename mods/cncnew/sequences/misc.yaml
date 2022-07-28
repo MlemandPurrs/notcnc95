@@ -528,6 +528,7 @@ sonarbox:
 
 minv:
 	idle:
+		ZOffset: -512
 
 emp-overlay:
 	emp-overlay: empfx01

@@ -1,9 +1,8 @@
-#   current issues: moveflash appears borken when Attacking.
-#   Infantry shows entering cursor on Paradrop plane. C17 does not have the issue.
+#   current issues: 
+#   Cursor flickers, moveflash appears borken when Attacking.
 #   Unit responses sometimes silent.
-#   Mine renders above the Minelayer.
 
-# General dumping-ground for UI element sizes, etc.
+#   General dumping-ground for UI element sizes, etc.
 
 Metrics:
 	ButtonDepth: 0

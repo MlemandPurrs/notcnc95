@@ -216,7 +216,7 @@ airstrike.upgrade:
 	Buildable:
 		BuildPaletteOrder: 15
 		Queue: Upgrades.GDI
-		Prerequisites: ~proxy.airstrike.unlock, ~ctrl, ~tech, ~techlevel.unrestricted
+		Prerequisites: ~airstrike.unlock, ~ctrl, ~tech, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Improves the Airstrike to include two more A-10 Bombers.
         Icon: airstrike
@@ -371,7 +371,7 @@ interceptorsnod.upgrade:
 	Buildable:
 		BuildPaletteOrder: 17
 		Queue: Upgrades.Nod
-		Prerequisites: ~proxy.interceptorsnod.unlock, ~ctrl, ~tmpl, ~techlevel.unrestricted
+		Prerequisites: ~interceptorsnod.unlock, ~ctrl, ~tmpl, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Extra Fuel pods on the Interceptors extend duration.
         Icon: fuelpods

@@ -74,8 +74,11 @@ C130:
 	HiddenUnderFog:
 		AlwaysVisibleRelationships: None
 		Type: CenterPosition
+    #   aha, this is the culprit
+    #   removing Types: eradicates
+    #   the issue here completely
 	Cargo:
-		Types: Infantry, Vehicle, Crate
+		#   Types: Infantry, Vehicle, Crate
 		MaxWeight: 10
 	ParaDrop:
 		DropRange: 5c0
@@ -97,9 +100,18 @@ C130:
 		HP: 16500
 	Armor:
 		Type: Aircraft
+    #   Root of problem is this
+    #   Adding Targetable, causes 
+    #   Infantry display Enter
 	Targetable@AIRBORNE:
 		TargetTypes: Airplane
-		RequiresCondition: airborne
+    	RequiresCondition: airborne
+    #   i feel this second block
+    #   might have contributed
+	Targetable@GROUND:
+		RequiresCondition: !airborne
+		TargetTypes: Ground
+    RejectsOrders:
 	-MapEditorData:
 
 C130.Husk:
@@ -1501,7 +1513,7 @@ NV22.Reinforce:
 	Interactable:
 	-MapEditorData:
 
-proxy.airstrike.unlock:
+airstrike.unlock:
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1522,7 +1534,7 @@ proxy.airstrike.unlock:
     Buildable:
 		BuildPaletteOrder: 6
 		Queue: Aircraft.GDI
-		Prerequisites: ctrl, ~hq, ~tech, ~techlevel.unrestricted, ~!proxy.airstrike.unlock
+		Prerequisites: ctrl, ~hq, ~tech, ~techlevel.unrestricted, ~!airstrike.unlock
 		BuildDuration: 1500
 		Description: Allows the usage of the 'Airstrike' support power.
         Icon: airstrike
@@ -1532,7 +1544,7 @@ proxy.airstrike.unlock:
     RenderSprites:
         Image: dummy.airstrikers
 
-proxy.interceptorsgdi.unlock:
+interceptorsgdi.unlock:
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1553,7 +1565,7 @@ proxy.interceptorsgdi.unlock:
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Aircraft.GDI
-		Prerequisites: ctrl, ~hq, ~tech, ~!proxy.interceptorsgdi.unlock, ~techlevel.unrestricted
+		Prerequisites: ctrl, ~hq, ~tech, ~!interceptorsgdi.unlock, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Allows the usage of the 'Interceptors' support power.
         Icon: interceptorgdi
@@ -1565,7 +1577,7 @@ proxy.interceptorsgdi.unlock:
 
 #   Nod Support Powers
 
-proxy.interceptorsnod.unlock:
+interceptorsnod.unlock:
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1586,7 +1598,7 @@ proxy.interceptorsnod.unlock:
 	Buildable:
 		BuildPaletteOrder: 5
 		Queue: Aircraft.Nod
-		Prerequisites: ctrl, ~hq, ~tmpl, ~!proxy.interceptorsnod.unlock, ~techlevel.unrestricted
+		Prerequisites: ctrl, ~hq, ~tmpl, ~!interceptorsnod.unlock, ~techlevel.unrestricted
 		BuildDuration: 1500
 		Description: Allows the usage of the 'Interceptors' support power.
         Icon: interceptornod
@@ -1596,7 +1608,7 @@ proxy.interceptorsnod.unlock:
     RenderSprites:
         Image: dummy.airstrikers
 
-proxy.nodairstrike.unlock:
+nodairstrike.unlock:
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1617,7 +1629,7 @@ proxy.nodairstrike.unlock:
 	Buildable:
 		BuildPaletteOrder: 6
 		Queue: Aircraft.Nod
-		Prerequisites: ctrl, ~hq, ~tmpl, ~techlevel.unrestricted, ~!proxy.nodairstrike.unlock
+		Prerequisites: ctrl, ~hq, ~tmpl, ~techlevel.unrestricted, ~!nodairstrike.unlock
 		BuildDuration: 1500
         Description: Allows the usage of the 'Stealth Airstrike' support power.
         Icon: airstrikenod

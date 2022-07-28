@@ -404,7 +404,7 @@ HTNK:
         Weaknesses:  Weak vs Superweapons
         Canattack:  Can attack Air and Ground units
         Upgrades:  Can be upgraded with Composite Armor
-        Attributes:  Self-repairs slowly out of combat\nCan smash through Concrete Walls
+        Attributes:  Self-repairs when below half Health\nCan smash through Concrete Walls
 	UpdatesPlayerStatistics:
 		AddToArmyValue: true
 	Buildable:
@@ -456,9 +456,9 @@ HTNK:
 	WithMuzzleOverlay:
 	ChangesHealth:
 		Step: 500
-		Delay: 10
+		Delay: 25
 		StartIfBelow: 51
-		DamageCooldown: 200
+		DamageCooldown: 25
 	Explodes:
 		Weapon: UnitExplodeMech
 		EmptyWeapon: UnitExplodeMech

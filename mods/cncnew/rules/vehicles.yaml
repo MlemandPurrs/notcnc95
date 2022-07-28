@@ -75,6 +75,7 @@ HARV:
     TooltipExtras:
         Strengths:  Collects resources for income
         Canattack:  Unarmed
+        Attributes:  Self-repairs when below half Health
 	Buildable:
 		BuildPaletteOrder: 1
 		Prerequisites: proc, ~techlevel.low
@@ -163,6 +164,11 @@ HARV:
 		Range: 6c826
 		ValidRelationships: Ally
 		RequiresCondition: animateref && !emp-crate-collected && !docked
+	ChangesHealth:
+		Step: 500
+		Delay: 25
+		StartIfBelow: 51
+		DamageCooldown: 25
 
 HARV.Husk:
 	Inherits: ^Husk
