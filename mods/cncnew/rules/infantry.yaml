@@ -278,6 +278,7 @@ VICE:
 #   Experimental squad production
 
 E1.squad.gdi:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -309,6 +310,7 @@ E1.squad.gdi:
 		AllowMultiple: true
 
 E1.squad.nod:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -340,6 +342,7 @@ E1.squad.nod:
 		AllowMultiple: true
 
 E3.squad.gdi:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -370,6 +373,7 @@ E3.squad.gdi:
 		AllowMultiple: true
 
 E3.squad.nod:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:

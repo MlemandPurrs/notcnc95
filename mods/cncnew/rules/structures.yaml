@@ -193,7 +193,7 @@ NUKE:
 	ProvidesPrerequisite:
 		Prerequisite: anypower
 	Buildable:
-		BuildPaletteOrder: 7
+		BuildPaletteOrder: 3
 		Prerequisites: fact, ~techlevel.low
 		Queue: Building.GDI, Building.Nod
 		Description: Generates a standard amount of power.
@@ -260,7 +260,7 @@ NUK2:
 	ProvidesPrerequisite:
 		Prerequisite: anypower
 	Buildable:
-		BuildPaletteOrder: 10
+		BuildPaletteOrder: 6
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
 		Description: Generates double the amount of a standard Power Plant.
@@ -1089,7 +1089,7 @@ HPAD:
     TooltipExtras:
         Strengths:  Allows to produce Aircraft
 	Buildable:
-		BuildPaletteOrder: 3
+		BuildPaletteOrder: 7
 		Prerequisites: hq, ~techlevel.medium
 		Queue: Building.GDI, Building.Nod
 		Description:  Builds, Resupplies and Repairs Helicopters.
@@ -1220,7 +1220,7 @@ CTRL:
         Weaknesses:  Requires Power to operate
         Specialabilities:  Special Ability: Paratroopers\nA Cargo plane delivers one squad of Infantry\n(requires Communications Center)
     Buildable:
-		BuildPaletteOrder: 6
+		BuildPaletteOrder: 10
 		Prerequisites: hpad, anytier3, ~techlevel.high
 		Queue: Building.GDI, Building.Nod
         Description:  Coordinates and recharges aerial operations.

@@ -345,6 +345,7 @@ E22:
 #   Experimental squad production
 
 E2.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -377,6 +378,7 @@ E2.squad:
 		AllowMultiple: true
 
 SNIP.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -408,6 +410,7 @@ SNIP.squad:
 		AllowMultiple: true
 
 E22.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:

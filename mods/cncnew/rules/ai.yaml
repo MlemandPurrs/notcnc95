@@ -220,7 +220,7 @@ Player:
 		ExcessPowerIncreaseThreshold: 4
 		ConstructionYardTypes: fact
 		RefineryTypes: proc,proc.clone
-        MaxExtraRefineries: 0
+        MaxExtraRefineries: 1
 		PowerTypes: nuke,nuk2
 		BarracksTypes: pyle,hand,hand.squad
 		VehiclesFactoryTypes: weap,afld

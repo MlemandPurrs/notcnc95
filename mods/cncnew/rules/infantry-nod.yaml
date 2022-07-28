@@ -408,6 +408,7 @@ E23:
 #   Experimental squad production
 
 TERR.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -440,6 +441,7 @@ TERR.squad:
 		AllowMultiple: true
 
 E4.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -471,6 +473,7 @@ E4.squad:
 		AllowMultiple: true
 
 E5.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
@@ -503,6 +506,7 @@ E5.squad:
 		AllowMultiple: true
 
 E23.squad:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:

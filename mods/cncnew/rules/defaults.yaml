@@ -1547,10 +1547,18 @@
 ^ProductionAIBoost:
 	ProductionTimeMultiplier@productionboost:
 		Multiplier: 110
-		Prerequisites: aitoodumb && aiboosteron
+		Prerequisites: aiboostready
 	ProductionCostMultiplier@productionboost:
 		Multiplier: 80
-		Prerequisites: aitoodumb && aiboosteron
+		Prerequisites: aiboostready
+    GrantConditionOnBotOwner@productionboost:
+        Condition: aiboosted
+        Bots: normal
+	ProvidesPrerequisite@productionboost:
+		Prerequisite: aiboostready
+		RequiresCondition: aiboosted
+        RequiresPrerequisites: aiboosteron
+        ResetOnOwnerChange: true
 
 ^SellableOnRepairPad:
 	Sellable:

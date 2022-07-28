@@ -1,5 +1,6 @@
 
 ^Upgrade:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	ScriptTriggers:
