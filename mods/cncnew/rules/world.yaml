@@ -144,7 +144,7 @@
 			Shallow: 80
 	Locomotor@CRITTER:
 		Name: critter
-		Crushes: crate, mine
+		Crushes: mine
 		TerrainSpeeds:
 			Clear: 90
 			Rough: 80
