@@ -288,6 +288,12 @@ MHQ:
 		Type: jammer
 		Range: 16c0
 		Color: E49430
+    #   had thought of giving it chrono and tesla
+    #   to make it some sort of hero unit.
+	#   PortableChrono:
+	#	ChargeDelay: 500
+    #   PauseOnCondition: emp-crate-collected
+    #   HasDistanceLimit: false
 	Voiced:
 		VoiceSet: MoebiusVoice
 

@@ -9,12 +9,6 @@ Terrain:
 		Type: Beach
 		TargetTypes: Ground
 		Color: B09C78
-	TerrainType@BlueTiberium:
-		Type: BlueTiberium
-		TargetTypes: Ground
-		AcceptsSmudgeType: Crater, Scorch
-		Color: 54FCFC
-		RestrictPlayerColor: true
 	TerrainType@Bridge:
 		Type: Bridge
 		TargetTypes: Ground
@@ -44,12 +38,6 @@ Terrain:
 		TargetTypes: Ground
 		AcceptsSmudgeType: Crater, Scorch
 		Color: 44443C
-	TerrainType@Tiberium:
-		Type: Tiberium
-		TargetTypes: Ground
-		AcceptsSmudgeType: Crater, Scorch
-		Color: A1E21C
-		RestrictPlayerColor: true
 	TerrainType@Tree:
 		Type: Tree
 		TargetTypes: Ground
@@ -71,11 +59,23 @@ Terrain:
 	TerrainType@Jumpjet:
 		Type: Jumpjet
 		Color: 745537
+	TerrainType@Tiberium:
+		Type: Tiberium
+		TargetTypes: Ground
+		AcceptsSmudgeType: Crater, Scorch
+		Color: A0E01C
+		RestrictPlayerColor: true
+	TerrainType@BlueTiberium:
+		Type: BlueTiberium
+		TargetTypes: Ground
+		AcceptsSmudgeType: Crater, Scorch
+		Color: 5CB4DC
+		RestrictPlayerColor: true
 	TerrainType@RedTiberium:
 		Type: RedTiberium
 		TargetTypes: Ground
 		AcceptsSmudgeType: Crater, Scorch
-		Color: f53333
+		Color: DC1408
 		RestrictPlayerColor: true
 
 Templates:

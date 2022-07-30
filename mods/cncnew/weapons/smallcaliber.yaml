@@ -188,7 +188,7 @@ HeliAAGun:
 #   bumped to 75 from 25
 #   Mobile Anti-Air Gun
 APCGun:
-	ReloadDelay: 12
+	ReloadDelay: 18
 	Range: 6c512
 	Report: gun20.aud
 	Burst: 2

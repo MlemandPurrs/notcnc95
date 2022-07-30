@@ -52,6 +52,8 @@ C17:
 	SpeedMultiplier@C17Speed:
 		Modifier: 170
 		RequiresCondition: c17speed-upgraded
+    -LeavesTrails:
+    -GrantConditionOnDamageState@SmokeTrail:
 
 C130:
 	Inherits: ^Plane
@@ -112,6 +114,24 @@ C130:
 		RequiresCondition: !airborne
 		TargetTypes: Ground
     RejectsOrders:
+	LeavesTrails:
+		Offsets: -432,560,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
+	LeavesTrails@2:
+		Offsets: -432,-560,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
 	-MapEditorData:
 
 C130.Husk:
@@ -131,6 +151,22 @@ C130.Husk:
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
+	LeavesTrails:
+		Offsets: -432,560,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+	LeavesTrails@2:
+		Offsets: -432,-560,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	RenderSprites:
 		Image: c130
 
@@ -192,6 +228,15 @@ A10:
 		Notification: EnemyPlanesApproaching
 	ExternalCondition@AirRadar:
 		Condition: in-airwarning-radius
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
 	-MapEditorData:
 
 A10.Husk:
@@ -211,6 +256,14 @@ A10.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
+	LeavesTrails:
+		Offsets: -1c43,0,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	RenderSprites:
 		Image: a10
 
@@ -270,6 +323,17 @@ SFIG:
 	GrantConditionOnDamageState@UNCLOAK:
 		Condition: cloak-force-disabled
 		ValidDamageStates: Critical
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
+	GrantConditionOnDamageState@SmokeTrail:
+		Condition: enable-smoke
 	-MapEditorData:
 
 SFIG.Husk:
@@ -339,6 +403,15 @@ UAV:
     GrantConditionOnPrerequisite@UAVMissile:
         Condition: uavmissile-upgraded
         Prerequisites: uavmissile.upgrade
+	LeavesTrails:
+		Offsets: -1c43,0,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
 
 UAV.Husk:
 	Inherits: ^PlaneHusk
@@ -357,6 +430,14 @@ UAV.Husk:
 		TrailLength: 8
 		TrailWidth: 48
 		UsePlayerColor: false
+	LeavesTrails:
+		Offsets: -1c43,0,0
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	RenderSprites:
 		Image: uav
 
@@ -427,6 +508,15 @@ F18:
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: AttackAnything
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
 	-MapEditorData:
 
 F18.Husk:
@@ -446,8 +536,16 @@ F18.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	RenderSprites:
-		Image: f22
+		Image: f18
 
 F22:
 	Inherits: ^Plane
@@ -516,6 +614,15 @@ F22:
 	AutoTarget:
 		InitialStance: HoldFire
 		InitialStanceAI: AttackAnything
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
 	-MapEditorData:
 
 F22.Husk:
@@ -535,6 +642,14 @@ F22.Husk:
 		TrailLength: 8
 		TrailWidth: 32
 		UsePlayerColor: false
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	RenderSprites:
 		Image: f22
 
@@ -1081,7 +1196,7 @@ MH60:
 		Voice: Attack
 	AutoTarget:
 		ScanRadius: 4
-
+        
 MH60.Husk:
 	Inherits: ^HelicopterHusk
 	Tooltip:
@@ -1514,6 +1629,7 @@ NV22.Reinforce:
 	-MapEditorData:
 
 airstrike.unlock:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1545,6 +1661,7 @@ airstrike.unlock:
         Image: dummy.airstrikers
 
 interceptorsgdi.unlock:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1578,6 +1695,7 @@ interceptorsgdi.unlock:
 #   Nod Support Powers
 
 interceptorsnod.unlock:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	Aircraft:
@@ -1609,6 +1727,7 @@ interceptorsnod.unlock:
         Image: dummy.airstrikers
 
 nodairstrike.unlock:
+	Inherits@AI: ^ProductionAIBoost
 	AlwaysVisible:
 	Interactable:
 	Aircraft:

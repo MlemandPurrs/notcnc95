@@ -47,6 +47,7 @@ GTWR:
 		RequiresCondition: !build-incomplete
 	SpawnActorOnDeath:
 		Actor: gtwr.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
@@ -127,6 +128,7 @@ GUN:
 	ClassicFacingBodyOrientation:
 	SpawnActorOnDeath:
 		Actor: gun.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
@@ -206,6 +208,7 @@ ATWR:
 		RequiresCondition: !build-incomplete
 	SpawnActorOnDeath:
 		Actor: atwr.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
@@ -274,6 +277,7 @@ OBLI:
 		RequiresCondition: !build-incomplete
 	SpawnActorOnDeath:
 		Actor: obli.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
@@ -376,6 +380,7 @@ CRAM:
 		Color: 00ffff
 	SpawnActorOnDeath:
 		Actor: cram.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 
 CRAM.Husk:
@@ -492,6 +497,7 @@ SAM:
 		RevokeDelay: 75
 	SpawnActorOnDeath:
 		Actor: sam.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	Sellable:
 		RequiresCondition: !build-incomplete && !being-demolished && !being-captured
@@ -641,6 +647,7 @@ HGAT:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
+    BlocksProjectiles:
 
 VGAT:
 	Inherits: ^Gate
@@ -679,3 +686,4 @@ VGAT:
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
 		ValidPowerStates: Low, Critical
+    BlocksProjectiles:

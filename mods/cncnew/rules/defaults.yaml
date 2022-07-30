@@ -370,6 +370,17 @@
 		Categories: Aircraft
 	SpawnActorOnDeath:
 		RequiresCondition: airborne
+	LeavesTrails:
+		Offsets: -427,0,0
+		Image: smokey
+		MovingInterval: 3
+		StationaryInterval: 3
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
+	GrantConditionOnDamageState@SmokeTrail:
+		Condition: enable-smoke
 
 ^InfantryTiberiumDamage:
 	DamagedByTerrain@TIBERIUM:
@@ -696,6 +707,17 @@
 	Aircraft:
 		CruiseAltitude: 2560
 		IdleBehavior: LeaveMap
+	LeavesTrails:
+		Offsets: -853,0,171
+		MovingInterval: 2
+		Image: smokey
+		StationaryInterval: 2
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
+		RequiresCondition: enable-smoke
+	GrantConditionOnDamageState@SmokeTrail:
+		Condition: enable-smoke
 	MapEditorData:
 		Categories: Aircraft
 
@@ -1344,6 +1366,14 @@
 		Explosion: HeliCrash
 	Tooltip:
 		GenericName: Destroyed Helicopter
+	LeavesTrails:
+		Offsets: -427,0,0
+		Image: smokey
+		MovingInterval: 3
+		StationaryInterval: 3
+		SpawnAtLastPosition: False
+		TrailWhileStationary: True
+		Type: CenterPosition
 	-MapEditorData:
 
 ^PlaneHusk:
@@ -1604,7 +1634,7 @@
 	Armor:
 		Type: None
 	Cloak:
-		DetectionTypes: GroundStealth
+		DetectionTypes: GroundStealth, Mine
 		CloakSound:
 		UncloakSound:
 		Palette:

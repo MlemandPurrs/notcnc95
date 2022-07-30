@@ -21,6 +21,7 @@ V19:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: V19.Husk
+        OwnerType: InternalName
 	UpdatesDerrickCount:
 	GrantConditionOnCombatantOwner:
 		Condition: enabled
@@ -74,6 +75,7 @@ OILB:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: OILB.Husk
+        OwnerType: InternalName
 	UpdatesDerrickCount:
 	GrantConditionOnCombatantOwner:
 		Condition: enabled
@@ -157,6 +159,7 @@ HOSP:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: HOSP.Husk
+        OwnerType: InternalName
 	WithBuildingBib:
 		HasMinibib: true
 	ProvidesPrerequisite@buildingname:
@@ -199,6 +202,7 @@ BIO:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: BIO.Husk
+        OwnerType: InternalName
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:
 		Image: nbio
@@ -456,6 +460,7 @@ RPAD:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: RPAD.Husk
+        OwnerType: InternalName
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:
 		Image: rpad
@@ -534,6 +539,7 @@ WIND:
     #   no husk graphic
 	#   SpawnActorOnDeath:
 	#	Actor: WIND.Husk
+    #   OwnerType: InternalName
 	Power:
 		Amount: 25
 		RequiresCondition: !owner.is.neutral
@@ -568,6 +574,7 @@ EXPB:
 		ValidRelationships: Neutral, Enemy
 	SpawnActorOnDeath:
 		Actor: EXPB.Husk
+        OwnerType: InternalName
 	WithBuildingBib:
 	ProvidesPrerequisite@buildingname:
 	RenderSprites:

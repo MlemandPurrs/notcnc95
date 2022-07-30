@@ -273,3 +273,8 @@ Cursors:
 		airdrop-minimap:
 			Start: 8
 			Length: 2
+	cursorchrono.shp: cursor
+		chrono-target:
+			Start: 0
+			Length: 8
+			Tick: 90

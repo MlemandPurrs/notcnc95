@@ -144,6 +144,7 @@ FACT:
 			nod: nodfact
 	SpawnActorOnDeath:
 		Actor: fact.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	AcceptsDeliveredCash:
 		ValidTypes: MoneyTransfer
@@ -218,6 +219,7 @@ NUKE:
 			nod: nodnuke
 	SpawnActorOnDeath:
 		Actor: nuke.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true        
 	WithIdleOverlay@SMOKE:
 		RequiresCondition: !build-incomplete && critical-for-smoke
@@ -285,6 +287,7 @@ NUK2:
 			nod: nodnuk2
 	SpawnActorOnDeath:
 		Actor: nuk2.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	WithIdleOverlay@SMOKE:
 		RequiresCondition: !build-incomplete && critical-for-smoke
@@ -382,6 +385,7 @@ PROC:
 			nod: nodproc
 	SpawnActorOnDeath:
 		Actor: proc.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	ExternalCondition@DOCKED:
 		Condition: dockinprocess
@@ -485,6 +489,7 @@ SILO:
 			nod: nodsilo
 	SpawnActorOnDeath:
 		Actor: silo.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	GrantConditionOnPlayerResources:
 		Condition: contains-resources
@@ -621,6 +626,7 @@ PYLE:
 		ValidTypes: InfantryRefund
 	SpawnActorOnDeath:
 		Actor: pyle.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 
 PYLE.Husk:
@@ -725,6 +731,7 @@ HAND:
 		ValidTypes: InfantryRefund
 	SpawnActorOnDeath:
 		Actor: hand.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
     #   interferes with Squad production method
     #   even if disabled so ?!
@@ -850,6 +857,7 @@ WEAP:
         SequenceAlpha: 0.65
 	SpawnActorOnDeath:
 		Actor: weap.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 
 WEAP.Husk:
@@ -939,6 +947,7 @@ AFLD:
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
 		Actor: afld.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	ActorPreviewPlaceBuildingPreview:
         Animated: false
@@ -1021,6 +1030,7 @@ FIX:
 			nod: nodfix
 	SpawnActorOnDeath:
 		Actor: fix.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	ExternalCondition@Docked:
 		Condition: unit.docked
@@ -1123,6 +1133,7 @@ HPAD:
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
 		Actor: hpad.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	FreeActor@1:
 		Actor: ORCA
@@ -1244,6 +1255,7 @@ CTRL:
 		UseDeathTypeSuffix: False
 	SpawnActorOnDeath:
 		Actor: ctrl.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	ParatroopersPower@Paratroopers:
 		PauseOnCondition: lowpower
@@ -1533,6 +1545,7 @@ HQ:
 		RequiresCondition: !build-incomplete
 	SpawnActorOnDeath:
 		Actor: hq.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	ProvidesPrerequisite@buildingname:
 	ProvidesPrerequisite@LOCALRADAR:
@@ -1685,8 +1698,11 @@ HQ.GDI:
         EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
         SelectTargetTextNotification: Select target.
-        DetectedSpeechNotification: IonCannonFired
-        DetectedTextNotification: Ion cannon fired.
+        #   this worked only when HQ got built by the opponent.
+        #   disrespected the RequiresCondition from above for
+        #   this weapon becoming available.
+        #   DetectedSpeechNotification: IonCannonFired
+        #   DetectedTextNotification: Ion cannon fired.
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1823,8 +1839,6 @@ EYE:
         EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
         SelectTargetTextNotification: Select target.
-        DetectedSpeechNotification: IonCannonFired
-        DetectedTextNotification: Ion cannon fired.
 		InsufficientPowerSpeechNotification: InsufficientPower
 		OnFireSound: ion1.aud
 		DisplayRadarPing: True
@@ -1838,6 +1852,7 @@ EYE:
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
 		Actor: eye.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower
@@ -1924,6 +1939,7 @@ TECH:
 	Exit:
 	SpawnActorOnDeath:
 		Actor: tech.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	ProvidesPrerequisite:
 		Prerequisite: anytier3
@@ -2022,6 +2038,7 @@ TMPL:
 	ProvidesPrerequisite@buildingname:
 	SpawnActorOnDeath:
 		Actor: tmpl.husk
+        OwnerType: InternalName
         EffectiveOwnerFromOwner: true
 	Production:
 		Produces: Upgrades.Nod
@@ -2103,6 +2120,7 @@ NBIO:
 	WithBuildingBib:
 	SpawnActorOnDeath:
 		Actor: nbio.husk
+        OwnerType: InternalName
 		EffectiveOwnerFromOwner: true
 	GrantConditionOnPowerState@LOWPOWER:
 		Condition: lowpower

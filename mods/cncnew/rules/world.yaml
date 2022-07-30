@@ -276,7 +276,7 @@ World:
                 MaxDensity: 12
             RedTiberium:
                 ResourceIndex: 3
-                TerrainType: BlueTiberium
+                TerrainType: RedTiberium
                 AllowedTerrainTypes: Clear, Road
                 MaxDensity: 12
 	ResourceClaimLayer:
@@ -489,7 +489,7 @@ EditorWorld:
                 MaxDensity: 12
             RedTiberium:
                 ResourceIndex: 3
-                TerrainType: BlueTiberium
+                TerrainType: RedTiberium
                 AllowedTerrainTypes: Clear, Road
                 MaxDensity: 12
 	EditorSelectionLayer:

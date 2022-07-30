@@ -332,9 +332,7 @@ MINV.Summon:
 		RequiresCondition: parachute
 	HitShape:
 	Interactable:
-		Bounds: 1,1
-		DecorationBounds: 1,1	
-	SelectionDecorations:
+		Bounds: 1024, 1024
 	RejectsOrders:
 	SpawnActorOnDeath:
 		Actor: minv
@@ -393,8 +391,6 @@ crate.ion:
         EndChargeTextNotification: Ion cannon ready.
 		SelectTargetSpeechNotification: SelectTarget
         SelectTargetTextNotification: Select target.
-        DetectedSpeechNotification: IonCannonFired
-        DetectedTextNotification: Ion cannon fired.
         Cursor: ioncannon
         DisplayRadarPing: True
         SupportPowerPaletteOrder: 1
