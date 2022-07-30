@@ -10,8 +10,8 @@ Packages:
 	~^SupportDir|Content/cnc
 	~^SupportDir|Content/cnc/movies
 	^EngineDir
-	$cncnew: cncnew
 	^EngineDir|mods/common: common
+	$cncnew: cncnew
 	~speech.mix
 	~conquer.mix
 	~sounds.mix
