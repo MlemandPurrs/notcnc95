@@ -34,7 +34,7 @@ FlametankExplode:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
@@ -107,7 +107,7 @@ UnitExplodeHarvEmpty:
 UnitExplodeStealthTank:
 	Inherits: UnitExplodeSmall
 	Warhead@1Dam: SpreadDamage
-		InvalidTargets: StealthTank
+		InvalidTargets: StealthUnit
 
 #   This one uses Cannon damage type like Grenadier does
 GrenadierExplode:
@@ -270,3 +270,16 @@ ASMine:
 		Explosions: big_frag
 		ImpactSounds: mineblo1.aud
 		ValidTargets: Underwater
+
+#   just applies the EMP, nothing else
+EMPMineBlast:
+	ValidTargets: Ground
+    InvalidTargets: Mine
+    Report: shktrop1.aud
+	Warhead@Con: GrantExternalCondition
+		Range: 0c511
+		Duration: 300
+		Condition: emp-crate-collected
+		ValidRelationships: Ally, Neutral, Enemy
+		ValidTargets: EMPApplicable
+        InvalidTargets: Invulnerable

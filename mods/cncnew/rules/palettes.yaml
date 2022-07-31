@@ -104,12 +104,17 @@
 	FixedColorPalette@BlueTiberium:
 		Base: terrain
 		Name: bluetiberium
-		Color: 5050FC
+        #   too saturated blue
+		#   Color: 5050FC
+        Color: 5CC4DC
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
 	FixedColorPalette@RedTiberium:
 		Base: terrain
 		Name: redtiberium
-		Color: F40000
+        #   blood red, evuul appearance
+        #   Color: F40000
+        #   this looked nice crystalline
+        Color: 983024
 		RemapIndex: 176, 178, 180, 182, 184, 186, 189, 191, 177, 179, 181, 183, 185, 187, 188, 190
 	PlayerColorPalette:
 		BaseName: player
@@ -137,3 +142,4 @@
 		BasePalette: overlayplayer
 		Alpha: 0.55
     CloakPaletteEffect:
+	ChronoshiftPaletteEffect:

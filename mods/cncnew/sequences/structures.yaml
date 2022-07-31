@@ -1539,3 +1539,42 @@ acom.husk:
 	bib: bib3
 		UseTilesetExtension: true
 		Length: *
+
+empb:
+	idle:
+		Facings: 32
+		UseClassicFacings: True
+	damaged-idle:
+		Start: 32
+		Facings: 32
+		UseClassicFacings: True
+	make: empbmake
+		Length: *
+		Tick: 75
+    dead: empb
+		Start: 13
+        Length: 1
+	muzzle: gunfire2
+		Length: *
+	bib: mbSILO
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: 0,1
+	icon: empbicon
+
+empb.husk:
+	idle: empbmake
+		Start: 10
+        Length: 1
+	bib: mbSILO
+		UseTilesetExtension: true
+		TilesetOverrides:
+			WINTER: TEMPERAT
+			JUNGLE: TEMPERAT
+			SNOW: TEMPERAT
+		Length: *
+		Offset: 0,1

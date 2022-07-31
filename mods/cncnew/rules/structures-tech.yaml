@@ -181,6 +181,7 @@ HOSP.Husk:
 	TransformOnCapture:
 		IntoActor: hosp
 	RenderSprites:
+        Image: hosp.husk
 
 BIO:
 	Inherits: ^TechBuilding
@@ -356,8 +357,6 @@ SYRD:
 		ValidRelationships: Neutral, Enemy
 	Health:
 		HP: 300000
-	Armor:
-		Type: Wood
 	RevealsShroud:
 		Range: 4c0
 	Production:
@@ -598,3 +597,121 @@ EXPB.Husk:
 		Image: acom.husk
 	TransformOnCapture:
 		IntoActor: expb
+
+EMPB:
+	Inherits: ^BaseBuilding
+	Inherits@shape: ^2x2Shape
+	-GivesBuildableArea:
+	-SpawnActorsOnSell:
+	-Sellable:
+	-EdibleByLeap:
+	-WithSpriteBody:
+    Demolishable:
+        -Condition: being-demolished
+	OwnerLostAction:
+		Action: ChangeOwner
+    CaptureManager:
+        -BeingCapturedCondition:
+	Capturable:
+		Types: building-tech
+    CapturableProgressBar:
+	CapturableProgressBlink:
+	CaptureNotification:
+		Notification: CivilianBuildingCaptured
+	MapEditorData:
+		Categories: Tech building
+	AppearsOnMapPreview:
+	MustBeDestroyed:
+		RequiredForShortGame: false
+	Selectable:
+		Bounds: 2048, 2048
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 150000
+	Tooltip:
+		Name: E.M.P. Launcher
+	TooltipDescription@ally:
+		Description: Prepares and Launches E.M.P. Missiles.
+		ValidRelationships: Ally
+	TooltipDescription@other:
+		Description: Capture to fire E.M.P. Missiles.
+		ValidRelationships: Neutral, Enemy
+	SpawnActorOnDeath:
+		Actor: EMPB.Husk
+        OwnerType: InternalName
+	WithBuildingBib:
+		HasMinibib: true
+	ProvidesPrerequisite@buildingname:
+	Turreted:
+		TurnSpeed: 8
+		InitialFacing: 0
+		RealignDelay: -1
+	WithEmbeddedTurretSpriteBody:
+		PauseOnCondition: lowpower
+	BodyOrientation:
+        UseClassicPerspectiveFudge: true
+	AttackTurreted:
+		PauseOnCondition: lowpower
+		RequiresCondition: !build-incomplete && !reloading
+		OpportunityFire: False
+		PersistentTargeting: False
+		ForceFireIgnoresActors: True
+	Armament:
+		Weapon: EMPLauncher
+		PauseOnCondition: lowpower
+		LocalOffset: 1000,0,500
+		ReloadingCondition: reloading
+	AttackOrderPower@EMPMISSILE:
+		OrderName: empmissile
+		PauseOnCondition: lowpower
+		Cursor: empstrike
+		Icon: empmissile
+		ChargeInterval: 4500
+		Name: E.M.P. Missile
+		Description: Fires a Missile which disables all Vehicles in the area.
+		BeginChargeSpeechNotification: EMPMissilePreparing
+        BeginChargeTextNotification: E.M.P. Missile preparing.
+		EndChargeSpeechNotification: EMPMissileReady
+        EndChargeTextNotification: E.M.P. Missile ready.
+		SelectTargetSpeechNotification: SelectTarget
+        SelectTargetTextNotification: Select target.
+		InsufficientPowerSpeechNotification: InsufficientPower
+        InsufficientPowerTextNotification: Insufficient power. 
+		IncomingSpeechNotification: EMPMissileLaunched
+        IncomingTextNotification: E.M.P. Missile launched.
+		DisplayTimerRelationships: Ally, Neutral, Enemy
+	SupportPowerChargeBar:
+	RejectsOrders:
+	Power:
+		Amount: -150
+		RequiresCondition: !build-incomplete && !owner.is.neutral
+    GrantConditionIfOwnerIsNeutral:
+        Condition: owner.is.neutral
+	GrantConditionOnPowerState@LOWPOWER:
+		Condition: lowpower
+		ValidPowerStates: Low, Critical
+	RevealsShroud:
+		Range: 4c0
+
+EMPB.Husk:
+	Inherits: ^TechBuildingHusk
+	Interactable:
+		Bounds: 2048, 2048
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+		LocalCenterOffset: 0,-512,0
+	Tooltip:
+		Name: E.M.P. Launcher (Destroyed)
+	TooltipDescription:
+		Description: Capture to fire E.M.P. Missiles
+		ValidRelationships: Neutral, Enemy, Ally
+	WithBuildingBib:
+		HasMinibib: true
+	TransformOnCapture:
+		IntoActor: empb
+	RenderSprites:
+        Image: empb.husk

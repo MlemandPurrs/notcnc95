@@ -459,6 +459,7 @@ HTNK:
 		Delay: 25
 		StartIfBelow: 51
 		DamageCooldown: 25
+        RequiresCondition: !emp-crate-collected
 	Explodes:
 		Weapon: UnitExplodeMech
 		EmptyWeapon: UnitExplodeMech
@@ -589,6 +590,8 @@ MSAM:
     	Condition: aiming
 		RevokeDelay: 50
     	RevokeAll: false
+    Targetable@Extra:
+        TargetTypes: ArtilleryUnit
 
 MSAM.Husk:
 	Inherits: ^Husk
@@ -629,6 +632,7 @@ MNLY:
 		Type: Medium
 	Mobile:
 		Speed: 113
+        PauseOnCondition: emp-crate-collected || boarding
 	Targetable:
 		TargetTypes: Ground, Vehicle, Mine
 	RevealsShroud:
@@ -649,6 +653,8 @@ MNLY:
 		Mine: MINV
 		TileUnknownName: build-valid
 		TerrainTypes: Clear, Road, Beach, Tiberium, BlueTiberium, RedTiberium, Bridge
+        #   Minelayer cannot be paused
+        #   PauseOnCondition: emp-crate-collected
 	MineImmune:
 	AmmoPool:
         Armaments: 

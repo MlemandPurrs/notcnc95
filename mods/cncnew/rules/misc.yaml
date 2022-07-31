@@ -298,6 +298,12 @@ MINV:
 		Image: minv
 	Explodes:
 		Weapon: ATMine
+    Explodes@EMPMines:
+        Weapon: EMPMineBlast
+        RequiresCondition: empmines-upgraded
+    GrantConditionOnPrerequisite@EMPMines:
+		Condition: empmines-upgraded
+		Prerequisites: empmines.upgrade
 
 MINV.Summon:
 	Inherits@1: ^ExistsInWorld

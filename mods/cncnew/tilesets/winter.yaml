@@ -73,13 +73,13 @@ Terrain:
 		Type: BlueTiberium
 		TargetTypes: Ground
 		AcceptsSmudgeType: Crater, Scorch
-		Color: 5CB4DC
+		Color: 54FCFC
 		RestrictPlayerColor: true
 	TerrainType@RedTiberium:
 		Type: RedTiberium
 		TargetTypes: Ground
 		AcceptsSmudgeType: Crater, Scorch
-		Color: DC1408
+		Color: FC5454
 		RestrictPlayerColor: true
 
 Templates:

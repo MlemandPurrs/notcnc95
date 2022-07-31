@@ -210,14 +210,14 @@ HonestJohn:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Dam: SpreadDamage
 		Spread: 512
@@ -228,14 +228,14 @@ HonestJohn:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@3Dam: SpreadDamage
 		Spread: 512
@@ -246,14 +246,14 @@ HonestJohn:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@4Dam: SpreadDamage
 		Spread: 512
@@ -264,14 +264,14 @@ HonestJohn:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -370,14 +370,14 @@ rah66AG:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 25
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch

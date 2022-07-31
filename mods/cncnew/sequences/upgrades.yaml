@@ -19,6 +19,7 @@ gdiupgrades.combined:
     mh60medic: mh60mediicon
     uavmissile: uavicon
     airstrike: airstrike2icon
+    empmines: empmineicon
 
 nodupgrades.combined:
     explosivevest: vesticon

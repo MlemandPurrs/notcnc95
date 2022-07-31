@@ -278,3 +278,10 @@ Cursors:
 			Start: 0
 			Length: 8
 			Tick: 90
+	cursoremp.shp: cursor	
+		empstrike:
+			Start: 0
+			Length: 13
+		empstrike-minimap:
+			Start: 14
+			Length: 2

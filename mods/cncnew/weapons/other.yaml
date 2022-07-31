@@ -15,14 +15,14 @@
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, FireDeath, Incendiary
 	Warhead@2Smu: LeaveSmudge
 		SmudgeType: Scorch
@@ -216,7 +216,7 @@ KamikazeTargetingStructure:
 #   Medic's healing
 Heal:
 	ReloadDelay: 70
-	Range: 2c0
+	Range: 1c826
 	Report: heal2.aud
 	ValidTargets: Heal
 	Projectile: Bullet
@@ -272,3 +272,34 @@ BurnFX:
 		Image: fire
 		Inaccuracy: 171
 		Explosions: 1, 2, 3, 4
+
+TeslaZapTD:
+	ReloadDelay: 150
+	Range: 6c0
+	Report: shktrop1.aud
+	Projectile: TeslaZap
+	ValidTargets: Ground, Water
+	Warhead@1Dam: SpreadDamage
+		Spread: 42
+		Damage: 4500
+		ValidTargets: Ground, Water
+		Versus:
+			None: 100
+            Infantry: 150
+			LightInf: 150
+			HeavyInf: 150
+			Light: 150
+			Medium: 125
+			Heavy: 75
+            Aircraft: 150
+            Structure: 50
+            Fortified: 75
+            Wood: 100
+		DamageTypes: Prone50Percent, TriggerProne, ElectricityDeath
+	Warhead@Con: GrantExternalCondition
+		Range: 0c511
+		Duration: 300
+		Condition: emp-crate-collected
+		ValidRelationships: Ally, Neutral, Enemy
+		ValidTargets: EMPApplicable
+        InvalidTargets: Invulnerable

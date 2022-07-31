@@ -148,6 +148,29 @@ targetlaser.upgrade:
 	RenderSprites:
 		Image: gdiupgrades.combined
 
+#   superfluous as only 3 can survive mine blast:
+#   MCV, Mammoth and Harvesters. MCV are immune.
+empmines.upgrade:
+	Inherits: ^Upgrade
+	Tooltip:
+		Name: Upgrade: EMP Mines
+    TooltipExtras:
+        Strengths:  Mines will Stun enemy Vehicles surviving them
+        Weaknesses:  Mines do not differentiate between friend and foe
+        Upgrades:  Upgrades: Mechanic Minelayer
+	Buildable:
+		BuildPaletteOrder: 11
+		Queue: Upgrades.GDI
+        #   Prerequisites: ~pyle, ~tech, ~techlevel.unrestricted
+        Prerequisites: ~disabled
+		BuildDuration: 1500
+		Description: Makes Mines apply E.M.P. to Vehicles surviving the Blast.
+        Icon: empmines
+	Valued:
+		Cost: 1000
+	RenderSprites:
+		Image: gdiupgrades.combined
+
 uavmissile.upgrade:
     Inherits: ^Upgrade
     Tooltip:

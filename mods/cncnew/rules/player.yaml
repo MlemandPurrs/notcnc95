@@ -113,8 +113,15 @@ Player:
 		Label: Infantry Squads
 		Description: Most combat Infantry gets produced in fours or pairs
 		Enabled: False
-		DisplayOrder: 96
+		DisplayOrder: 97
 		Prerequisites: global-squadenabled
+	LobbyPrerequisiteCheckbox@HEROICMHQ:
+		ID: heroicmhq
+		Label: Heroic MHQ
+		Description: Moebius HQ can Teleport and attack with Tesla
+		Enabled: False
+		DisplayOrder: 96
+		Prerequisites: global-heroicmhq
 	PlayerStatistics:
 	FrozenActorLayer:
 	HarvesterAttackNotifier:
@@ -142,6 +149,8 @@ Player:
 	GameSaveViewportManager:
 	PlayerRadarTerrain:
 	EnemyWatcher:
+        ScanInterval: 50
+        NotificationInterval: 750
 	ProvidesRadar@GLOBALRADAR:
 		RequiresCondition: minimap.always.on && !isbeingjammed
 	GrantConditionOnPrerequisite@GLOBALRADAR:

@@ -106,6 +106,7 @@ RMB2:
 	-WithDecoration@COMMANDOSKULL:
 	-WithDecoration@COMMANDOSKULLII:
     -GrantTimedConditionOnDeploy:
+    -Targetable@Extra:
 
 PYLE:
 	-FreeActor@1:

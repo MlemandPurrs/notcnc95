@@ -169,6 +169,7 @@ HARV:
 		Delay: 25
 		StartIfBelow: 51
 		DamageCooldown: 25
+        RequiresCondition: !emp-crate-collected
 
 HARV.Husk:
 	Inherits: ^Husk
@@ -236,11 +237,11 @@ MHQ:
 	Tooltip:
 		Name: Mobile HQ
     TooltipExtras:
-        Strengths:  Strong vs Infantry\nGood Vision radius
+        Strengths:  Strong vs Infantry\nGood sight-radius
         Weaknesses:  Weak vs anything Else
         Canattack: Can attack Ground units
-        Attributes:  Detects nearby Stealth units
-        Specialabilities:  Jams enemy Radar over distance
+        Attributes:  Detects nearby Stealth units\nWeapon applies E.M.P. to Vehicles
+        Specialabilities:  Jams enemy Radar over distance\nCan Teleport across the whole Map when undamaged
 	Health:
 		HP: 15000
 	Armor:
@@ -261,7 +262,7 @@ MHQ:
 	Buildable:
 		BuildPaletteOrder: 10
 		BuildLimit: 1
-		Prerequisites: anytier3, ~techlevel.high
+		Prerequisites: anytier3, ~techlevel.high, ~!global-heroicmhq
 		Queue: Vehicle.GDI, Vehicle.Nod
 		Description:  Mobile base of operations.\nMaximum one can be built.
 	Turreted:
@@ -273,7 +274,6 @@ MHQ:
 		LocalOffset: 128,0,43
 		PauseOnCondition: emp-crate-collected
 	AttackFrontal:
-        Voice: Attack
 		FacingTolerance: 0
 		PauseOnCondition: emp-crate-collected
 	AttackMove:
@@ -288,14 +288,11 @@ MHQ:
 		Type: jammer
 		Range: 16c0
 		Color: E49430
-    #   had thought of giving it chrono and tesla
-    #   to make it some sort of hero unit.
-	#   PortableChrono:
-	#	ChargeDelay: 500
-    #   PauseOnCondition: emp-crate-collected
-    #   HasDistanceLimit: false
-	Voiced:
-		VoiceSet: MoebiusVoice
+	SpawnActorOnDeath:
+		Actor: MHQ.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
 
 MHQ.Husk:
 	Inherits: ^Husk
@@ -305,6 +302,77 @@ MHQ.Husk:
 		IntoActor: mhq
 	RenderSprites:
 		Image: mhq.destroyed
+
+MHQ.Heroic:
+    Inherits: MHQ
+	Tooltip:
+		Name: Moebius HQ
+    TooltipExtras:
+        Strengths:  Strong vs Infantry\nWeapon applies E.M.P. to Vehicles
+        Weaknesses:  Weak vs anything Else
+        Canattack: Can attack Ground units
+        Attributes:  Detects nearby Stealth units\nJams enemy Radar over distance
+        Specialabilities: Can Teleport across the whole Map
+	Buildable:
+		BuildPaletteOrder: 10
+		BuildLimit: 1
+		Prerequisites: anytier3, ~techlevel.high, ~global-heroicmhq
+		Queue: Vehicle.GDI, Vehicle.Nod
+    Armament:
+        PauseOnCondition: ammo || emp-crate-collected
+    Armament@Tesla:
+        Name: secondary
+        Weapon: TeslaZapTD
+        LocalOffset: 0,0,213
+        PauseOnCondition: !ammo || emp-crate-collected
+	AmmoPool:
+		Name: ammo
+		Armaments: secondary
+		Ammo: 1
+		AmmoCondition: ammo
+	ReloadAmmoPoolCA:
+        AmmoPool: ammo
+		Delay: 150
+		Count: 1
+		SelectionBarColor: FFFF00
+		PauseOnCondition: emp-crate-collected
+	WithAmmoPipsDecoration:
+		Position: BottomLeft
+		Margin: 4, 3
+		PipCount: 1
+		FullSequence: pip-blue
+		RequiresSelection: true
+		AmmoPools: ammo
+	AttackFrontal:
+        Voice: Attack
+        Armaments: primary, secondary
+	AttackMove:
+		Voice: Attack
+	PortableChrono:
+		ChargeDelay: 500
+        PauseOnCondition: emp-crate-collected
+        HasDistanceLimit: false
+        FlashScreen: true
+	Voiced:
+		VoiceSet: MoebiusVoice
+    RenderSprites:
+        Image: mhq
+	SpawnActorOnDeath:
+		Actor: MHQ.Heroic.Husk
+		OwnerType: InternalName
+		EffectiveOwnerFromOwner: true
+		Probability: 33
+    -MapEditorData:
+
+MHQ.Heroic.Husk:
+	Inherits: ^Husk
+	Tooltip:
+		Name: Moebius HQ (Destroyed)
+	TransformOnCapture:
+		IntoActor: mhq.heroic
+	RenderSprites:
+		Image: mhq.destroyed
+    -MapEditorData:
 
 ARTY:
 	Inherits: ^TrackedVehicle
@@ -368,6 +436,8 @@ ARTY:
 	ReloadArmamentsBar:
 		Armaments: primary
 		Color: FFFF00
+    Targetable@Extra:
+        TargetTypes: ArtilleryUnit
 
 ARTY.Husk:
 	Inherits: ^Husk

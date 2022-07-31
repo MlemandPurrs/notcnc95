@@ -204,14 +204,14 @@ APCGun:
 			None: 100
             Infantry: 200
 			LightInf: 200
-			HeavyInf: 200
+			HeavyInf: 150
 			Light: 125
 			Medium: 75
 			Heavy: 50
             Aircraft: 75
             Structure: 100
             Fortified: 100
-            Wood: 100
+            Wood: 150
 		DamageTypes: Prone50Percent, TriggerProne, DefaultDeath
 	Warhead@2Eff: CreateEffect
 		Explosions: small_frag

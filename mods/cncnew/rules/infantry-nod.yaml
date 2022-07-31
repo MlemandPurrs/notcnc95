@@ -159,7 +159,7 @@ RMB2:
     TooltipExtras:
         Strengths:  Strong vs Infantry, Buildings
         Weaknesses:  Weak vs Vehicles, Defenses
-        Canattack:  Can attack Ground units
+        Canattack:  Can attack Infantry only
         Attributes:  Uses C4 against Buildings to instant-blow up them.
         Specialabilities:  Special ability: Stealth Suit\nCapable of turning Invisible when charged
 	UpdatesPlayerStatistics:
@@ -219,6 +219,9 @@ RMB2:
 		DeploySound: appear1.aud
 		ChargingColor: 8B008B
 		DischargingColor: FF00FF
+    Targetable@Extra:
+        TargetTypes: StealthUnit
+        RequiresCondition: hidethatskull
 	Cloak:
 		DetectionTypes: Stealth
 		InitialDelay: 0

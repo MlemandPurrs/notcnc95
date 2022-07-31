@@ -491,6 +491,8 @@ MLRS:
 		Condition: aiming
 		RevokeDelay: 50
 		RevokeAll: false
+    Targetable@Extra:
+        TargetTypes: ArtilleryUnit
 
 MLRS.Husk:
 	Inherits: ^Husk
@@ -532,8 +534,9 @@ STNK:
 		TurnSpeed: 40
 		Speed: 142
 		PauseOnCondition: emp-crate-collected || boarding
-	Targetable:
-		TargetTypes: Ground, Vehicle, StealthTank
+    Targetable@Extra:
+        TargetTypes: StealthUnit
+        RequiresCondition: invisible
 	Health:
 		HP: 15000
 	Armor:
@@ -543,6 +546,7 @@ STNK:
 	Cloak:
         DetectionTypes: Stealth
 		InitialDelay: 90
+        CloakedCondition: invisible
 		CloakDelay: 90
 		CloakSound: trans1.aud
 		UncloakSound: trans1.aud

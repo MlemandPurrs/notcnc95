@@ -195,7 +195,9 @@ beacon:
 		Offset: 0,-42
 	ceptbcon: ceptbcon
 		Offset: 0,-42
-        
+    empmbcon: empmbcon
+        Offset: 0,-42
+
 select:
 	repair:
 		Start: 2
@@ -361,6 +363,7 @@ icon:
     gdicepticon: gdicepticon
 	sfigicon: sfigicon
 	fieldrepair: frepicon
+    empmissile: empmicon
     blank: blankicon
 
 moveflsh:
@@ -649,3 +652,12 @@ production.infantry:
     e23icon: e23icon
     snipicon: snipicon
     terricon: terricon
+
+litning:
+	bright:
+		Length: 4
+		ZOffset: 1023
+	dim:
+		Start: 4
+		Length: 4
+		ZOffset: 1023

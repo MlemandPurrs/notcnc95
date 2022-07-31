@@ -334,10 +334,11 @@ Player:
         NavalProductionTypes: syrd
 		AirSquadTargetTypes:
             orca: Vehicle, Structure, Helicopter
-            heli.ai: Infantry, Helicopter
+            heli.ai: Infantry, ArtilleryUnit, Helicopter
             heli.ai.upgraded: Infantry, Vehicle, Helicopter
-            mh60.ai: Infantry
-            rh66.ai: Infantry, Structure
+            mh60.ai: Infantry, ArtilleryUnit, Helicopter
+            rh66.ai: Infantry, ArtilleryUnit, Structure
+        IgnoredEnemyTargetTypes: Husk, StructureHusk, Airplane, StealthUnit
 	UnitBuilderBotModuleCA@ai-player:
 		RequiresCondition: enable-ai-player
         IdleBaseUnitsMaximum: 12

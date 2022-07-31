@@ -168,8 +168,12 @@ SNIP:
 		Cursor: enter-reverse-yellow
 		Payload: 225
 		Type: InfantryRefund
+    Targetable@Extra:
+        TargetTypes: StealthUnit
+        RequiresCondition: invisible
 	Cloak:
 		DetectionTypes: Stealth
+        CloakedCondition: invisible
 		InitialDelay: 90
 		CloakDelay: 90
 		UncloakOn: Unload, Demolish, Dock, Damage, Heal
