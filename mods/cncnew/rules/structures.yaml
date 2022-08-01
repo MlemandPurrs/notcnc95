@@ -659,7 +659,7 @@ HAND:
 		Prerequisite: infantryproduction
 	Buildable:
 		BuildPaletteOrder: 2
-		Prerequisites: fact, ~techlevel.low, ~!global-squadenabled
+		Prerequisites: fact, ~techlevel.low
 		Queue: Building.Nod
 		Description:  Trains and Heals Infantry units.
 	Building:
@@ -733,19 +733,10 @@ HAND:
 		Actor: hand.husk
         OwnerType: InternalName
         EffectiveOwnerFromOwner: true
-    #   interferes with Squad production method
-    #   even if disabled so ?!
-	WithProductionDoorOverlay:
+    #   CAmod allowed me to get rid of this <3
+	WithProductionDoorOverlayCA:
         RequiresCondition: !build-incomplete
         Sequence: build-top
-    #   RequiresCondition: !build-incomplete && !disabled-squad    
-    #   PauseOnCondition: disabled-squad
-    #   GrantConditionOnPrerequisite@SquadCrashPrevention:
-    #   Condition: disabled-squad
-    #   Prerequisites: global-squadenabled
-    #   WithIdleOverlay@SquadReplacement:
-    #   RequiresCondition: !build-incomplete && disabled-squad
-    #   Sequence: build-top-single
 
 HAND.Husk:
 	Inherits: ^BuildingHusk
@@ -758,23 +749,6 @@ HAND.Husk:
 		Name: Hand of Nod (Destroyed)
 	RenderSprites:
 		Image: hand.husk
-
-#   WithProductionDoorOverlay: interferes with Squad production.
-#   making this clone a necessity.
-HAND.Squad:
-    Inherits: HAND
-    -WithProductionDoorOverlay:
-	Buildable:
-		BuildPaletteOrder: 2
-		Prerequisites: fact, ~techlevel.low, ~global-squadenabled
-	ProvidesPrerequisite@COPY:
-		Prerequisite: hand
-    WithIdleOverlay@SquadReplacement:
-        RequiresCondition: !build-incomplete
-        Sequence: build-top-single
-    RenderSprites:
-        Image: hand
-    -MapEditorData:
 
 WEAP:
 	Inherits: ^BaseBuilding

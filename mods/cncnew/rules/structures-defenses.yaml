@@ -157,8 +157,8 @@ ATWR:
 	Tooltip:
 		Name: Advanced Guard Tower
     TooltipExtras:
-        Strengths:  Strong vs Infantry, Aircraft\nCapable of firing over Walls
-        Weaknesses:  Weak vs Tanks\nRequires Power to operate
+        Strengths:  Strong vs Vehicles, Aircraft\nCapable of firing over Walls
+        Weaknesses:  Weak vs Artillery, Tanks\nRequires Power to operate
         Canattack:  Can attack Air and Ground units 
         Attributes:  Detects nearby Stealth units
 	Buildable:

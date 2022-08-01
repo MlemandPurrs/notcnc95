@@ -444,7 +444,7 @@ TowerAAMissile:
 	ReloadDelay: 15
 	Range: 7c0
 	Report: rocket2.aud
-	ValidTargets: Helicopter, Airplane
+	ValidTargets: Helicopter
 	Projectile: Missile
 		Image: MISSILE
 		HorizontalRateOfTurn: 80
@@ -453,13 +453,13 @@ TowerAAMissile:
 		Inaccuracy: 0
 	Warhead@1Dam: SpreadDamage
 		Spread: 682
-		ValidTargets: Helicopter, Airplane
+		ValidTargets: Helicopter
 	-Warhead@2Smu:
 	Warhead@4EffAir: CreateEffect
 		Explosions: small_building
 		ImpactSounds: xplos.aud
 		ImpactActors: true
-		ValidTargets: Helicopter, Airplane
+		ValidTargets: Helicopter
 
 #   Gunboat Rockets
 BoatMissile:

@@ -1,0 +1,84 @@
+
+HUNT:
+	Inherits: ^ExistsInWorld
+    #   Inherits: ^SpriteActor
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Hunter-Seeker UAV
+	Health:
+		HP: 25000
+	Armor:
+		Type: Light
+	#   Aircraft:
+	#	TurnSpeed: 64
+	#	Speed: 355
+	#	Pitch: 0
+	#	Roll: 0
+	#	CruiseAltitude: 256
+	#	CanHover: True
+	#	CruisingCondition: cruising
+	#	VTOL: true
+    #   AirborneCondition: airborne
+    #   MoveIntoShroud: true
+	Mobile:
+		Speed: 355
+        TurnSpeed: 64
+		Locomotor: jumpjet
+	WithShadow@airborne:
+		RequiresCondition: airborne
+	GrantConditionOnJumpjetLayer:
+		Condition: airborne
+    GrantConditionOnMovement:
+        Condition: cruising
+    AttackFrontal:
+        Armaments: primary
+        FacingTolerance: 512
+	#   AttackLeap requires Mobile: trait
+    AttackLeap:
+		Speed: 142
+		Voice: Attack
+		PauseOnCondition: attacking
+	#   AttackAircraft:
+    #   Armaments: primary
+	#	FacingTolerance: 512
+    #   OpportunityFire: false
+    #   AttackType: Hover
+    #   AttackBomber:
+	Armament@PRIMARY:
+		#   Weapon: SuicideBomb
+        Weapon: KamikazeTargeting.hunter
+	#   GrantConditionOnAttack:
+	#	Condition: triggered
+	KillsSelf:
+		RequiresCondition: attacking
+        GrantsCondition: omgsuicide
+	Explodes:
+		Weapon: SuicideBomb
+		RequiresCondition: omgsuicide
+	Targetable:
+		TargetTypes: Helicopter
+	HiddenUnderFog:
+		Type: CenterPosition
+	BodyOrientation:
+		UseClassicPerspectiveFudge: false
+	RenderSprites:
+		Image: hunt
+	WithFacingSpriteBody:
+	Hovers@CRUISING:
+		RequiresCondition: cruising
+	QuantizeFacingsFromSequence:
+	DrawLineToTarget:
+	AppearsOnRadar:
+		UseLocation: true
+    Berserkable:
+        RequiresCondition: zerk-on
+    GrantCondition:
+        Condition: zerk-on
+        GrantPermanently: true
+	RejectsOrders:
+	Interactable:
+	SelectionDecorations:
+	HitShape:
+	MapEditorData:
+		Categories: System

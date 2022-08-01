@@ -273,6 +273,7 @@ BurnFX:
 		Inaccuracy: 171
 		Explosions: 1, 2, 3, 4
 
+#   Tesla for Moebius
 TeslaZapTD:
 	ReloadDelay: 150
 	Range: 6c0
@@ -303,3 +304,27 @@ TeslaZapTD:
 		ValidRelationships: Ally, Neutral, Enemy
 		ValidTargets: EMPApplicable
         InvalidTargets: Invulnerable
+
+#   used by Hunter
+#   SuicideBomb:
+#	Range: 0c512
+#	TargetActorCenter: true
+#	Report: hunter2.aud
+#	Projectile: InstantHit
+#	ValidTargets: Vehicle, Building, Defense, Infantry
+#	Warhead@1Dam: TargetDamage
+#   Damage: 1000000
+#   DamageTypes: FireDeath
+#   ValidTargets: Vehicle, Building, Defense, Infantry
+#   ValidRelationships: Enemy
+
+#   used by Hunter
+#   KamikazeTargeting.hunter:
+#    ReloadDelay: 1
+#	ValidTargets: Vehicle, Building, Defense, Infantry
+#	Range: 300c0
+#	Projectile: InstantHit
+#	Warhead@1Dam: TargetDamage
+#   Damage: 0
+#   ValidTargets: Vehicle, Building, Defense, Infantry
+#   ValidRelationships: Enemy

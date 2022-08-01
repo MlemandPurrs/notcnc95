@@ -189,7 +189,7 @@ HeliAAGun:
 #   Mobile Anti-Air Gun
 APCGun:
 	ReloadDelay: 18
-	Range: 6c512
+	Range: 6c0
 	Report: gun20.aud
 	Burst: 2
     BurstDelays: 0
@@ -221,7 +221,7 @@ APCGun:
 #   ditto, vs Air
 APCGunAA:
 	Inherits: APCGun
-	Range: 6c512
+	Range: 6c0
 	ValidTargets: Helicopter
 	Projectile: Bullet
 		Speed: 2c0

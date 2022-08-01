@@ -385,10 +385,10 @@
 ^InfantryTiberiumDamage:
 	DamagedByTerrain@TIBERIUM:
 		Terrain: Tiberium, BlueTiberium, RedTiberium
-		Damage: 200
+		Damage: 125
 		DamageInterval: 16
 		DamageTypes: TiberiumDeath
-		RequiresCondition: !hazmatsuits || !parachute
+		RequiresCondition: !(hazmatsuits || parachute)
 	GrantConditionOnTerrain@HAZMAT:
 		Condition: ontiberium
 		TerrainTypes: Tiberium, BlueTiberium, RedTiberium

@@ -168,3 +168,8 @@ c130:
 		Facings: 32
 		UseClassicFacings: True
 	icon: c17icon
+
+hunt:
+    Inherits: emp-overlay
+	idle:
+		Length: 9

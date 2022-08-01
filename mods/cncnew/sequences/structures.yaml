@@ -915,6 +915,12 @@ nbio:
 		BlendMode: DoubleMultiplicative
 	none: blank1
 		Length: *
+    build-top: nbio
+        Start: 0
+        Length: 5
+    damaged-build-top:
+        Start: 5
+        Length: 5
 	icon: nbioicon
 		Offset: 0,0
 

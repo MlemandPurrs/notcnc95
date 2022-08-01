@@ -194,7 +194,7 @@
 	JumpjetLocomotor@JUMPJET:
 		Name: jumpjet
 		Crushes: crate
-		SharesCell: true
+		SharesCell: false
 		JumpjetTransitionCost: 100
 		TerrainSpeeds:
 			Clear: 90

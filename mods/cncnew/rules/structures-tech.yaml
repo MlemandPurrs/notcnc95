@@ -205,6 +205,41 @@ BIO:
 		Actor: BIO.Husk
         OwnerType: InternalName
 	ProvidesPrerequisite@buildingname:
+    #   Needs a trait for handling Suicidal Aircraft
+	#   Exit:
+	#	SpawnOffset: 0,-426,0
+	#	ExitCell: 0,-1
+	#   Production:
+	#	Produces: HunterSeeker
+	#   ProductionQueue:
+	#	Type: HunterSeeker
+	#	Group: Nonsense
+	#	LowPowerModifier: 300
+	#	ReadyAudio: UnitReady
+	#	BlockedAudio: NoBuild
+	#	LimitedAudio: BuildingInProgress
+	#	QueuedAudio: Building
+	#	OnHoldAudio: OnHold
+	#	CancelledAudio: Cancelled
+	#   ProductionBar:
+	#	ProductionType: HunterSeeker
+	#   RallyPoint:
+	#   ProduceActorPower@HunterSeeker:
+	#	PauseOnCondition: lowpower
+	#	Prerequisites: ~techlevel.unrestricted
+	#	OrderName: HunterSeeker
+	#	Name: Hunter Seeker
+	#	Description: Doesnt work because missing targeting logic\nReleases a Tiberium seeking drone that will\nacquire and detonate an enemy Harvester
+	#	Icon: blank
+	#	Actors: hunt
+	#	Type: HunterSeeker
+	#	ChargeInterval: 9000
+    #   either doesnt work or pass too fast to be noticeable.
+    #   WithProductionDoorOverlay:
+    #   Sequence: build-top
+	#   GrantConditionOnPowerState@LOWPOWER:
+	#	Condition: lowpower
+	#	ValidPowerStates: Low, Critical
 	RenderSprites:
 		Image: nbio
 
